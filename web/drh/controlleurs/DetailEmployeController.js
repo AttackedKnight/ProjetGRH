@@ -21,11 +21,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
-    $scope.cni_u=true;
-    $scope.matInt_u=true;
-    $scope.matSoc_u=true;
-    
-    
+   
     
     
     /* edit info generale employe*/

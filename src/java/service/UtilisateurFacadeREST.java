@@ -5,7 +5,6 @@
  */
 package service;
 
-import com.google.gson.Gson;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

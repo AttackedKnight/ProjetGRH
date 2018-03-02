@@ -5,7 +5,7 @@
  */
 package service;
 
-import com.google.gson.Gson;
+
 import java.util.Date;
 import java.util.List;
 import javax.ejb.Stateless;
