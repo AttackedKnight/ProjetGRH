@@ -1,0 +1,56 @@
+<div class="box">   
+    <div class="box-header">
+      <h3 class="box-title">Ajouter une fonction</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="fonctionForm" novalidate="">
+      <div class="box-body">
+        <div class="form-group">
+            <label for="libelle">Libelle<span style="color: red;">*</span></label>
+            <input  type="text" ng-model="fonction.libelle" name="libelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-\(\)]*[a-zâäàéèùêëîïôöçñ\)]+$/i" ng-minlength="2" class="form-control" id="libelle" placeholder="Libelle" />
+            <div ng-messages="fonctionForm.libelle.$error" role="alert" ng-show="fonctionForm.libelle.$touched && fonctionForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
+                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                <div ng-message="pattern">Vérifier votre saisie.</div>
+             </div>
+            <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+
+      </div><!-- /.box-body -->
+
+      <div class="box-footer">
+<!--          <button type="submit" ng-if="createForm" ng-click="add(fonction)" class="btn btn-primary">Valider</button>-->
+          <button type="submit" ng-disabled="fonctionForm.$invalid"  ng-if="createForm" ng-click="controlForm(fonction)" class="btn btn-primary">Valider</button>
+          <button type="submit" ng-disabled="fonctionForm.$invalid" ng-if="editForm" ng-click="controlForm(fonction)" class="btn btn-warning">Enregistrer</button>
+          <button type="button" ng-click="annuler()" ng-disabled="fonctionForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
+          
+      </div>
+    </form>
+</div><!-- /.box -->
+
+<div style="background: white;">   
+    <div class="table-responsive" >
+    <h3>Liste des fonctions</h3>
+    <table class="table table-striped jambo_table bulk_action ">
+        <thead>
+            <tr>
+                <th>Libelle</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="fonction in fonctions">
+                <td>{{ fonction.libelle }}</td>
+                <td>
+                    <button ng-click="delete(fonction)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <button ng-click="setCurrent(fonction)" type="button" class="btn btn-warning btn-sm edit" ><i class="fa fa-edit"></i></button>                  
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+ </div>  
+    <!-- Trigger the modal with a button -->
+   
+

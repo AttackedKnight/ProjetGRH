@@ -1,0 +1,90 @@
+<div class="box box-primary">   
+    <div class="box-header">
+      <h3 class="box-title">Détails du groupe d'utilisateur</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->   
+    <div class="box-body row" style="max-height: 600px ; overflow-y: auto;">
+        <form class="col-md-offset-1 col-md-10">
+            <div class="form-group">
+                <input type="text" class="form-control" disabled="disabled" ng-model="groupe.libelle"  name="nom" required="required">
+            </div>
+            <table class="table table-bordered table-condensed table-striped">
+                 <thead>
+                    <tr>
+                        <th>Tables</th>
+                        <th>Ajouter</th>
+                        <th>Modifier</th>
+                        <th>Lister</th>
+                        <th>Consulter</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>                   
+                    <tr ng-repeat="entree in listeAcces" class="ligneTableau">
+                        <td>{{entree.nomTable}}</td>
+                        <td><input type="checkbox" ng-model="entree.ajouter" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.modifier" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.lister" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.consulter" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.supprimer" disabled="disabled"></td>
+                    </tr>                  
+                </tbody>  
+                <tfoot>
+                    
+                    <tr>
+                        <th>Tables</th>
+                        <th>Ajouter</th>
+                        <th>Modifier</th>
+                        <th>Lister</th>
+                        <th>Consulter</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+
+  </div><!-- /.box-body -->
+
+  <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
+         <a ng-href="#/parametrage/groupe/edit/{{groupe.id}}" title="Modifier">
+            <i  class="btn btn-primary pull-right"><span class="glyphicon glyphicon-edit"></span>Modifier</i>
+        </a>
+  </div>
+</div><!-- /.box -->
+
+<!--<div class="row" style="background: white;">
+    <div class="col-md-12">
+        <form class="col-md-offset-1 col-md-10" style="max-height: 600px ; overflow-y: auto;">
+            <h2 class="header" >Détail</h2>
+            <div class="form-group">
+                <input class="form-control" disabled="disabled" ng-model="groupe.libelle" placeholder="Nom du groupe" name="nom" required="required">
+            </div>
+            <table class="table table-bordered table-condensed table-striped">
+                 <thead>
+                    <tr>
+                        <th>Tables</th>
+                        <th>Ajouter</th>
+                        <th>Modifier</th>
+                        <th>Lister</th>
+                        <th>Consulter</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </thead>
+                <tbody>                   
+                    <tr ng-repeat="entree in listeAcces" class="ligneTableau">
+                        <td>{{entree.nomTable}}</td>
+                        <td><input type="checkbox" ng-model="entree.ajouter" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.modifier" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.lister" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.consulter" disabled="disabled"></td>
+                        <td><input type="checkbox" ng-model="entree.supprimer" disabled="disabled"></td>
+                    </tr>                  
+                </tbody>              
+            </table>
+            <a ng-href="#/parametrage/groupe/edit/{{groupe.id}}" title="Modifier">
+                <i  class="btn btn-primary pull-right"><span class="glyphicon glyphicon-edit"></span>Modifier</i>
+            </a>
+            
+        </form> 
+    </div>
+</div>-->

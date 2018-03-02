@@ -1,0 +1,53 @@
+<div class="box box-primary">   
+    <div class="box-header">
+      <h3 class="box-title">Ajouter un niveau</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="niveauForm">
+      <div class="box-body">
+            <div class="form-group">
+                <label for="libelle">Libelle<span style="color: red;">*</span></label>
+                <input  type="text" ng-model="niveau.libelle" name="libelle"  ng-pattern="/^[1-5]+$/i"class="form-control" id="libelle" placeholder="Libelle" />
+                <div role="alert" ng-show="niveauForm.libelle.$touched && niveauForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
+                    <div>Vérifier votre saisie.</div>
+                </div> 
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+      </div><!-- /.box-body -->
+      <div class="box-footer">
+          <button type="submit" ng-disabled="niveauForm.$invalid" ng-if="createForm" ng-click="controlForm(niveau)" class="btn btn-primary">Valider</button>
+          <button type="submit" ng-disabled="niveauForm.$invalid" ng-if="editForm" ng-click="controlForm(niveau)" class="btn btn-warning">Enregistrer</button>
+     <button type="button" ng-click="annuler()" ng-disabled="niveauForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
+      </div>
+    </form>
+</div><!-- /.box -->
+
+<div style="background: white;">    
+    <div class="table-responsive" >
+    <h3>Liste des niveaux</h3>
+    <table class="table table-bordered table-striped jambo_table bulk_action">
+        <thead>
+            <tr>
+                <th>Libelle</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="niveau in niveaux">
+               
+                <td>{{ niveau.libelle }}</td>               
+                <td>
+                    <button ng-click="delete(niveau)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <button ng-click="setCurrent(niveau)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editSituation"><i class="fa fa-edit"></i></button>                 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+</div> 
+    <!-- Trigger the modal with a button -->
+   
+

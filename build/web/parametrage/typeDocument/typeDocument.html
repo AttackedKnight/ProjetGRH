@@ -1,0 +1,104 @@
+<div class="box box-primary">   
+    <div class="box-header">
+      <h3 class="box-title">Ajouter un type de document </h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="typeDocumentForm">
+      <div class="box-body">
+        <div class="form-group">
+            <label for="code">Code<span style="color: red;">*</span></label>
+            <input  type="text" ng-model="typedocument.code" name="code"  ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i"  ng-minlength="2" class="form-control" id="code" placeholder="Code" />
+            <div ng-messages="typeDocumentForm.code.$error" role="alert" ng-show="typeDocumentForm.code.$touched && typeDocumentForm.code.$invalid" class="alert alert-block alert-danger has-error">
+                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                <div ng-message="pattern">Vérifier votre saisie.</div>
+            </div>
+            <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="dureeArchivage">Durée d'archivage<span style="color: red;">*</span></label>
+            <input  type="number" ng-model="typedocument.dureeArchivage" name="dureeaArchivage" class="form-control" id="dureeArchivage" placeholder="Durée d'archivage(en année)" />
+            <div role="alert" ng-show="typeDocumentForm.dureeaArchivage.$touched && typeDocumentForm.dureeaArchivage.$invalid" class="alert alert-block alert-danger has-error">
+                <div>Vérifier votre saisie.</div>
+            </div>
+            <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+
+      </div><!-- /.box-body -->
+
+      <div class="box-footer">
+          <button type="submit"  ng-disabled="typeDocumentForm.$invalid" ng-if="createForm" ng-click="controlForm(typedocument)" class="btn btn-primary">Valider</button>
+           <button type="submit" ng-disabled="typeDocumentForm.$invalid" ng-if="editForm" ng-click="controlForm(typedocument)" class="btn btn-warning">Enregistrer</button>
+          <button type="button" ng-click="annuler()" ng-disabled="typeDocumentForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
+      </div>
+    </form>
+</div><!-- /.box -->   
+
+<div style="background: white;">
+    
+    <div class="table-responsive" >
+    <h3>Les types de document</h3>
+    <table class="table table-striped jambo_table bulk_action ">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Durée d'archivage</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="typedocument in typedocuments | filter: searchValue">
+                <td>{{ typedocument.code }}</td>
+                <td>{{ typedocument.dureeArchivage }}</td>
+                
+                <td>
+                    <button ng-click="delete(typedocument)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <button ng-click="setCurrent(typedocument)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></button>
+                  
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+    
+<!--    <div id="editModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+     Modal content
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modifier le type de document</h4>
+      </div>
+      <div class="modal-body">
+          <form role="form" name="typedocumentForm">
+                  <div class="box-body">
+                    <div class="form-group">
+                      <label for="code">Code</label>
+                      <input  ng-model="typedocument.code" name="code" required="true" class="form-control" id="code" placeholder="Code" />
+                     
+                    </div>
+                    <div class="form-group">
+                      <label for="dureearchivage">Durée d'archivage</label>
+                      <input  ng-model="typedocument.dureearchivage" name="dureearchivage" required="true" class="form-control" id="dureearchivage" placeholder="Durée d'archivage" />
+                    </div>
+                    
+                  </div> /.box-body 
+
+                  <div class="box-footer">
+                       <button type="button" ng-click="edit(typedocument)" class="btn btn-default pull-right" data-dismiss="modal"> <i class="fa fa-plus"></i> modifier</button>
+                  </div>
+                </form>   
+      </div>
+     
+    </div>
+
+  </div>
+</div>-->
+</div>
+    <!-- Trigger the modal with a button -->
+   
+

@@ -1,0 +1,45 @@
+<div class="box box-primary">   
+    <div class="box-header">
+      <h3 class="box-title">Détails du compte</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    
+    <div class="box-body row" style="max-height: 600px ;">
+        <form role="form" class="col-md-offset-1 col-md-10">
+            <div class="form-group">
+                <label for="entite">Entité</label>
+                <input ng-model="utilisateur.entite.nom"  class="form-control" id="entite" ng-disabled="true">
+            </div>           
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input ng-model="utilisateur.email" class="form-control" id="email" ng-disabled="true">
+            </div>
+            <div class="form-group">
+                <label for="adresse">Adresse</label>
+                <input ng-model="utilisateur.entite.adresse" class="form-control" id="adresse" ng-disabled="true">
+            </div>
+            <div class="form-group">
+                <label for="responsable">Responsable</label>
+                <input  placeholder="Prenom nom du responsable" class="form-control" id="responsable" ng-disabled="true">
+            </div>
+            <div class="form-group">
+                <label for="groupe">Groupe d'utilisateur</label>
+                <input ng-model="utilisateur.groupe.libelle" class="form-control" id="groupe"ng-disabled="true">
+            </div>
+           <div class="form-group">
+               <label for="entite">Login</label>
+               <input type="text" class="form-control" ng-model="utilisateur.login" ng-disabled="true">
+           </div>
+            <div class="form-group">
+                <label for="entite">Mot de passe</label>
+                <input type="password" class="form-control" ng-model="utilisateur.motDePasse" ng-disabled="true">
+            </div>
+        </form>
+    </div><!-- /.box-body -->
+
+  <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
+      <a ng-href="#/parametrage/utilisateur/edit/{{utilisateur.id}}" title="Modifier" class="pull-right">                            
+            <i class="btn btn-warning"><i class="fa fa-edit"></i> Modifier</i>
+        </a>
+  </div>
+</div><!-- /.box -->

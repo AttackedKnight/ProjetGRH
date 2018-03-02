@@ -1,0 +1,30 @@
+angular.module("DrhModule",['ngRoute','ngMessages']).config(function ($routeProvider){
+    $routeProvider.when('/drh/employe/ajout',{
+        templateUrl: 'drh/employe/ajouterAgent.html',
+        controller: 'EmployeController'
+    }).when('/drh/entite',{
+        templateUrl: 'drh/entite/detailentite.html',
+        controller: 'DrhDetailEntiteController'
+    }).when('/drh/employe/consulter',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeController'
+    }).when('/drh/entite/consulter/:id',{
+        templateUrl: 'drh/entite/consulterAgentEntite.html',
+        controller: 'ConsulterEmployeEntiteController'
+    }).when('/drh/employe/detailAgent/:id',{
+        templateUrl: 'drh/employe/detailAgent.html',
+        controller: 'DetailEmployeController'
+    }).when('/drh/demandes/absence',{
+        templateUrl: 'drh/demandes/listeAbsence.html',
+        controller: 'ListeAbsenceController'
+        }).when('/drh/demandes/conge',{
+        templateUrl: 'drh/demandes/listeConge.html',
+        controller: 'ListeCongeController'
+     }).when('/drh/demandes/detailConge',{
+        templateUrl: 'drh/demandes/detailConge.html',
+        controller: 'DetailCongeController'
+      }).when('/drh/demandes/detailAbsence',{
+        templateUrl: 'drh/demandes/detailAbsence.html',
+        controller: 'DetailAbsenceController'
+    }).otherwise('/');
+});

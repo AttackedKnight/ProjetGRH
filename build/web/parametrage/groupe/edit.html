@@ -1,0 +1,60 @@
+<div class="box box-primary">   
+    <div class="box-header">
+      <h3 class="box-title">Modification du groupe d'utilisateur</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    
+    <div class="box-body row" style="max-height: 600px ; overflow-y: auto;">
+        <form role="form" name="groupeForm" class="col-md-offset-1 col-md-10">
+            <div class="form-group">
+                <input type="text" class="form-control" ng-model="groupe.libelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" placeholder="Nom du groupe" name="libelle">
+                <div ng-messages="groupeForm.libelle.$error" role="alert" ng-show="groupeForm.libelle.$touched && groupeForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+            <table class="table table-bordered table-condensed table-striped">
+                 <thead>
+                    <tr>
+                        <th>Tables</th>
+                        <th>Ajouter<br><input type="checkbox" ng-click="cocherAjouter()" ng-model="a"></th>
+                        <th>Modifier<br><input type="checkbox" ng-click="cocherModifier()" ng-model="m"></th>
+                        <th>Lister<br><input type="checkbox" ng-click="cocherLister()" ng-model="l"></th>
+                        <th>Consulter<br><input type="checkbox" ng-click="cocherConsulter()" ng-model="c"></th>
+                        <th>Supprimer<br><input type="checkbox" ng-click="cocherSupprimer()" ng-model="s"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    <tr ng-repeat="entree in listeAcces" class="ligneTableau">
+                        <td><input type="checkbox" ng-model="state" ng-click="activer(entree,state)"> {{entree.nomTable}}</td>
+                        <td><input type="checkbox" ng-model="entree.ajouter"></td>
+                        <td><input type="checkbox" ng-model="entree.modifier"></td>
+                        <td><input type="checkbox" ng-model="entree.lister"></td>
+                        <td><input type="checkbox" ng-model="entree.consulter"></td>
+                        <td><input type="checkbox" ng-model="entree.supprimer"></td>             
+                    </tr>                  
+                </tbody>  
+                <tfoot>
+                    
+                    <tr>
+                        <th>Tables</th>
+                        <th>Ajouter</th>
+                        <th>Modifier</th>
+                        <th>Lister</th>
+                        <th>Consulter</th>
+                        <th>Supprimer</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+
+  </div><!-- /.box-body -->
+
+  <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
+      <input type="button" class="btn btn-primary pull-right" ng-disabled="groupeForm.$invalid" value="Modifier" name="modifier" ng-click="controlForm(groupe)" />
+  </div>
+</div><!-- /.box -->

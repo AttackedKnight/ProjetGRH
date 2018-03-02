@@ -1,0 +1,42 @@
+<div class="box">
+        <div class="box-header">
+            <h3 class="box-title">GROUPE D'UTILISATEUR (<i style="color:red ;font-weight:bold;">{{groupes.length}}</i>)</h3>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <table id="example1" ng-if="groupes.length>0" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                  <th>Nom</th>
+                  <th>Nombre d'utilisateur</th>
+                  <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>                  
+                <tr ng-repeat="groupe in groupes">
+                    <td>{{groupe.libelle}}</td>
+                    <td>{{groupes.length}}</td>
+                    <th>
+                        <a ng-href="#/parametrage/groupe/show/{{groupe.id}}" title="Détail">
+                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                        </a>
+                        <a ng-href="#/parametrage/groupe/edit/{{groupe.id}}" title="Modifier">
+                            <i class="btn btn-warning"><i class="fa fa-edit"></i></i>
+                        </a>
+                        
+                        <i class="btn btn-danger" ng-click="supprimerGroupe(groupe)"><i class="fa fa-trash"></i></i>
+                        
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div><!-- /.box-body -->
+    <div class="row col-md-12" style="padding: 2px 10px 2px 10px;">
+        <a ng-href="#/parametrage/groupe/new" title="Nouvel groupe" class="pull-right">
+            <i class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Nouveau</i>
+        </a>
+    </div>
+</div><!-- /.box -->
+
+
+

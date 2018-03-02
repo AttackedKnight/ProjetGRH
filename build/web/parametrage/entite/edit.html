@@ -1,0 +1,74 @@
+<div class="box box-primary">   
+    <div class="box-header">
+      <h3 class="box-title">Modifier Entite</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="editEntiteForm">
+      <div class="box-body">
+        <div class="form-group">
+          <label for="nom">Nom<span style="color: red;">*</span></label>
+          <input  type="text" ng-model="entite.nom" name="nom" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-']*[a-zâäàéèùêëîïôöçñ]+$/i" class="form-control" id="nom" placeholder="Nom" />
+          <div ng-messages="editEntiteForm.nom.$error" role="alert" ng-show="editEntiteForm.nom.$touched && editEntiteForm.nom.$invalid" class="alert alert-block alert-danger has-error">
+                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                <div ng-message="pattern">Vérifier votre saisie.</div>
+            </div>
+            <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="adresse">Adresse<span style="color: red;">*</span></label>
+          <input  type="text" ng-model="entite.adresse" name="adresse" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[0-9a-zâäàéèùêëîïôöçñ .\-]*[0-9a-zâäàéèùêëîïôöçñ]+$/i" class="form-control" id="adresse" placeholder="Adresse" />
+          <div ng-messages="editEntiteForm.adresse.$error" role="alert" ng-show="editEntiteForm.adresse.$touched && editEntiteForm.adresse.$invalid" class="alert alert-block alert-danger has-error">
+                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                <div ng-message="pattern">Vérifier votre saisie.</div>
+            </div>
+            <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="telephone">Téléphone<span style="color: red;">*</span></label>
+          <input  type="text" ng-model="entite.telephone" name="telephone" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" class="form-control" id="telephone" placeholder="Téléphone" />
+            <div ng-messages="editEntiteForm.telephone.$error" role="alert" ng-show="editEntiteForm.telephone.$touched && editEntiteForm.telephone.$invalid" class="alert alert-block alert-danger has-error">
+                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                <div ng-message="pattern">Vérifier votre saisie.</div>
+            </div>
+            <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="email">Email<span style="color: red;">*</span></label>
+          <input  type="text" ng-model="entite.email" name="email" ng-pattern="/^[a-z]+[a-z0-9._-]+[a-z]+@[a-z]+[a-z.-]+\.[a-z.]{2,3}$/i" class="form-control" id="email" placeholder="Email" />
+            <div ng-messages="editEntiteForm.email.$error" role="alert" ng-show="editEntiteForm.email.$touched && editEntiteForm.email.$invalid" class="alert alert-block alert-danger has-error">
+                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                <div ng-message="pattern">Vérifier votre saisie.</div>
+             </div>
+            <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+        <div class="form-group">
+          <label for="typeentite">Type d'entité<span style="color: red;">*</span></label>
+          <select ng-model="selectedTypeEntite" id="typeentite" class="form-control" ng-options="typeentite.code for typeentite in typeentites"></select>
+          <div class="alert alert-block alert-danger requis" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div> 
+
+        <div class="form-group">
+          <label for="entiteparent">Entité parent</label>
+          <select ng-options="e.nom group by e.typeEntite.libelle for e in entites" ng-model="selectedEntite"   class="form-control" id="entiteparent"></select>
+        </div>
+     
+      </div><!-- /.box-body -->
+
+      <div class="box-footer">
+          <button type="submit" ng-click="controlForm(entite)" class="btn btn-warning">Enregistrer</button>
+      </div>
+      
+    </form>
+</div><!-- /.box -->
+ 
+    <!-- Trigger the modal with a button -->

@@ -1,0 +1,641 @@
+<div class="container">
+    <form role="form" name="newEmployeForm" novalidate="">
+        <div class="row">             
+            <div class="col-md-11">
+                <div class="box box-primary box-solid with-border">
+                    <div class="box box-header ">
+                        <h3> INFORMATIONS PERSONNELLES</h3>
+
+                    </div>
+                    <div class="row container">
+                        <!--                        <div>{{servir}}</div>-->
+                        <div class="col-md-5 ">
+                            <div class="box box-primary box-solid" id="bloc-identifiant">
+                                <div class="box-header">
+                                    <h3 class="box-title">IDENTIFIANT </h3>
+
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="numeroCni"> Numero d'identification nationale (NIN) :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-lock "></i>
+                                            </div>
+                                            <input type="text" placeholder="Numero d'identification nationale"  ng-pattern="/^[1-2][0-9]{12,}$/"  ng-minlength="13" ng-maxlength="14" class="form-control" name="numeroCni" id="numeroCni" ng-model="employe.numeroCni">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" id="cni_dup" style="display:none">
+                                            <div>Ce numéro de CNI existe dèja.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis non-concorde" style="display:none">
+                                            <div>Le numéro de CNI ne concorde pas avec le genre.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.numeroCni.$error" role="alert" ng-show="newEmployeForm.numeroCni.$touched && newEmployeForm.numeroCni.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir  au minimum 13 chiffres.</div>
+                                            <div ng-message="maxlength">Ce champs doit contenir au maximum 14 chiffres.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="MatriculeInterne"> Matricule :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <input type="text" placeholder="Matricule"  class="form-control" ng-pattern="/^[0-9]{6}\/[a-z]{1}$/i" ng-maxlength="8" ng-minlength="8" id="matriculeInterne" name="matriculeInterne" ng-model="employe.matriculeInterne">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" id="mat_int_dup" style="display:none">
+                                            <div>Ce numéro de matricule existe dèja.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.matriculeInterne.$error" role="alert" ng-show="newEmployeForm.matriculeInterne.$touched && newEmployeForm.matriculeInterne.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="maxlength">Ce champs doit contenir 8 caractères.</div>
+                                            <div ng-message="minlength">Ce champs doit contenir 8 caractères.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Matricule {{(groupeUtilisateur.id==3) ? 'FNR' : 'IPRES'}}</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <input  type="text" ng-model="employe.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" id="mat_cs_dup" style="display:none">
+                                            <div>Ce numéro de matricule existe dèja.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.caisseSociale.$error" role="alert" ng-show="newEmployeForm.caisseSociale.$touched && newEmployeForm.caisseSociale.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="maxlength">Ce champs doit contenir 11 caractères.</div>
+                                            <div ng-message="minlength">Ce champs doit contenir 11 caractères.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box box-primary box-solid" id="bloc-situation">
+                                <div class="box-header">
+                                    <h3 class="box-title">SITUATION MATRIMONIALE</h3>
+
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="situationMatri">Statut matrimoniale:</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="employe.situationMatrimoniale" class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="employe.sexe == 'masculin' && employe.situationMatrimoniale == situations[0]">
+                                        <label for="nombreDeFemme"> Nombre de femme(s) : </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-female"></i>
+                                            </div>
+                                            <input type="number" ng-model="employe.nombreDeFemme" name="nombreDeFemme" id="nombreDeFemme" ng-pattern="/^[0-9]{1}$/"  class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.nombreDeFemme.$error" role="alert" ng-show="newEmployeForm.nombreDeFemme.$touched && newEmployeForm.nombreDeFemme.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nombreEnfant"> Nombre d'enfant(s) :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-users"></i>
+                                            </div>
+                                            <input type="number"  ng-model="employe.nombreEnfant" name="nombreEnfant" id="nombreEnfant" ng-pattern="/^[0-9]{1,2}$/"  class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.nombreEnfant.$error" role="alert" ng-show="newEmployeForm.nombreEnfant.$touched && newEmployeForm.nombreEnfant.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <div class="box box-primary box-solid" id="bloc-contact">
+                                <div class="box-header">
+                                    <h3 class="box-title">CONTACT</h3>
+
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="telephone1" > Telephone 1 :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                            <input type="text"  ng-model="contact.numero1"  placeholder="Téléphone 1" class="form-control" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone1" name="telephone1">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" id="num_tel_1_dup" style="display:none">
+                                            <div>Ce numéro de téléphone existe dèja.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.telephone1.$error" role="alert" ng-show="newEmployeForm.telephone1.$touched && newEmployeForm.telephone1.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="telephone2"> Telephone 2 :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-phone"></i>
+                                            </div>
+                                            <input type="text"  ng-model="contact.numero2" placeholder="Téléphone 2" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone2" name="telephone2" class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" id="num_tel_2_dup" style="display:none">
+                                            <div>Ce numéro de téléphone existe dèja.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.telephone2.$error" role="alert" ng-show="newEmployeForm.telephone2.$touched && newEmployeForm.telephone2.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email"> Email : </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-envelope"></i>
+                                            </div>
+                                            <input type="text" ng-model="contact.email" ng-pattern="/^[a-z]+[a-z0-9._-]+[a-z]+@[a-z]+[a-z.-]+\.[a-z.]{2,3}$/i" ng-minlength="9" class="form-control" name="email" id="email" placeholder="Email" >
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" id="email_dup" style="display:none">
+                                            <div>Cet adresse e-mail existe dèja.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.email.$error" role="alert" ng-show="newEmployeForm.email.$touched && newEmployeForm.email.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-6 ">
+
+                            <div class="box box-primary box-solid" id="bloc-etatCivil">
+                                <div class="box-header">
+                                    <h3 class="box-title">ETAT CIVIL</h3>                                 
+                                </div>
+                                <div class="box-body">
+                                    <div class="row">
+                                        <div class="col-md-2" style="width: 35%; margin: auto; text-align: center">
+                                            <label class="label-info" for="profil">
+                                                <span class="btn btn-primary" id="btn_modifier_photo_profil">Changer</span>
+                                                <input type="file"  name='profil' id='profil' ng-model="imgProfil" onchange="angular.element(this).scope().preview(this)" accept="image/*" style='display: none;'/>
+                                            </label>
+                                            <span class="btn btn-warning" ng-click="showDefaultAvatar()">Annuler</span>
+                                        </div>
+                                        <div>        
+                                            <div class="col-md-2" style="width: 50%; margin: auto; text-align: center;">
+                                                <div id="profil-img" style="width: 200px ; height: 250px; border-radius: 100%; text-align: center; margin: auto;" >
+                                                    <img  ng-src="" id="previsualisation"  class="img-thumbnail"  alt="User Image" style="width: 100%; height: 100%;" />                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="prenom"> Prénom(s) :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <input type="text" placeholder="Prénom" name="prenom" id="prenom" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="employe.prenom">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.prenom.$error" role="alert" ng-show="newEmployeForm.prenom.$touched && newEmployeForm.prenom.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="nom"> Nom :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <input type="text" placeholder="Nom"  name="nom" id="nom" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="employe.nom">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.nom.$error" role="alert" ng-show="newEmployeForm.nom.$touched && newEmployeForm.nom.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="genre"> Genre :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select name="genre" id="genre" ng-model="employe.sexe" class="form-control">
+                                                <option value="">Selectionner le sexe</option>
+                                                <option value="masculin">Masculin</option>
+                                                <option value="feminin">Féminin</option>
+                                            </select>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis non-concorde" style="display:none">
+                                            <div>Le genre ne concorde pas avec le numéro de CNI.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="dateDeNaissance"> Date de naissance :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="date" placeholder="Date de naissance" name="dateDeNaissance" id="dateDeNaissance" max="{{today}}" class="form-control" ng-model="employe.dateDeNaissance">
+                                        </div>
+                                        <div ng-messages="newEmployeForm.dateDeNaissance.$error" role="alert" ng-show="newEmployeForm.dateDeNaissance.$invalid"  class="alert alert-block alert-danger has-error">
+                                            <div ng-message="max">Cette date doit etre inférieur à la date actuelle</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lieuDeNaissance"> Lieu de naissance :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <input type="text" placeholder="Lieu de naissance" name="lieuDeNaissance" id="lieuDeNaissance" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="employe.lieuDeNaissance">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.lieuDeNaissance.$error" role="alert" ng-show="newEmployeForm.lieuDeNaissance.$touched && newEmployeForm.lieuDeNaissance.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="nationalite" class="col-md-12"> Nationalite :</label>
+                                        <div class="row col-md-offset-1">
+                                            <label for="sn" class="col-md-6">
+                                                <input type="radio" ng-change="setNationalite()" name="nationalite"  ng-value="{{true}}"  ng-model="senegalaise" id="sn" />
+                                                Sénégalaise
+                                            </label>
+                                            <label for="autre" class="col-md-6">
+                                                <input type="radio"  ng-change="setNationalite()" name="nationalite"  ng-value="{{false}}"  ng-model="senegalaise" id="autre" />
+                                                Autre
+                                            </label>
+                                        </div>
+                                        <div class="col-md-12" ng-if="!senegalaise">
+                                            <div class="input-group">
+                                                <div class="input-group-addon">
+                                                    <i class="fa fa-map-marker"></i>
+                                                </div>
+                                                <input type="text"  name="nationalite" id="nationalite" placeholder="Nationalite" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="employe.nationalite">
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                            <div ng-messages="newEmployeForm.nationalite.$error" role="alert" ng-show="newEmployeForm.nationalite.$touched && newEmployeForm.nationalite.$invalid" class="alert alert-block alert-danger has-error">
+                                                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                                <div ng-message="pattern">Vérifier votre saisie.</div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="box box-primary box-solid" id="bloc-adresse">
+                                <div class="box-header">
+                                    <h3 class="box-title">ADRESSE</h3>
+
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label for="ville"> Ville actuelle :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-map-marker"></i>
+                                            </div>
+                                            <input type="text" name="ville" id="ville" ng-model="adresse.ville"  placeholder="Ville actuelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.ville.$error" role="alert" ng-show="newEmployeForm.ville.$touched && newEmployeForm.ville.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="quartier"> Quartier :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-home"></i>
+                                            </div>
+                                            <input type="text" name="quartier" id="quartier" ng-model="adresse.quartier"   placeholder="Quartier"  ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[0-9a-zâäàéèùêëîïôöçñ .\-]*[0-9a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.quartier.$error" role="alert" ng-show="newEmployeForm.quartier.$touched && newEmployeForm.quartier.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+
+            <div class="col-md-11 ">
+                <div class="box box-primary box-solid">
+                    <div class="box box-header">
+                        <h3> INFORMATIONS PROFESSIONELLES</h3>
+                    </div>
+                    <div class="row container">
+                        <div class="col-md-5">
+                            <div class="box box-primary box-solid" id="bloc-poste">
+                                <div class="box-header">
+                                    <h3 class="box-title">POSTE</h3>
+                                </div>
+                                <div class="box-body">
+
+                                    <div class="form-group">
+                                        <label for="dateRecrutement"> Date de recrutement :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="date"  ng-model="employe.dateRecrutement" min="{{employe.dateDeNaissance}}" name="dateRecrutement" id="dateRecrutement"   class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.dateRecrutement.$error" role="alert" ng-show="newEmployeForm.dateRecrutement.$invalid"  class="alert alert-block alert-danger has-error">
+                                            <div ng-message="min">Cette date doit etre superieur à la date de naissance</div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="fonction"> Fonction :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <input type="text" list="lesfonctions" ng-model="fonction.libelle" name="fonction" id="fonction" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" placeholder="Fonction"   class="form-control">
+                                            <datalist id="lesfonctions">
+                                                <option   ng-repeat="f in fonctions" value="{{f.libelle}}">
+                                            </datalist>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div class="alert alert-block alert-danger conflit-poste" style="display:none">
+                                            <div>Ce poste est dèja occupé par quelqun d'autre.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.fonction.$error" role="alert" ng-show="newEmployeForm.fonction.$touched && newEmployeForm.fonction.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="entite"> Entite : </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="servir.entite" class="form-control" id="entite" ng-options="entite.nom group by entite.typeEntite.libelle for entite in entites"></select>  
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="debut"> Date de prise de service :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="date" ng-model="servir.debut" name="debut" min="{{employe.dateRecrutement}}" id="debut"    class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.debut.$error" role="alert" ng-show="newEmployeForm.debut.$invalid"  class="alert alert-block alert-danger has-error">
+                                            <div ng-message="min">Cette date doit etre supérieur à la date de recrutement</div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Contrat : </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="servir.typeContrat" class="form-control" id="contrat" ng-options="typecontrat.code for typecontrat in typecontrats"></select>  
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="servir.typeContrat == typecontrats[0]">
+                                        <label for="dureeDuContrat">Durée(en année) : </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-clock-o"></i>
+                                            </div>
+                                            <input type="number" ng-model="servir.dureeDuContrat"  ng-pattern="/^[0-9]$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                        <div ng-messages="newEmployeForm.dureeDuContrat.$error" role="alert" ng-show="newEmployeForm.dureeDuContrat.$touched && newEmployeForm.dureeDuContrat.$invalid" class="alert alert-block alert-danger has-error">
+                                            <div ng-message="pattern">Vérifier votre saisie.</div>
+                                        </div>                                  
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="box box-primary box-solid">
+                                <div class="box-header">
+                                    <h3 class="box-title">SYNDICAT</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group row">
+                                        <label ng-repeat="syn in syndicats" for="{{syn.nomSyndicat}}" class="col-md-4" >
+                                            <input type="radio"  name="syndicat"  ng-change="setSyndicat()" ng-value="{{syn.id}}"  ng-model="$parent.currentSyndicat" id="{{syn.nomSyndicat}}" />
+                                            {{syn.nomSyndicat}}
+                                        </label>
+                                        <label for="none" class="col-md-4">
+                                            <input type="radio"  name="syndicat" ng-change="setSyndicat()" ng-selected="true" ng-model="currentSyndicat" ng-value="{{0}}" id="none" />
+                                            Non
+                                        </label> 
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="box box-primary box-solid" id="bloc-grade">
+                                <div class="box-header">
+                                    <h3 class="box-title">GRADE</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group" ng-if="groupeUtilisateur.id == 3">
+                                        <label> Corps : </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="grade.corps" class="form-control" id="corps" ng-options="corps.libelle for corps in corps"></select>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Classe :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="grade.classe" class="form-control" id="classe" ng-options="classe.libelle for classe in classes"></select>  
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="groupeUtilisateur.id == 6">
+                                        <label> Categorie : </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="grade.categorie" class="form-control" id="categorie" ng-options="categorie.libelle for categorie in categories"></select>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-if="groupeUtilisateur.id == 6">
+                                        <label> Niveau :</label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="grade.niveau" class="form-control" id="niveau" ng-options="niveau.libelle for niveau in niveaux"></select>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label> Echelon: </label>
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-user"></i>
+                                            </div>
+                                            <select ng-model="grade.echelon" class="form-control" id="echelon" ng-options="echelon.libelle for echelon in echelons"></select>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="box box-primary box-solid">
+                                <div class="box-header">
+                                    <h3 class="box-title">MUTUELLE</h3>
+                                </div>
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-check"></i>
+                                            <label> Inscrit:</label>
+                                            <input type="checkbox" name="incrit" value="incrit" ng-model="estMembreMutuelle">
+                                        </div>      
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>               
+            </div>
+            <!-- formulaire gauche-->
+
+
+
+            <!-- fin formulaire gauche-->
+
+            <!-- formulaire droite-->
+
+
+            <!-- fin formulaire droite-->
+            <div>
+                <div class=" col-md-offset-3">
+                    <div class="col-md-3 col-xs-6"> <input type="reset" ng-click="reinitialiserFormulaire()" class="btn btn-block btn-danger"  value="ANNULER"> </div>
+                    <div class="col-md-3 col-xs-6"> <input type="submit" ng-disabled="newEmployeForm.$invalid" class="btn btn-block btn-success" ng-click="controlForm(employe, contact, adresse, servir, grade)" value="ENREGISTRER"> </div>
+                </div> 
+            </div>
+    </form> 
+</div>

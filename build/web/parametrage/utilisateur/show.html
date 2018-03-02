@@ -1,0 +1,46 @@
+<div class="box">
+        <div class="box-header">
+            <h3 class="box-title">COMPTES UTILISATEUR (<i style="color:red ;font-weight:bold;">{{utilisateurs.length}}</i>)</h3>
+        </div><!-- /.box-header -->
+        <div class="box-body">
+          <table ng-if="utilisateurs.length>0" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+<!--                  <th>Prenom</th>
+                  <th>Nom</th>-->
+                  <th>Entité</th>
+                  <th>Email</th>
+                  <th>Groupe d'uilisateur</th>
+                  <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>                  
+                <tr ng-repeat="utilisateur in utilisateurs">
+<!--                    <td>{{utilisateur.prenom}}</td>
+                    <td>{{utilisateur.nom}}</td>-->
+                    <td>{{utilisateur.entite.nom}} ({{utilisateur.entite.entite.nom}})</td>
+                    <td>{{utilisateur.email}}</td>
+                    <td>{{utilisateur.groupe.libelle}}</td>
+                    <th>
+                        <a ng-href="#/parametrage/utilisateur/show/{{utilisateur.id}}" title="Détail">
+                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                        </a>
+                        <a ng-href="#/parametrage/utilisateur/edit/{{utilisateur.id}}" title="Modifier">                            
+                            <i class="btn btn-warning"><i class="fa fa-edit"></i></i>
+                        </a>                        
+                        <i class="btn btn-danger" ng-click="supprimerCompteUtilisateur(utilisateur)"><i class="fa fa-trash"></i></i>                        
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div><!-- /.box-body -->
+    <div class="row col-md-12" style="padding: 2px 10px 2px 10px;">
+        <a ng-href="#/parametrage/utilisateur/new" title="Nouvel utilisateur" class="pull-right">
+            <i class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span>Nouveau</i>
+        </a>
+    </div>
+</div><!-- /.box -->
+
+
+
