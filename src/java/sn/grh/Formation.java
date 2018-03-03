@@ -40,9 +40,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Formation.findByDateFin", query = "SELECT f FROM Formation f WHERE f.dateFin = :dateFin")})
 public class Formation implements Serializable {
 
-    @OneToMany(mappedBy = "formation")
-    private List<Document> documentList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -60,6 +57,8 @@ public class Formation implements Serializable {
     @Column(name = "dateFin")
     @Temporal(TemporalType.DATE)
     private Date dateFin;
+    @OneToMany(mappedBy = "formation")
+    private List<Document> documentList;
     @JoinColumn(name = "Diplome", referencedColumnName = "id")
     @ManyToOne
     private Diplome diplome;
@@ -111,6 +110,15 @@ public class Formation implements Serializable {
         this.dateFin = dateFin;
     }
 
+    @XmlTransient
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
+    }
+
     public Diplome getDiplome() {
         return diplome;
     }
@@ -150,15 +158,6 @@ public class Formation implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Formation[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Document> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<Document> documentList) {
-        this.documentList = documentList;
     }
     
 }

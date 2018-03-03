@@ -43,9 +43,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Absence.findByMotif", query = "SELECT a FROM Absence a WHERE a.motif = :motif")})
 public class Absence implements Serializable {
 
-    @OneToMany(mappedBy = "absence")
-    private List<Document> documentList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -85,6 +82,8 @@ public class Absence implements Serializable {
     @JoinColumn(name = "TypeAbsence", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Typepermission typeAbsence;
+    @OneToMany(mappedBy = "absence")
+    private List<Document> documentList;
 
     public Absence() {
     }
@@ -181,6 +180,15 @@ public class Absence implements Serializable {
         this.typeAbsence = typeAbsence;
     }
 
+    @XmlTransient
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -204,15 +212,6 @@ public class Absence implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Absence[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Document> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<Document> documentList) {
-        this.documentList = documentList;
     }
     
 }

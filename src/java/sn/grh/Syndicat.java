@@ -8,7 +8,6 @@ package sn.grh;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -34,9 +33,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Syndicat.findByNomSyndicat", query = "SELECT s FROM Syndicat s WHERE s.nomSyndicat = :nomSyndicat")})
 public class Syndicat implements Serializable {
 
-    @OneToMany(mappedBy = "syndicat")
-    private List<Employe> employeList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -48,8 +44,8 @@ public class Syndicat implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "nomSyndicat")
     private String nomSyndicat;
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "syndicat")
-//    private List<Estmembre> estmembreList;
+    @OneToMany(mappedBy = "syndicat")
+    private List<Employe> employeList;
 
     public Syndicat() {
     }
@@ -79,14 +75,14 @@ public class Syndicat implements Serializable {
         this.nomSyndicat = nomSyndicat;
     }
 
-//    @XmlTransient
-//    public List<Estmembre> getEstmembreList() {
-//        return estmembreList;
-//    }
-//
-//    public void setEstmembreList(List<Estmembre> estmembreList) {
-//        this.estmembreList = estmembreList;
-//    }
+    @XmlTransient
+    public List<Employe> getEmployeList() {
+        return employeList;
+    }
+
+    public void setEmployeList(List<Employe> employeList) {
+        this.employeList = employeList;
+    }
 
     @Override
     public int hashCode() {
@@ -111,15 +107,6 @@ public class Syndicat implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Syndicat[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Employe> getEmployeList() {
-        return employeList;
-    }
-
-    public void setEmployeList(List<Employe> employeList) {
-        this.employeList = employeList;
     }
     
 }

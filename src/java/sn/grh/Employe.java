@@ -18,7 +18,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -50,13 +49,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employe.findByNombreEnfant", query = "SELECT e FROM Employe e WHERE e.nombreEnfant = :nombreEnfant")
     , @NamedQuery(name = "Employe.findByNombreDeFemme", query = "SELECT e FROM Employe e WHERE e.nombreDeFemme = :nombreDeFemme")})
 public class Employe implements Serializable {
-
-    @JoinColumn(name = "Syndicat", referencedColumnName = "id")
-    @ManyToOne
-    private Syndicat syndicat;
-
-//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
-//    private List<Estmembre> estmembreList;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -126,14 +118,15 @@ public class Employe implements Serializable {
     private List<Contact> contactList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Membremutuelle> membremutuelleList;
-//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "employe")
-//    private Estmembre estmembre;
     @JoinColumn(name = "Civilite", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Civilite civilite;
     @JoinColumn(name = "SituationMatrimoniale", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Situationmatrimoniale situationMatrimoniale;
+    @JoinColumn(name = "Syndicat", referencedColumnName = "id")
+    @ManyToOne
+    private Syndicat syndicat;
     @JoinColumn(name = "TypeEmploye", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Typeemploye typeEmploye;
@@ -331,14 +324,6 @@ public class Employe implements Serializable {
         this.membremutuelleList = membremutuelleList;
     }
 
-//    public Estmembre getEstmembre() {
-//        return estmembre;
-//    }
-//
-//    public void setEstmembre(Estmembre estmembre) {
-//        this.estmembre = estmembre;
-//    }
-
     public Civilite getCivilite() {
         return civilite;
     }
@@ -353,6 +338,14 @@ public class Employe implements Serializable {
 
     public void setSituationMatrimoniale(Situationmatrimoniale situationMatrimoniale) {
         this.situationMatrimoniale = situationMatrimoniale;
+    }
+
+    public Syndicat getSyndicat() {
+        return syndicat;
+    }
+
+    public void setSyndicat(Syndicat syndicat) {
+        this.syndicat = syndicat;
     }
 
     public Typeemploye getTypeEmploye() {
@@ -422,23 +415,6 @@ public class Employe implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Employe[ id=" + id + " ]";
-    }
-
-//    @XmlTransient
-//    public List<Estmembre> getEstmembreList() {
-//        return estmembreList;
-//    }
-//
-//    public void setEstmembreList(List<Estmembre> estmembreList) {
-//        this.estmembreList = estmembreList;
-//    }
-
-    public Syndicat getSyndicat() {
-        return syndicat;
-    }
-
-    public void setSyndicat(Syndicat syndicat) {
-        this.syndicat = syndicat;
     }
     
 }

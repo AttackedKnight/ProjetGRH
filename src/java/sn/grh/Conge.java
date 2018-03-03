@@ -41,9 +41,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Conge.findByEtatTraitement", query = "SELECT c FROM Conge c WHERE c.etatTraitement = :etatTraitement")})
 public class Conge implements Serializable {
 
-    @OneToMany(mappedBy = "conge")
-    private List<Document> documentList;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -76,6 +73,8 @@ public class Conge implements Serializable {
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
+    @OneToMany(mappedBy = "conge")
+    private List<Document> documentList;
 
     public Conge() {
     }
@@ -149,6 +148,15 @@ public class Conge implements Serializable {
         this.employe = employe;
     }
 
+    @XmlTransient
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -172,15 +180,6 @@ public class Conge implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Conge[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Document> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<Document> documentList) {
-        this.documentList = documentList;
     }
     
 }

@@ -39,19 +39,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Document.findByEmplacement", query = "SELECT d FROM Document d WHERE d.emplacement = :emplacement")})
 public class Document implements Serializable {
 
-    @JoinColumn(name = "Absence", referencedColumnName = "id")
-    @ManyToOne
-    private Absence absence;
-    @JoinColumn(name = "AvoirCompetence", referencedColumnName = "id")
-    @ManyToOne
-    private Avoircompetence avoirCompetence;
-    @JoinColumn(name = "Conge", referencedColumnName = "id")
-    @ManyToOne
-    private Conge conge;
-    @JoinColumn(name = "Formation", referencedColumnName = "id")
-    @ManyToOne
-    private Formation formation;
-
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -68,8 +55,6 @@ public class Document implements Serializable {
     @Column(name = "dateEnregistrement")
     @Temporal(TemporalType.DATE)
     private Date dateEnregistrement;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dateSignature")
     @Temporal(TemporalType.DATE)
     private Date dateSignature;
@@ -81,9 +66,21 @@ public class Document implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "emplacement")
     private String emplacement;
+    @JoinColumn(name = "Absence", referencedColumnName = "id")
+    @ManyToOne
+    private Absence absence;
+    @JoinColumn(name = "AvoirCompetence", referencedColumnName = "id")
+    @ManyToOne
+    private Avoircompetence avoirCompetence;
+    @JoinColumn(name = "Conge", referencedColumnName = "id")
+    @ManyToOne
+    private Conge conge;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
+    @JoinColumn(name = "Formation", referencedColumnName = "id")
+    @ManyToOne
+    private Formation formation;
     @JoinColumn(name = "TypeDocument", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Typedocument typeDocument;
@@ -95,11 +92,10 @@ public class Document implements Serializable {
         this.id = id;
     }
 
-    public Document(Integer id, String description, Date dateEnregistrement, Date dateSignature, String emplacement) {
+    public Document(Integer id, String description, Date dateEnregistrement, String emplacement) {
         this.id = id;
         this.description = description;
         this.dateEnregistrement = dateEnregistrement;
-        this.dateSignature = dateSignature;
         this.emplacement = emplacement;
     }
 
@@ -151,12 +147,44 @@ public class Document implements Serializable {
         this.emplacement = emplacement;
     }
 
+    public Absence getAbsence() {
+        return absence;
+    }
+
+    public void setAbsence(Absence absence) {
+        this.absence = absence;
+    }
+
+    public Avoircompetence getAvoirCompetence() {
+        return avoirCompetence;
+    }
+
+    public void setAvoirCompetence(Avoircompetence avoirCompetence) {
+        this.avoirCompetence = avoirCompetence;
+    }
+
+    public Conge getConge() {
+        return conge;
+    }
+
+    public void setConge(Conge conge) {
+        this.conge = conge;
+    }
+
     public Employe getEmploye() {
         return employe;
     }
 
     public void setEmploye(Employe employe) {
         this.employe = employe;
+    }
+
+    public Formation getFormation() {
+        return formation;
+    }
+
+    public void setFormation(Formation formation) {
+        this.formation = formation;
     }
 
     public Typedocument getTypeDocument() {
@@ -190,38 +218,6 @@ public class Document implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Document[ id=" + id + " ]";
-    }
-
-    public Absence getAbsence() {
-        return absence;
-    }
-
-    public void setAbsence(Absence absence) {
-        this.absence = absence;
-    }
-
-    public Avoircompetence getAvoirCompetence() {
-        return avoirCompetence;
-    }
-
-    public void setAvoirCompetence(Avoircompetence avoirCompetence) {
-        this.avoirCompetence = avoirCompetence;
-    }
-
-    public Conge getConge() {
-        return conge;
-    }
-
-    public void setConge(Conge conge) {
-        this.conge = conge;
-    }
-
-    public Formation getFormation() {
-        return formation;
-    }
-
-    public void setFormation(Formation formation) {
-        this.formation = formation;
     }
     
 }

@@ -35,9 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Avoircompetence.findById", query = "SELECT a FROM Avoircompetence a WHERE a.id = :id")})
 public class Avoircompetence implements Serializable {
 
-    @OneToMany(mappedBy = "avoirCompetence")
-    private List<Document> documentList;
-
     private static final long serialVersionUID = 1L;
     @Basic(optional = false)
     @NotNull
@@ -49,6 +46,8 @@ public class Avoircompetence implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
+    @OneToMany(mappedBy = "avoirCompetence")
+    private List<Document> documentList;
     @JoinColumn(name = "Competence", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Domaine competence;
@@ -82,6 +81,15 @@ public class Avoircompetence implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    @XmlTransient
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
     }
 
     public Domaine getCompetence() {
@@ -123,15 +131,6 @@ public class Avoircompetence implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Avoircompetence[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public List<Document> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<Document> documentList) {
-        this.documentList = documentList;
     }
     
 }
