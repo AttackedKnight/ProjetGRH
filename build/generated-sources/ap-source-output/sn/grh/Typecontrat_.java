@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Servir;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-05T09:49:01")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-05T11:57:18")
 @StaticMetamodel(Typecontrat.class)
 public class Typecontrat_ { 
 

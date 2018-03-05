@@ -1416,13 +1416,15 @@
 
   <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-      <li class="active"><a data-target="#piece_justificative" data-toggle="tab" href="">Pieces justificatives</a></li>
-      <li><a data-target="#arretes" data-toggle="tab" href="">Arretes</a></li>
-      <li><a data-target="#decrets" data-toggle="tab" href="">Decrets</a></li>
+        <li ng-repeat="typedoc in typedocuments" ng-class="{ 'active' : $first}" >
+            <a data-target="#type{{$index + 1}}" data-toggle="tab" href="">{{typedoc.code}}</a>
+        </li>
+<!--      <li><a data-target="#arretes" data-toggle="tab" href="">Arretes</a></li>
+      <li><a data-target="#decrets" data-toggle="tab" href="">Decrets</a></li>-->
     </ul>
 
     <div class="tab-content">
-      <div class="tab-pane active" id="piece_justificative">
+      <div ng-repeat="typedoc in typedocuments" ng-class="{ 'active' : $first}" class="tab-pane" id="type{{$index + 1}}">
         <div class="row">
                     <div class="col-md-12">
                           <div class="panel-body table-responsive no-padding col-md-12">
@@ -1437,19 +1439,23 @@
                               </thead>
                               <tbody> 
 
-                                  <tr ng-repeat="doc in documents" >
-
-
+                                  <tr ng-repeat="doc in documents" ng-if="doc.typeDocument.code==typedoc.code">
                                     <td>
                                         {{doc.description}}
                                     </td >
                                     <td>
-                                        <span>{{doc.dateEnregistrement}}</span>
+                                        <span>{{doc.dateEnregistrement | date:'dd MMM yyyy'}}</span>
                                     </td >
-
                                     <td>
                                          <div >
-                                             <button ng-click="" class="btn btn-primary"><a ng-href="#/{{doc.emplacement}}"><i class="fa fa-eye"></i></a></button>
+                                             <button ng-click="" class="btn btn-primary">
+                                                 <i class="fa fa-eye"><a  ng-href="#/{{doc.emplacement}}"></a></i>
+                                             </button>
+                                             <a class="btn btn-primary" ng-href="#/{{doc.emplacement}}" download="#/{{doc.emplacement}}">
+                                                 <i class="fa fa-download">                    
+                                                 </i>
+                                             </a>
+                                             
                                          </div>
                                     </td>
 
@@ -1467,82 +1473,6 @@
 
       </div><!-- /.tab-pane -->
 
-      <div class="tab-pane" id="arretes">
-        <div class="row">
-                    <div class="col-md-12">
-                          <div class="panel-body table-responsive no-padding col-md-12">
-                            <table class="table table-striped">
-                              <thead>
-                                  <tr>
-                                    <th>Description </th>
-                                    <th>Date d'enregistrement</th>
-                                    <th>Visualiser</th>
-
-                                  </tr>
-                              </thead>
-                              <tbody> 
-
-                                <tr ng-repeat="doc in documents" >
-
-
-                                    <td>
-                                        {{doc.description}}
-                                    </td >
-                                    <td>
-                                        <span>{{doc.dateEnregistrement}}</span>
-                                    </td >
-
-                                    <td>
-                                         <div >
-                                             <button ng-click="" class="btn btn-primary"><a ng-href="#/{{doc.emplacement}}"><i class="fa fa-eye"></i></a></button>
-                                         </div>
-                                    </td>
-
-                                  </tr>
-                               </tbody>
-                            </table>
-                          </div>
-                        </div>
-                </div>
-      </div><!-- /.tab-pane -->
-
-      <div class="tab-pane" id="decrets">
-        <div class="row">
-            <div class="col-md-12">
-                  <div class="panel-body table-responsive no-padding col-md-12">
-                    <table class="table table-striped">
-                      <thead>
-                          <tr>
-                            <th>Description </th>
-                            <th>Date d'enregistrement</th>
-                            <th>Visualiser</th>
-
-                          </tr>
-                      </thead>
-                      <tbody> 
-                            <tr ng-repeat="doc in documents" >
-
-
-                                <td>
-                                    {{doc.description}}
-                                </td >
-                                <td>
-                                    <span>{{doc.dateEnregistrement}}</span>
-                                </td >
-
-                                <td>
-                                     <div >
-                                         <button ng-click="" class="btn btn-primary"><a ng-href="#/{{doc.emplacement}}"><i class="fa fa-eye"></i></a></button>
-                                     </div>
-                                </td>
-
-                          </tr>
-                       </tbody>
-                    </table>
-                  </div>
-                </div>
-            </div>
-      </div><!-- /.tab-pane -->
     </div><!-- /.tab-content -->
   </div><!-- nav-tabs-custom -->
 </div>

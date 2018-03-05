@@ -71,7 +71,17 @@
     <!-- right col (We are only adding the ID to make the widgets sortable)-->
 
 <!--            Ligne ajoutee-->
-    <div class="col-lg-12 row">
+
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-target="#general" data-toggle="tab" href="">General</a></li>
+          <li><a data-target="#entites" data-toggle="tab" href="">Entites</a></li>
+        </ul>
+
+        <div class="tab-content col-lg-12">
+          <div class="tab-pane active" id="general">
+           
+               <div class="row">
         <div class="col-md-6">
             <div class="box box-primary ">
                 <div class="box-header">
@@ -85,7 +95,7 @@
         </div>
         
              <div class="col-md-6">
-            <div class="box box-danger ">
+            <div class="box box-primary ">
                 <div class="box-header">
                   <i class="fa fa-pie-chart"></i>
                   <h2 class="box-title">STATISTIQUES PATS : HOMMES / FEMMES</h2>
@@ -96,11 +106,66 @@
               </div><!-- /.box -->
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-7">
+            <div class="box box-primary ">
+                <div class="box-header">
+                  <i class="fa fa-pie-chart"></i>
+                  <h3 class="box-title">TRANCHES D'AGES</h3>
+                </div>
+                <div class="box-body row">
+                  <div  class="col-md-12" style="height: 300px;" id="statTrancheAge" ></div>
+                </div><!-- /.box-body-->
+              </div><!-- /.box -->
+        </div>
+         <div class="col-md-5">
+            <div class="box box-primary ">
+                <div class="box-header">
+                  <i class="fa fa-pie-chart"></i>
+                  <h3 class="box-title">NIVEAUX D'ETUDES</h3>
+                </div>
+                <div class="box-body row">
+                  <div  class="col-md-11" style="height: 300px;" id="niveauEtude" ></div>
+                </div><!-- /.box-body-->
+              </div><!-- /.box -->
+        </div>
+    </div>
+          </div><!-- /.tab-pane -->
+
+          <div class="tab-pane" id="entites">
+           <div class="row">
+        <div class="col-md-10">
+            <div class="box box-primary ">
+                <div class="box-header">
+                  <i class="fa fa-pie-chart"></i>
+                  <h3 class="box-title">STATISTIQUES SUR LES ENTITES</h3>
+                  <div class="form-group pull-right">
+                      <select class="form-control">
+                          <option value="metiers" ng-selected="true">Les metiers</option>
+                            <option value="s_matrimoniale">Situation matrimoniale</option>
+                            <option value="conge">Actifs - en conges</option>
+                        </select>
+                  </div>
+                </div>
+                <div class="box-body row">
+                  <div  class="col-md-12" style="height: 400px;"  ></div>
+                </div><!-- /.box-body-->
+              </div><!-- /.box -->
+        </div>
+         
+    </div>
+          </div><!-- /.tab-pane -->
+
+
+        </div><!-- /.tab-content -->
+      </div><!-- nav-tabs-custom -->
+
+
+  
+
     
 
 </div>
 
       <!-- Morris.js charts:En rapport avec les statistiques -->
-<!--    <script src="http://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="plugins/morris/morris.min.js" type="text/javascript"></script>
-  -->
+ 

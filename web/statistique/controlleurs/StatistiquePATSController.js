@@ -62,7 +62,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
              /*  Statistiques PATS / PER      */
             var chartPatsPer = AmCharts.makeChart("statPatsPer", {
               "type": "pie",
-              "startDuration": 2,
+              "startDuration": 1,
                "theme": "light",
               "addClassNames": true,
               "legend":{
@@ -130,7 +130,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
                         /*  Statistiques Hommes et Femmes     */
             var chartHomFem = AmCharts.makeChart("statHomFem", {
               "type": "pie",
-              "startDuration": 2,
+              "startDuration": 1,
                "theme": "light",
               "addClassNames": true,
               "legend":{
@@ -190,23 +190,114 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
             function handleInit(){
               chartHomFem.legend.addListener("rollOverItem", handleRollOver);
             }
-
-                /*   Fin Statistiques Hommes et Femmes      */
-
-
-
-            function handleRollOver(e){
+             function handleRollOver(e){
               var wedge = e.dataItem.wedge.node;
               wedge.parentNode.appendChild(wedge);
             }
+
+                /*   Fin Statistiques Hommes et Femmes      */
+                
+                    //Tranche d'age
+        var bar = new Morris.Bar({
+          element: 'statTrancheAge',
+          resize: true,
+          
+          data: [
+            {y: '20 - 25', Hommes : 100, Femmes : 90},
+            {y: '25 - 30', Hommes : 75, Femmes : 65},
+            {y: '30 - 35', Hommes : 50, Femmes : 40},
+            {y: '35 - 40', Hommes : 75, Femmes : 65},
+            {y: '40 - 45', Hommes : 50, Femmes : 40},
+            {y: '45 - 50', Hommes : 75, Femmes : 65},
+            {y: '50 - 55', Hommes : 100, Femmes : 90},
+            {y: '55 - 60', Hommes : 50, Femmes : 40},
+            {y: '60 - 65', Hommes : 75, Femmes : 65}
+            
+          ],
+          barColors: ['#00a65a', '#f56954'],
+          xkey: 'y',
+          ykeys: ['Hommes', 'Femmes'],
+          labels: ['Hommes', 'Femmes'],
+          hideHover: 'auto'
+         
+        });
+        
+     //Tranche d'age
+
+                
+                
+/*Debut Niveau etude*/
+
+      var chartTrancheAge = AmCharts.makeChart("niveauEtude", {
+          "theme": "light",
+          "type": "serial",
+        "startDuration": 1,
+          "dataProvider": [{
+              "annee": "BFEM",
+               "pourcentage": 90,
+              "color": "#FF0F00"
+          }, {
+              "annee": "BAC",
+              "pourcentage": 93,
+              "color": "#FF6600"
+          }, {
+              "annee": "LICENCE",
+              "pourcentage": 82,
+              "color": "#FF9E01"
+          }, {
+              "annee": "MASTER",
+              "pourcentage": 95,
+              "color": "#FCD202"
+          }, {
+              "annee": "DOCTORAT",
+              "pourcentage": 88,
+              "color": "#F8FF01"
+          }],
+          "valueAxes": [{
+        "position": "left"
+          }],
+          "graphs": [{
+              "balloonText": "[[category]]: <b>[[value]]%</b><br/> Homme [[value]]%<br/> Homme [[value]]%",
+              "fillColorsField": "color",
+              "fillAlphas": 1,
+              "lineAlpha": 0.1,
+              "type": "column",
+              "valueField": "pourcentage"
+          }],
+          "depth3D": 20,
+        "angle": 30,
+          "chartCursor": {
+              "categoryBalloonEnabled": true,
+              "cursorAlpha": 0,
+              "zoomable": false
+          },
+          "categoryField": "annee",
+          "categoryAxis": {
+              "gridPosition": "start",
+              "labelRotation": 0
+          }
+      
+      });
+     
+
+
+/*- Fin niveau d'etude*/
+                
+
+           
 
         }).error(function () {
             alert('Une erreur est survenue');
         }); 
     };
 
-
-
+        
+    
+        
+    
 
 });
+
+
+
 
