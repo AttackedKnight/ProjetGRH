@@ -68,7 +68,7 @@ public class UploadFileServlet extends HttpServlet {
                 File fichier=new File(getServletContext().getRealPath(""));
                 String racine=(new File(fichier.getParent())).getParent();
                 System.out.println("Ceci est le context "+(new File(fichier.getParent())).getParent());
-                File f=new File(racine+"\\web\\documents");
+                File f=new File(racine+"\\web\\archives");
 
                 factory.setRepository(f);
 
@@ -77,7 +77,7 @@ public class UploadFileServlet extends HttpServlet {
 //             File fichier=new File(getServletContext().getRealPath(""));
 //                String racine=(new File(fichier.getParent())).getParent();
 //                System.out.println("Ceci est le repertoire images "+fichier.getAbsolutePath());
-//                File f=new File(fichier.getAbsolutePath()+File.separator+"images");
+//                File f=new File(fichier.getAbsolutePath()+File.separator+"archives");
 //
 //                factory.setRepository(f);
 
@@ -99,14 +99,22 @@ public class UploadFileServlet extends HttpServlet {
 				boolean isFormField = fileItem.isFormField();
                                 if (!isFormField){
 
-                                    String[] tab=fileItem.getName().split("\\.");
-                                    String ext=tab[tab.length-1];
-                                    String profilName=fileItem.getFieldName()+"."+ext.toLowerCase();
-                                    File uploadedFile = new File(factory.getRepository()+File.separator+profilName);
+//                                    String[] tab=fileItem.getName().split("\\.");
+//                                    String ext=tab[tab.length-1];
+                                    
+                                    File emplacement=new File(factory.getRepository()+File.separator+fileItem.getFieldName());
+                                    //Verifier qu'un repertoire a ete cree pour l'employe  : sinon en cree: le repertoire a comme nom son num CNI  
+                                    if(!emplacement.exists()){
+                                        emplacement.mkdir();
+                                    }
+                                    
+                                    factory.setRepository(emplacement);
+                                    File uploadedFile = new File(factory.getRepository()+File.separator+fileItem.getName());
                                     
                                     fileItem.write(uploadedFile);
                                     
-                                    out.println(profilName);
+                                    String chemin="archives/"+fileItem.getFieldName()+"/"+fileItem.getName();
+                                    out.println(chemin);
 
 				}
 				

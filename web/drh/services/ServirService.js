@@ -16,6 +16,19 @@ return{
         findPats:function(){
             return $http.get(chemin+'/webresources/sn.grh.servir/pats');
         },
+        findPerHomme:function(){
+            return $http.get(chemin+'/webresources/sn.grh.servir/hommeper');
+        },
+         findPerFemme:function(){
+            return $http.get(chemin+'/webresources/sn.grh.servir/femmeper');
+        },
+        findPatsHomme:function(){
+            return $http.get(chemin+'/webresources/sn.grh.servir/hommepats');
+        },
+        findPatsFemme:function(){
+            
+            return $http.get(chemin+'/webresources/sn.grh.servir/femmepats');
+        },
         findPerEntite:function(id){
             return $http.get(chemin+'/webresources/sn.grh.servir/per/'+id);
         },

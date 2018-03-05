@@ -189,6 +189,60 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
         return null;
            
     }
+    
+        @GET
+    @Path("hommeper")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findPerHomme() {
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.employe.typeEmploye.code = 'PER' and s.employe.sexe='masculin'", Servir.class)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+            @GET
+    @Path("femmeper")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findPerFemme() {
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.employe.typeEmploye.code = 'PER' and s.employe.sexe='feminin'", Servir.class)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+    @GET
+    @Path("hommepats")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findPatsHomme() {
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.employe.typeEmploye.code = 'PATS' and s.employe.sexe='masculin'", Servir.class)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+    @GET
+    @Path("femmepats")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findPatsFemme() {
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.employe.typeEmploye.code = 'PATS' and s.employe.sexe='feminin'", Servir.class)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+    
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})

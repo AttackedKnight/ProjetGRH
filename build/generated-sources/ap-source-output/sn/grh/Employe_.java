@@ -21,14 +21,14 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-02-28T15:49:43")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-05T09:49:01")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 
     public static volatile SingularAttribute<Employe, Situationmatrimoniale> situationMatrimoniale;
     public static volatile ListAttribute<Employe, Servir> servirList;
-    public static volatile SingularAttribute<Employe, Syndicat> syndicat;
     public static volatile SingularAttribute<Employe, String> numeroCni;
+    public static volatile SingularAttribute<Employe, Syndicat> syndicat;
     public static volatile SingularAttribute<Employe, String> sexe;
     public static volatile SingularAttribute<Employe, String> nom;
     public static volatile SingularAttribute<Employe, Date> dateRecrutement;

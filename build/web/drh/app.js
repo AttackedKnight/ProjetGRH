@@ -8,6 +8,14 @@ angular.module("DrhModule",['ngRoute','ngMessages']).config(function ($routeProv
     }).when('/drh/employe/consulter',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeController'
+    }).when('/drh/employe/consulter/homme',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeHommeController'
+        
+    }).when('/drh/employe/consulter/femme',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeFemmeController'
+        
     }).when('/drh/entite/consulter/:id',{
         templateUrl: 'drh/entite/consulterAgentEntite.html',
         controller: 'ConsulterEmployeEntiteController'

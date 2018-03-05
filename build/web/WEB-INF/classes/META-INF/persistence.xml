@@ -1,8 +1,42 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ProjetGRHPU" transaction-type="JTA">
     <jta-data-source>jdbcGrhConnexion</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>sn.grh.Utilisateur</class>
+    <class>sn.grh.Absence</class>
+    <class>sn.grh.Accesgroupe</class>
+    <class>sn.grh.Adresse</class>
+    <class>sn.grh.Avoircompetence</class>
+    <class>sn.grh.Categorie</class>
+    <class>sn.grh.Civilite</class>
+    <class>sn.grh.Classe</class>
+    <class>sn.grh.Conge</class>
+    <class>sn.grh.Contact</class>
+    <class>sn.grh.Corps</class>
+    <class>sn.grh.Diplome</class>
+    <class>sn.grh.Document</class>
+    <class>sn.grh.Domaine</class>
+    <class>sn.grh.Echelon</class>
+    <class>sn.grh.Employe</class>
+    <class>sn.grh.Entite</class>
+    <class>sn.grh.Fonction</class>
+    <class>sn.grh.Formation</class>
+    <class>sn.grh.Grade</class>
+    <class>sn.grh.Groupe</class>
+    <class>sn.grh.Membremutuelle</class>
+    <class>sn.grh.Mutuellesante</class>
+    <class>sn.grh.Niveau</class>
+    <class>sn.grh.Servir</class>
+    <class>sn.grh.Situationmatrimoniale</class>
+    <class>sn.grh.Syndicat</class>
+    <class>sn.grh.Typeautorisation</class>
+    <class>sn.grh.Typeavancement</class>
+    <class>sn.grh.Typecontrat</class>
+    <class>sn.grh.Typedocument</class>
+    <class>sn.grh.Typeemploye</class>
+    <class>sn.grh.Typeentite</class>
+    <class>sn.grh.Typepermission</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>

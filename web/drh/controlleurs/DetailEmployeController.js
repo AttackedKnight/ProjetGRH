@@ -6,7 +6,7 @@
 
 
 
-angular.module('DrhModule').controller('DetailEmployeController',function($scope,Securite,$routeParams,UploadFile,Typedocument,Situation,Entite,$rootScope,Syndicat,Diplome,MutuelleSante,Formation,Employe,Contact,Adresse,Servir,MembreMutuelle,Grade,Fonction,Typecontrat,Connexion)
+angular.module('DrhModule').controller('DetailEmployeController',function($scope,Securite,$routeParams,UploadFile,Typedocument,Situation,Entite,$rootScope,Syndicat,Diplome,MutuelleSante,Formation,Employe,Contact,Adresse,Servir,MembreMutuelle,Grade,Fonction,Typecontrat,Document,Connexion)
 {
     
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -851,11 +851,18 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     
 
     /*Gestion des documents electroniques*/
+    $scope.lesFichiers=null;
     $scope.typedocuments=[];
-    $scope.document={id:""};
+    $scope.documents=[];
+    $scope.document={id:"",dateEnregistrement:$scope.today};
     $scope.detailUploadContent="";
     Typedocument.findAll().success(function (data) {           
             $scope.typedocuments=data;
+    }).error(function(){
+        alert('Une erreur est survenue lors de la récuperation des types de documents');
+    });
+    Document.findAll().success(function (data) {           
+            $scope.documents=data;
     }).error(function(){
         alert('Une erreur est survenue lors de la récuperation des types de documents');
     });
@@ -866,6 +873,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     };
     
     $scope.previewUpload = function(fichiers) {
+        $scope.lesFichiers=fichiers;
         for(var i=0;i<fichiers.files.length;i++){
             $scope.fichierEnvoye=fichiers.files[i];  
             
@@ -884,7 +892,6 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
                         $("#barreProgression_"+i).addClass("progress-bar-warning");
                        
                     }
-                    alert($("#barreProgression_"+i).attr('class'));
                     $("#barreProgression_"+i).css("width",  + "75%");
                     $("#pourcentage_"+i).text(pourcentage + "%");
                 };
@@ -930,42 +937,59 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
                 validite=false;
            }
         });
-        $('#newDocumentForm select').each(function(e){
-           if($(this).val()===""){
-                $(this).parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-           }
-        });  
-        
-        if($scope.lesFichiers===null){
-            $('.missing-file').show("slow").delay(3000).hide("slow");
+       if(c.typeDocument==null){
+            $('.type-doc-missing').show("slow").delay(3000).hide("slow");
             validite=false;
-            
+       }
+              
+        if($scope.lesFichiers==null){
+            $('.missing-file').show("slow").delay(3000).hide("slow");
+            validite=false;           
         }
         else{
-            alert($scope.lesFichiers.length);
+            $scope.completerDocument();
+            
         }
+        
+    };
+    $scope.completerDocument=function(){
+        $scope.document.employe=$scope.employe;
+        var e=$scope.today;
+        e.setFullYear(e.getFullYear()+$scope.document.typeDocument.dureeArchivage);
+        $scope.document.echeance=e;  
+        
+        $scope.uploadDocument($scope.lesFichiers);
     };
     
-//    $scope.uploadDocument=function(){
-//        $scope.uploadedFile=$scope.fichierEnvoye;
-//        var format=$scope.uploadedFile.name.split(".");
-//        format=format[format.length-1];
-//        var fd = new FormData();
-//        fd.append($scope.employe.numeroCni, $scope.uploadedFile);
-//        UploadFile.uploadFile(fd).success(function(data){
-//            $scope.c_utilisateur.avatar='documents/'+data;
-//          
-//            UploadFile.resetHttp();
-//            
-//            
-//            
-//            $scope.editAvatarEmploye();
-//        })
-//        .error(function(){
-//            alert("erreur lors de l'enregistrement du document");
-//        });
-//    };
+    $scope.addDocument=function(){
+        Document.add($scope.document).success(function(){
+            $scope.document={};
+            $scope.cancelFileUpload();
+            Document.findAll();
+            
+        }).error(function () {
+            alert('Une erreur est survenue : get formation');
+        });
+    };
+    
+    $scope.uploadDocument=function(fichiers){
+        for(var i=0;i<fichiers.files.length;i++){
+            $scope.uploadedFile=fichiers.files[i];
+            var format=$scope.uploadedFile.name.split(".");
+            format=format[format.length-1];
+            var fd = new FormData();
+            fd.append($scope.employe.numeroCni, $scope.uploadedFile);
+            UploadFile.uploadDocument(fd).success(function(data){
+                $scope.document.emplacement=data;
+                $scope.addDocument();
+            })
+            .error(function(){
+                alert("erreur lors de l'enregistrement du document");
+            });
+        }
+        UploadFile.resetHttp();
+        
+    };
     
     /*Gestion des documents electroniques*/
         

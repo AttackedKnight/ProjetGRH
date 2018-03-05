@@ -380,7 +380,7 @@
                                 <div>        
                                     <div  style="margin: auto; text-align: center;">
                                         <div id="profil-img" style="width: 200px ; height: 250px; border-radius: 100%; text-align: center; margin: auto;" >
-                                            <img  ng-src="{{avatar}}" id="previsualisation"  class="img-thumbnail" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;" />                   
+                                            <img  ng-src="{{avatar}}" id="previsualisation"  alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;" />                   
                                         </div>
                                     </div>
                                 </div>
@@ -1313,8 +1313,8 @@
                 <!--Formulaire d'ajout-->
 
               <div class="col-md-12">
-                  {{document}}
-                  <form role="form"  novalidate="" name="newDocumentForm" id="newDocumentForm" enctype="multipart/form-data">        
+                  
+                  <form role="form"  novalidate="" name="newDocumentForm" id="newDocumentForm">        
                     <table class="table">
                         <thead>
                             <tr>
@@ -1330,7 +1330,7 @@
                                         <div class="input-group">
                                             <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in typedocuments"></select>  
                                         </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                        <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
                                             <div>Veuillez renseigner ce champs.</div>
                                         </div>
                                     </div>
@@ -1370,7 +1370,7 @@
 
                                         </div>
                                         <div class="col-md-4">
-                                            <input class="form-control hidden" multiple="true" type="file" ng-model="lesFichiers" onchange="angular.element(this).scope().previewUpload(this)" name="fichiers" accept="application/pdf" id="fichiers">
+                                            <input class="form-control hidden"  type="file"  onchange="angular.element(this).scope().previewUpload(this)" name="fichiers" accept="application/pdf" id="fichiers">
                                             <label for="fichiers">
                                                 <span class="btn btn-primary" ng-click=""><i class="fa fa-book"> Piece(s) jointe(s)</i></span>
                                             </label>
@@ -1437,19 +1437,19 @@
                               </thead>
                               <tbody> 
 
-                                <tr>
+                                  <tr ng-repeat="doc in documents" >
 
 
-                                    <td >
-                                        pieces jusificatives
+                                    <td>
+                                        {{doc.description}}
                                     </td >
                                     <td>
-                                        <span> 10/6/2017</span>
+                                        <span>{{doc.dateEnregistrement}}</span>
                                     </td >
 
                                     <td>
                                          <div >
-                                              <button ng-click="" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                                             <button ng-click="" class="btn btn-primary"><a ng-href="#/{{doc.emplacement}}"><i class="fa fa-eye"></i></a></button>
                                          </div>
                                     </td>
 
@@ -1482,17 +1482,19 @@
                               </thead>
                               <tbody> 
 
-                                <tr>
-                                   <td >
-                                        arretes
+                                <tr ng-repeat="doc in documents" >
+
+
+                                    <td>
+                                        {{doc.description}}
                                     </td >
                                     <td>
-                                        <span> 10/6/2017</span>
+                                        <span>{{doc.dateEnregistrement}}</span>
                                     </td >
 
                                     <td>
                                          <div >
-                                              <button ng-click="" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                                             <button ng-click="" class="btn btn-primary"><a ng-href="#/{{doc.emplacement}}"><i class="fa fa-eye"></i></a></button>
                                          </div>
                                     </td>
 
@@ -1518,20 +1520,21 @@
                           </tr>
                       </thead>
                       <tbody> 
+                            <tr ng-repeat="doc in documents" >
 
-                        <tr>
-                           <td >
-                                decrets
-                            </td >
-                            <td>
-                                <span> 10/6/2017</span>
-                            </td >
 
-                            <td>
-                                 <div >
-                                      <button ng-click="" class="btn btn-primary"><i class="fa fa-eye"></i></button>
-                                 </div>
-                            </td>
+                                <td>
+                                    {{doc.description}}
+                                </td >
+                                <td>
+                                    <span>{{doc.dateEnregistrement}}</span>
+                                </td >
+
+                                <td>
+                                     <div >
+                                         <button ng-click="" class="btn btn-primary"><a ng-href="#/{{doc.emplacement}}"><i class="fa fa-eye"></i></a></button>
+                                     </div>
+                                </td>
 
                           </tr>
                        </tbody>

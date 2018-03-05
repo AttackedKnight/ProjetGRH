@@ -68,6 +68,19 @@ public class DocumentFacadeREST extends AbstractFacade<Document> {
     public List<Document> findAll() {
         return super.findAll();
     }
+    
+    @GET
+    @Path("employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Document> findByEmploye(@PathParam("id") Integer id) {
+        List<Document> d=em.createQuery("SELECT d FROM  Document d WHERE d.employe.id = :id ORDER BY d.id DESC", Document.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(d.size()>0){
+            return d;
+        }
+        return null;
+    }
 
     @GET
     @Path("{from}/{to}")
