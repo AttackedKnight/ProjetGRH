@@ -39,6 +39,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Document.findByEmplacement", query = "SELECT d FROM Document d WHERE d.emplacement = :emplacement")})
 public class Document implements Serializable {
 
+    @Column(name = "situationMatrimoniale")
+    private Boolean situationMatrimoniale;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -218,6 +221,14 @@ public class Document implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Document[ id=" + id + " ]";
+    }
+
+    public Boolean getSituationMatrimoniale() {
+        return situationMatrimoniale;
+    }
+
+    public void setSituationMatrimoniale(Boolean situationMatrimoniale) {
+        this.situationMatrimoniale = situationMatrimoniale;
     }
     
 }

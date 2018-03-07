@@ -177,6 +177,114 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
         return super.findAll();
     }
 
+   
+    
+    @GET
+    @Path("trancheage/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer trancheAgeGlobal(@PathParam("debut") String from,@PathParam("fin") String to) {
+         System.out.println("je suis apple");
+          
+         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateDeNaissance<'"+from+"' AND e.dateDeNaissance>'"+to+"'", Employe.class).getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("trancheage/homme/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer trancheAgeGlobalHomme(@PathParam("debut") String from,@PathParam("fin") String to) {
+         System.out.println("je suis apple");
+          
+         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateDeNaissance<'"+from+"' AND e.dateDeNaissance>'"+to+"' AND e.sexe='masculin'", Employe.class).getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("trancheage/femme/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer trancheAgeGlobalFemme(@PathParam("debut") String from,@PathParam("fin") String to) {
+         System.out.println("je suis apple");
+          
+         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateDeNaissance<'"+from+"' AND e.dateDeNaissance>'"+to+"' AND e.sexe='feminin'", Employe.class).getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("trancheage/homme/per/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer trancheAgePerHomme(@PathParam("debut") String from,@PathParam("fin") String to) {
+         System.out.println("je suis apple");
+          
+         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateDeNaissance<'"+from+"' AND e.dateDeNaissance>'"+to+"' AND e.sexe='masculin' AND e.typeEmploye.code='PER'", Employe.class).getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("trancheage/femme/per/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer trancheAgePerFemme(@PathParam("debut") String from,@PathParam("fin") String to) {
+         System.out.println("je suis apple");
+          
+         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateDeNaissance<'"+from+"' AND e.dateDeNaissance>'"+to+"' AND e.sexe='feminin' AND e.typeEmploye.code='PER'", Employe.class).getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    
+    @GET
+    @Path("trancheage/homme/pats/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer trancheAgePatsHomme(@PathParam("debut") String from,@PathParam("fin") String to) {
+         System.out.println("je suis apple");
+          
+         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateDeNaissance<'"+from+"' AND e.dateDeNaissance>'"+to+"' AND e.sexe='masculin'  AND e.typeEmploye.code='PATS'", Employe.class).getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    
+    @GET
+    @Path("trancheage/femme/pats/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer trancheAgePatsFemme(@PathParam("debut") String from,@PathParam("fin") String to) {
+         System.out.println("je suis apple");
+          
+         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateDeNaissance<'"+from+"' AND e.dateDeNaissance>'"+to+"' AND e.sexe='feminin'  AND e.typeEmploye.code='PATS'", Employe.class).getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    
+    @GET
+    @Path("recrutement/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer recrute(@PathParam("debut") String anneedebut,@PathParam("fin") String anneefin){
+        List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateRecrutement>'"+anneedebut+"' AND e.dateRecrutement<'"+anneefin+"'", Employe.class)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})

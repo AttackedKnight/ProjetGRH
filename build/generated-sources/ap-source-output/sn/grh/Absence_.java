@@ -10,7 +10,7 @@ import sn.grh.Employe;
 import sn.grh.Typeautorisation;
 import sn.grh.Typepermission;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-05T11:57:18")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-07T12:46:14")
 @StaticMetamodel(Absence.class)
 public class Absence_ { 
 

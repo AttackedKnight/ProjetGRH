@@ -22,7 +22,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
    
-    
+    $scope.formProvenanceFichier="";
     
     /* edit info generale employe*/
     
@@ -313,9 +313,10 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     
     
     
-    $scope.controlSituationMatriFormEdit=function(){
+    $scope.controlSituationMatriFormEdit=function(formulaire){
+        $scope.formProvenanceFichier=formulaire;
         var validite=true;
-        $('.editSituationMatriForm input').each(function(e){
+        $('.editSituationMatriForm input[type=number]').each(function(e){
            if($(this).val()==="" ){
                 $(this).parent().next().show("slow").delay(3000).hide("slow");
                 validite=false;
@@ -328,18 +329,20 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
            }
         });
         if(validite===true){
+            if($scope.controlDocumentForm(formulaire)){
+                $scope.document.situationMatrimoniale=1;
+                $scope.completerDocument();   
+                
+                $scope.uploadDocument($scope.lesFichiers);
+                
+                $scope.editEmploye();
+                $scope.toggleSituationMatriEditForm();
+            }
             
-            $scope.editEmploye();
-            $scope.toggleSituationMatriEditForm();
         }
     };
     
-//    $scope.selectSituation=function(){
-//        alert('yes');
-//        $scope.employe.situationMatrimoniale=$scope.SelectedSituationMatrimoniale;
-//        alert( $scope.employe.situationMatrimoniale.libelle);
-//    };
-    
+
     /* Edit Situation Matrimoniale */
     
     /* Edit Contact */
@@ -571,11 +574,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
             alert('Une erreur est survenue');
         });
         
-//        Connexion.getAvatar($scope.employe.id).success(function(data){
-//            $scope.avatar=data;
-//        }).error(function () {
-//            alert('Une erreur est survenue: avatar');
-//        });
+        $scope.listerMesDocuments();
         
         $(function (){
             $('a').tooltip();
@@ -775,26 +774,48 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     $scope.diplomante=false;
     $scope.diplome={id:""};
     
-    $scope.controlFormationFormation=function(){
+    $scope.controlFormationFormation=function(formulaire){
         var validite=true;
-        $('.formationForm input').each(function(e){
+        $('.formationForm input:not([type="file"])').each(function(e){
             if($(this).val()==="" ){
                  $(this).parent().next().show("slow").delay(3000).hide("slow");
                  validite=false;
             }
          });
          if(validite===true){
-            if($scope.diplomante===true){
-                $scope.completeFormation();
+            if($scope.controlDocumentForm(formulaire)){
+                
+                $scope.nouvelleFormation=true;
+                
+                if($scope.diplomante===true){
+                    $scope.completeFormation();
+                }
+                else{
+                    $scope.addFormation();
+                }
+
             }
-            else{
-                $scope.addFormation();
-            }
+            
          }
          
     };
     
+    $scope.visualiserDocumentformation=function(idFormation){
+        for(var i=0;i<$scope.documents.length;i++){
+            if($scope.documents[i].formation!=null && $scope.documents[i].formation.id==idFormation){
+                $scope.visualiserDocument($scope.documents[i].emplacement);
+            }
+        }
+    };
     
+    $scope.completerDocumentFormation=function(){
+        $scope.document.formation=$scope.lastFormation;
+        $scope.completerDocument();   
+
+        $scope.uploadDocument($scope.lesFichiers);
+        
+        $scope.nouvelleFormation=false;
+    };
     $scope.completeFormation=function(){
         
         Diplome.findByLibelle($scope.diplome.nom).success(function(data){
@@ -834,6 +855,11 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     $scope.findAllFormations=function(){
         Formation.findAllEmployeFormation($scope.employe).success(function(data){
             $scope.formations=data;
+            $scope.lastFormation=$scope.formations[0];
+            if($scope.nouvelleFormation==true){
+                //S'il ne s'agit pas d'un nouvelle formation, il n y a pas d'upload
+                $scope.completerDocumentFormation();
+            }
         }).error(function () {
             alert('Une erreur est survenue : get formation');
         });
@@ -861,18 +887,21 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     }).error(function(){
         alert('Une erreur est survenue lors de la récuperation des types de documents');
     });
-    Document.findAll().success(function (data) {           
+    $scope.listerMesDocuments=function(){
+        Document.findByEmploye($scope.employe).success(function (data) {           
             $scope.documents=data;
-    }).error(function(){
-        alert('Une erreur est survenue lors de la récuperation des types de documents');
-    });
+        }).error(function(){
+            alert('Une erreur est survenue lors de la récuperation des types de documents');
+        });
+    };
     $scope.cancelFileUpload=function(){
-        $('.detailUpload').html('');
+        $('#'+$scope.formProvenanceFichier+' .detailUpload').html('');
         $scope.lesFichiers=null;
         
     };
     
-    $scope.previewUpload = function(fichiers) {
+    $scope.previewUpload = function(fichiers,formulaire) {
+        $scope.formProvenanceFichier=formulaire;
         $scope.lesFichiers=fichiers;
         for(var i=0;i<fichiers.files.length;i++){
             $scope.fichierEnvoye=fichiers.files[i];  
@@ -906,7 +935,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
             }
         }
 
-        $('.detailUpload').append($scope.detailUploadContent);
+//        $('.detailUpload').append($scope.detailUploadContent);
     
     };
   
@@ -918,7 +947,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
             
                 var talle=Math.ceil(file.size/1024);
 //                $scope.detailUploadContent+='<div><span clas>'+file.name+'</span><div class="progress progress-striped active"><div class="progress-bar progress-bar-'+indice+'"></div></div><div id="pourcentage_'+indice+'" class="pull-right"></div> </div>';
-                $('.detailUpload').append('<div><span clas>'+file.name+'</span><div class="progress progress-striped active"><div id="barreProgression_'+indice+'" class="progress-bar"></div></div><div id="pourcentage_'+indice+'" class="pull-right"></div> </div>');
+                $('#'+$scope.formProvenanceFichier+' .detailUpload').append('<div><span clas>'+file.name+'</span><div class="progress progress-striped active"><div id="barreProgression_'+indice+'" class="progress-bar"></div></div><div id="pourcentage_'+indice+'" class="pull-right"></div> </div>');
                 
                 return true;
             }
@@ -929,50 +958,63 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
             }
     };
     
-    $scope.controlDocumentForm=function(c){
+    $scope.ajouterNouveauDocument=function(formulaire){
+        $scope.formProvenanceFichier=formulaire;
+        if($scope.controlDocumentForm(formulaire)){
+            $scope.completerDocument();   
+            $scope.uploadDocument($scope.lesFichiers);
+        }
+    };
+    
+    $scope.controlDocumentForm=function(formulaire){
       var validite=true;
-        $('#newDocumentForm textarea').each(function(e){
+        $('#'+formulaire+' textarea').each(function(e){
            if($(this).val()===""){
                 $(this).parent().next().show("slow").delay(3000).hide("slow");
                 validite=false;
            }
         });
-       if(c.typeDocument==null){
-            $('.type-doc-missing').show("slow").delay(3000).hide("slow");
+       if($scope.document.typeDocument==null){
+            $('#'+formulaire+' .type-doc-missing').show("slow").delay(3000).hide("slow");
             validite=false;
        }
               
         if($scope.lesFichiers==null){
-            $('.missing-file').show("slow").delay(3000).hide("slow");
+            $('#'+formulaire+' .missing-file').show("slow").delay(3000).hide("slow");
             validite=false;           
         }
-        else{
-            $scope.completerDocument();
-            
-        }
+        
+        return validite;
         
     };
     $scope.completerDocument=function(){
         $scope.document.employe=$scope.employe;
-        var e=$scope.today;
+        var e=new Date();
         e.setFullYear(e.getFullYear()+$scope.document.typeDocument.dureeArchivage);
         $scope.document.echeance=e;  
         
-        $scope.uploadDocument($scope.lesFichiers);
+        
     };
     
     $scope.addDocument=function(){
         Document.add($scope.document).success(function(){
-            $scope.document={};
-            $scope.cancelFileUpload();
-            Document.findAll();
+            
+            if($scope.finUpload==true){
+                //Utile lorsqu'il y a plusieurs documents a enregistrer pour une seule table(formation,situation matri ...)
+                $scope.document={id:"",dateEnregistrement:$scope.today};
+                $scope.cancelFileUpload();
+                $scope.listerMesDocuments();
+            }
+            
             
         }).error(function () {
-            alert('Une erreur est survenue : get formation');
+            alert('Une erreur est survenue : add document');
         });
+        
     };
     
     $scope.uploadDocument=function(fichiers){
+        $scope.finUpload=false;
         for(var i=0;i<fichiers.files.length;i++){
             $scope.uploadedFile=fichiers.files[i];
             var format=$scope.uploadedFile.name.split(".");
@@ -987,8 +1029,15 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
                 alert("erreur lors de l'enregistrement du document");
             });
         }
+        $scope.finUpload=true;
         UploadFile.resetHttp();
         
+    };
+    
+    
+    
+    $scope.visualiserDocument=function(lien){
+        window.open(lien);
     };
     
     /*Gestion des documents electroniques*/
