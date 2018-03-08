@@ -54,8 +54,8 @@ angular.module('StatistiqueModule').factory('Statistique', function ($http) {
                 
                 return $http.get(chemin+'/webresources/sn.grh.employe/trancheage/femme/pats/'+debut+'/'+fin);
             }, 
-            recrute:function (debut,fin){
-                return $http.get(chemin+'/webresources/sn.grh.employe/recrutement/'+debut/+fin);
+            compterRecrutement:function (debut,fin){
+                return $http.get(chemin+'/webresources/sn.grh.employe/recrutement/'+debut+'/'+fin);
             }
             
         }; 

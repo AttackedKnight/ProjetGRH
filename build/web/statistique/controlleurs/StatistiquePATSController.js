@@ -190,9 +190,12 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
             function handleInit(){
               chartHomFem.legend.addListener("rollOverItem", handleRollOver);
             }
-             function handleRollOver(e){
-              var wedge = e.dataItem.wedge.node;
-              wedge.parentNode.appendChild(wedge);
+            
+            
+            
+            function handleRollOver(e){
+                var wedge = e.dataItem.wedge.node;
+                wedge.parentNode.appendChild(wedge);
             }
 
                 /*   Fin Statistiques Hommes et Femmes      */        
@@ -242,7 +245,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
             $scope.donnees=[];
            
             var end=debut+intervalle;
-            var i=0;
+            
             var intervalle_date;
             var date1;
             var date2;
@@ -250,7 +253,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
             var req_h=[];
             var req_f=[];
             /*Creation de l'objet a afficher sur le graphe*/
-            while(end<=fin && i<5){              
+            while(end<=fin){              
                 intervalle_date= $scope.trancheAge(debut,end);
                 date1=intervalle_date.split('/')[0];
                 date2=intervalle_date.split('/')[1];
@@ -268,7 +271,6 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
                 var promise_f = Statistique.trancheagefemmespats(date1,date2);
                 req_f.push(promise_f);
                 
-                i++;
             }
             
             $q.all(req_h).then(function (result){
@@ -426,58 +428,116 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
 //        };
         
         
-            var d = new Date();
-           var n = d.getFullYear();
-           var chartnbreRecrutement = AmCharts.makeChart("statNbreRecrutement", {
-                "theme": "light",
-                "type": "serial",
-              "startDuration": 2,
-                "dataProvider": [{
-                    "annee": n-4,
-                     "pourcentage": 90,
-                    "color": "#FF0F00"
-                }, {
-                    "annee": n-3,
-                    "pourcentage": 93,
-                    "color": "#FF6600"
-                }, {
-                    "annee": n-2,
-                    "pourcentage": 82,
-                    "color": "#FF9E01"
-                }, {
-                    "annee": n-1,
-                    "pourcentage": 95,
-                    "color": "#FCD202"
-                }, {
-                    "annee": n,
-                    "pourcentage": 88,
-                    "color": "#F8FF01"
-                }],
-                "valueAxes": [{
-              "position": "left"
-                }],
-                "graphs": [{
-                    "balloonText": "[[category]]: <b>[[value]]%</b><br/> Homme [[value]]%<br/> Homme [[value]]%",
-                    "fillColorsField": "color",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "valueField": "pourcentage"
-                }],
-                "depth3D": 20,
-              "angle": 30,
-                "chartCursor": {
-                    "categoryBalloonEnabled": true,
-                    "cursorAlpha": 0,
-                    "zoomable": false
-                },
-                "categoryField": "annee",
-                "categoryAxis": {
-                    "gridPosition": "start",
-                    "labelRotation": 0
+            
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            }
+            
+            function supprimerCouleur(colorsTab,index){
+                var tab=[];
+                j=0;
+                for(var i=0;i<colorsTab.length;i++){
+                    if(i!==index){
+                        
+                        tab[j]=colorsTab[i];
+                        j++;
+                    }
                 }
+                
+                return  tab;
+            }
 
-            });
+           $scope.countRecrutement=function(nombreAnnees){
+                $scope.recrutements=[];
+                
+                var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+                
+                var d = new Date();
+                var n = d.getFullYear();
+                 
+                var debutAnnee;
+                var finAnnee;
+                var i=0;
+                
+                var req_recru=[];
+                 /*Creation de l'objet a afficher sur le graphe*/
+                while(nombreAnnees>0){              
+
+                    //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
+                     debutAnnee=n+'-01-01';
+                     finAnnee=n+'-12-31';                     
+                    //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
+                    
+                    i=getRandomInt(colors.length);
+                    
+                    var une_barre={};
+                    une_barre.annee=parseInt(n);
+                    une_barre.color=colors[i];
+                    
+                    colors=supprimerCouleur(colors,i); //Supprimer la couleur de la liste des couleurs:éviter répétition
+
+                    $scope.recrutements.push(une_barre);
+
+
+                    var promise_recru = Statistique.compterRecrutement(debutAnnee,finAnnee);
+                    req_recru.push(promise_recru);
+
+                    n-=1;
+                    nombreAnnees--;
+                }
+                
+                $q.all(req_recru).then(function (result){
+                    for(var i=0;i<result.length;i++){
+                        $scope.recrutements[i].pourcentage=parseInt(result[i].data);
+                    }
+                    
+                    $scope.recrutements.reverse();
+                    
+                    var chartnbreRecrutement = AmCharts.makeChart("statNbreRecrutement", {
+                        "theme": "light",
+                        "type": "serial",
+                      "startDuration": 2,
+                        "dataProvider": $scope.recrutements,
+                        "valueAxes": [{
+                      "position": "left"
+                        }],
+                        "graphs": [{
+                            "balloonText": "[[category]]: <b>[[value]]</b><br/>",
+                            "fillColorsField": "color",
+                            "fillAlphas": 1,
+                            "lineAlpha": 0.1,
+                            "type": "column",
+                            "valueField": "pourcentage"
+                        }],
+                        "depth3D": 20,
+                      "angle": 30,
+                        "chartCursor": {
+                            "categoryBalloonEnabled": true,
+                            "cursorAlpha": 0,
+                            "zoomable": false
+                        },
+                        "categoryField": "annee",
+                        "categoryAxis": {
+                            "gridPosition": "start",
+                            "labelRotation": 0
+                        }
+
+                    });
+//                    console.log($scope.recrutements);
+                });
+                
+           };
+           
+          
+        $scope.intervaleAnneeRecrutement=5;
+
+        $scope.countRecrutement($scope.intervaleAnneeRecrutement);
+
+        $scope.voirRecrutement=function(n){
+            if(parseInt(n)>0){
+                $scope.countRecrutement(parseInt(n));
+            }
+        };
 
       /*- Fin RECRUTEMENT*/
      

@@ -159,7 +159,25 @@
             <div class="box box-primary ">
                 <div class="box-header">
                   <i class="fa fa-bar-chart-o"></i>
-                  <h3 class="box-title">NOMBRE DE RECRUTEMENT PAR ANNEE</h3>
+                  <h3 class="box-title">RECRUTEMENT PAR ANNEE</h3>
+                  <span class="pull-right">
+                    <span>
+                        <label for="intervalle">Intervalle d'année</label>
+                        <select id="intervalle" ng-model="intervaleAnneeRecrutement">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                        </select>
+                    </span>
+                    <button ng-click="voirRecrutement(intervaleAnneeRecrutement)"><i class="fa fa-check"></i></button>
+                </span>
                 </div>
                 <div class="box-body row">
                   <div  class="col-md-12" style="height: 300px;" id="statNbreRecrutement" ></div>
