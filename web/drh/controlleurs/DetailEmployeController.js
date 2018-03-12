@@ -890,9 +890,29 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     $scope.listerMesDocuments=function(){
         Document.findByEmploye($scope.employe).success(function (data) {           
             $scope.documents=data;
+            
+            (function datatable() {
+ 
+            if($('.tableau-document tr').length>0){
+                setTimeout(function(){ 
+                    $('.tab-content table').dataTable({
+                    "bPaginate": true,
+                    "bLengthChange": true,
+                    "bFilter": true,
+                    "bSort": true,
+                    "bInfo": true,
+                    "bAutoWidth": false
+                  });        
+                }, 2000);
+
+            }
+
+        })();
         }).error(function(){
             alert('Une erreur est survenue lors de la récuperation des types de documents');
         });
+        
+        
     };
     $scope.cancelFileUpload=function(){
         $('#'+$scope.formProvenanceFichier+' .detailUpload').html('');
