@@ -20,20 +20,31 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                 $rootScope.entiteUtilisateur=cookie.currentUser.user.entite;
                 
 
-                switch ($rootScope.groupeUtilisateur.id){
-                    case 2:
-                        $('#admin-menu').removeAttr('hidden');
-                        break;
-                    case 3:
-                        $('#drh-menu').removeAttr('hidden');
-                        
-                        break;
-                    case 6:
-                        $('#drh-menu').removeAttr('hidden');
-                        $('#drh-demandes').removeAttr('hidden');
-                        break;
-
+                if($rootScope.groupeUtilisateur.code=='SUP_AD'){
+                    $('#admin-menu').removeAttr('hidden');
                 }
+                if($rootScope.groupeUtilisateur.code=='PER_AD'){
+                    $('#drh-menu').removeAttr('hidden');
+                }
+                if($rootScope.groupeUtilisateur.code=='PATS_AD'){
+                    $('#drh-menu').removeAttr('hidden');
+                    $('#drh-demandes').removeAttr('hidden');
+                }
+//                switch ($rootScope.groupeUtilisateur.code){
+//                    case 2:
+//                        $('#admin-menu').removeAttr('hidden');
+//                        break;
+//                    case 3:
+//                        $('#drh-menu').removeAttr('hidden');
+//                        
+//                        break;
+//                    case 6:
+//                        $('#drh-menu').removeAttr('hidden');
+//                        $('#drh-demandes').removeAttr('hidden');
+//                        break;
+//
+//                }
+                
                 $('.no-print').css('display','none');
                 
                 $('header').removeAttr('hidden');

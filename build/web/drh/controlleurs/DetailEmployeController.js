@@ -67,14 +67,14 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         
     };
     
-    if($rootScope.groupeUtilisateur.id==6){
+    if($rootScope.groupeUtilisateur.code=='PATS_AD'){
         Syndicat.findSyndicatPats().success(function (data) {
             $scope.syndicats=data;  
         }).error(function () {
             alert('Une erreur est survenue');
         });
     }
-    if($rootScope.groupeUtilisateur.id==3){
+    if($rootScope.groupeUtilisateur.code=='PER_AD'){
         Syndicat.findSyndicatPer().success(function (data) {
             $scope.syndicats=data;  
         }).error(function () {
@@ -891,23 +891,23 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         Document.findByEmploye($scope.employe).success(function (data) {           
             $scope.documents=data;
             
-            (function datatable() {
- 
-            if($('.tableau-document tr').length>0){
-                setTimeout(function(){ 
-                    $('.tab-content table').dataTable({
-                    "bPaginate": true,
-                    "bLengthChange": true,
-                    "bFilter": true,
-                    "bSort": true,
-                    "bInfo": true,
-                    "bAutoWidth": false
-                  });        
-                }, 2000);
-
-            }
-
-        })();
+//            (function datatable() {
+// 
+//            if($('.tableau-document tr').length>0){
+//                setTimeout(function(){ 
+//                    $('.tab-content table').dataTable({
+//                    "bPaginate": true,
+//                    "bLengthChange": true,
+//                    "bFilter": true,
+//                    "bSort": true,
+//                    "bInfo": true,
+//                    "bAutoWidth": false
+//                  });        
+//                }, 2000);
+//
+//            }
+//
+//        })();
         }).error(function(){
             alert('Une erreur est survenue lors de la récuperation des types de documents');
         });

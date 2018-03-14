@@ -18,14 +18,14 @@ angular.module('DrhModule').controller('ConsulterEmployeController',function($sc
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
-    if($rootScope.groupeUtilisateur.id==6){
+    if($rootScope.groupeUtilisateur.code=='PATS_AD'){
         Servir.findPats().success(function (data) {
             $scope.travailleurs=data;
         }).error(function () {
             alert('Une erreur est survenue');
         }); 
     }
-    if($rootScope.groupeUtilisateur.id==3){
+    if($rootScope.groupeUtilisateur.code=='PER_AD'){
         Servir.findPer().success(function (data) {
             $scope.travailleurs=data;
 

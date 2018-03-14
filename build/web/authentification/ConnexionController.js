@@ -69,23 +69,35 @@ angular.module('AuthentificationModule').controller('ConnexionController',functi
                 $('.content-header').removeAttr('hidden');
                 $('.content-wrapper').removeAttr('style');
 
-                switch (data.groupe.id){
-                    case 2:
-                        $('#admin-menu').removeAttr('hidden');
-                        document.location.href="#/parametrage/statistique";
-                        break;
-                    case 3:
-                        $('#drh-menu').removeAttr('hidden');
-                        document.location.href="#/drh/per";
-                        break;
-                    case 6:
-                        $('#drh-menu').removeAttr('hidden');
-                        document.location.href="#/drh/pats";
-                        break;
-                    default :
-                        document.location.href="#/";
-                        break;
+                if(data.groupe.code=='SUP_AD'){
+                    $('#admin-menu').removeAttr('hidden');
+                    document.location.href="#/parametrage/statistique";
                 }
+                if(data.groupe.code=='PER_AD'){
+                    $('#drh-menu').removeAttr('hidden');
+                    document.location.href="#/drh/per";
+                }
+                if(data.groupe.code=='PATS_AD'){
+                    $('#drh-menu').removeAttr('hidden');
+                    document.location.href="#/drh/pats";
+                }
+                if(data.groupe.code==''){
+                    document.location.href="#/";
+                }
+//                switch (data.groupe.code){
+//                    case 2:
+//                        
+//                        break;
+//                    case 3:
+//                        
+//                        break;
+//                    case 6:
+//                        
+//                        break;
+//                    default :
+//                        document.location.href="#/";
+//                        break;
+//                }
                 
             } else {
                 dialog.modal('hide');

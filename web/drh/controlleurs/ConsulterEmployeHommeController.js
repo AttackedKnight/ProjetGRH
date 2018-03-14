@@ -9,7 +9,7 @@ angular.module('DrhModule').controller('ConsulterEmployeHommeController',functio
    
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-       if($rootScope.groupeUtilisateur.id==6){
+       if($rootScope.groupeUtilisateur.code=='PATS_AD'){
         Servir.findPatsHomme().success(function (data) {
             $scope.travailleurs=data;
             
@@ -18,7 +18,7 @@ angular.module('DrhModule').controller('ConsulterEmployeHommeController',functio
             alert('Une erreur est survenue');
         }); 
     }
-    if($rootScope.groupeUtilisateur.id==3){
+    if($rootScope.groupeUtilisateur.code=='PER_AD'){
         Servir.findPerHomme().success(function(data){
             $scope.travailleurs=data;
         }).error(function(){

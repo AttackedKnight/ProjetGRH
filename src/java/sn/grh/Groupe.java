@@ -34,6 +34,12 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Groupe.findByLibelle", query = "SELECT g FROM Groupe g WHERE g.libelle = :libelle")})
 public class Groupe implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "code")
+    private String code;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -119,6 +125,14 @@ public class Groupe implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Groupe[ id=" + id + " ]";
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
     
 }

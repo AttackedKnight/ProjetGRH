@@ -187,9 +187,9 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
               handleRollOver(e);
             });
 
-            function handleInit(){
-              chartHomFem.legend.addListener("rollOverItem", handleRollOver);
-            }
+//            function handleInit(){
+//              chartHomFem.legend.addListener("rollOverItem", handleRollOver);
+//            }
             
             
             
@@ -435,7 +435,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
             
             function supprimerCouleur(colorsTab,index){
                 var tab=[];
-                j=0;
+                var j=0;
                 for(var i=0;i<colorsTab.length;i++){
                     if(i!==index){
                         

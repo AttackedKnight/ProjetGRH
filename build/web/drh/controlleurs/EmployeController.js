@@ -148,14 +148,14 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     });    
     
     
-    if($rootScope.groupeUtilisateur.id==6){
+    if($rootScope.groupeUtilisateur.code=='PATS_AD'){
         Syndicat.findSyndicatPats().success(function (data) {
             $scope.syndicats=data;  
         }).error(function () {
             alert('Une erreur est survenue');
         });
     }
-    if($rootScope.groupeUtilisateur.id==3){
+    if($rootScope.groupeUtilisateur.code=='PER_AD'){
         Syndicat.findSyndicatPer().success(function (data) {
             $scope.syndicats=data;  
         }).error(function () {
@@ -219,10 +219,10 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
             }
         }
         
-        if($rootScope.groupeUtilisateur.id==3){
+        if($rootScope.groupeUtilisateur.code=='PER_AD'){
             c.typeEmploye=$scope.typeemployes[0];
         }
-        if($rootScope.groupeUtilisateur.id==6){
+        if($rootScope.groupeUtilisateur.code=='PATS_AD'){
             c.typeEmploye=$scope.typeemployes[1];
         }
          
@@ -689,7 +689,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     
     $scope.controlGrade=function(c,contact,adr,tra,grade){
         var validite=true;
-        if($rootScope.groupeUtilisateur.id==3){
+        if($rootScope.groupeUtilisateur.code=='PER_AD'){
             if(grade.corps==null){
                 $("#corps").parent().next().show("slow").delay(3000).hide("slow");
                 validite=false;
@@ -703,7 +703,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
                 validite=false;
             }
         }
-        if($rootScope.groupeUtilisateur.id==6){
+        if($rootScope.groupeUtilisateur.code=='PATS_AD'){
             if(grade.classe==null){
                  $("#classe").parent().next().show("slow").delay(3000).hide("slow");
                  validite=false;
