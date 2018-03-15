@@ -6,6 +6,16 @@
     
     <div class="box-body row" style="max-height: 600px ; overflow-y: auto;">
         <form role="form" name="groupeForm" class="col-md-offset-1 col-md-10">
+             <div class="form-group">
+                <input type="text" class="form-control" ng-model="groupe.code" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]{2,}$/i" ng-minlength="2" placeholder="Code du groupe" name="code">
+                <div ng-messages="groupeForm.code.$error" role="alert" ng-show="groupeForm.code.$touched && groupeForm.code.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
             <div class="form-group">
                 <input type="text" class="form-control" ng-model="groupe.libelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" placeholder="Nom du groupe" name="libelle">
                 <div ng-messages="groupeForm.libelle.$error" role="alert" ng-show="groupeForm.libelle.$touched && groupeForm.libelle.$invalid" class="alert alert-block alert-danger has-error">

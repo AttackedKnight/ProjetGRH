@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ProjetGRHPU" transaction-type="JTA">
-    <jta-data-source>jdbcGrhConnexion</jta-data-source>
-    <class>sn.grh.Utilisateur</class>
+    <jta-data-source>grh</jta-data-source>
     <class>sn.grh.Absence</class>
     <class>sn.grh.Accesgroupe</class>
     <class>sn.grh.Adresse</class>
@@ -36,6 +35,7 @@
     <class>sn.grh.Typeemploye</class>
     <class>sn.grh.Typeentite</class>
     <class>sn.grh.Typepermission</class>
+    <class>sn.grh.Utilisateur</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
