@@ -125,11 +125,15 @@ angular.module('ParametrageModule').controller('AccesController',function($scope
     $scope.creerGroupeEtAcces=function(nouvelGroupe){
 
         g=nouvelGroupe;
-        if(g.libelle==null || g.libelle==""){
+        if(g.code==null || g.code==""){
             $("div.requis").eq(0).show("slow").delay(3000).hide("slow");
         }else{
             //Creer d'abord le groupe
-            $scope.createGroupe(g);
+            if(g.libelle==null || g.libelle==""){
+                $("div.requis").eq(1).show("slow").delay(3000).hide("slow");
+            }else{
+                 $scope.createGroupe(g);
+            }
         }
         
         

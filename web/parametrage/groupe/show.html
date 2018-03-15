@@ -7,14 +7,14 @@
             <thead>
                 <tr>
                   <th>Nom</th>
-                  <th>Nombre d'utilisateur</th>
+                  <th>Code</th>
                   <th>Actions</th>
                 </tr>
             </thead>
             <tbody>                  
                 <tr ng-repeat="groupe in groupes">
                     <td>{{groupe.libelle}}</td>
-                    <td>{{groupes.length}}</td>
+                    <td>{{groupe.code}}</td>
                     <th>
                         <a ng-href="#/parametrage/groupe/show/{{groupe.id}}" title="Détail">
                             <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>

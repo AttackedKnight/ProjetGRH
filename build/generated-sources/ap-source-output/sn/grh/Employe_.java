@@ -21,7 +21,7 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-15T10:32:24")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-15T14:08:48")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 
