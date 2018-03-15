@@ -479,7 +479,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
                     $scope.recrutements.push(une_barre);
 
 
-                    var promise_recru = Statistique.compterRecrutement(debutAnnee,finAnnee);
+                    var promise_recru = Statistique.compterRecrutementPats(debutAnnee,finAnnee);
                     req_recru.push(promise_recru);
 
                     n-=1;

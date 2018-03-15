@@ -109,11 +109,12 @@ public class UploadFileServlet extends HttpServlet {
                                     }
                                     
                                     factory.setRepository(emplacement);
-                                    File uploadedFile = new File(factory.getRepository()+File.separator+fileItem.getName());
+                                    String nomDuFichier=(fileItem.getName()).replaceAll("[^a-zA-Z0-9.-]", "_");             //Remplacer les caracteres invalid par _
+                                    File uploadedFile = new File(factory.getRepository()+File.separator+nomDuFichier);
                                     
                                     fileItem.write(uploadedFile);
                                     
-                                    String chemin="archives/"+fileItem.getFieldName()+"/"+fileItem.getName();
+                                    String chemin="archives/"+fileItem.getFieldName()+"/"+nomDuFichier;
                                     out.println(chemin);
 
 				}

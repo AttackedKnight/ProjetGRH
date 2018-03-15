@@ -56,6 +56,12 @@ angular.module('StatistiqueModule').factory('Statistique', function ($http) {
             }, 
             compterRecrutement:function (debut,fin){
                 return $http.get(chemin+'/webresources/sn.grh.employe/recrutement/'+debut+'/'+fin);
+            },
+            compterRecrutementPats:function (debut,fin){
+                return $http.get(chemin+'/webresources/sn.grh.employe/recrutement/pats/'+debut+'/'+fin);
+            }, 
+            compterRecrutementPer:function (debut,fin){
+                return $http.get(chemin+'/webresources/sn.grh.employe/recrutement/per/'+debut+'/'+fin);
             }
             
         }; 

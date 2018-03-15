@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('UtilisateurController',function($scope,Securite,Utilisateur,Entite,Groupe)
+angular.module('ParametrageModule').controller('UtilisateurController',function($scope,Securite,Utilisateur,Servir,Entite,Groupe)
 {
     
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -37,6 +37,17 @@ angular.module('ParametrageModule').controller('UtilisateurController',function(
     }).error(function(){
        dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue</div>');
     });
+    
+    //Trouver l'entite dans laquelle se trouve actuellement un employe
+    
+    $scope.getEntiteEmploye=function(id){
+        Servir.findEntiteEmploye(id).success(function (data){
+            return data.nom;
+        }).error(function () {
+            alert('Une erreur est survenue');
+        }); 
+    };
+    
     //Recuperer les comptes d'utilisateur
     
     $scope.getComptes=function(){

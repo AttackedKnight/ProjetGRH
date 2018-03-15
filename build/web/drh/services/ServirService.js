@@ -50,6 +50,9 @@ return{
         enService:function(employe){
             return $http.get(chemin+'/webresources/sn.grh.servir/enservice/'+employe.id);
         },
+        findEntiteEmploye:function(id){
+            return $http.get(chemin+'/webresources/sn.grh.servir/entite/employe/'+id);
+        },
         countEmploye:function(entite){
             return $http.get(chemin+'/webresources/sn.grh.servir/effectif/'+entite.id);
         },

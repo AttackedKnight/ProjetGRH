@@ -285,6 +285,31 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
         return 0;
     }
     
+    
+    @GET
+    @Path("recrutement/per/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer recruteper(@PathParam("debut") String anneedebut,@PathParam("fin") String anneefin){
+        List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateRecrutement>'"+anneedebut+"' AND e.dateRecrutement<'"+anneefin+"' and e.typeEmploye.code='PER'", Employe.class)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("recrutement/pats/{debut}/{fin}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer recrutepats(@PathParam("debut") String anneedebut,@PathParam("fin") String anneefin){
+        List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.dateRecrutement>'"+anneedebut+"' AND e.dateRecrutement<'"+anneefin+"' and e.typeEmploye.code='PATS'", Employe.class)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})

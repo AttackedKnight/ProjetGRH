@@ -20,6 +20,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Employe;
 import sn.grh.Servir;
+import sn.grh.Entite;
 
 /**
  *
@@ -241,6 +242,21 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
         }
         return null;
            
+    }
+    
+    @GET
+    @Path("entite/employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Entite findEntite(@PathParam("id") Integer id) {
+        List<Servir> s=em.createQuery("SELECT e FROM Servir e WHERE e.employe.id = :id  ORDER BY e.id DESC", Servir.class)
+                .setParameter("id", id)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s.get(0).getEntite();
+        }
+        return null;
+        
     }
     
     @GET
