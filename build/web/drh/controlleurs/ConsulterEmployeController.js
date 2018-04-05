@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('DrhModule').controller('ConsulterEmployeController',function($scope,$rootScope,Securite,Servir)
+angular.module('DrhModule').controller('ConsulterEmployeController',function($scope,$rootScope,Securite,Servir,$routeParams)
 {
     
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -18,22 +18,54 @@ angular.module('DrhModule').controller('ConsulterEmployeController',function($sc
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
-    if($rootScope.groupeUtilisateur.code=='PATS_AD'){
-        Servir.findPats().success(function (data) {
-            $scope.travailleurs=data;
-        }).error(function () {
-            alert('Une erreur est survenue');
-        }); 
-    }
-    if($rootScope.groupeUtilisateur.code=='PER_AD'){
+    
+    
+    $scope.getPer=function(){
         Servir.findPer().success(function (data) {
             $scope.travailleurs=data;
 
         }).error(function () {
             alert('Une erreur est survenue');
         }); 
+    };
+    $scope.getPats=function(){
+        Servir.findPats().success(function (data) {
+            $scope.travailleurs=data;
+        }).error(function () {
+            alert('Une erreur est survenue');
+        }); 
+    };
+    $scope.getAll=function(){
+        Servir.findPerAndPats().success(function (data) {
+            $scope.travailleurs=data;
+
+        }).error(function () {
+            alert('Une erreur est survenue');
+        });
+    };
+    
+    if($rootScope.groupeUtilisateur.code=='PATS_AD'){
+        $scope.getPats();
+    }
+    if($rootScope.groupeUtilisateur.code=='PER_AD'){
+        $scope.getPer();
     }
     
+    if($rootScope.groupeUtilisateur.code=='DRH_AD'){
+        
+        
+        if($routeParams.type==1){
+            $scope.getPer();
+        }
+        else if($routeParams.type==0){
+            $scope.getPats();
+        }
+        else{
+            $scope.getAll();
+        }
+        
+         
+    }
     (function datatable() {
 
         if($('#example1 tr').length>0){
@@ -52,35 +84,6 @@ angular.module('DrhModule').controller('ConsulterEmployeController',function($sc
         
     })();
     
-    $scope.critereTri="nom";    
-    $scope.ordreTri=false;
-    
-//    $scope.critereTri=function(){
-//        alert($scope.critereTri);
-//    };
-
-    
-//    $('table').one('mouseenter',function(){
-//        $('#example1').dataTable({
-//          "bPaginate": true,
-//          "bLengthChange": false,
-//          "bFilter": false,
-//          "bSort": true,
-//          "bInfo": true,
-//          "bAutoWidth": false
-//        });
-//    });
-//    
-    
-//    $('#dlh').click(function (){
-//        $('#example1').dataTable({
-//          "bPaginate": true,
-//          "bLengthChange": false,
-//          "bFilter": false,
-//          "bSort": true,
-//          "bInfo": true,
-//          "bAutoWidth": false
-//        });
-//    });
+   
 });
 

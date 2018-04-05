@@ -101,7 +101,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("responsable/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Servir findResponsableEntite(@PathParam("id") Integer id) {
-        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.responsable=true ORDER BY s.id DESC", Servir.class)
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.responsable=true AND s.fin = NULL ORDER BY s.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         
@@ -133,7 +133,21 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
         return super.findAll();
     }
     
-     @GET
+    @GET
+    @Path("employeenservice")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findEmployeEnService() {
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s", Servir.class)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+    
+    @GET
     @Path("per")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findPer() {
@@ -161,7 +175,22 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
            
     }
 
-     @GET
+    @GET
+    @Path("per/pats/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findPerEtPatsEntite(@PathParam("id") Integer id) {
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id=:id AND s.fin = NULL", Servir.class)
+                .setParameter("id", id)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+    
+    @GET
     @Path("per/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findPerEntite(@PathParam("id") Integer id) {
@@ -191,7 +220,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
            
     }
     
-        @GET
+    @GET
     @Path("hommeper")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findPerHomme() {
@@ -204,7 +233,8 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
         return null;
            
     }
-            @GET
+    
+    @GET
     @Path("femmeper")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findPerFemme() {

@@ -8,7 +8,16 @@ angular.module("DrhModule",['ngRoute','ngMessages']).config(function ($routeProv
     }).when('/drh/employe/consulter',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeController'
+        
+    }).when('/drh/employe/consulter/type/:type',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeController'
+        
     }).when('/drh/employe/consulter/homme',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeHommeController'
+        
+    }).when('/drh/employe/consulter/homme/type/:type',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeHommeController'
         
@@ -16,8 +25,12 @@ angular.module("DrhModule",['ngRoute','ngMessages']).config(function ($routeProv
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeFemmeController'
         
+    }).when('/drh/employe/consulter/femme/type/:type',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeFemmeController'
+        
     }).when('/drh/entite/consulter/:id',{
-        templateUrl: 'drh/entite/consulterAgentEntite.html',
+        templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeEntiteController'
     }).when('/drh/employe/detailAgent/:id',{
         templateUrl: 'drh/employe/detailAgent.html',

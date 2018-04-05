@@ -9,7 +9,7 @@ import sn.grh.Diplome;
 import sn.grh.Document;
 import sn.grh.Employe;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-03-15T14:08:48")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-04-04T22:17:55")
 @StaticMetamodel(Formation.class)
 public class Formation_ { 
 

@@ -4,18 +4,24 @@ angular.module('StatistiqueModule').factory('Statistique', function ($http) {
             countemploye:function (){
                 return $http.get(chemin+'/webresources/sn.grh.employe/countemploye');
             },
-             countemployepats:function (){
+            countemployepats:function (){
                 return $http.get(chemin+'/webresources/sn.grh.employe/countemployepats');
             },
             countemployeper:function (){
                 return $http.get(chemin+'/webresources/sn.grh.employe/countemployeper');
+            },
+            countemployehomme:function (){
+                return $http.get(chemin+'/webresources/sn.grh.employe/countemployehommes');
             },
             countemployehommeper:function (){
                 return $http.get(chemin+'/webresources/sn.grh.employe/countemployehommesper');
             }, 
             countemployehommepats:function (){
                 return $http.get(chemin+'/webresources/sn.grh.employe/countemployehommespats');
-            }, 
+            },
+            countemployefemme:function (){
+                return $http.get(chemin+'/webresources/sn.grh.employe/countemployefemmes');
+            },
             countemployefemmeper:function (){
                 return $http.get(chemin+'/webresources/sn.grh.employe/countemployefemmesper');
             }, 

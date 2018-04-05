@@ -1,216 +1,231 @@
-<div class="container">
-    <form role="form" name="newEmployeForm" novalidate="">
-        <div class="row">             
-            <div class="col-md-11">
-                <div class="box box-primary box-solid with-border">
-                    <div class="box box-header ">
-                        <h3> INFORMATIONS PERSONNELLES</h3>
-
-                    </div>
-                    <div class="row container">
+<div class="row">
+    <div class="col-md-12">
+    <!--<div class="box box-solid box-primary  ">-->
+        <!--<div class="box-header">-->
+            <div ng-if="groupeUtilisateur.code=='DRH_AD'"  style=" background: white; border-radius: 4px; padding: 4px; text-align: center; font-size: 1.3em; font-weight: bold;">
+                <span>Type d'employé : </span>
+                <span>
+                    <label class="custom-control-label" for="per">PER</label>
+                    <input type="radio" name="typeEmp" ng-value="{{true}}" ng-model="estPER" id="per"  ng-change="changerTypeEmploye()" >
+                </span>
+                <span>
+                    <label for="pats" class="custom-control-label" >PATS</label>
+                        <input type="radio" name="typeEmp" ng-value="{{false}}" ng-model="estPER" id="pats"  ng-change="changerTypeEmploye()" >
+                </span>
+            </div>
+        <!--</div>-->
+        <div class="box-body row">
+            <form role="form" name="newEmployeForm" novalidate="">
+                    <div class="row">             
+                        <div class="col-md-12">
+                            <div class="box box-primary box-solid">
+                                <div class="box box-header ">
+                                    <h3> INFORMATIONS PERSONNELLES</h3>
+                                </div>
+                                <div class="row">
                         <!--                        <div>{{servir}}</div>-->
-                        <div class="col-md-5 ">
-                            <div class="box box-primary box-solid" id="bloc-identifiant">
-                                <div class="box-header">
-                                    <h3 class="box-title">IDENTIFIANT </h3>
+                                    <div class="col-md-6 ">
+                                        <div class="box box-primary box-solid" id="bloc-identifiant">
+                                            <div class="box-header">
+                                                <h3 class="box-title">IDENTIFIANT </h3>
 
-                                </div>
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="numeroCni"> Numero d'identification nationale (NIN) :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-lock "></i>
                                             </div>
-                                            <input type="text" placeholder="Numero d'identification nationale"  ng-pattern="/^[1-2][0-9]{12,}$/"  ng-minlength="13" ng-maxlength="14" class="form-control" name="numeroCni" id="numeroCni" ng-model="employe.numeroCni">
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" id="cni_dup" style="display:none">
-                                            <div>Ce numéro de CNI existe dèja.</div>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis non-concorde" style="display:none">
-                                            <div>Le numéro de CNI ne concorde pas avec le genre.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.numeroCni.$error" role="alert" ng-show="newEmployeForm.numeroCni.$touched && newEmployeForm.numeroCni.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="minlength">Ce champs doit contenir  au minimum 13 chiffres.</div>
-                                            <div ng-message="maxlength">Ce champs doit contenir au maximum 14 chiffres.</div>
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                                        </div>
+                                            <div class="box-body">
+                                                <div class="form-group">
+                                                    <label for="numeroCni"> Numero d'identification nationale (NIN) :</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-lock "></i>
+                                                        </div>
+                                                        <input type="text" placeholder="Numero d'identification nationale"  ng-pattern="/^[1-2][0-9]{12,}$/"  ng-minlength="13" ng-maxlength="14" class="form-control" name="numeroCni" id="numeroCni" ng-model="employe.numeroCni">
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" id="cni_dup" style="display:none">
+                                                        <div>Ce numéro de CNI existe dèja.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis non-concorde" style="display:none">
+                                                        <div>Le numéro de CNI ne concorde pas avec le genre.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.numeroCni.$error" role="alert" ng-show="newEmployeForm.numeroCni.$touched && newEmployeForm.numeroCni.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="minlength">Ce champs doit contenir  au minimum 13 chiffres.</div>
+                                                        <div ng-message="maxlength">Ce champs doit contenir au maximum 14 chiffres.</div>
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
 
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="MatriculeInterne"> Matricule :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="MatriculeInterne"> Matricule :</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <input type="text" placeholder="Matricule"  class="form-control" ng-pattern="/^[0-9]{6}\/[a-z]{1}$/i" ng-maxlength="8" ng-minlength="8" id="matriculeInterne" name="matriculeInterne" ng-model="employe.matriculeInterne">
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" id="mat_int_dup" style="display:none">
+                                                        <div>Ce numéro de matricule existe dèja.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.matriculeInterne.$error" role="alert" ng-show="newEmployeForm.matriculeInterne.$touched && newEmployeForm.matriculeInterne.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="maxlength">Ce champs doit contenir 8 caractères.</div>
+                                                        <div ng-message="minlength">Ce champs doit contenir 8 caractères.</div>
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Matricule
+                                                        <span ng-if="groupeUtilisateur.code=='PER_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PER')">
+                                                            FNR
+                                                        </span>
+                                                        <span ng-if="groupeUtilisateur.code=='PATS_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PATS')">
+                                                            IPRES
+                                                        </span>
+                                                    </label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <input  type="text" ng-model="employe.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" id="mat_cs_dup" style="display:none">
+                                                        <div>Ce numéro de matricule existe dèja.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.caisseSociale.$error" role="alert" ng-show="newEmployeForm.caisseSociale.$touched && newEmployeForm.caisseSociale.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="maxlength">Ce champs doit contenir 11 caractères.</div>
+                                                        <div ng-message="minlength">Ce champs doit contenir 11 caractères.</div>
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <input type="text" placeholder="Matricule"  class="form-control" ng-pattern="/^[0-9]{6}\/[a-z]{1}$/i" ng-maxlength="8" ng-minlength="8" id="matriculeInterne" name="matriculeInterne" ng-model="employe.matriculeInterne">
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" id="mat_int_dup" style="display:none">
-                                            <div>Ce numéro de matricule existe dèja.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.matriculeInterne.$error" role="alert" ng-show="newEmployeForm.matriculeInterne.$touched && newEmployeForm.matriculeInterne.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="maxlength">Ce champs doit contenir 8 caractères.</div>
-                                            <div ng-message="minlength">Ce champs doit contenir 8 caractères.</div>
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
                                         </div>
 
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Matricule {{(groupeUtilisateur.id==3) ? 'FNR' : 'IPRES'}}</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
+                                        <div class="box box-primary box-solid" id="bloc-situation">
+                                            <div class="box-header">
+                                                <h3 class="box-title">SITUATION MATRIMONIALE</h3>
                                             </div>
-                                            <input  type="text" ng-model="employe.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" id="mat_cs_dup" style="display:none">
-                                            <div>Ce numéro de matricule existe dèja.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.caisseSociale.$error" role="alert" ng-show="newEmployeForm.caisseSociale.$touched && newEmployeForm.caisseSociale.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="maxlength">Ce champs doit contenir 11 caractères.</div>
-                                            <div ng-message="minlength">Ce champs doit contenir 11 caractères.</div>
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                            <div class="box-body">
+                                                <div class="form-group">
+                                                    <label for="situationMatri">Statut matrimoniale:</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-user"></i>
+                                                        </div>
+                                                        <select ng-model="employe.situationMatrimoniale" class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group" ng-if="employe.sexe == 'masculin' && employe.situationMatrimoniale == situations[0]">
+                                                    <label for="nombreDeFemme"> Nombre de femme(s) : </label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-female"></i>
+                                                        </div>
+                                                        <input type="number" ng-model="employe.nombreDeFemme" name="nombreDeFemme" id="nombreDeFemme" ng-pattern="/^[0-9]{1}$/"  class="form-control">
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.nombreDeFemme.$error" role="alert" ng-show="newEmployeForm.nombreDeFemme.$touched && newEmployeForm.nombreDeFemme.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
 
-                            <div class="box box-primary box-solid" id="bloc-situation">
-                                <div class="box-header">
-                                    <h3 class="box-title">SITUATION MATRIMONIALE</h3>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="nombreEnfant"> Nombre d'enfant(s) :</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-users"></i>
+                                                        </div>
+                                                        <input type="number"  ng-model="employe.nombreEnfant" name="nombreEnfant" id="nombreEnfant" ng-pattern="/^[0-9]{1,2}$/"  class="form-control">
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.nombreEnfant.$error" role="alert" ng-show="newEmployeForm.nombreEnfant.$touched && newEmployeForm.nombreEnfant.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
 
-                                </div>
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="situationMatri">Statut matrimoniale:</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
+                                                </div>
                                             </div>
-                                            <select ng-model="employe.situationMatrimoniale" class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
                                         </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" ng-if="employe.sexe == 'masculin' && employe.situationMatrimoniale == situations[0]">
-                                        <label for="nombreDeFemme"> Nombre de femme(s) : </label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-female"></i>
+
+                                        <div class="box box-primary box-solid" id="bloc-contact">
+                                            <div class="box-header">
+                                                <h3 class="box-title">CONTACT</h3>
                                             </div>
-                                            <input type="number" ng-model="employe.nombreDeFemme" name="nombreDeFemme" id="nombreDeFemme" ng-pattern="/^[0-9]{1}$/"  class="form-control">
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.nombreDeFemme.$error" role="alert" ng-show="newEmployeForm.nombreDeFemme.$touched && newEmployeForm.nombreDeFemme.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                                        </div>
+                                            <div class="box-body">
+                                                <div class="form-group">
+                                                    <label for="telephone1" > Telephone 1 :</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-phone"></i>
+                                                        </div>
+                                                        <input type="text"  ng-model="contact.numero1"  placeholder="Téléphone 1" class="form-control" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone1" name="telephone1">
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" id="num_tel_1_dup" style="display:none">
+                                                        <div>Ce numéro de téléphone existe dèja.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.telephone1.$error" role="alert" ng-show="newEmployeForm.telephone1.$touched && newEmployeForm.telephone1.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
 
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="nombreEnfant"> Nombre d'enfant(s) :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-users"></i>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="telephone2"> Telephone 2 :</label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-phone"></i>
+                                                        </div>
+                                                        <input type="text"  ng-model="contact.numero2" placeholder="Téléphone 2" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone2" name="telephone2" class="form-control">
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" id="num_tel_2_dup" style="display:none">
+                                                        <div>Ce numéro de téléphone existe dèja.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.telephone2.$error" role="alert" ng-show="newEmployeForm.telephone2.$touched && newEmployeForm.telephone2.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="email"> Email : </label>
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-envelope"></i>
+                                                        </div>
+                                                        <input type="text" ng-model="contact.email" ng-pattern="/^[a-z]+[a-z0-9._-]+[a-z]+@[a-z]+[a-z.-]+\.[a-z.]{2,3}$/i" ng-minlength="9" class="form-control" name="email" id="email" placeholder="Email" >
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis" id="email_dup" style="display:none">
+                                                        <div>Cet adresse e-mail existe dèja.</div>
+                                                    </div>
+                                                    <div ng-messages="newEmployeForm.email.$error" role="alert" ng-show="newEmployeForm.email.$touched && newEmployeForm.email.$invalid" class="alert alert-block alert-danger has-error">
+                                                        <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
+                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                    </div>
+
+                                                </div>
                                             </div>
-                                            <input type="number"  ng-model="employe.nombreEnfant" name="nombreEnfant" id="nombreEnfant" ng-pattern="/^[0-9]{1,2}$/"  class="form-control">
                                         </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.nombreEnfant.$error" role="alert" ng-show="newEmployeForm.nombreEnfant.$touched && newEmployeForm.nombreEnfant.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                                        </div>
-
                                     </div>
-
-                                </div>
-                            </div>
-
-
-                            <div class="box box-primary box-solid" id="bloc-contact">
-                                <div class="box-header">
-                                    <h3 class="box-title">CONTACT</h3>
-
-                                </div>
-                                <div class="box-body">
-                                    <div class="form-group">
-                                        <label for="telephone1" > Telephone 1 :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-phone"></i>
-                                            </div>
-                                            <input type="text"  ng-model="contact.numero1"  placeholder="Téléphone 1" class="form-control" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone1" name="telephone1">
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" id="num_tel_1_dup" style="display:none">
-                                            <div>Ce numéro de téléphone existe dèja.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.telephone1.$error" role="alert" ng-show="newEmployeForm.telephone1.$touched && newEmployeForm.telephone1.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="telephone2"> Telephone 2 :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-phone"></i>
-                                            </div>
-                                            <input type="text"  ng-model="contact.numero2" placeholder="Téléphone 2" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone2" name="telephone2" class="form-control">
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" id="num_tel_2_dup" style="display:none">
-                                            <div>Ce numéro de téléphone existe dèja.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.telephone2.$error" role="alert" ng-show="newEmployeForm.telephone2.$touched && newEmployeForm.telephone2.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="email"> Email : </label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-envelope"></i>
-                                            </div>
-                                            <input type="text" ng-model="contact.email" ng-pattern="/^[a-z]+[a-z0-9._-]+[a-z]+@[a-z]+[a-z.-]+\.[a-z.]{2,3}$/i" ng-minlength="9" class="form-control" name="email" id="email" placeholder="Email" >
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" id="email_dup" style="display:none">
-                                            <div>Cet adresse e-mail existe dèja.</div>
-                                        </div>
-                                        <div ng-messages="newEmployeForm.email.$error" role="alert" ng-show="newEmployeForm.email.$touched && newEmployeForm.email.$invalid" class="alert alert-block alert-danger has-error">
-                                            <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
-                                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
-
-                        </div>
 
                         <div class="col-md-6 ">
 
@@ -400,14 +415,16 @@
                     </div>  
                 </div>
             </div>
-
-            <div class="col-md-11 ">
+            </div>
+          
+                <div class="row">
+            <div class="col-md-12 ">
                 <div class="box box-primary box-solid">
                     <div class="box box-header">
                         <h3> INFORMATIONS PROFESSIONELLES</h3>
                     </div>
-                    <div class="row container">
-                        <div class="col-md-5">
+                    <div class="row ">
+                        <div class="col-md-6">
                             <div class="box box-primary box-solid" id="bloc-poste">
                                 <div class="box-header">
                                     <h3 class="box-title">POSTE</h3>
@@ -537,7 +554,7 @@
                                     <h3 class="box-title">GRADE</h3>
                                 </div>
                                 <div class="box-body">
-                                    <div class="form-group" ng-if="groupeUtilisateur.id == 3">
+                                    <div class="form-group" ng-if="groupeUtilisateur.code=='PER_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PER')">
                                         <label> Corps : </label>
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -561,7 +578,7 @@
                                             <div>Veuillez renseigner ce champs.</div>
                                         </div>
                                     </div>
-                                    <div class="form-group" ng-if="groupeUtilisateur.id == 6">
+                                    <div class="form-group" ng-if="groupeUtilisateur.code=='PATS_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PATS')">
                                         <label> Categorie : </label>
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -573,7 +590,7 @@
                                             <div>Veuillez renseigner ce champs.</div>
                                         </div>
                                     </div>
-                                    <div class="form-group" ng-if="groupeUtilisateur.id == 6">
+                                    <div class="form-group" ng-if="groupeUtilisateur.code=='PATS_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PATS')">
                                         <label> Niveau :</label>
                                         <div class="input-group">
                                             <div class="input-group-addon">
@@ -637,5 +654,10 @@
                     <div class="col-md-3 col-xs-6"> <input type="submit" ng-disabled="newEmployeForm.$invalid" class="btn btn-block btn-success" ng-click="controlForm(employe, contact, adresse, servir, grade)" value="ENREGISTRER"> </div>
                 </div> 
             </div>
-    </form> 
+    
+       </div>
+                </form>  
+            </div>
+         <!--</div> /.box-body-->
+    </div><!-- /.box -->
 </div>

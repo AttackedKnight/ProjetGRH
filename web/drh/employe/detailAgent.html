@@ -8,6 +8,7 @@
             <!--<img ng-src="{{avatar}}" alt="avatar" title="avatar" class="pull-right img-thumbnail" style="width: 200px; height: 200px;"/>-->
         </div>
                <div class="box-body">
+                   
             <div class="box-group" id="accordion">
                     <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
                 <div class="panel box box-primary box-solid">
@@ -745,7 +746,7 @@
                         </a>
                       
                       <div id="informationProfessionnelle" class="panel-collapse collapse">
-                          {{$scope.servir.fonction}}
+                          
                             <div class="col-md-12">
                                 
                                 <form role="form" class="newEmploiForm" name="newEmploiForm" novalidate="">        
@@ -918,18 +919,18 @@
                                         <tr>
                                             <td>             
                                                 <div class="form-group"> 
-                                                <div class="input-group">
-                                                    <select ng-model="grade.classe" class="form-control" id="classe" ></select>  
-                                                </div>
-                                                 <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
+                                                    <div class="input-group">
+                                                        <select ng-model="grade.classe" class="form-control" id="classe" ng-options="classe.libelle for classe in classes"></select>  
+                                                    </div>
+                                                     <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
                                                 </div>
                                             </td>
                                             <td ng-if="employe.typeEmploye.code=='PATS'">
                                                 <div class="form-group"> 
                                                 <div class="input-group">
-                                                    <select ng-model="grade.niveau" class="form-control" id="niveau"></select>  
+                                                    <select ng-model="grade.niveau" class="form-control" id="niveau" ng-options="niveau.libelle for niveau in niveaux"></select>  
                                                 </div>
                                                  <div class="alert alert-block alert-danger requis" style="display:none">
                                                     <div>Veuillez renseigner ce champs.</div>
@@ -939,7 +940,7 @@
                                             <td ng-if="employe.typeEmploye.code=='PATS'">
                                                 <div class="form-group" >
                                                     <div class="input-group">
-                                                        <select ng-model="grade.categorie" class="form-control" id="categorie" ></select>  
+                                                        <select ng-model="grade.categorie" class="form-control" id="categorie" ng-options="categorie.libelle for categorie in categories"></select>  
                                                     </div>
                                                      <div class="alert alert-block alert-danger requis" style="display:none">
                                                         <div>Veuillez renseigner ce champs.</div>
@@ -948,9 +949,8 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                    
                                                     <div class="input-group">
-                                                        <select ng-model="grade.echelon" class="form-control" id="echelon"></select>  
+                                                        <select ng-model="grade.echelon" class="form-control" id="echelon" ng-options="echelon.libelle for echelon in echelons"></select>  
                                                     </div>
                                                      <div class="alert alert-block alert-danger requis" style="display:none">
                                                         <div>Veuillez renseigner ce champs.</div>
@@ -958,10 +958,9 @@
                                                 </div>
                                             </td>
                                             <td  ng-if="employe.typeEmploye.code=='PER'">
-                                                 <div class="form-group">
-                                    
+                                                <div class="form-group">
                                                     <div class="input-group">
-                                                        <select ng-model="grade.corps" class="form-control" id="corps"></select>  
+                                                        <select ng-model="grade.corps" class="form-control" id="corps" ng-options="corps.libelle for corps in corps"></select>  
                                                     </div>
                                                      <div class="alert alert-block alert-danger requis" style="display:none">
                                                         <div>Veuillez renseigner ce champs.</div>
@@ -970,17 +969,17 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                    
-                                                <div class="input-group">
-                                                    <select ng-model="typeAvancement" class="form-control" id="typeAvancement"></select>  
+                                                    <div class="input-group">
+                                                        <select ng-model="grade.typeAvancement" class="form-control" id="typeAvancement" ng-options="typeavancement.libelle for typeavancement in typeavancements"></select>  
+                                                    </div>
+                                                     <div class="alert alert-block alert-danger requis" style="display:none">
+                                                        <div>Veuillez renseigner ce champs.</div>
+                                                    </div>
                                                 </div>
-                                                 <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                            </div>
                                             </td>
                                             <td>
-                                                <input type="submit" ng-click="" class="btn btn-block btn-success" value="AJOUTER" >
+                                                <span ng-click="controlGradeForm(grade)" class="btn btn-block btn-success" title="Ajouter" ><i class="fa fa-plus"></i></span>
+                                                <span ng-click="reinitialiserFormulaireAvancement()" class="btn btn-block btn-danger" title="Annuler" ><i class="fa fa-refresh"></i></span>
                                             </td>
                                         </tr>
                                          
@@ -1230,7 +1229,7 @@
                         </div>
                       </div>
                          <!-- ABSENCE-->
-                    <div class="panel box box-primary box-solid" ng-if="groupeUtilisateur.id==6">
+                    <div class="panel box box-primary box-solid" ng-if="employe.typeEmploye.code=='PATS'">
                          <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#absence" class="box-header with-border">
                             <div >
                                 <i class="fa fa-bookmark"></i>
@@ -1302,7 +1301,7 @@
         </div>
                            <!-- CONGE-->
                           
-        <div class="panel box box-primary box-solid" ng-if="groupeUtilisateur.id==6">
+        <div class="panel box box-primary box-solid" ng-if="employe.typeEmploye.code=='PATS'">
              <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#conge" class="box-header with-border">
                 <div >
                     <i class="fa fa-bookmark-o"></i>
@@ -1481,8 +1480,34 @@
       <div ng-repeat="typedoc in typedocuments" ng-class="{ 'active' : $first}" class="tab-pane" id="type{{$index + 1}}">
         <div class="row">
                     <div class="col-md-12">
-                        <div class="panel-body table-responsive no-padding col-md-12">
-                            <table class="table table-striped tableau-document">
+                    <dtable options="options" rows="documents" class="material dt" >
+                                <column name="Description" ng-if="$row.typeDocument.code==typedoc.code">
+                                    <column-header>
+                                        <div>{{$header}}</div>
+                                        <input
+                                            type="text"
+                                            ng-model-options="{ debounce: 100 }"
+                                            placeholder="Rechercher"
+                                            ng-click="prev($event)"
+                                            ng-model="$parent.filterKeywords" />
+                                    </column-header>
+                                  {{$row.description}}
+                                </column>
+                                <column name="Date d'enregistrement" ng-if="$row.typeDocument.code==typedoc.code">
+                                   <span>{{$row.dateEnregistrement | date:'dd MMM yyyy'}}</span>     
+                                </column>
+                                <column name="Visualiser" ng-if="$row.typeDocument.code==typedoc.code">
+                                   <div>
+                                         <a class="btn btn-primary" ng-click="visualiserDocument($row.emplacement)">
+                                             <i class="fa fa-eye">                    
+                                             </i>
+                                         </a>
+                                    </div>     
+                                </column>
+                            </dtable>
+  <!--                       <div class="panel-body table-responsive no-padding col-md-12">
+                            
+                           <table class="table table-striped tableau-document">
           
                                 <thead>
                                     <tr>
@@ -1512,37 +1537,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-<!--                            <table class="table table-striped">
-                              <thead>
-                                  <tr>
-                                    <th>Description </th>
-                                    <th>Date d'enregistrement</th>
-                                    <th>Visualiser</th>
-
-                                  </tr>
-                              </thead>
-                              <tbody> 
-
-                                  <tr ng-repeat="doc in documents" ng-if="doc.typeDocument.code==typedoc.code">
-                                    <td>
-                                        {{doc.description}}
-                                    </td >
-                                    <td>
-                                        <span>{{doc.dateEnregistrement | date:'dd MMM yyyy'}}</span>
-                                    </td >
-                                    <td>
-                                         <div >
-                                             <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
-                                                 <i class="fa fa-eye">                    
-                                                 </i>
-                                             </a>
-                                         </div>
-                                    </td>
-
-                                  </tr>
-                              </tbody>
-                            </table>-->
-                          </div>
+                          </div>-->
 
                 </div>
             </div>

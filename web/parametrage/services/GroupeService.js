@@ -28,11 +28,9 @@ angular.module('ParametrageModule').factory('Groupe',function($http)
         deleteGroupe:function(id){
             return $http.delete(chemin+'/webresources/sn.grh.groupe/'+id);
         },
-        listeTable:function(){
-            var table='Civilite, Corps, Employe, Situationmatrimoniale, Absence, Classe, Utilisateur, Avoircompetence, Groupe, Diplome, Estmembre, Contact, Adresse, Categorie, Typecontrat, Domaine, Typeemploye, Accesgroupe, Document, Grade, Typepermission, Conge, Typeautorisation, Fonction, Typeavancement, Typedocument, Travaille, Syndicat, Formation, Echellon, Niveau, Entite, Typeentite';
+        listerTable:function(){
+            return $http.get(chemin+'/webresources/sn.grh.groupe/tables');
             
-            listeTables=table.toLowerCase().split(', ');
-            return listeTables;
         }
     };
 });

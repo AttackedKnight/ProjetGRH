@@ -43,6 +43,7 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
     };
     
     
+    
     $scope.countemployefemmeper=function(){
         Statistique.countemployefemmeper().success(function (data){
             $scope.effectifTotalFemmePer=data;

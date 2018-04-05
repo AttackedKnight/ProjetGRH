@@ -6,7 +6,7 @@
 
 
 
-angular.module('DrhModule').controller('DetailEmployeController',function($scope,Securite,$routeParams,UploadFile,Typedocument,Situation,Entite,$rootScope,Syndicat,Diplome,MutuelleSante,Formation,Employe,Contact,Adresse,Servir,MembreMutuelle,Grade,Fonction,Typecontrat,Document,Connexion)
+angular.module('DrhModule').controller('DetailEmployeController',function($scope,Securite,Classe,Categorie,Niveau,Corps,Echelon,$routeParams,Avancement,UploadFile,Typedocument,Situation,Entite,$rootScope,Syndicat,Diplome,MutuelleSante,Formation,Employe,Contact,Adresse,Servir,MembreMutuelle,Grade,Fonction,Typecontrat,Document,Connexion)
 {
     
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -67,20 +67,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         
     };
     
-    if($rootScope.groupeUtilisateur.code=='PATS_AD'){
-        Syndicat.findSyndicatPats().success(function (data) {
-            $scope.syndicats=data;  
-        }).error(function () {
-            alert('Une erreur est survenue');
-        });
-    }
-    if($rootScope.groupeUtilisateur.code=='PER_AD'){
-        Syndicat.findSyndicatPer().success(function (data) {
-            $scope.syndicats=data;  
-        }).error(function () {
-            alert('Une erreur est survenue');
-        });
-    }
+    
     
     
     $scope.controlFormEditEmploye=function(){
@@ -507,7 +494,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         });
     };
     
-    
+    /*RECUPERATION DES INFORMATIONS DE L'EMPLOYE*/
     
     var idEmploye=$routeParams.id;
     
@@ -526,9 +513,24 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         
         $scope.findAllFormations();
         $scope.formation={id:"",employe:$scope.employe};
+        $scope.grade={id:"",employe:$scope.employe};
         
         if($scope.employe.syndicat){
             $scope.currentSyndicat=$scope.employe.syndicat.id;
+        }
+        if($scope.employe.typeEmploye.code=='PATS'){
+            Syndicat.findSyndicatPats().success(function (data) {
+                $scope.syndicats=data;  
+            }).error(function () {
+                alert('Une erreur est survenue');
+            });
+        }
+        if($scope.employe.typeEmploye.code=='PER'){
+            Syndicat.findSyndicatPer().success(function (data) {
+                $scope.syndicats=data;  
+            }).error(function () {
+                alert('Une erreur est survenue');
+            });
         }
         $scope.findSituation();
         MembreMutuelle.findByEmploye($scope.employe).success(function (data) {
@@ -568,11 +570,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
            alert('Une erreur est survenue');
         });
         $scope.findServir();
-        Grade.findByEmploye($scope.employe).success(function (data) {
-            $scope.grades=data;         
-        }).error(function () {
-            alert('Une erreur est survenue');
-        });
+        $scope.listerHistoriqueAvancement();
         
         $scope.listerMesDocuments();
         
@@ -614,11 +612,18 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         }
         else{
             Servir.findResponsableEntite($scope.parcours[0].entite).success(function (data) {
-                $scope.mon_responsable=data.employe.civilite.code+' '+data.employe.prenom +' '+(data.employe.nom).toUpperCase();;         
+                
+                if(data){
+                    $scope.mon_responsable=data.employe.civilite.code+' '+data.employe.prenom +' '+(data.employe.nom).toUpperCase();;
+                }
+                else{
+                    $scope.mon_responsable="";
+                }
             }).error(function () {
                 alert('Une erreur est survenue');
             });
         }
+        
         
     };
     /*                    Parcours professionel                       */
@@ -700,12 +705,13 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
                 
                 if($scope.servir.responsable===1){
                     Servir.findResponsableEntite($scope.servir.entite).success(function(data){
-                        
-                        if(data!==null){
-                            $('.conflit-poste').show("slow").delay(3000).hide("slow");
+                        console.log(data);
+                        if(!data){
+                            $scope.ajouterNouvelPoste();
                         }
                         else{
-                            $scope.ajouterNouvelPoste();
+                            
+                            $('.conflit-poste').show("slow").delay(3000).hide("slow");
                         }
                     }).error(function(data){
                         alert("Un erreur est survenue : vérification responsable entité");
@@ -768,6 +774,131 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     };
     
    /*                    Parcours professionel                       */
+   
+   /*                     AVANCEMENT                                 */
+   $scope.typeavancements=[];
+   
+   $scope.listerHistoriqueAvancement=function(){
+       Grade.findByEmploye($scope.employe).success(function (data) {
+            $scope.grades=data;         
+        }).error(function () {
+            alert('Une erreur est survenue');
+        });
+   };
+    
+    Avancement.findAll().success(function (data) {
+        
+        $scope.typeavancements=data;          
+    }).error(function () {
+        alert('Une erreur est survenue : type avancement');
+    });
+   
+   Corps.findAll().success(function (data) {  
+        $scope.corps=data;         
+    }).error(function () {
+        alert('Une erreur est survenue : corps');
+    });          
+  
+    
+    Classe.findAll().success(function (data) {
+        $scope.classes=data;
+    }).error(function () {
+        alert('Une erreur est survenue : classe');
+    });          
+    
+    
+    
+    Echelon.findAll().success(function (data) {
+        $scope.echelons=data;          
+    }).error(function () {
+        alert('Une erreur est survenue : echelon');
+    });          
+   
+        
+    Niveau.findAll().success(function (data) {
+        $scope.niveaux=data;
+    }).error(function () {
+        alert('Une erreur est survenue: niveau');
+    });          
+       
+
+    Categorie.findAll().success(function (data) {
+        $scope.categories=data;  
+    }).error(function () {
+        alert('Une erreur est survenue');
+    }); 
+    
+    $scope.grade={id:""};
+    
+    $scope.controlGradeForm=function(grade){
+        var validite=true;
+        if($scope.employe.typeEmploye.code=='PER'){
+            if(grade.corps==null){
+                $("#corps").parent().next().show("slow").delay(3000).hide("slow");
+                validite=false;
+            }
+            if(grade.classe==null){
+                 $("#classe").parent().next().show("slow").delay(3000).hide("slow");
+                 validite=false;
+            }
+            if(grade.echelon==null){
+                $("#echelon").parent().next().show("slow").delay(3000).hide("slow");
+                validite=false;
+            }
+            if(grade.typeAvancement==null){
+                $("#typeAvancement").parent().next().show("slow").delay(3000).hide("slow");
+                validite=false;
+            }
+        }
+        if($scope.employe.typeEmploye.code=='PATS'){
+            if(grade.classe==null){
+                 $("#classe").parent().next().show("slow").delay(3000).hide("slow");
+                 validite=false;
+            }
+            if(grade.categorie==null){
+                $("#categorie").parent().next().show("slow").delay(3000).hide("slow");
+                validite=false;
+            }
+            if(grade.niveau==null){
+                $("#niveau").parent().next().show("slow").delay(3000).hide("slow");
+                validite=false;
+            }
+            if(grade.echelon==null){
+                $("#echelon").parent().next().show("slow").delay(3000).hide("slow");
+                validite=false;
+            }
+            if(grade.typeAvancement==null){
+                $("#typeAvancement").parent().next().show("slow").delay(3000).hide("slow");
+                validite=false;
+            }
+        }
+        
+        if(validite===true){
+            $scope.ajouterGrade();
+        }
+        
+    };
+    
+    $scope.ajouterGrade=function (){
+        $scope.grade.dateDePassage=new Date();
+        
+        Grade.add($scope.grade).success(function(){ 
+            $scope.listerHistoriqueAvancement();
+            $scope.reinitialiserFormulaireAvancement();          
+        }).error(function () {
+            alert('Une erreur est survenue : grade');
+        });
+        
+    };
+
+    $scope.reinitialiserFormulaireAvancement=function(){
+        $scope.grade={id:"",employe:$scope.employe};  
+        
+    };
+   
+    /*                     AVANCEMENT                                 */
+   
+   
     /*        formation              */
     $scope.formations=[];
     $scope.today=new Date();
@@ -887,10 +1018,46 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     }).error(function(){
         alert('Une erreur est survenue lors de la récuperation des types de documents');
     });
+    
+    $scope.options = {
+        rowHeight: 50,
+        headerHeight: 50,
+        footerHeight: 50,
+        scrollbarV: true,
+        selectable: true,
+        reorderable:true,
+        checkboxSelection:false,
+        columnMode:'force',
+        loadingMessage:'Chargement ...',
+        emptyMessage:'Pas de documents'
+    };
+    
+    $scope.prev = function(ev){
+        ev.stopPropagation();
+    };
+
+    
+            
     $scope.listerMesDocuments=function(){
         Document.findByEmploye($scope.employe).success(function (data) {           
             $scope.documents=data;
             
+//            $scope.$watch('filterKeywords', function(newVal) {
+//            if(!data)return;
+//            $scope.data = data.filter(function(d) {
+//              console.log(d.name, d.name.indexOf(newVal))
+//              return d.name.toLowerCase().indexOf(newVal) !== -1 || !newVal;
+//            });
+//        });
+//             
+//            angular.extend($scope, {
+//                  onRowDblClick: onRowDblClick 
+//              });
+//
+//              function onRowDblClick(row) {
+//                  console.log('Row Double Clicked', row);
+//              }
+//            
 //            (function datatable() {
 // 
 //            if($('.tableau-document tr').length>0){
@@ -1059,6 +1226,34 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     $scope.visualiserDocument=function(lien){
         window.open(lien);
     };
+	
+	
+	
+/*	Set the data and the options in your controller:
+
+```javascript
+    module.controller('HomeController', function($scope){
+      $scope.options = {
+        scrollbarV: false
+      };
+
+      $scope.data = [
+        { name: 'Austin', gender: 'Male' },
+        { name: 'Marjan', gender: 'Male' }
+      ];
+    });
+```
+
+then using expressive markup in your template:
+
+```html
+    <dtable options="options" rows="data" class="material dt">
+      <column name="Name" width="300" flex-grow="2"></column>
+      <column name="Gender">
+        <strong>{{$row.name}}</strong>: {{$cell}}
+      </column>
+    </dtable>
+```  */
     
     /*Gestion des documents electroniques*/
         

@@ -64,12 +64,12 @@ angular.module('ParametrageModule').controller('TypeAvancementController',functi
                             title: 'CHARGEMENT',
                             message: '<p><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span>Chargement ...</span></p>'
                         });
-          Avancement.findAll().success(function (data) {
-            dialog.modal('hide');
-            $scope.typeavancements=data;          
-        }).error(function () {
-            dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue</div>');
-        });          
+            Avancement.findAll().success(function (data) {
+                dialog.modal('hide');
+                $scope.typeavancements=data;          
+            }).error(function () {
+                    dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue</div>');
+            });          
          };
          
          $scope.findAll();

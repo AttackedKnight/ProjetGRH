@@ -10,6 +10,9 @@ return{
         findAll:function(){
             return $http.get(chemin+'/webresources/sn.grh.servir');
         },
+        findPerAndPats:function(){
+            return $http.get(chemin+'/webresources/sn.grh.servir/employeenservice');
+        },
         findPer:function(){
             return $http.get(chemin+'/webresources/sn.grh.servir/per');
         },
@@ -34,6 +37,9 @@ return{
         },
         findPatsEntite:function(id){
             return $http.get(chemin+'/webresources/sn.grh.servir/pats/'+id);
+        },
+        findPerEtPatsEntite:function(id){
+            return $http.get(chemin+'/webresources/sn.grh.servir/per/pats/'+id);
         },
         find:function(id){
             return $http.get(chemin+'/webresources/sn.grh.servir/'+id);

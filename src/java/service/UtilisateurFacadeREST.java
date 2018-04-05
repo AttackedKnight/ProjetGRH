@@ -94,11 +94,15 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     @Path("login/{login}/password/{motDePasse}")
     @Produces({MediaType.APPLICATION_JSON})
     public Utilisateur login(@PathParam("login") String login,@PathParam("motDePasse") String motDePasse) {
-        Utilisateur u=em.createQuery("SELECT u FROM Utilisateur u WHERE u.login = :login AND u.motDePasse = :motDePasse", Utilisateur.class)
+        List<Utilisateur> u=em.createQuery("SELECT u FROM Utilisateur u WHERE u.login = :login AND u.motDePasse = :motDePasse", Utilisateur.class)
                 .setParameter("login", login)
                 .setParameter("motDePasse", motDePasse)
-                .getSingleResult();
-        return u;
+                .getResultList();
+        
+        if(u.size()>0){
+            return u.get(0);
+        }
+        return null;
     }
 
     @GET

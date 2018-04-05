@@ -13,6 +13,7 @@ angular.module('ParametrageModule').controller('AccesController',function($scope
         document.location.href="#/";
         return; 
     }
+
     
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
@@ -36,6 +37,8 @@ angular.module('ParametrageModule').controller('AccesController',function($scope
        Groupe.getGroupes().success(function (data){
            dialog.modal('hide');
            $scope.groupes=data;
+           
+
            if($scope.groupes.length==0){
                $('.box-body').html('<span  style="font-size: 1.2em; color: green;  font-weight: bold;">Aucun groupe cree pour le moment</span>');
            }
@@ -89,7 +92,15 @@ angular.module('ParametrageModule').controller('AccesController',function($scope
     //Recuperer les noms de table de la base de donnees:pour la creation du formulaire
     
     $scope.getTables=function(){
-        $scope.tables=Groupe.listeTable();  
+        Groupe.listerTable().success(function (data){
+            
+            $scope.tables=data;
+            $scope.tables=($scope.tables).split("-");
+            
+            construireListeAcces();
+        }).error(function(){
+            alert('La récupperation des tables a échoué');
+        });   
     }; 
     $scope.getTables();
     
@@ -109,8 +120,7 @@ angular.module('ParametrageModule').controller('AccesController',function($scope
             $scope.accesTable={};
         }
     }  
-    construireListeAcces();
-    
+       
     //Creer une permision pour un groupe(sur une table donnée)
     
     $scope.createAccess=function(a){
@@ -124,7 +134,7 @@ angular.module('ParametrageModule').controller('AccesController',function($scope
     //Creation du groupe
     $scope.creerGroupeEtAcces=function(nouvelGroupe){
 
-        g=nouvelGroupe;
+        var g=nouvelGroupe;
         if(g.code==null || g.code==""){
             $("div.requis").eq(0).show("slow").delay(3000).hide("slow");
         }else{

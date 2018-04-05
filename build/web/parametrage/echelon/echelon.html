@@ -1,4 +1,4 @@
-<div class="box box-primary">   
+<div class="box box-primary" ng-if="avoirPermission('ajouter','echelon')==true">   
     <div class="box-header">
       <h3 class="box-title">Ajouter un echelon</h3>
     </div><!-- /.box-header -->
@@ -24,7 +24,7 @@
     </form>
 </div><!-- /.box -->
 
-<div style="background: white;">    
+<div style="background: white;" ng-if="avoirPermission('lister','echelon')==true">    
     <div class="table-responsive" >
     <h3>Liste des echelons</h3>
     <table class="table table-bordered table-striped jambo_table bulk_action">
@@ -39,7 +39,7 @@
                
                 <td>{{ echelon.libelle }}</td>               
                 <td>
-                    <button ng-click="delete(echelon)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    <button ng-if="avoirPermission('supprimer','echelon')==true" ng-click="delete(echelon)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                     <button ng-click="setCurrent(echelon)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editSituation"><i class="fa fa-edit"></i></button>                 
                 </td>
             </tr>

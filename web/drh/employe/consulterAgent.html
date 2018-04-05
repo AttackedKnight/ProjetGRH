@@ -11,6 +11,9 @@
               <th style="font-weight: bold; font-size: 1.1em;">Matricule</th>
               <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
               <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
+              <th style="font-weight: bold; font-size: 1.1em;" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                  Type
+              </th>
               <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
               <th style="font-weight: bold; font-size: 1.1em;">Fonction</th>
               <th style="font-weight: bold; font-size: 1.1em;">Details</th>
@@ -21,6 +24,9 @@
                 <td>{{untravailleur.employe.matriculeInterne}}</td>
                 <td>{{untravailleur.employe.prenom}}</td>
                 <td>{{untravailleur.employe.nom}} </td>
+                <td ng-if="groupeUtilisateur.code=='DRH_AD'">
+                    {{untravailleur.employe.typeEmploye.code}}
+                </td>
                 <td>{{untravailleur.entite.nom}}</td>
                 <td>{{untravailleur.fonction.libelle}}</td>
                 <td>

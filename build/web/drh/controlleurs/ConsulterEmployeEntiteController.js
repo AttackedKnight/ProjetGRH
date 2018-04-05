@@ -33,6 +33,15 @@ angular.module('DrhModule').controller('ConsulterEmployeEntiteController',functi
         }); 
     }
     
+    if($rootScope.groupeUtilisateur.code=='DRH_AD'){
+        Servir.findPerEtPatsEntite($routeParams.id).success(function (data) {
+            $scope.travailleurs=data;
+
+        }).error(function () {
+            alert('Une erreur est survenue');
+        }); 
+    }
+    
     (function datatable() {
 
         if($('#example1 tr').length>0){

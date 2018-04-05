@@ -8,7 +8,7 @@
     <div class="box-body row" style="max-height: 600px ; overflow-y: auto;">
         <form role="form" name="groupeForm" class="col-md-offset-1 col-md-10">
              <div class="form-group">
-                <input type="text" class="form-control" ng-model="groupe.code" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]{2,}$/i" ng-minlength="2" placeholder="Code du groupe" name="code">
+                <input type="text" class="form-control" ng-model="groupe.code" ng-pattern="/^[a-zâäàéèùêëîïôöçñ_]{2,}$/i" ng-minlength="2" placeholder="Code du groupe" name="code">
                 <div ng-messages="groupeForm.code.$error" role="alert" ng-show="groupeForm.code.$touched && groupeForm.code.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
                     <div ng-message="pattern">Vérifier votre saisie.</div>

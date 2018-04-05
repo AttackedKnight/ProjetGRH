@@ -14,7 +14,7 @@ angular.module('ParametrageModule').controller('UtilisateurController',function(
         document.location.href="#/";
         return; 
     }
-    
+
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
@@ -23,7 +23,7 @@ angular.module('ParametrageModule').controller('UtilisateurController',function(
     
     
     $scope.utilisateurs=[];
-    $scope.utilisateur={id:""};
+    $scope.utilisateur={id:"",avatar:"images/avatar.png"};
     $scope.UtilisateurCourant={};
     
     Entite.findAll().success(function (data) {           
@@ -100,7 +100,7 @@ angular.module('ParametrageModule').controller('UtilisateurController',function(
        Utilisateur.createCompte(c).success(function (data){
            dialog.find('.bootbox-body').html('<div class="alert alert-block alert-success"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Creation effetuee avec succes</div>');
            $scope.getComptes();
-           $scope.utilisateur={id:""};             
+           $scope.utilisateur={id:"",avatar:"images/avatar.png"};             
        }).error(function(){
           dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue:creation</div>');
        });  

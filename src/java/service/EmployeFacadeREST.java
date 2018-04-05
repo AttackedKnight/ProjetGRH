@@ -126,18 +126,36 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
         return e.size();
     }
     
-     @GET
+    @GET
+    @Path("countemployehommes")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer NbreEmployeHomme(){
+        List<Employe> e=em.createQuery("SELECT e FROM Employe e where  e.sexe='masculin'", Employe.class).getResultList();
+        return e.size();
+    }
+    
+    @GET
     @Path("countemployehommespats")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeHommePATS(){
         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.typeEmploye.code='PATS' AND e.sexe='masculin'", Employe.class).getResultList();
         return e.size();
     }
+    
+    
     @GET
     @Path("countemployehommesper")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeHommePER(){
         List<Employe> e=em.createQuery("SELECT e FROM Employe e where e.typeEmploye.code='PER' AND e.sexe='masculin'", Employe.class).getResultList();
+        return e.size();
+    }
+    
+    @GET
+    @Path("countemployefemmes")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer NbreEmployeFemme(){
+        List<Employe> e=em.createQuery("SELECT e FROM Employe e where  e.sexe='feminin'", Employe.class).getResultList();
         return e.size();
     }
     

@@ -1,4 +1,4 @@
-angular.module('DrhModule').controller('ConsulterEmployeHommeController',function($scope,Securite,Servir,$rootScope){
+angular.module('DrhModule').controller('ConsulterEmployeHommeController',function($scope,$routeParams,Securite,Servir,$rootScope){
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
    
@@ -9,23 +9,41 @@ angular.module('DrhModule').controller('ConsulterEmployeHommeController',functio
    
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-       if($rootScope.groupeUtilisateur.code=='PATS_AD'){
+    
+    
+    $scope.getPatsHomme=function(){
         Servir.findPatsHomme().success(function (data) {
             $scope.travailleurs=data;
-            
-         
         }).error(function () {
             alert('Une erreur est survenue');
         }); 
-    }
-    if($rootScope.groupeUtilisateur.code=='PER_AD'){
+    };
+    $scope.getPerHomme=function(){
         Servir.findPerHomme().success(function(data){
             $scope.travailleurs=data;
         }).error(function(){
             alert('une erreur est survenue');
         });
+    };
+    
+    if($rootScope.groupeUtilisateur.code=='PATS_AD'){
+        $scope.getPatsHomme();
     }
-        (function datatable() {
+    if($rootScope.groupeUtilisateur.code=='PER_AD'){
+        $scope.getPerHomme();
+    }
+    
+    if($rootScope.groupeUtilisateur.code=='DRH_AD'){
+        if($routeParams.type==1){
+            $scope.getPerHomme();
+        }
+        if($routeParams.type==0){
+            $scope.getPatsHomme();
+        }
+    }
+    
+    
+    (function datatable() {
 
         if($('#example1 tr').length>0){
             setTimeout(function(){ 

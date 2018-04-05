@@ -56,13 +56,13 @@ angular.module('AuthentificationModule').controller('ConnexionController',functi
                             message: '<p><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span>Connexion ...</span></p>'
                         });
         Connexion.login(c).success(function (data) {
-            if (data!=null) {
-                
+            
+            if (data) {
                 Connexion.setCredentials(data);
 
+                /*Redirection et affichage interface*/
                 dialog.modal('hide');
-                
-                
+
                 $('header').removeAttr('hidden');
                 $('aside').removeAttr('hidden');
                 $('footer').removeAttr('hidden');
@@ -81,24 +81,23 @@ angular.module('AuthentificationModule').controller('ConnexionController',functi
                     $('#drh-menu').removeAttr('hidden');
                     document.location.href="#/drh/pats";
                 }
+                if(data.groupe.code=='DRH_AD'){
+                    $('#drh-menu').removeAttr('hidden');
+                    document.location.href="#/drh";
+                }
+                if(data.groupe.code=='EMP'){                  
+                    $('#employe-menu').removeAttr('hidden');
+                    document.location.href="#/employe/detailAgent/"+data.employe.id;
+                }
                 if(data.groupe.code==''){
                     document.location.href="#/";
                 }
-//                switch (data.groupe.code){
-//                    case 2:
-//                        
-//                        break;
-//                    case 3:
-//                        
-//                        break;
-//                    case 6:
-//                        
-//                        break;
-//                    default :
-//                        document.location.href="#/";
-//                        break;
-//                }
+
+                /*Redirection et affichage interface*/
                 
+                
+                
+
             } else {
                 dialog.modal('hide');
                 $scope.erreurConnexion="Login et(ou) mot de passe incorrect(s)";

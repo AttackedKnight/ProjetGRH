@@ -47,7 +47,8 @@ angular.module('DrhModule').controller('DrhDetailEntiteController',function($sco
                 alert('Une erreur est survenue');
             });
             $scope.responsable=data;
-            if($scope.responsable !=null){
+            
+            if($scope.responsable){
                 
                 $scope.prenomNom=$scope.responsable.employe.civilite.code+' '+$scope.responsable.employe.prenom +' '+($scope.responsable.employe.nom).toUpperCase();
             }

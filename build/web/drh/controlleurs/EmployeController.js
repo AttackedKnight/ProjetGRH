@@ -155,13 +155,30 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
             alert('Une erreur est survenue');
         });
     }
-    if($rootScope.groupeUtilisateur.code=='PER_AD'){
+    if($rootScope.groupeUtilisateur.code=='PER_AD' || $rootScope.groupeUtilisateur.code=='DRH_AD'){
         Syndicat.findSyndicatPer().success(function (data) {
             $scope.syndicats=data;  
         }).error(function () {
             alert('Une erreur est survenue');
         });
     }
+    
+    if($rootScope.groupeUtilisateur.code=='DRH_AD'){
+        Syndicat.findSyndicatPer().success(function (data) {
+            $scope.syndicatsPer=data;
+            $scope.syndicats=data;
+            Syndicat.findSyndicatPats().success(function (data) { 
+                $scope.syndicatsPats=data;
+            }).error(function () {
+                alert('Une erreur est survenue');
+            });
+            
+        }).error(function () {
+            alert('Une erreur est survenue');
+        });
+    }
+    
+    
     
     
     
@@ -178,7 +195,8 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     });          
     
     TypeEmploye.findAll().success(function (data) {
-        $scope.typeemployes=data;         
+        $scope.typeemployes=data;      
+        
     }).error(function () {
         alert('Une erreur est survenue');
     }); 
@@ -202,7 +220,34 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     /*          RECCUPERATION DES ELEMENTS PARAMETRES POUR LES AFFICHER DANS LES LISTES DE SELECTION        */
     
     
+    /*GERER VUE ET DONNEES POUR LA DRH*/
+    $scope.typeEmp="PER";
+    $scope.estPER=true;
+    $scope.changerTypeEmploye=function(){
+        $scope.estPER=!$scope.estPER;
+        if($scope.estPER===true){
+            $scope.typeEmp="PER";
+        }
+        else{
+            $scope.typeEmp="PATS";
+        }
+        console.log($scope.typeEmp);
+        console.log($scope.estPER);
+        
+        $scope.changerListeSyndicats();
+    };
     
+    $scope.changerListeSyndicats=function(){
+        if($scope.estPER===true){
+            $scope.syndicats=$scope.syndicatsPer;
+        }
+        else{
+             $scope.syndicats=$scope.syndicatsPats;
+        }
+       console.log($scope.syndicats);    
+       
+    };
+    /*GERER VUE ET DONNEES POUR LA DRH*/
     
     //Civilite et type employe sont à préciser avant l'insertion
     
@@ -224,6 +269,14 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         }
         if($rootScope.groupeUtilisateur.code=='PATS_AD'){
             c.typeEmploye=$scope.typeemployes[1];
+        }
+        if($rootScope.groupeUtilisateur.code=='DRH_AD'){
+            if($scope.typeEmp=='PER'){
+                c.typeEmploye=$scope.typeemployes[0];
+            }
+            if($scope.typeEmp=='PATS'){
+                c.typeEmploye=$scope.typeemployes[1];
+            }
         }
          
          /*Verification unicite de certaines information*/
@@ -269,6 +322,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
                                                     }    
                                                     else{
                                                         $scope.add(c,contact,adr,tra,grade);
+                                                       
                                                     }
                                                 }).error(function () {
                                                     alert('Erreur de vérification de l\'adresse email');
@@ -689,7 +743,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     
     $scope.controlGrade=function(c,contact,adr,tra,grade){
         var validite=true;
-        if($rootScope.groupeUtilisateur.code=='PER_AD'){
+        if($rootScope.groupeUtilisateur.code=='PER_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' && $scope.typeEmp=='PER')){
             if(grade.corps==null){
                 $("#corps").parent().next().show("slow").delay(3000).hide("slow");
                 validite=false;
@@ -703,7 +757,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
                 validite=false;
             }
         }
-        if($rootScope.groupeUtilisateur.code=='PATS_AD'){
+        if($rootScope.groupeUtilisateur.code=='PATS_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' && $scope.typeEmp=='PATS')){
             if(grade.classe==null){
                  $("#classe").parent().next().show("slow").delay(3000).hide("slow");
                  validite=false;

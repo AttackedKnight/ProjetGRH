@@ -66,7 +66,7 @@ public class GradeFacadeREST extends AbstractFacade<Grade> {
     @Path("employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Grade> findByEmploye(@PathParam("id") Integer id) {
-        List<Grade> g=em.createQuery("SELECT g FROM Grade g WHERE g.employe.id = :id", Grade.class)
+        List<Grade> g=em.createQuery("SELECT g FROM Grade g WHERE g.employe.id = :id ORDER BY g.id DESC", Grade.class)
                 .setParameter("id", id)
                 .getResultList();
         return g;
