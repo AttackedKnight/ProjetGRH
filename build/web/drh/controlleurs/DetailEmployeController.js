@@ -513,7 +513,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         
         $scope.findAllFormations();
         $scope.formation={id:"",employe:$scope.employe};
-        $scope.grade={id:"",employe:$scope.employe};
+        $scope.grade={id:"",employe:$scope.employe,encours:1};
         
         if($scope.employe.syndicat){
             $scope.currentSyndicat=$scope.employe.syndicat.id;
@@ -781,6 +781,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
    $scope.listerHistoriqueAvancement=function(){
        Grade.findByEmploye($scope.employe).success(function (data) {
             $scope.grades=data;         
+            $scope.gradeActu=$scope.grades[($scope.grades.length-1)];
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -881,18 +882,22 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     
     $scope.ajouterGrade=function (){
         $scope.grade.dateDePassage=new Date();
-        
-        Grade.add($scope.grade).success(function(){ 
-            $scope.listerHistoriqueAvancement();
-            $scope.reinitialiserFormulaireAvancement();          
+        $scope.gradeActu.encours=false;
+        Grade.edit($scope.gradeActu).success(function(){
+            Grade.add($scope.grade).success(function(){ 
+                $scope.listerHistoriqueAvancement();
+                $scope.reinitialiserFormulaireAvancement();          
+            }).error(function () {
+                alert('Une erreur est survenue : grade add');
+            });
         }).error(function () {
-            alert('Une erreur est survenue : grade');
+            alert('Une erreur est survenue : grade update');
         });
         
     };
 
     $scope.reinitialiserFormulaireAvancement=function(){
-        $scope.grade={id:"",employe:$scope.employe};  
+        $scope.grade={id:"",employe:$scope.employe,encours:1};  
         
     };
    
@@ -1019,62 +1024,67 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         alert('Une erreur est survenue lors de la récuperation des types de documents');
     });
     
-    $scope.options = {
-        rowHeight: 50,
-        headerHeight: 50,
-        footerHeight: 50,
-        scrollbarV: true,
-        selectable: true,
-        reorderable:true,
-        checkboxSelection:false,
-        columnMode:'force',
-        loadingMessage:'Chargement ...',
-        emptyMessage:'Pas de documents'
-    };
+//    $scope.options = {
+//        rowHeight: 50,
+//        headerHeight: 50,
+//        footerHeight: 50,
+//        scrollbarV: true,
+//        selectable: true,
+//        reorderable:true,
+//        checkboxSelection:false,
+//        columnMode:'force',
+//        loadingMessage:'Chargement ...',
+//        emptyMessage:'Pas de documents'
+//    };
     
-    $scope.prev = function(ev){
-        ev.stopPropagation();
-    };
-
-    
-            
-    $scope.listerMesDocuments=function(){
-        Document.findByEmploye($scope.employe).success(function (data) {           
-            $scope.documents=data;
-            
-//            $scope.$watch('filterKeywords', function(newVal) {
+//   $scope.ecouteRecherche=function(data){
+//        $scope.prev = function(ev){
+//            ev.stopPropagation();
+//        };
+//
+//        $scope.$watch('filterKeywords', function(newVal) {
 //            if(!data)return;
-//            $scope.data = data.filter(function(d) {
-//              console.log(d.name, d.name.indexOf(newVal))
+//            $scope.documents = data.filter(function(d) {
+//              console.log(d.name, d.name.indexOf(newVal));
 //              return d.name.toLowerCase().indexOf(newVal) !== -1 || !newVal;
 //            });
 //        });
-//             
-//            angular.extend($scope, {
-//                  onRowDblClick: onRowDblClick 
-//              });
-//
-//              function onRowDblClick(row) {
-//                  console.log('Row Double Clicked', row);
-//              }
-//            
-//            (function datatable() {
-// 
-//            if($('.tableau-document tr').length>0){
-//                setTimeout(function(){ 
-//                    $('.tab-content table').dataTable({
-//                    "bPaginate": true,
-//                    "bLengthChange": true,
-//                    "bFilter": true,
-//                    "bSort": true,
-//                    "bInfo": true,
-//                    "bAutoWidth": false
-//                  });        
-//                }, 2000);
-//
-//            }
-//
-//        })();
+//   };
+//    
+     $scope.firstLoading=true;    
+    $scope.listerMesDocuments=function(){
+        Document.findByEmploye($scope.employe).success(function (data) {           
+            $scope.documents=$scope.docs=data;
+            
+//            $scope.ecouteRecherche($scope.documents);
+            
+            if($scope.firstLoading==true){
+                (function datatable() {
+ 
+                    if($('.tableau-document tr').length>0){
+                        setTimeout(function(){ 
+                            $('.tab-content table').dataTable({
+                                
+                            "bPaginate": true,
+                            "bLengthChange": true,
+                            "bFilter": true,
+                            "bSort": true,
+                            "bInfo": true,
+                            "bAutoWidth": false
+                          });        
+                        }, 2000);
+
+                    }
+
+                })();
+                $scope.firstLoading=false;
+            }else{
+                
+                console.log('yes')
+               $('.tab-content table').dataTable().ajax.reload( null, false );
+               
+            }
+            
         }).error(function(){
             alert('Une erreur est survenue lors de la récuperation des types de documents');
         });

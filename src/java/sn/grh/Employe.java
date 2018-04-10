@@ -50,6 +50,15 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employe.findByNombreDeFemme", query = "SELECT e FROM Employe e WHERE e.nombreDeFemme = :nombreDeFemme")})
 public class Employe implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "retraite")
+    private boolean retraite;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "geler")
+    private boolean geler;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -415,6 +424,22 @@ public class Employe implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Employe[ id=" + id + " ]";
+    }
+
+    public boolean getRetraite() {
+        return retraite;
+    }
+
+    public void setRetraite(boolean retraite) {
+        this.retraite = retraite;
+    }
+
+    public boolean getGeler() {
+        return geler;
+    }
+
+    public void setGeler(boolean geler) {
+        this.geler = geler;
     }
     
 }

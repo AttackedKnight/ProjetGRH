@@ -12,10 +12,11 @@ import sn.grh.Employe;
 import sn.grh.Niveau;
 import sn.grh.Typeavancement;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-04-04T22:17:55")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-04-10T13:05:37")
 @StaticMetamodel(Grade.class)
 public class Grade_ { 
 
+    public static volatile SingularAttribute<Grade, Boolean> encours;
     public static volatile SingularAttribute<Grade, Date> dateDePassage;
     public static volatile SingularAttribute<Grade, Classe> classe;
     public static volatile SingularAttribute<Grade, Categorie> categorie;

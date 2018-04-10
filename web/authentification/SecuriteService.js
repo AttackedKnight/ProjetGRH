@@ -57,7 +57,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                     AccesGroupeTable.showGroupeAccess($rootScope.groupeUtilisateur).success(function (p){           
                         $rootScope.myPermission=p;  
 //                        console.log('Requete bd');
-//                        console.log($rootScope.myPermission);
+                        console.log($rootScope.myPermission);
                         
                         $rootScope.avoirPermission=function(action,nomTable){
     //                        console.log('je suis appele');

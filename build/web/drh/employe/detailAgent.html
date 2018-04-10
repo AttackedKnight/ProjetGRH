@@ -1,5 +1,5 @@
  <!--<div class="container" style="font-size: 1.2em;">-->
-    <div class="box box-solid">
+    <div class="box box-solid" ng-if="avoirPermission('consulter','employe')==true">
         <div class="box box-header box-primary" style="font-weight: bold;font-size: 1.4em;">
             <span>{{employe.prenom | uppercase}} {{employe.nom | uppercase}}, 
                 <span style="color: green; font-weight: bold;">{{employe.matriculeInterne}}</span>
@@ -379,7 +379,7 @@
                                 </div>
                                 <!--<img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>-->
                             </div>
-                            <div class="col-md-12" style="padding: 4px;">
+                            <div class="col-md-12" style="padding: 4px;" ng-if="avoirPermission('modifier','employe')==true">
                                 <span class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-edit"> Modifier</i></span>
                             </div>
                         </div>
@@ -387,7 +387,7 @@
                       </div>
                     </div>
                             <!-- Situation matrimorniale -->
-                    <div class="panel box box-primary box-solid">
+                    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter','situationmatrimoniale')==true">
                         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#situationMatrimorniale" class="box-header with-border">
                             <div >
                                 <i class="fa fa-users"></i>
@@ -534,7 +534,7 @@
                                 </div>
                             </div> 
                             
-                            <div class="row " style="margin-top: 5px; font-size: 1.2em;">
+                            <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier','situationmatrimoniale')==true">
                                <div class="col-md-offset-9 col-md-3 ">
                                     <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
                                 </div>
@@ -545,7 +545,7 @@
                       </div>
                     </div>
                             <!-- Contact -->
-                    <div class="panel box box-primary box-solid">
+                    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter','contact')==true">
                          <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#contact" class="box-header with-border">
                             <div >
                                 <i class="fa fa-address-book"></i>
@@ -649,7 +649,7 @@
                                     <span> {{contacts.email}}</span>
                                 </div>
                             </div>  
-                            <div class="row " style="margin-top: 5px; font-size: 1.2em;">
+                            <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier','contact')==true">
                                <div class="col-md-offset-9 col-md-3 ">
                                     <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
                                 </div>
@@ -657,7 +657,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="panel box box-primary box-solid">
+                    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter','adresse')==true">
                         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#adresse" class="box-header with-border">
                             <div >
                                 <i class="fa fa-home"></i>
@@ -727,7 +727,7 @@
                                     <span> {{adresse.quartier}}</span>
                                 </div>
                             </div>  
-                            <div class="row " style="margin-top: 5px; font-size: 1.2em;">
+                            <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier','adresse')==true">
                                <div class="col-md-offset-9 col-md-3 ">
                                     <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
                                 </div>
@@ -737,7 +737,7 @@
                     </div>
                     
                     <!-- Informations professionnelles -->
-                    <div class="panel box box-primary box-solid">
+                    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter','servir')==true">
                          <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#informationProfessionnelle" class="box-header with-border">
                             <div >
                                 <i class="fa fa-edit"></i>
@@ -747,7 +747,7 @@
                       
                       <div id="informationProfessionnelle" class="panel-collapse collapse">
                           
-                            <div class="col-md-12">
+                            <div class="col-md-12" ng-if="avoirPermission('ajouter','servir')==true">
                                 
                                 <form role="form" class="newEmploiForm" name="newEmploiForm" novalidate="">        
                                 <table class="table">
@@ -890,7 +890,7 @@
                         </div>
                     </div>
                         <!-- Grade -->
-                     <div class="panel box box-primary box-solid">
+                     <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter','grade')==true">
                          <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#grade" class="box-header with-border">
                             <div >
                                 <i class="fa fa-male"></i>
@@ -901,7 +901,7 @@
                       <div id="grade" class="panel-collapse collapse">
                         <div class="panel-body">
                             <div>
-                                <form role="form" name="newGradeForm" novalidate="">
+                                <form role="form" name="newGradeForm" novalidate="" ng-if="avoirPermission('ajouter','grade')==true">
                                 <table class="table table-striped">
                                     
                                     <thead>
@@ -1027,7 +1027,7 @@
                     </div>
                   
                             <!-- Formation -->
-                    <div class="panel box box-primary box-solid">
+                    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter','formation')==true">
                          <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#formation" class="box-header with-border">
                             <div >
                                 <i class="fa fa-book"></i>
@@ -1037,7 +1037,7 @@
                       
                       <div id="formation" class="panel-collapse collapse">
                       
-                          <form role="form" class="formationForm" name="newFormationForm" id="newFormationForm" novalidate="">
+                          <form role="form" class="formationForm" name="newFormationForm" id="newFormationForm" novalidate="" ng-if="avoirPermission('ajouter','formation')==true">
                                 <table class="table table-striped">
                                    <thead>
                                        <tr>
@@ -1229,7 +1229,7 @@
                         </div>
                       </div>
                          <!-- ABSENCE-->
-                    <div class="panel box box-primary box-solid" ng-if="employe.typeEmploye.code=='PATS'">
+                    <div class="panel box box-primary box-solid"  ng-if="employe.typeEmploye.code=='PATS' && avoirPermission('consulter','absence')==true">
                          <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#absence" class="box-header with-border">
                             <div >
                                 <i class="fa fa-bookmark"></i>
@@ -1301,7 +1301,7 @@
         </div>
                            <!-- CONGE-->
                           
-        <div class="panel box box-primary box-solid" ng-if="employe.typeEmploye.code=='PATS'">
+        <div class="panel box box-primary box-solid"  ng-if="employe.typeEmploye.code=='PATS' && avoirPermission('consulter','conge')==true">
              <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#conge" class="box-header with-border">
                 <div >
                     <i class="fa fa-bookmark-o"></i>
@@ -1372,7 +1372,7 @@
          
                            
                <!-- Document -->
-        <div class="panel box box-primary box-solid">
+        <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter','document')==true">
              <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#document" class="box-header with-border">
                 <div >
                     <i class="fa fa-book"></i>
@@ -1385,7 +1385,7 @@
 
                 <!--Formulaire d'ajout-->
 
-              <div class="col-md-12">
+              <div class="col-md-12" ng-if="avoirPermission('ajouter','document')==true">
                   
                   <form role="form"  novalidate="" name="newDocumentForm" id="newDocumentForm">        
                     <table class="table">
@@ -1480,8 +1480,8 @@
       <div ng-repeat="typedoc in typedocuments" ng-class="{ 'active' : $first}" class="tab-pane" id="type{{$index + 1}}">
         <div class="row">
                     <div class="col-md-12">
-                    <dtable options="options" rows="documents" class="material dt" >
-                                <column name="Description" ng-if="$row.typeDocument.code==typedoc.code">
+<!--                    <dtable options="options" rows="documents" class="material dt" >
+                                <column name="Description">
                                     <column-header>
                                         <div>{{$header}}</div>
                                         <input
@@ -1493,10 +1493,10 @@
                                     </column-header>
                                   {{$row.description}}
                                 </column>
-                                <column name="Date d'enregistrement" ng-if="$row.typeDocument.code==typedoc.code">
+                                <column name="Date d'enregistrement">
                                    <span>{{$row.dateEnregistrement | date:'dd MMM yyyy'}}</span>     
                                 </column>
-                                <column name="Visualiser" ng-if="$row.typeDocument.code==typedoc.code">
+                                <column name="Visualiser">
                                    <div>
                                          <a class="btn btn-primary" ng-click="visualiserDocument($row.emplacement)">
                                              <i class="fa fa-eye">                    
@@ -1504,8 +1504,8 @@
                                          </a>
                                     </div>     
                                 </column>
-                            </dtable>
-  <!--                       <div class="panel-body table-responsive no-padding col-md-12">
+                            </dtable>-->
+                         <div class="panel-body table-responsive no-padding col-md-12">
                             
                            <table class="table table-striped tableau-document">
           
@@ -1537,7 +1537,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                          </div>-->
+                          </div>
 
                 </div>
             </div>

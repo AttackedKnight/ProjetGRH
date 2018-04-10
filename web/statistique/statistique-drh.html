@@ -184,7 +184,7 @@
                             </button>
                         </div>                      
                       </div>
-                    <div class="col-md-12" style="height: 300px;" id="statHomFem" >
+                    <div class="col-md-12" ng-style="hgt" id="statHomFem" >
                         
                     </div>
                 </div><!-- /.box-body-->
@@ -320,13 +320,80 @@
                   <h3 class="box-title">NIVEAUX D'ETUDES</h3>
                 </div>
                 <div class="box-body row">
-                  <div  class="col-md-12" style="height: 360px;" id="niveauEtude" ></div>
+                    <div class="col-md-6 row pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                       <div class="col-md-7">
+                           <label>Selection</label>
+                           <select class="form-control" id="typeEffectifParNiveau" ng-model="typeEffectifParNiveau">
+                                <option value="pats">PATS</option>
+                                <option value="per">PER</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Valider</label>
+                            <button class="btn btn-primary" ng-click="changerTypeEffectifParNiveau()">
+                                <i class="fa fa-check"></i>
+                            </button>
+                        </div>                      
+                    </div>
+                    <div  class="col-md-12" ng-style="hgt2"  id="niveauEtude" ></div>
                 </div><!-- /.box-body-->
               </div><!-- /.box -->
         </div>
     </div>
+              <!-- Debut entree sortie -->
+            <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid box-primary  ">
+                <div class="box-header">
+                  <i class="fa fa-bar-chart-o"></i>
+                  <h3 class="box-title">ENTREES ET SORTIES</h3>
+                   
+                  
+                </div>
+                <div class="box-body row">
+                    <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                       <div class="col-md-7">
+                           <label>Selection</label>
+                           <select class="form-control" id="typeEntreeSortie" ng-model="typeEntreeSortie">
+                                <option value="general" selected>Général</option>
+                                <option value="pats">PATS</option>
+                                <option value="per">PER</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Valider</label>
+                            <button class="btn btn-primary">
+                                <i class="fa fa-check"></i>
+                            </button>
+                        </div>                      
+                    </div>
+                    <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
+                       <div class="col-md-7">
+                           <label for="intervalle">Intervalle</label>
+                            <select class="form-control" id="intervalleEntreeSortie" ng-model="intervalleEntreeSortie">
+                             <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            
+                        </select>
+                        </div>
+                       <div class="col-md-2 ">
+                            <label for="valider">Valider</label>
+                            <button class="btn btn-primary" ><i class="fa fa-check"></i></button>
+
+                        </div>    
+                    </div>
+                  <div  class="col-md-12" style="height: 400px;" id="entreeSortie" ></div>
+                </div><!-- /.box-body-->
+              </div><!-- /.box -->
+        </div>
+         
+    </div>
+              <!-- fin entree sortie -->
           
-          </div><!-- /.tab-pane -->
+</div><!-- /.tab-pane -->
 
          <div class="tab-pane" id="entites">
          

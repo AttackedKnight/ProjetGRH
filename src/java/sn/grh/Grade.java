@@ -34,6 +34,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Grade.findByDateDePassage", query = "SELECT g FROM Grade g WHERE g.dateDePassage = :dateDePassage")})
 public class Grade implements Serializable {
 
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "encours")
+    private boolean encours;
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -174,6 +179,14 @@ public class Grade implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Grade[ id=" + id + " ]";
+    }
+
+    public boolean getEncours() {
+        return encours;
+    }
+
+    public void setEncours(boolean encours) {
+        this.encours = encours;
     }
     
 }

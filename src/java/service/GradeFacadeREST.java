@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import sn.grh.Employe;
 import sn.grh.Grade;
 
 /**
@@ -78,7 +79,85 @@ public class GradeFacadeREST extends AbstractFacade<Grade> {
     public List<Grade> findAll() {
         return super.findAll();
     }
+    
+    @GET
+    @Path("pats/classe/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePatsParClasse(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Grade g WHERE g.classe.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("pats/homme/classe/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePatsHommeParClasse(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Grade g WHERE g.classe.libelle=:libelle AND g.encours=1 AND g.employe.sexe='masculin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("pats/femme/classe/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePatsFemmeParClasse(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Grade g WHERE g.classe.libelle=:libelle AND g.encours=1 AND g.employe.sexe='feminin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("per/corps/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePerParCorps(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Grade g WHERE g.corps.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
 
+    @GET
+    @Path("per/homme/corps/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePerHommeParCorps(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Grade g WHERE g.corps.libelle=:libelle AND g.encours=1 AND g.employe.sexe='masculin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("per/femme/corps/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePerFemmeParCorps(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Grade g WHERE g.corps.libelle=:libelle AND g.encours=1 AND g.employe.sexe='feminin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})

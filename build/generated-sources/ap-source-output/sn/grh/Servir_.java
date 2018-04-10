@@ -9,7 +9,7 @@ import sn.grh.Entite;
 import sn.grh.Fonction;
 import sn.grh.Typecontrat;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-04-04T22:17:55")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-04-10T13:05:38")
 @StaticMetamodel(Servir.class)
 public class Servir_ { 
 

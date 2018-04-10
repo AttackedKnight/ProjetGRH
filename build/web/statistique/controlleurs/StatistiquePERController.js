@@ -9,6 +9,9 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
     $('.statistique').trigger('click');
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
+    $scope.hgt = { height: 360+ 'px' };
+    $scope.hgt2 = { height: 360+ 'px' };
+    
     $scope.countemploye=function(){
         Statistique.countemploye().success(function (data){
             $scope.effectifemploye=data;
@@ -312,7 +315,10 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
                          "categoryAxis": {
                              "gridPosition": "start",
                              "labelRotation": 0
-                         }
+                         },
+                        "export": {
+                            "enabled": true
+                        }
 
                      });
 
@@ -349,58 +355,74 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
                 
                 
         /*Debut Niveau etude*/
+        
+        $scope.calculerEffectifPerParCorps=function(){
+            var corps=['Professeur','Maître de conférence','Assistant'];
+            var j=0;
+            var req_corps=[];
+            $scope.effectifsParCorps=[];
+                
+            var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+            for(var i=0;i<=corps.length-1;i++){
+                j=getRandomInt(colors.length);
+                    
+                    var une_barre={};
+                    une_barre.annee=corps[i];
+                    une_barre.color=colors[j];
+                    
+                    colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
 
-        var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
-          "theme": "light",
-          "type": "serial",
-        "startDuration": 2,
-          "dataProvider": [{
-              "annee": "BFEM",
-               "pourcentage": 90,
-              "color": "#FF0F00"
-          }, {
-              "annee": "BAC",
-              "pourcentage": 93,
-              "color": "#FF6600"
-          }, {
-              "annee": "LICENCE",
-              "pourcentage": 82,
-              "color": "#FF9E01"
-          }, {
-              "annee": "MASTER",
-              "pourcentage": 95,
-              "color": "#FCD202"
-          }, {
-              "annee": "DOCTORAT",
-              "pourcentage": 88,
-              "color": "#F8FF01"
-          }],
-          "valueAxes": [{
-        "position": "left"
-          }],
-          "graphs": [{
-              "balloonText": "[[category]]: <b>[[value]]%</b><br/> Homme [[value]]%<br/> Homme [[value]]%",
-              "fillColorsField": "color",
-              "fillAlphas": 1,
-              "lineAlpha": 0.1,
-              "type": "column",
-              "valueField": "pourcentage"
-          }],
-          "depth3D": 20,
-        "angle": 30,
-          "chartCursor": {
-              "categoryBalloonEnabled": true,
-              "cursorAlpha": 0,
-              "zoomable": false
-          },
-          "categoryField": "annee",
-          "categoryAxis": {
-              "gridPosition": "start",
-              "labelRotation": 0
-          }
-      
-      });
-     
+                    $scope.effectifsParCorps.push(une_barre);
+
+
+                    var promise_corps = Statistique.comperPerDeCorps(corps[i]);
+                    req_corps.push(promise_corps);
+            }
+            $q.all(req_corps).then(function (result){
+                for(var i=0;i<result.length;i++){
+                        $scope.effectifsParCorps[i].pourcentage=parseInt(result[i].data);
+                }
+                $scope.tracerDiagrammePerParCorps($scope.effectifsParCorps);
+            });
+        };
+
+        $scope.calculerEffectifPerParCorps();
+        
+        $scope.tracerDiagrammePerParCorps=function(donnees){
+            var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
+                "theme": "light",
+                "type": "serial",
+              "startDuration": 2,
+                "dataProvider":donnees,
+                "valueAxes": [{
+              "position": "left"
+                }],
+                "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "pourcentage"
+                }],
+                "depth3D": 20,
+              "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": true,
+                    "cursorAlpha": 0,
+                    "zoomable": false
+                },
+                "categoryField": "annee",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "labelRotation": 0
+                },
+                "export": {
+                    "enabled": true
+                }
+
+            });
+         };
 
 
         /*- Fin niveau d'etude*/
@@ -512,6 +534,9 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
                         "categoryAxis": {
                             "gridPosition": "start",
                             "labelRotation": 0
+                        },
+                        "export": {
+                            "enabled": true
                         }
 
                     });
@@ -533,6 +558,131 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
 
       /*- Fin RECRUTEMENT*/
      
+    
+     /* DEBUT entree sortie*/
+     var chartEntreeSortie = AmCharts.makeChart("entreeSortie", {
+  "type": "serial",
+  "theme": "light",
+ 
+  "marginBottom": 50,
+  "dataProvider": [{
+    "age": "2007",
+    "entrees": 2,
+    "sorties": -3.0
+  }, {
+    "age": "2008",
+    "entrees": 3,
+    "sorties": -3
+  }, {
+    "age": "2009",
+    "entrees": 4,
+    "sorties": -4
+  }, {
+    "age": "2010",
+    "entrees": 5,
+    "sorties": -4
+  }, {
+    "age": "2010",
+    "entrees": 5,
+    "sorties": -4
+  }, {
+    "age": "2011",
+    "entrees": 6,
+    "sorties": -5
+  }, {
+    "age": "2012",
+    "entrees": 3,
+    "sorties": -2
+  }, {
+    "age": "2013",
+    "entrees": 3,
+    "sorties": -4
+  }, {
+    "age": "2014",
+    "entrees": 4,
+    "sorties": -1
+  }, {
+    "age": "2015",
+    "entrees": 5,
+    "sorties": -4
+  }],
+  "startDuration": 1,
+  "graphs": [{
+    "fillAlphas": 0.8,
+    "lineAlpha": 0.2,
+    "type": "column",
+    "valueField": "entrees",
+    "title": "entrees",
+    "labelText": "[[value]]",
+    "clustered": false,
+    "labelFunction": function(item) {
+      return Math.abs(item.values.value);
+    },
+    "balloonFunction": function(item) {
+      return item.category + ": " + Math.abs(item.values.value);
+    }
+  }, {
+    "fillAlphas": 0.8,
+    "lineAlpha": 0.2,
+    "type": "column",
+    "valueField": "sorties",
+    "title": "sorties",
+    "labelText": "[[value]]",
+    "clustered": false,
+    "labelFunction": function(item) {
+      return Math.abs(item.values.value);
+    },
+    "balloonFunction": function(item) {
+      return item.category + ": " + Math.abs(item.values.value);
+    }
+  }],
+  "categoryField": "age",
+  "categoryAxis": {
+    "gridPosition": "start",
+    "gridAlpha": 0.2,
+    "axisAlpha": 0
+  },
+  "valueAxes": [{
+    "gridAlpha": 0,
+    "ignoreAxisWidth": true,
+    
+    "guides": [{
+      "value": 0,
+      "lineAlpha": 0.1
+    }]
+  }],
+  "balloon": {
+    "fixedPosition": true
+  },
+	  "depth3D": 10,
+	"angle": 20,
+  "chartCursor": {
+    "valueBalloonsEnabled": false,
+    "cursorAlpha": 0.05,
+    "fullWidth": true
+  },
+  "allLabels": [{
+    "text": "entrees",
+    "size":14,
+    "x": "1%",
+    "color":"red",
+    "y": "0%",
+    "bold": true,
+    "align": "top"
+  }, {
+    "text": "sorties",
+    "size":14,
+    "color":"red",
+    "x": "1%",
+    "y": "96%",
+    "bold": true,
+    "align": "bottom"
+  }]
+
+});
+     
+      /* FIN entree sortie*/
+    
     
         /*DEBUT METIER*/
                 
