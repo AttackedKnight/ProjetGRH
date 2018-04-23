@@ -11,12 +11,21 @@ angular.module('StatistiqueModule',['ngRoute','ngMessages'])
     $routeProvider.when('/drh',{
         templateUrl:'statistique/statistique-drh.html',
         controller: 'StatistiqueDRHController'
+    }).when('/drh/e',{
+        templateUrl:'statistique/statistique-drh-entite.html',
+        controller: 'StatistiqueDRHEntiteController'
     }).when('/drh/per',{
         templateUrl:'statistique/statistique-drh.html',
         controller: 'StatistiquePERController'
+    }).when('/drh/per/e',{
+        templateUrl:'statistique/statistique-drh-entite.html',
+        controller: 'StatistiquePEREntiteController'
     }).when('/drh/pats',{
         templateUrl:'statistique/statistique-drh.html',
         controller: 'StatistiquePATSController'
+    }).when('/drh/pats/e',{
+        templateUrl:'statistique/statistique-drh-entite.html',
+        controller: 'StatistiquePATSEntiteController'
     }).otherwise({
         redirectTo: '/404'
     });

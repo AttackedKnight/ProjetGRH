@@ -1080,8 +1080,9 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
                 $scope.firstLoading=false;
             }else{
                 
-                console.log('yes')
-               $('.tab-content table').dataTable().ajax.reload( null, false );
+                console.log('yes');
+//               $('.tab-content table').dataTable().ajax.reload( null, false );
+//                $('.tab-content table').dataTable().refreshTable();
                
             }
             

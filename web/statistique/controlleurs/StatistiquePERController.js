@@ -6,7 +6,7 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
         document.location.href="#/";
         return; 
     } 
-    $('.statistique').trigger('click');
+    $('#statistique-drh li').eq(0).trigger('click');
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
     $scope.hgt = { height: 360+ 'px' };
@@ -375,7 +375,7 @@ angular.module('StatistiqueModule').controller('StatistiquePERController',functi
                     $scope.effectifsParCorps.push(une_barre);
 
 
-                    var promise_corps = Statistique.comperPerDeCorps(corps[i]);
+                    var promise_corps = Statistique.compterPerDeCorps(corps[i]);
                     req_corps.push(promise_corps);
             }
             $q.all(req_corps).then(function (result){

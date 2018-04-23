@@ -364,7 +364,34 @@
       </a>
       <ul class="treeview-menu">
           <li class="" ng-switch="groupeUtilisateur.code">
-               <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh"><i class="fa fa-bar-chart"></i>
+              <a href="#" >
+                <i class="fa fa-bar-chart"></i><span>STATISTIQUES</span> <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            <ul class="treeview-menu" id="statistique-drh" >
+                <li ng-switch="groupeUtilisateur.code"> 
+                    <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh"><i class="fa fa-bar-chart"></i>
+                        Générales
+                    </a>
+                    <a class="statistique" ng-switch-when="PER_AD" ng-href="#/drh/per"><i class="fa fa-bar-chart"></i>
+                        Générales
+                    </a>
+                    <a class="statistique" ng-switch-when="PATS_AD" ng-href="#/drh/pats"><i class="fa fa-bar-chart"></i>
+                        Générales
+                    </a>
+                </li>
+                <li ng-switch="groupeUtilisateur.code">
+                    <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh/e"><i class="fa fa-bar-chart"></i>
+                        Entités
+                    </a>
+                    <a class="statistique" ng-switch-when="PER_AD" ng-href="#/drh/per/e"><i class="fa fa-bar-chart"></i>
+                        Entités
+                    </a>
+                    <a class="statistique" ng-switch-when="PATS_AD" ng-href="#/drh/pats/e"><i class="fa fa-bar-chart"></i>
+                        Entités
+                    </a>
+                </li>
+            </ul>
+<!--               <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh"><i class="fa fa-bar-chart"></i>
                   Statistiques
               </a>
                <a class="statistique" ng-switch-when="PER_AD" ng-href="#/drh/per"><i class="fa fa-bar-chart"></i>
@@ -372,7 +399,7 @@
               </a>
               <a class="statistique" ng-switch-when="PATS_AD" ng-href="#/drh/pats"><i class="fa fa-bar-chart"></i>
                   Statistiques
-              </a>
+              </a>-->
           </li>
         <li> <a ng-href="#/drh/entite">
             <i class="fa fa-institution"></i> <span>Entité</span>
@@ -480,13 +507,21 @@
         <!-- Chemin -->
         <section class="content-header" hidden="hidden">
           <h1>
-            Dashboard
-            <small>Control panel</small>
+              <span>
+                  <i class="fa fa-calendar"></i>
+                  <small id="date_block"></small>
+              </span>
+              <span class="pull-right">
+                  <i class="fa fa-clock-o"></i>
+                  <span  id="div_horloge"></span>
+              </span>
+              
+            
           </h1>
-          <ol class="breadcrumb" id="chemin">
+<!--          <ol class="breadcrumb" id="chemin">
             <li><a href="#"><i class="fa fa-dashboard"></i>PARAMETRAGES</a></li>
             <li><a href="#"><i class="fa fa-dashboard"></i>dashbord</a></li>
-          </ol>
+          </ol>-->
         </section>
 
         <!-- Contenu page -->
@@ -723,10 +758,15 @@
 
     
     <script src="statistique/services/StatistiqueDRHService.js" type="text/javascript"></script>
+    <script src="statistique/services/StatistiqueDRHEntiteService.js" type="text/javascript"></script>
     
     <script src="statistique/controlleurs/StatistiquePATSController.js" type="text/javascript"></script>
     <script src="statistique/controlleurs/StatistiquePERController.js" type="text/javascript"></script>
     <script src="statistique/controlleurs/StatistiqueDRHController.js" type="text/javascript"></script>
+    
+    <script src="statistique/controlleurs/StatistiquePATSEntiteController.js" type="text/javascript"></script>
+    <script src="statistique/controlleurs/StatistiquePEREntiteController.js" type="text/javascript"></script>
+    <script src="statistique/controlleurs/StatistiqueDRHEntiteController.js" type="text/javascript"></script>
     
     <!--                  STATISTIQUES-->
       

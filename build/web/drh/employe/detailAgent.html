@@ -252,8 +252,8 @@
                             </div>
                             <div class="row "  style="margin-top: 10px;">
                                 <div class="col-md-12">
-                                    <span style="margin-right: 10px;" class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-plus"> Annuler</i></span>
-                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlFormEditEmploye()"><i class="fa fa-plus"> Enregistrer</i></span>
+                                    <span style="margin-right: 10px;" class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-times"> Annuler</i></span>
+                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlFormEditEmploye()"><i class="fa fa-times"> Enregistrer</i></span>
                                 </div>
                             </div>
                             </form>
@@ -363,7 +363,7 @@
                                         <input type="file"  name='profil' id='profil' ng-model="imgProfil" onchange="angular.element(this).scope().preview(this)" accept="image/*" style='display: none;'/>
                                     </label>
                                     <span class="btn btn-danger" title="Annuler"   ng-click="showDefaultAvatar()">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fa fa-times"></i>
                                     </span>
                                     <span class="btn btn-warning" title="Appliquer"   ng-click="uploadAvatar()">
                                         <i class="fa fa-check"></i>
@@ -492,7 +492,7 @@
                                                     <label for="fichiersSituationMatri">
                                                         <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
                                                     </label>
-                                                    <i class="fa fa-plus btn btn-danger" title="Annuler l'upload" ></i>
+                                                    <i class="fa fa-times btn btn-danger" title="Annuler l'upload" ></i>
                                                 </div>                                       
                                             </div>
                                         </td>
@@ -501,8 +501,8 @@
                             </table>
                             <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                                <div class="col-md-offset-9 col-md-3 ">
-                                   <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlSituationMatriFormEdit('editSituationMatriForm')"><i class="fa fa-plus"> Enregistrer</i></span>
-                                    <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-plus" style="font-weight: bold"> Annuler</i></button>
+                                   <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlSituationMatriFormEdit('editSituationMatriForm')"><i class="fa fa-times"> Enregistrer</i></span>
+                                    <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                 </div>
                             </div>                    
                            </form>
@@ -618,8 +618,8 @@
                             </div>
                                 <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                                     <div class="col-md-offset-9 col-md-3 ">
-                                        <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-plus"> Enregistrer</i></span>
-                                         <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-plus" style="font-weight: bold"> Annuler</i></button>
+                                        <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-times"> Enregistrer</i></span>
+                                         <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                      </div>
                                  </div>
                               </form>
@@ -704,8 +704,8 @@
                             </div>  
                             <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                             <div class="col-md-offset-9 col-md-3 ">
-                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editAdresseForm.$invalid"  ng-click="controlAdresseFormEdit()"><i class="fa fa-plus"> Enregistrer</i></span>
-                                     <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-plus" style="font-weight: bold"> Annuler</i></button>
+                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editAdresseForm.$invalid"  ng-click="controlAdresseFormEdit()"><i class="fa fa-times"> Enregistrer</i></span>
+                                     <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                  </div>
                             </div> 
                             </form>
@@ -1158,7 +1158,9 @@
                                                          <label for="fichiersFormation">
                                                              <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
                                                          </label>
-                                                         <i class="fa fa-plus btn btn-danger" title="Annuler l'upload"></i>
+                                                         <span class="btn btn-danger" title="Annuler l'upload">
+                                                             <i class="fa fa-times" ></i>
+                                                         </span>
                                                      </div>                                       
                                                  </div>
                                              </td>
@@ -1440,7 +1442,7 @@
                                                 </span>
                                             </label>
                                             <span class="btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()">
-                                                <i class="fa fa-plus"></i>
+                                                <i class="fa fa-times"></i>
                                             </span>
                                             
                                         </div>                                       

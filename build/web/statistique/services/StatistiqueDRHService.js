@@ -69,22 +69,22 @@ angular.module('StatistiqueModule').factory('Statistique', function ($http) {
             compterRecrutementPer:function (debut,fin){
                 return $http.get(chemin+'/webresources/sn.grh.employe/recrutement/per/'+debut+'/'+fin);
             },
-            comperPatsDeClasse:function(indice){
+            compterPatsDeClasse:function(indice){
                  return $http.get(chemin+'/webresources/sn.grh.grade/pats/classe/'+indice);
             },
-            comperPatsHommeDeClasse:function(indice){
+            compterPatsHommeDeClasse:function(indice){
                  return $http.get(chemin+'/webresources/sn.grh.grade/pats/homme/classe/'+indice);
             },
-            comperPatsFemmeDeClasse:function(indice){
+            compterPatsFemmeDeClasse:function(indice){
                  return $http.get(chemin+'/webresources/sn.grh.grade/pats/femme/classe/'+indice);
             },
-            comperPerDeCorps:function(indice){
+            compterPerDeCorps:function(indice){
                  return $http.get(chemin+'/webresources/sn.grh.grade/per/corps/'+indice);
             },
-            comperPerHommeDeCorps:function(indice){
+            compterPerHommeDeCorps:function(indice){
                  return $http.get(chemin+'/webresources/sn.grh.grade/per/homme/corps/'+indice);
             },
-            comperPerFemmeDeCorps:function(indice){
+            compterPerFemmeDeCorps:function(indice){
                  return $http.get(chemin+'/webresources/sn.grh.grade/per/femme/corps/'+indice);
             }
             

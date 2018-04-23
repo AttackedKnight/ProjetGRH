@@ -7,7 +7,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
         document.location.href="#/";
         return; 
     } 
-    $('.statistique').trigger('click');
+    $('#statistique-drh li').eq(0).trigger('click');
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
     $scope.hgt = { height: 360+ 'px' };
@@ -381,7 +381,7 @@ angular.module('StatistiqueModule').controller('StatistiquePATSController',funct
                     $scope.effectifsParClasse.push(une_barre);
 
 
-                    var promise_classe = Statistique.comperPatsDeClasse(i);
+                    var promise_classe = Statistique.compterPatsDeClasse(i);
                     req_classe.push(promise_classe);
             }
             $q.all(req_classe).then(function (result){

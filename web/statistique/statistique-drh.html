@@ -131,37 +131,25 @@
   </div><!-- /.row -->
 
   <!-- Main row -->
-  <div class="row">
-    <!-- Left col -->
+
     
-    <!-- right col (We are only adding the ID to make the widgets sortable)-->
-
-<!--            Ligne ajoutee-->
-
-    <div class="nav-tabs-custom">
-        <ul class="nav nav-tabs">
-          <li class="active"><a data-target="#general" data-toggle="tab" href="">General</a></li>
-          <li><a data-target="#entites" data-toggle="tab" href="">Entites</a></li>
-        </ul>
-
-        <div class="tab-content col-lg-12">
-          <div class="tab-pane active" id="general">
-           
-               <div class="row">
-        <div class="col-md-6">
-            <div class="box box-solid box-primary">
-                <div class="box-header">
-                  <i class="fa fa-pie-chart"></i>
-                  <h3 class="box-title">PATS / PER</h3>
-                  
-                </div>
-                <div class="box-body row">
-                  <div  class="col-md-12" style="height: 360px;" id="statPatsPer"></div>
-                </div><!-- /.box-body-->
-              </div><!-- /.box -->
-        </div>
+<div style="background: white; padding-top: 4px;">
         
-             <div class="col-md-6">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-solid box-primary">
+                    <div class="box-header">
+                      <i class="fa fa-pie-chart"></i>
+                      <h3 class="box-title">PATS / PER</h3>
+
+                    </div>
+                    <div class="box-body row">
+                      <div  class="col-md-12" style="height: 360px;" id="statPatsPer"></div>
+                    </div><!-- /.box-body-->
+                  </div><!-- /.box -->
+            </div>
+        
+            <div class="col-md-6">
             <div class="box box-solid box-primary ">
                 <div class="box-header">
                   <i class="fa fa-pie-chart"></i>
@@ -317,7 +305,7 @@
             <div class="box box-solid box-primary  ">
                 <div class="box-header">
                   <i class="fa fa-bar-chart-o"></i>
-                  <h3 class="box-title">NIVEAUX D'ETUDES</h3>
+                  <h3 class="box-title">CLASSIFICATION</h3>
                 </div>
                 <div class="box-body row">
                     <div class="col-md-6 row pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
@@ -395,62 +383,6 @@
           
 </div><!-- /.tab-pane -->
 
-         <div class="tab-pane" id="entites">
-         
-           <div class="row">
-                <div class="col-md-12">
-                   <div class="box-body">
-                        <div class="pull-right">
-                            <div class="col-md-7">
-                                <label for="selection">Selection</label>
-                                <select class="form-control" id="selection">
-                                  <option value="general" selected>General</option>
-                                   <option value="pats">PATS</option>
-                                   <option value="per">PER</option>
-                             </select>
-                             </div>
-                            <div class="col-md-3 ">
-                                 <label for="valider">Valider</label>
-                                 <button class="btn btn-primary" ><i class="fa fa-check"></i></button>
-
-                             </div>
-                      
-                        </div>
-                            <div class="row" >
-                                <div class="col-md-12">
-                                  <!-- jQuery Knob -->
-                                  <div class="box box-solid box-primary ">
-                                    <div class="box-header">
-                                      <i class="fa fa-pie-chart"></i>
-                                      <h3 class="box-title">LES METIERS</h3>
-                                     
-                                    </div><!-- /.box-header -->
-                                    <div class="box-body row">
-                                       <div class="col-md-12" style="height: 400px;" id="statFonction"></div> 
-                                    </div><!-- /.box-body -->
-                                  </div><!-- /.box -->
-                                </div><!-- /.col -->
-                              </div><!-- /.row -->
-                        </div><!-- /.box-body -->
-                    
-                </div>
-          </div>
-            
-                   <!-- row -->
-          
-          
-           
-        </div>
-            
-        </div><!-- /.tab-content -->
-      </div><!-- nav-tabs-custom -->
-
-
-  
-
-    
-
-</div>
 
       <!-- Morris.js charts:En rapport avec les statistiques -->
  

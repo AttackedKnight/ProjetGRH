@@ -122,6 +122,8 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
             $('#admin-menu').attr('hidden','hidden');
             $('#drh-menu').attr('hidden','hidden');
             $('#drh-demandes').attr('hidden','hidden');
+            $('#employe-menu').attr('hidden','hidden');
+            $('#service-menu').attr('hidden','hidden');
             
             $('.content-wrapper').css('background','transparent');
 

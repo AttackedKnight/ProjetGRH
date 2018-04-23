@@ -7,13 +7,16 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController',functi
         document.location.href="#/";
         return; 
     } 
-    $('.statistique').trigger('click');
+    $('#statistique-drh li').eq(0).trigger('click');
     
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
+     
+    
     $scope.hgt = { height: 300+ 'px' };
     $scope.hgt2 = { height: 300+ 'px' };
+    
     
     $scope.effectifTotalHomme=0;
     $scope.effectifTotalFemme=0;
@@ -463,7 +466,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController',functi
             $q.all(req_h).then(function (result){
                 
                 for(var i=0;i<result.length;i++){
-                    $scope.donnees[i].hommes=parseInt(result[i].data);
+                    $scope.donnees[i].hommes=-parseInt(result[i].data);
                 }
                 
                 $q.all(req_f).then(function (result){
@@ -484,43 +487,85 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController',functi
         
         $scope.tracerDiagrammeTrancheAge=function(donnees){
             var chartTrancheAge = AmCharts.makeChart("trancheAge", {
-                         "theme": "light",
-                         "type": "serial",
-                       "startDuration": 2,
-                         "dataProvider": donnees,
-                         "valueAxes": [{
-                       "position": "left"
-                         }],
-                         "graphs": [{
-                             "balloonText": "[[category]]:<br/> <b> Hommes [[value]]</b>",
+                        "type": "serial",
+                    "theme": "light",
+                    "rotate": true,
+                    "marginBottom": 50,
+                    "dataProvider": donnees,
+                    "startDuration": 1,
+                    "graphs": [{
+                      "fillAlphas": 0.8,
+                      "lineAlpha": 0.2,
+                      "type": "column",
+                      "valueField": "hommes",
+                      "title": "Hommes",
+                      "labelText": "[[value]]",
+                      "clustered": false,
+                      "labelFunction": function(item) {
+                        return Math.abs(item.values.value);
+                      },
+                      "balloonFunction": function(item) {
+                        return item.category + ": " + Math.abs(item.values.value);
+                      }
+                    }, {
+                      "fillAlphas": 0.8,
+                      "lineAlpha": 0.2,
+                      "type": "column",
+                      "valueField": "femmes",
+                      "title": "Femmes",
+                      "labelText": "[[value]]",
+                      "clustered": false,
+                      "labelFunction": function(item) {
+                        return Math.abs(item.values.value);
+                      },
+                      "balloonFunction": function(item) {
+                        return item.category + ": " + Math.abs(item.values.value);
+                      }
+                    }],
+                    "categoryField": "annee",
+                    "categoryAxis": {
+                      "gridPosition": "start",
+                      "gridAlpha": 0.2,
+                      "axisAlpha": 0
+                    },
+                         "depth3D": 10,
+                       "angle": 10,
+                    "valueAxes": [{
+                      "gridAlpha": 0,
+                      "ignoreAxisWidth": true,
+                      "labelFunction": function(value) {
+                        return Math.abs(value);
+                      },
+                      "guides": [{
+                        "value": 0,
+                        "lineAlpha": 0.2
+                      }]
+                    }],
+                    "balloon": {
+                      "fixedPosition": true
+                    },
+                    "chartCursor": {
+                      "valueBalloonsEnabled": false,
+                      "cursorAlpha": 0.05,
+                      "fullWidth": true
+                    },
+                    "allLabels": [{
+                      "text": "Hommes",
+                      "x": "28%",
+                      "y": "97%",
+                      "bold": true,
+                      "align": "middle"
+                    }, {
+                      "text": "Femmes",
+                      "x": "75%",
+                      "y": "97%",
+                      "bold": true,
+                      "align": "middle"
+                    }],
+                    "export": {
+                      "enabled": true
+                    }
 
-                             "fillAlphas": 1,
-                             "lineAlpha": 0.1,
-                             "type": "column",
-                             "valueField": "hommes"
-                         },{
-                             "balloonText": "[[category]]:<br/> <b> Femmmes [[value]]</b>",
-
-                             "fillAlphas": 1,
-                             "lineAlpha": 0.1,
-                             "type": "column",
-                             "valueField": "femmes"
-                         }],
-                         "depth3D": 20,
-                       "angle": 30,
-                         "chartCursor": {
-                             "categoryBalloonEnabled": true,
-                             "cursorAlpha": 0,
-                             "zoomable": false
-                         },
-                         "categoryField": "annee",
-                         "categoryAxis": {
-                             "gridPosition": "start",
-                             "labelRotation": 0
-                        },
-                        "export": {
-                            "enabled": true
-                        }
 
                      });
         };  
@@ -720,7 +765,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController',functi
                 $scope.effectifsParCorps.push(une_barre);
 
 
-                var promise_corps = Statistique.comperPerDeCorps(corps[i]);
+                var promise_corps = Statistique.compterPerDeCorps(corps[i]);
                 req_corps.push(promise_corps);
         }
         $q.all(req_corps).then(function (result){
@@ -750,7 +795,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController',functi
                 $scope.effectifsParClasse.push(une_barre);
 
 
-                var promise_classe = Statistique.comperPatsDeClasse(i);
+                var promise_classe = Statistique.compterPatsDeClasse(i);
                 req_classe.push(promise_classe);
         }
         $q.all(req_classe).then(function (result){
