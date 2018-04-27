@@ -96,5 +96,8 @@ angular.module('ParametrageModule',['ngRoute','ngMessages'])
     }).when('/parametrage/echelon',{
         templateUrl: 'parametrage/echelon/echelon.html',
         controller: 'EchelonController'                   
+    }).when('/parametrage/grade',{
+        templateUrl: 'parametrage/grade/grade.html',
+        controller: 'GradeController'                   
     }).otherwise('/');
 });

@@ -378,79 +378,77 @@ angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController'
 
           /*Trache age*/
 
+        /*Debut Niveau etude*/
 
-         $scope.calculerEffectifPatsParClasse=function(){
-             var maxClasse=4;
-             var j=0;
-             var req_classe=[];
-             $scope.effectifsParClasse=[];
-
-             var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
-             for(var i=1;i<=maxClasse;i++){
-                 j=getRandomInt(colors.length);
-
-                     var une_barre={};
-                     une_barre.annee="Classe "+i;
-                     une_barre.color=colors[j];
-
-                     colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
-
-                     $scope.effectifsParClasse.push(une_barre);
-
-
-                     var promise_classe = StatistiqueEntite.compterPatsDeClasseEntite($scope.entiteChoisie,i);
-                     req_classe.push(promise_classe);
-             }
-             $q.all(req_classe).then(function (result){
-                 for(var i=0;i<result.length;i++){
-                         $scope.effectifsParClasse[i].pourcentage=parseInt(result[i].data);
-                 }
-                 $scope.tracerDiagrammePatsParClasse($scope.effectifsParClasse);
-             });
-         };
-
-         $scope.calculerEffectifPatsParClasse();
-
-         $scope.tracerDiagrammePatsParClasse=function(donnees){
-             var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
-                 "theme": "light",
-                 "type": "serial",
-               "startDuration": 2,
-                 "dataProvider":donnees,
-                 "valueAxes": [{
-               "position": "left"
-                 }],
-                 "graphs": [{
-                     "balloonText": "[[category]]: <b>[[value]]</b>",
-                     "fillColorsField": "color",
-                     "fillAlphas": 1,
-                     "lineAlpha": 0.1,
-                     "type": "column",
-                     "valueField": "pourcentage"
-                 }],
-                 "depth3D": 20,
-               "angle": 30,
-                 "chartCursor": {
-                     "categoryBalloonEnabled": true,
-                     "cursorAlpha": 0,
-                     "zoomable": false
-                 },
-                 "categoryField": "annee",
-                 "categoryAxis": {
-                     "gridPosition": "start",
-                     "labelRotation": 0
-                 },
-                 "export": {
-                     "enabled": true
-                 }
-
-             });
-          };
-
-         /*Debut Niveau etude*/
-
-
-
+//         $scope.calculerEffectifPatsParClasse=function(){
+//             var maxClasse=4;
+//             var j=0;
+//             var req_classe=[];
+//             $scope.effectifsParClasse=[];
+//
+//             var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+//             for(var i=1;i<=maxClasse;i++){
+//                 j=getRandomInt(colors.length);
+//
+//                     var une_barre={};
+//                     une_barre.annee="Classe "+i;
+//                     une_barre.color=colors[j];
+//
+//                     colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
+//
+//                     $scope.effectifsParClasse.push(une_barre);
+//
+//
+//                     var promise_classe = StatistiqueEntite.compterPatsDeClasseEntite($scope.entiteChoisie,i);
+//                     req_classe.push(promise_classe);
+//             }
+//             $q.all(req_classe).then(function (result){
+//                 for(var i=0;i<result.length;i++){
+//                         $scope.effectifsParClasse[i].pourcentage=parseInt(result[i].data);
+//                 }
+//                 $scope.tracerDiagrammePatsParClasse($scope.effectifsParClasse);
+//             });
+//         };
+//
+//         $scope.calculerEffectifPatsParClasse();
+//
+//         $scope.tracerDiagrammePatsParClasse=function(donnees){
+//             var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
+//                 "theme": "light",
+//                 "type": "serial",
+//               "startDuration": 2,
+//                 "dataProvider":donnees,
+//                 "valueAxes": [{
+//               "position": "left"
+//                 }],
+//                 "graphs": [{
+//                     "balloonText": "[[category]]: <b>[[value]]</b>",
+//                     "fillColorsField": "color",
+//                     "fillAlphas": 1,
+//                     "lineAlpha": 0.1,
+//                     "type": "column",
+//                     "valueField": "pourcentage"
+//                 }],
+//                 "depth3D": 20,
+//               "angle": 30,
+//                 "chartCursor": {
+//                     "categoryBalloonEnabled": true,
+//                     "cursorAlpha": 0,
+//                     "zoomable": false
+//                 },
+//                 "categoryField": "annee",
+//                 "categoryAxis": {
+//                     "gridPosition": "start",
+//                     "labelRotation": 0
+//                 },
+//                 "export": {
+//                     "enabled": true
+//                 }
+//
+//             });
+//          };
+//
+//         
 
 
          /*- Fin niveau d'etude*/

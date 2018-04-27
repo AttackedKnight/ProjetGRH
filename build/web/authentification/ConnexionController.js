@@ -71,7 +71,7 @@ angular.module('AuthentificationModule').controller('ConnexionController',functi
 
                 if(data.groupe.code=='SUP_AD'){
                     $('#admin-menu').removeAttr('hidden');
-                    document.location.href="#/parametrage/statistique";
+                    document.location.href="#/parametrage/utilisateur/show";
                 }
                 if(data.groupe.code=='PER_AD'){
                     $('#drh-menu').removeAttr('hidden');

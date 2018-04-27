@@ -22,6 +22,7 @@
     <class>sn.grh.Formation</class>
     <class>sn.grh.Grade</class>
     <class>sn.grh.Groupe</class>
+    <class>sn.grh.Historiquegrade</class>
     <class>sn.grh.Membremutuelle</class>
     <class>sn.grh.Mutuellesante</class>
     <class>sn.grh.Niveau</class>

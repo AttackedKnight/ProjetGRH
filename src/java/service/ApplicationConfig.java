@@ -49,6 +49,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.FormationFacadeREST.class);
         resources.add(service.GradeFacadeREST.class);
         resources.add(service.GroupeFacadeREST.class);
+        resources.add(service.HistoriquegradeFacadeREST.class);
         resources.add(service.MembremutuelleFacadeREST.class);
         resources.add(service.MutuellesanteFacadeREST.class);
         resources.add(service.NiveauFacadeREST.class);

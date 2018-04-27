@@ -23,7 +23,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Employe;
-import sn.grh.Entite;
 import sn.grh.Typeemploye;
 
 /**
@@ -104,8 +103,6 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
         } 
         return null;
     }
-    
-    /*Statistique generales*/
     
     @GET
     @Path("countemploye")
@@ -332,8 +329,6 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
     }
     
     
-    
-    /*Statistique generales*/
     
     
     

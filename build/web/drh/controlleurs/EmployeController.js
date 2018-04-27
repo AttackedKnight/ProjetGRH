@@ -5,7 +5,7 @@
  */
 
 
-angular.module('DrhModule').controller('EmployeController',function($scope,$rootScope,Mail,UploadFile,Securite,$http,Employe,Utilisateur,Groupe,Contact,Adresse,Syndicat,MutuelleSante,MembreMutuelle,Grade,Servir,Fonction,TypeEmploye,Entite,Typecontrat,Fonction,Situation,Civilite,Corps,Classe,Echelon,Niveau,Categorie,Groupe,AccesGroupeTable)
+angular.module('DrhModule').controller('EmployeController',function($scope,$rootScope,$q,Mail,UploadFile,Securite,$http,Employe,Utilisateur,Groupe,Contact,Adresse,Syndicat,MutuelleSante,MembreMutuelle,Grade,HistoriqueGrade,Servir,Fonction,TypeEmploye,Entite,Typecontrat,Fonction,Situation,Civilite,Corps,Classe,Echelon,Niveau,Categorie,Groupe,AccesGroupeTable)
 {
     
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -23,7 +23,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     $scope.employe={id:""};
     $scope.contact={id:""};
     $scope.adresse={id:""};
-    $scope.grade={id:""};
+//    $scope.grade={id:""};
 //    $scope.estMembre={id:""};
     $scope.servir={id:""};
     $scope.membreMutuelle={id:""};
@@ -111,43 +111,111 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     }).error(function () {
         alert('Une erreur est survenue');
     });
-   
-    Corps.findAll().success(function (data) {  
-        $scope.corps=data;         
-    }).error(function () {
-        alert('Une erreur est survenue');
-    });          
-  
     
-    Classe.findAll().success(function (data) {
-        $scope.classes=data;
-    }).error(function () {
-        alert('Une erreur est survenue');
-    });          
+    /*Grade*/
     
     
     
-    Echelon.findAll().success(function (data) {
-        $scope.echelons=data;          
-    }).error(function () {
-        alert('Une erreur est survenue');
-    });          
-   
-        
-    Niveau.findAll().success(function (data) {
-        $scope.niveaux=data;
-    }).error(function () {
-        alert('Une erreur est survenue');
-    });          
-       
+    $scope.historiqueGrade = {id:"",encours:1};
+    
+    
+    
 
-    Categorie.findAll().success(function (data) {
-        $scope.categories=data;  
-    }).error(function () {
-        alert('Une erreur est survenue');
-    });    
+    if($rootScope.groupeUtilisateur.code=='PATS_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PATS")){
+        
+        $scope.classes=[];
+        $scope.gradeClasse=[];
+        var req_classes=[];
+        $scope.categorieClasse=[];
+        $scope.niveauClasse=[];
+        $scope.classeSelectionnee="1";
+
+        for(var i=1;i<=3;i++){
+            req_classes.push(Grade.findPatsClasse(i));
+        }
+
+        $q.all(req_classes).then(function(result){
+            for(var i=0;i<result.length;i++){
+                $scope.classes[i]=result[i].data;           
+            }
+
+            $scope.getCategorieAndNiveauClasse();
+        });
+
+        
+
+        $scope.getCategorieAndNiveauClasse=function(){     
+            $scope.gradeClasse=$scope.classes[parseInt($scope.classeSelectionnee)-1];
+
+            var req_cat_niv=[];
+            req_cat_niv.push(Grade.compterPatsCategorieClasse($scope.classeSelectionnee));
+            req_cat_niv.push(Grade.compterPatsNiveauClasse($scope.classeSelectionnee));
+
+            $q.all(req_cat_niv).then(function(result){
+
+                $scope.categorieClasse=result[0].data;
+                $scope.niveauClasse=result[1].data;
+            });
+        };
+    }
+    if($rootScope.groupeUtilisateur.code=='PATS_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PER")){
+        
+        $scope.corps=[];
+        var req_corps=[];
+        $scope.classeCorps=[];
+        $scope.gradeCorps=[];
+        
+        
+        $scope.corpsSelectionnee="0";
+        
+        
+        req_corps.push(Grade.findPerCorps("Assistant"));
+        req_corps.push(Grade.findPerCorps("Maître de conférence"));
+        req_corps.push(Grade.findPerCorps("Professeur"));
+        
+
+        $q.all(req_corps).then(function(result){
+            for(var i=0;i<result.length;i++){
+                $scope.corps[i]=result[i].data;           
+            }
+            console.log($scope.corps);
+            $scope.getClasseCorps();
+        });
+        
+        $scope.getClasseCorps=function(){     
+            $scope.gradeCorps=$scope.corps[parseInt($scope.classeSelectionnee)];
+            
+            var req_classe_corps=[];
+            switch (parseInt($scope.classeSelectionnee)){
+                
+                case 0:
+                    req_classe_corps.push(Grade.compterPerClasseCorps("Assistant"));
+                    break;
+                case 1:
+                    req_classe_corps.push(Grade.compterPerClasseCorps("Maitre de conférérence"));
+                    break;
+                case 2:
+                    req_classe_corps.push(Grade.compterPerClasseCorps("Professeur"));
+                    break;
+            }
+
+            $q.all(req_classe_corps).then(function(result){
+
+                $scope.classeCorps=result[0].data;
+                
+                console.log($scope.classeCorps);
+                
+            });
+        };
+    }
     
     
+    
+    
+    /*Grade*/
+    
+    
+
     if($rootScope.groupeUtilisateur.code=='PATS_AD'){
         Syndicat.findSyndicatPats().success(function (data) {
             $scope.syndicats=data;  
@@ -251,7 +319,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     
     //Civilite et type employe sont à préciser avant l'insertion
     
-    $scope.CompleterInformation=function (c,contact,adr,tra,grade){
+    $scope.CompleterInformation=function (c,contact,adr,tra){
         if(c.sexe=='masculin'){
             c.civilite=$scope.civilites[0];
         }
@@ -321,7 +389,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
                                                          $('#email_dup').show("slow").delay(3000).hide("slow");
                                                     }    
                                                     else{
-                                                        $scope.add(c,contact,adr,tra,grade);
+                                                        $scope.add(c,contact,adr,tra);
                                                        
                                                     }
                                                 }).error(function () {
@@ -367,8 +435,9 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         $scope.employe={id:""};
         $scope.contact={id:""};
         $scope.adresse={id:""};
-        $scope.grade={id:""};
-//        $scope.estMembre={id:""};
+        $scope.historiqueGrade = {id:"",encours:1};
+        $scope.classeSelectionnee="1";
+        $scope.getCategorieAndNiveauClasse();
         $scope.servir={id:""};
         $scope.fonction={id:""};
         $scope.estMembreMutuelle=false;
@@ -400,11 +469,17 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         }
     };
     
-    $scope.completerGrade=function (grade,c){
-        $scope.grade.dateDePassage=$scope.employe.dateRecrutement;
-        $scope.grade.employe=$scope.employe;
+    $scope.completerGrade=function (){
+        var datePassation=new Date();
+        var dateProchainAvancement=new Date();
         
-        Grade.add($scope.grade).success(function(){ 
+        dateProchainAvancement.setFullYear(dateProchainAvancement.getFullYear()+$scope.historiqueGrade.grade.duree);
+        
+        $scope.historiqueGrade.datePassation=datePassation;
+        $scope.historiqueGrade.dateProchainAvancement=dateProchainAvancement;
+        $scope.historiqueGrade.employe=$scope.employe;
+        
+        HistoriqueGrade.add($scope.historiqueGrade).success(function(){ 
             
             if($scope.estMembreMutuelle==true){
                 $scope.AjouterMutuelle();
@@ -495,7 +570,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
             }else{
                 $scope.servir.fonction=data;
                 Servir.add($scope.servir).success(function(){
-                    $scope.completerGrade($scope.grade,$scope.employe);    
+                    $scope.completerGrade();    
                 }).error(function () {
                     alert('Une erreur est survenue:servir');
                 });
@@ -587,7 +662,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     };
 
     
-    $scope.add=function(c,contact,adr,tra,grade){
+    $scope.add=function(c,contact,adr,tra){
         var dialog = bootbox.dialog({
                             title: 'CREATION',
                             message: '<p><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span>Création ...</span></p>'
@@ -619,12 +694,12 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     
 /*                   CONTROLES DE SAISIE                      */
     
-    $scope.controlForm=function(c,contact,adr,tra,grade){
-       $scope.controlIdentifiant(c,contact,adr,tra,grade);
+    $scope.controlForm=function(c,contact,adr,tra){
+       $scope.controlIdentifiant(c,contact,adr,tra);
     };
     
 
-    $scope.controlIdentifiant=function(c,contact,adr,tra,grade){
+    $scope.controlIdentifiant=function(c,contact,adr,tra){
         var validite=true;
         $('#bloc-identifiant input').each(function(e){
            if($(this).val()===""){
@@ -635,12 +710,12 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         if(validite===true){
 //            $('#bloc-identifiant').removeClass('box-primary');
 //            $('#bloc-identifiant').addClass('box-success');
-            $scope.controlCivilite(c,contact,adr,tra,grade);
+            $scope.controlCivilite(c,contact,adr,tra);
         }
 
     };
     
-    $scope.controlCivilite=function(c,contact,adr,tra,grade){ 
+    $scope.controlCivilite=function(c,contact,adr,tra){ 
         var validite=true;
         $('#bloc-etatCivil input').each(function(e){
            if($(this).val()==="" && $(this).attr('id')!=="profil"){
@@ -657,14 +732,14 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         if(validite===true){
 //            $('#bloc-etatCivil').removeClass('box-primary');
 //            $('#bloc-etatCivil').addClass('box-success');
-            $scope.controlSituationMatri(c,contact,adr,tra,grade);
+            $scope.controlSituationMatri(c,contact,adr,tra);
         }
         
     };
     
     
     
-    $scope.controlSituationMatri=function(c,contact,adr,tra,grade){
+    $scope.controlSituationMatri=function(c,contact,adr,tra){
         var validite=true;
         $('#bloc-situation input').each(function(e){
            if($(this).val()===""){
@@ -679,12 +754,12 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         if(validite===true){
           //  $('#bloc-situation').removeClass('box-primary');
 //            $('#bloc-situation').addClass('box-success');
-           $scope.controlContact(c,contact,adr,tra,grade);
+           $scope.controlContact(c,contact,adr,tra);
         }
         
     };
     
-    $scope.controlContact=function(c,contact,adr,tra,grade){
+    $scope.controlContact=function(c,contact,adr,tra){
         var validite=true;
         $('#bloc-contact input').each(function(e){
            if($(this).val()===""){
@@ -695,12 +770,12 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         if(validite===true){
  //           $('#bloc-contact').removeClass('box-primary');
 //            $('#bloc-contact').addClass('box-success');
-           $scope.controlAdresse(c,contact,adr,tra,grade);
+           $scope.controlAdresse(c,contact,adr,tra);
         }
         
     };
     
-    $scope.controlAdresse=function(c,contact,adr,tra,grade){
+    $scope.controlAdresse=function(c,contact,adr,tra){
         var validite=true;
         $('#bloc-adresse input').each(function(e){
            if($(this).val()===""){
@@ -711,12 +786,12 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         if(validite===true){
 //            $('#bloc-adresse').removeClass('box-primary');
 //            $('#bloc-adresse').addClass('box-success');
-           $scope.controlPoste(c,contact,adr,tra,grade);
+           $scope.controlPoste(c,contact,adr,tra);
         }
         
     };
     
-    $scope.controlPoste=function(c,contact,adr,tra,grade){
+    $scope.controlPoste=function(c,contact,adr,tra){
         var validite=true;
         $('#bloc-poste input').each(function(e){
            if($(this).val()===""){
@@ -735,54 +810,28 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         if(validite===true){
 //            $('#bloc-poste').removeClass('box-primary');
 //            $('#bloc-poste').addClass('box-success');
-            $scope.controlGrade(c,contact,adr,tra,grade);
+             $scope.controlGrade(c,contact,adr,tra);
         }
         
                                                    
     };
     
-    $scope.controlGrade=function(c,contact,adr,tra,grade){
+    $scope.controlGrade=function(c,contact,adr,tra){
         var validite=true;
-        if($rootScope.groupeUtilisateur.code=='PER_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' && $scope.typeEmp=='PER')){
-            if(grade.corps==null){
-                $("#corps").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.classe==null){
-                 $("#classe").parent().next().show("slow").delay(3000).hide("slow");
-                 validite=false;
-            }
-            if(grade.echelon==null){
-                $("#echelon").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-        }
-        if($rootScope.groupeUtilisateur.code=='PATS_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' && $scope.typeEmp=='PATS')){
-            if(grade.classe==null){
-                 $("#classe").parent().next().show("slow").delay(3000).hide("slow");
-                 validite=false;
-            }
-            if(grade.categorie==null){
-                $("#categorie").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.niveau==null){
-                $("#niveau").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.echelon==null){
-                $("#echelon").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
+        if(!$scope.historiqueGrade.grade || $scope.historiqueGrade.grade==null){
+            
+            $('#grade-not-selected').show("slow").delay(3000).hide("slow");
+            validite=false;
+           
         }
         
         if(validite===true){
-            $scope.controlConcordance(c,contact,adr,tra,grade);
+            $scope.controlConcordance(c,contact,adr,tra);
         }
         
     };
     
-    $scope.controlConcordance=function(c,contact,adr,tra,grade){
+    $scope.controlConcordance=function(c,contact,adr,tra){
         var validite=true;
         
         if(( (c.numeroCni).charAt(0)=='1' && c.sexe=='feminin' ) || ( (c.numeroCni).charAt(0)=='2' && c.sexe=='masculin' )){
@@ -791,7 +840,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         }
         
         if(validite===true){
-            $scope.CompleterInformation(c,contact,adr,tra,grade);         
+            $scope.CompleterInformation(c,contact,adr,tra);         
         }
 
     };

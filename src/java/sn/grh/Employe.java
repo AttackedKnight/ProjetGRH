@@ -50,6 +50,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employe.findByNombreDeFemme", query = "SELECT e FROM Employe e WHERE e.nombreDeFemme = :nombreDeFemme")})
 public class Employe implements Serializable {
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
+    private List<Historiquegrade> historiquegradeList;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "retraite")
@@ -141,8 +144,7 @@ public class Employe implements Serializable {
     private Typeemploye typeEmploye;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Avoircompetence> avoircompetenceList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
-    private List<Grade> gradeList;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Adresse> adresseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
@@ -374,14 +376,7 @@ public class Employe implements Serializable {
         this.avoircompetenceList = avoircompetenceList;
     }
 
-    @XmlTransient
-    public List<Grade> getGradeList() {
-        return gradeList;
-    }
-
-    public void setGradeList(List<Grade> gradeList) {
-        this.gradeList = gradeList;
-    }
+    
 
     @XmlTransient
     public List<Adresse> getAdresseList() {
@@ -440,6 +435,15 @@ public class Employe implements Serializable {
 
     public void setGeler(boolean geler) {
         this.geler = geler;
+    }
+
+    @XmlTransient
+    public List<Historiquegrade> getHistoriquegradeList() {
+        return historiquegradeList;
+    }
+
+    public void setHistoriquegradeList(List<Historiquegrade> historiquegradeList) {
+        this.historiquegradeList = historiquegradeList;
     }
     
 }

@@ -424,7 +424,7 @@
                         <h3> INFORMATIONS PROFESSIONELLES</h3>
                     </div>
                     <div class="row ">
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="box box-primary box-solid" id="bloc-poste">
                                 <div class="box-header">
                                     <h3 class="box-title">POSTE</h3>
@@ -547,75 +547,61 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-7">
 
                             <div class="box box-primary box-solid" id="bloc-grade">
                                 <div class="box-header">
                                     <h3 class="box-title">GRADE</h3>
                                 </div>
                                 <div class="box-body">
-                                    <div class="form-group" ng-if="groupeUtilisateur.code=='PER_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PER')">
-                                        <label> Corps : </label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                            <select ng-model="grade.corps" class="form-control" id="corps" ng-options="corps.libelle for corps in corps"></select>
+                                    <div class="row">
+                                        <div class="form-group col-md-9">
+                                            <label for="classe">Classe</label>
+                                            <select name="classe" id="classe" ng-model="classeSelectionnee" class="form-control">
+                                                <option value="1">Classe 1</option>
+                                                <option value="2">Classe 2</option>
+                                                <option value="3">Classe 3</option>
+                                                <option value="4">Classe 4</option>
+                                            </select>
                                         </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
+                                        <div class="form-group col-md-3">
+                                            <label>Valider</label>
+                                            <span class="btn btn-primary" ng-click="getCategorieAndNiveauClasse()"><i class="fa fa-check"></i> Valider</span>                                          
+                                        </div>                      
+                                    </div>
+                                    <div>
+                                        <table class="table table-bordered">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th style="text-align:center;">Categorie / <br> Niveau</th>
+                                                    <th style="text-align:center;" ng-repeat="cat in categorieClasse">
+                                                        {{cat.libelle}}
+                                                    </th>              
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="niv in niveauClasse">
+                                                    <td style="text-align:center; font-weight: bold;">
+                                                        {{niv.libelle}}
+                                                    </td>
+                                                    <td ng-repeat="cat in categorieClasse">
+                                                        <div class="form-check" ng-repeat="grade_cl in gradeClasse" ng-if="grade_cl.niveau.libelle==niv.libelle && grade_cl.categorie.libelle==cat.libelle">
+                                                            <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" ng-value="grade_cl" ng-model="historiqueGrade.grade">
+                                                            <label class="form-check-label" for="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_cl.indice}}">
+                                                                echelon {{grade_cl.echelon.libelle}}
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    
+                                                </tr> 
+                                            </tbody>
+                                        </table>
+                                        <div class="alert alert-block alert-danger requis" id="grade-not-selected" style="display:none">
+                                            <div>Veuillez selectionner un grade.</div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label> Classe :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                            <select ng-model="grade.classe" class="form-control" id="classe" ng-options="classe.libelle for classe in classes"></select>  
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" ng-if="groupeUtilisateur.code=='PATS_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PATS')">
-                                        <label> Categorie : </label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                            <select ng-model="grade.categorie" class="form-control" id="categorie" ng-options="categorie.libelle for categorie in categories"></select>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group" ng-if="groupeUtilisateur.code=='PATS_AD' || (groupeUtilisateur.code=='DRH_AD' && typeEmp=='PATS')">
-                                        <label> Niveau :</label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                            <select ng-model="grade.niveau" class="form-control" id="niveau" ng-options="niveau.libelle for niveau in niveaux"></select>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label> Echelon: </label>
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-user"></i>
-                                            </div>
-                                            <select ng-model="grade.echelon" class="form-control" id="echelon" ng-options="echelon.libelle for echelon in echelons"></select>
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                    </div>
-
                                 </div>
+                                
                             </div>
 
                             <div class="box box-primary box-solid">
@@ -651,7 +637,7 @@
             <div>
                 <div class=" col-md-offset-3">
                     <div class="col-md-3 col-xs-6"> <input type="reset" ng-click="reinitialiserFormulaire()" class="btn btn-block btn-danger"  value="ANNULER"> </div>
-                    <div class="col-md-3 col-xs-6"> <input type="submit" ng-disabled="newEmployeForm.$invalid" class="btn btn-block btn-success" ng-click="controlForm(employe, contact, adresse, servir, grade)" value="ENREGISTRER"> </div>
+                    <div class="col-md-3 col-xs-6"> <input type="submit" ng-disabled="newEmployeForm.$invalid" class="btn btn-block btn-success" ng-click="controlForm(employe, contact, adresse, servir)" value="ENREGISTRER"> </div>
                 </div> 
             </div>
     

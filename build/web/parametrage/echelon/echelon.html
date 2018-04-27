@@ -7,7 +7,7 @@
       <div class="box-body">
            <div class="form-group">
                 <label for="libelle">Libelle<span style="color: red;">*</span></label>
-                <input  type="text" ng-model="echelon.libelle" name="libelle"  ng-pattern="/^[1-5]+$/i" class="form-control" id="libelle" placeholder="Libelle" />
+                <input  type="text" ng-model="echelon.libelle" name="libelle"  ng-pattern="/^([a-za-zâäàéèùêëîïôöçñ]|[1-9])+[a-zâäàéèùêëîïôöçñ ]*([a-za-zâäàéèùêëîïôöçñ]|[1-9])*$/i" class="form-control" id="libelle" placeholder="Libelle" />
                 <div role="alert" ng-show="echelonForm.libelle.$touched && echelonForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
                     <div>Vérifier votre saisie.</div>
                 </div>
