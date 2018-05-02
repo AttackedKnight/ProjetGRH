@@ -112,16 +112,44 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         alert('Une erreur est survenue');
     });
     
+    
+    /*GERER VUE ET DONNEES POUR LA DRH*/
+    $scope.typeEmp="PER";
+    $scope.estPER=true;
+    $scope.changerTypeEmploye=function(){
+        $scope.estPER=!$scope.estPER;
+        if($scope.estPER===true){
+            $scope.typeEmp="PER";
+        }
+        else{
+            $scope.typeEmp="PATS";
+        }
+      
+        $scope.changerListeSyndicats();
+        $scope.afficheTableGrade();
+       $scope.historiqueGrade = {id:"",encours:1};
+    };
+    
+    $scope.changerListeSyndicats=function(){
+        if($scope.estPER===true){
+            $scope.syndicats=$scope.syndicatsPer;
+        }
+        else{
+             $scope.syndicats=$scope.syndicatsPats;
+        }
+         
+    };
+    /*GERER VUE ET DONNEES POUR LA DRH*/
+    
     /*Grade*/
     
     
     
     $scope.historiqueGrade = {id:"",encours:1};
-    
-    
-    
 
-    if($rootScope.groupeUtilisateur.code=='PATS_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PATS")){
+    $scope.afficheTableGrade=function(){
+        if($rootScope.groupeUtilisateur.code=='PATS_AD'
+            || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PATS")){
         
         $scope.classes=[];
         $scope.gradeClasse=[];
@@ -130,7 +158,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         $scope.niveauClasse=[];
         $scope.classeSelectionnee="1";
 
-        for(var i=1;i<=3;i++){
+        for(var i=1;i<=4;i++){
             req_classes.push(Grade.findPatsClasse(i));
         }
 
@@ -142,9 +170,8 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
             $scope.getCategorieAndNiveauClasse();
         });
 
-        
-
-        $scope.getCategorieAndNiveauClasse=function(){     
+        $scope.getCategorieAndNiveauClasse=function(){
+            $scope.classeSelectionnee=$('#classe').val();
             $scope.gradeClasse=$scope.classes[parseInt($scope.classeSelectionnee)-1];
 
             var req_cat_niv=[];
@@ -158,41 +185,41 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
             });
         };
     }
-    if($rootScope.groupeUtilisateur.code=='PATS_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PER")){
-        
+        if($rootScope.groupeUtilisateur.code=='PER_AD' 
+                || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PER")){
+       
         $scope.corps=[];
         var req_corps=[];
         $scope.classeCorps=[];
         $scope.gradeCorps=[];
-        
-        
+               
         $scope.corpsSelectionnee="0";
-        
         
         req_corps.push(Grade.findPerCorps("Assistant"));
         req_corps.push(Grade.findPerCorps("Maître de conférence"));
         req_corps.push(Grade.findPerCorps("Professeur"));
         
-
         $q.all(req_corps).then(function(result){
             for(var i=0;i<result.length;i++){
                 $scope.corps[i]=result[i].data;           
             }
-            console.log($scope.corps);
-            $scope.getClasseCorps();
+            $scope.getClasseCorps($scope.corps);
         });
         
         $scope.getClasseCorps=function(){     
-            $scope.gradeCorps=$scope.corps[parseInt($scope.classeSelectionnee)];
-            
+            $scope.corpsSelectionnee=$('#corps').val();
+            $scope.gradeCorps=$scope.corps[parseInt($scope.corpsSelectionnee)];
+ 
             var req_classe_corps=[];
-            switch (parseInt($scope.classeSelectionnee)){
+            var choix=parseInt($scope.corpsSelectionnee);
+            
+            switch (choix){
                 
                 case 0:
                     req_classe_corps.push(Grade.compterPerClasseCorps("Assistant"));
                     break;
                 case 1:
-                    req_classe_corps.push(Grade.compterPerClasseCorps("Maitre de conférérence"));
+                    req_classe_corps.push(Grade.compterPerClasseCorps("Maître de conférence"));
                     break;
                 case 2:
                     req_classe_corps.push(Grade.compterPerClasseCorps("Professeur"));
@@ -202,14 +229,15 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
             $q.all(req_classe_corps).then(function(result){
 
                 $scope.classeCorps=result[0].data;
-                
-                console.log($scope.classeCorps);
-                
             });
+
         };
     }
     
     
+    };
+    
+     $scope.afficheTableGrade();
     
     
     /*Grade*/
@@ -288,34 +316,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     /*          RECCUPERATION DES ELEMENTS PARAMETRES POUR LES AFFICHER DANS LES LISTES DE SELECTION        */
     
     
-    /*GERER VUE ET DONNEES POUR LA DRH*/
-    $scope.typeEmp="PER";
-    $scope.estPER=true;
-    $scope.changerTypeEmploye=function(){
-        $scope.estPER=!$scope.estPER;
-        if($scope.estPER===true){
-            $scope.typeEmp="PER";
-        }
-        else{
-            $scope.typeEmp="PATS";
-        }
-        console.log($scope.typeEmp);
-        console.log($scope.estPER);
-        
-        $scope.changerListeSyndicats();
-    };
     
-    $scope.changerListeSyndicats=function(){
-        if($scope.estPER===true){
-            $scope.syndicats=$scope.syndicatsPer;
-        }
-        else{
-             $scope.syndicats=$scope.syndicatsPats;
-        }
-       console.log($scope.syndicats);    
-       
-    };
-    /*GERER VUE ET DONNEES POUR LA DRH*/
     
     //Civilite et type employe sont à préciser avant l'insertion
     
@@ -431,13 +432,20 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
 //    Réinitialisation du formulaire
     
     
-    $scope.reinitialiserFormulaire=function(){
+    $scope.reinitialiser=function(){
         $scope.employe={id:""};
         $scope.contact={id:""};
         $scope.adresse={id:""};
         $scope.historiqueGrade = {id:"",encours:1};
-        $scope.classeSelectionnee="1";
-        $scope.getCategorieAndNiveauClasse();
+        if($rootScope.groupeUtilisateur.code=='PATS_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PATS")){
+            $scope.classeSelectionnee="1";
+            $scope.getCategorieAndNiveauClasse();
+        }
+        if($rootScope.groupeUtilisateur.code=='PER_AD' || ($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PER")){
+            $scope.corpsSelectionnee="0";
+            $scope.getClasseCorps();
+        }
+        
         $scope.servir={id:""};
         $scope.fonction={id:""};
         $scope.estMembreMutuelle=false;
@@ -478,6 +486,7 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         $scope.historiqueGrade.datePassation=datePassation;
         $scope.historiqueGrade.dateProchainAvancement=dateProchainAvancement;
         $scope.historiqueGrade.employe=$scope.employe;
+        
         
         HistoriqueGrade.add($scope.historiqueGrade).success(function(){ 
             
@@ -624,8 +633,8 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
         
         var msg='to='+$scope.contact.email+'&objet=identifiants de connexion&body='+corps;
 
-        $scope.reinitialiserFormulaire();
-        
+        $scope.reinitialiser();
+
         Mail.sendEmail(msg).success(function(data){ 
             ;
         }).error(function () {
@@ -708,8 +717,6 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
            }
         });
         if(validite===true){
-//            $('#bloc-identifiant').removeClass('box-primary');
-//            $('#bloc-identifiant').addClass('box-success');
             $scope.controlCivilite(c,contact,adr,tra);
         }
 
@@ -730,8 +737,6 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
            }
         });
         if(validite===true){
-//            $('#bloc-etatCivil').removeClass('box-primary');
-//            $('#bloc-etatCivil').addClass('box-success');
             $scope.controlSituationMatri(c,contact,adr,tra);
         }
         
@@ -752,8 +757,6 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
              validite=false;
         }
         if(validite===true){
-          //  $('#bloc-situation').removeClass('box-primary');
-//            $('#bloc-situation').addClass('box-success');
            $scope.controlContact(c,contact,adr,tra);
         }
         
@@ -768,8 +771,6 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
            }
         });
         if(validite===true){
- //           $('#bloc-contact').removeClass('box-primary');
-//            $('#bloc-contact').addClass('box-success');
            $scope.controlAdresse(c,contact,adr,tra);
         }
         
@@ -784,8 +785,6 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
            }
         });       
         if(validite===true){
-//            $('#bloc-adresse').removeClass('box-primary');
-//            $('#bloc-adresse').addClass('box-success');
            $scope.controlPoste(c,contact,adr,tra);
         }
         
@@ -808,8 +807,6 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
              validite=false;
         }
         if(validite===true){
-//            $('#bloc-poste').removeClass('box-primary');
-//            $('#bloc-poste').addClass('box-success');
              $scope.controlGrade(c,contact,adr,tra);
         }
         
@@ -819,8 +816,16 @@ angular.module('DrhModule').controller('EmployeController',function($scope,$root
     $scope.controlGrade=function(c,contact,adr,tra){
         var validite=true;
         if(!$scope.historiqueGrade.grade || $scope.historiqueGrade.grade==null){
-            
-            $('#grade-not-selected').show("slow").delay(3000).hide("slow");
+           
+            if($rootScope.groupeUtilisateur.code=='PATS_AD' || $rootScope.groupeUtilisateur.code=='PER_AD'){
+                $('.grade-not-selected').eq(0).show("slow").delay(3000).hide("slow");
+            }
+            if($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PATS"){
+                $('.grade-not-selected').eq(0).show("slow").delay(3000).hide("slow");
+            }
+            if($rootScope.groupeUtilisateur.code=='DRH_AD' &&  $scope.typeEmp=="PER"){
+                $('.grade-not-selected').eq(1).show("slow").delay(3000).hide("slow");
+            }
             validite=false;
            
         }

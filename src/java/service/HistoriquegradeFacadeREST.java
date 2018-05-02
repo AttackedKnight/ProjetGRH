@@ -61,6 +61,19 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
     public Historiquegrade find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    @GET
+    @Path("employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEmploye(@PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM  Historiquegrade h WHERE h.employe.id = :id ORDER BY h.id DESC", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
 
     @GET
     @Override

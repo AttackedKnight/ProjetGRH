@@ -6,7 +6,7 @@
 
 
 
-angular.module('DrhModule').controller('DetailEmployeController',function($scope,Securite,Classe,Categorie,Niveau,Corps,Echelon,$routeParams,Avancement,UploadFile,Typedocument,Situation,Entite,$rootScope,Syndicat,Diplome,MutuelleSante,Formation,Employe,Contact,Adresse,Servir,MembreMutuelle,Grade,Fonction,Typecontrat,Document,Connexion)
+angular.module('DrhModule').controller('DetailEmployeController',function($scope,$q,Securite,HistoriqueGrade,Classe,Categorie,Niveau,Corps,Echelon,$routeParams,Avancement,UploadFile,Typedocument,Situation,Entite,$rootScope,Syndicat,Diplome,MutuelleSante,Formation,Employe,Contact,Adresse,Servir,MembreMutuelle,Grade,Fonction,Typecontrat,Document,Connexion)
 {
     
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -513,7 +513,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         
         $scope.findAllFormations();
         $scope.formation={id:"",employe:$scope.employe};
-        $scope.grade={id:"",employe:$scope.employe,encours:1};
+        $scope.historiqueGrade={id:"",employe:$scope.employe,encours:1};
         
         if($scope.employe.syndicat){
             $scope.currentSyndicat=$scope.employe.syndicat.id;
@@ -776,104 +776,159 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
    /*                    Parcours professionel                       */
    
    /*                     AVANCEMENT                                 */
-   $scope.typeavancements=[];
+
+   $scope.showGradeList=false;
+   
+   $scope.toggleGradeList=function(){
+       $scope.showGradeList=!$scope.showGradeList;
+       
+   };
+   
+    $scope.getCategorieAndNiveauClasse=function(){    
+
+        $scope.classeSelectionnee=$('#classe').val();
+        $scope.gradeClasse=$scope.classes[parseInt($scope.classeSelectionnee)-1];
+
+        var req_cat_niv=[];
+        req_cat_niv.push(Grade.compterPatsCategorieClasse($scope.classeSelectionnee));
+        req_cat_niv.push(Grade.compterPatsNiveauClasse($scope.classeSelectionnee));
+
+        $q.all(req_cat_niv).then(function(result){
+
+            $scope.categorieClasse=result[0].data;
+            $scope.niveauClasse=result[1].data;
+        });
+    };
+    
+    $scope.getClasseCorps=function(){     
+//        $scope.gradeCorps=$scope.corps[parseInt($scope.corpsSelectionnee)];
+        $scope.corpsSelectionnee=$('#corps').val();;      
+        $scope.gradeCorps=$scope.corps[parseInt($scope.corpsSelectionnee)];
+        
+        var req_classe_corps=[];
+        var choix=parseInt($scope.corpsSelectionnee);
+        
+        switch (choix){
+
+            case 0:
+                req_classe_corps.push(Grade.compterPerClasseCorps("Assistant"));
+                break;
+            case 1:
+                req_classe_corps.push(Grade.compterPerClasseCorps("Maître de conférence"));
+                break;
+            case 2:
+                req_classe_corps.push(Grade.compterPerClasseCorps("Professeur"));
+                break;
+        }
+
+        $q.all(req_classe_corps).then(function(result){
+
+            $scope.classeCorps=result[0].data;
+
+        });
+    };
+    $scope.listerGrade=function(arg){
+        if($scope.employe.typeEmploye.code=='PATS'){
+        
+            $scope.classes=[];
+            $scope.gradeClasse=[];
+            var req_classes=[];
+            $scope.categorieClasse=[];
+            $scope.niveauClasse=[];
+            $scope.classeSelectionnee=arg;
+
+            for(var i=1;i<=4;i++){
+                req_classes.push(Grade.findPatsClasse(i));
+            }
+
+            $q.all(req_classes).then(function(result){
+                for(var i=0;i<result.length;i++){
+                    $scope.classes[i]=result[i].data;           
+                }
+
+                $scope.getCategorieAndNiveauClasse();
+            });  
+        }
+        
+        if($scope.employe.typeEmploye.code=='PER'){
+
+            $scope.corps=[];
+            var req_corps=[];
+            $scope.classeCorps=[];
+            $scope.gradeCorps=[];
+
+            $scope.corpsSelectionnee=arg;
+
+            req_corps.push(Grade.findPerCorps("Assistant"));
+            req_corps.push(Grade.findPerCorps("Maître de conférence"));
+            req_corps.push(Grade.findPerCorps("Professeur"));
+
+
+            $q.all(req_corps).then(function(result){
+                for(var i=0;i<result.length;i++){
+                    $scope.corps[i]=result[i].data;           
+                }
+                
+                $scope.getClasseCorps();
+            });          
+        }
+   };
+   
+    
+    
    
    $scope.listerHistoriqueAvancement=function(){
-       Grade.findByEmploye($scope.employe).success(function (data) {
+        HistoriqueGrade.findByEmploye($scope.employe).success(function (data) {
             $scope.grades=data;         
-            $scope.gradeActu=$scope.grades[($scope.grades.length-1)];
+            $scope.gradeActu=$scope.grades[0];
+//            console.log($scope.gradeActu)
+            $scope.listerGrade();    
+            
+            var selection="";
+            
+            if($scope.gradeActu){
+                if($scope.employe.typeEmploye.code=="PATS"){
+                    selection=$scope.gradeActu.grade.classe.libelle;
+
+                }
+                if($scope.employe.typeEmploye.code=="PER"){
+                    if($scope.gradeActu.grade.corps.libelle=="Assistant"){
+                        selection="0";
+                    }
+                    if($scope.gradeActu.grade.corps.libelle=="Maître de conférence"){
+                        selection="1";
+                    }
+                    if($scope.gradeActu.grade.corps.libelle=="Professeur"){
+                        selection="2";
+                    }
+
+                }
+            }
+            else{
+                if($scope.employe.typeEmploye.code=="PATS"){
+                    selection="1";
+                }
+                if($scope.employe.typeEmploye.code=="PER"){
+                    selection="0";
+                }
+            }
+            
+
+            $scope.listerGrade(selection);
         }).error(function () {
             alert('Une erreur est survenue');
         });
-   };
-    
-    Avancement.findAll().success(function (data) {
-        
-        $scope.typeavancements=data;          
-    }).error(function () {
-        alert('Une erreur est survenue : type avancement');
-    });
-   
-   Corps.findAll().success(function (data) {  
-        $scope.corps=data;         
-    }).error(function () {
-        alert('Une erreur est survenue : corps');
-    });          
-  
-    
-    Classe.findAll().success(function (data) {
-        $scope.classes=data;
-    }).error(function () {
-        alert('Une erreur est survenue : classe');
-    });          
-    
-    
-    
-    Echelon.findAll().success(function (data) {
-        $scope.echelons=data;          
-    }).error(function () {
-        alert('Une erreur est survenue : echelon');
-    });          
-   
-        
-    Niveau.findAll().success(function (data) {
-        $scope.niveaux=data;
-    }).error(function () {
-        alert('Une erreur est survenue: niveau');
-    });          
-       
+    };
 
-    Categorie.findAll().success(function (data) {
-        $scope.categories=data;  
-    }).error(function () {
-        alert('Une erreur est survenue');
-    }); 
     
-    $scope.grade={id:""};
     
-    $scope.controlGradeForm=function(grade){
+    $scope.controlGradeForm=function(){
         var validite=true;
-        if($scope.employe.typeEmploye.code=='PER'){
-            if(grade.corps==null){
-                $("#corps").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.classe==null){
-                 $("#classe").parent().next().show("slow").delay(3000).hide("slow");
-                 validite=false;
-            }
-            if(grade.echelon==null){
-                $("#echelon").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.typeAvancement==null){
-                $("#typeAvancement").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
+        if(!$scope.historiqueGrade.grade || $scope.historiqueGrade.grade==null){
+            $('#grade-not-selected').show("slow").delay(3000).hide("slow");
+            validite=false;
         }
-        if($scope.employe.typeEmploye.code=='PATS'){
-            if(grade.classe==null){
-                 $("#classe").parent().next().show("slow").delay(3000).hide("slow");
-                 validite=false;
-            }
-            if(grade.categorie==null){
-                $("#categorie").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.niveau==null){
-                $("#niveau").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.echelon==null){
-                $("#echelon").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-            if(grade.typeAvancement==null){
-                $("#typeAvancement").parent().next().show("slow").delay(3000).hide("slow");
-                validite=false;
-            }
-        }
-        
+   
         if(validite===true){
             $scope.ajouterGrade();
         }
@@ -881,24 +936,41 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
     };
     
     $scope.ajouterGrade=function (){
-        $scope.grade.dateDePassage=new Date();
-        $scope.gradeActu.encours=false;
-        Grade.edit($scope.gradeActu).success(function(){
-            Grade.add($scope.grade).success(function(){ 
+        
+        var datePassation=new Date();
+        var dateProchainAvancement=new Date();
+        
+        dateProchainAvancement.setFullYear(dateProchainAvancement.getFullYear()+$scope.historiqueGrade.grade.duree);
+        
+        $scope.historiqueGrade.datePassation=datePassation;
+        $scope.historiqueGrade.dateProchainAvancement=dateProchainAvancement;
+        
+        if($scope.gradeActu){
+            $scope.gradeActu.encours=false;
+            HistoriqueGrade.edit($scope.gradeActu).success(function(){
+                HistoriqueGrade.add($scope.historiqueGrade).success(function(){ 
+                    $scope.listerHistoriqueAvancement();
+                    $scope.reinitialiserFormulaireAvancement();          
+                }).error(function () {
+                    alert('Une erreur est survenue : grade add');
+                });
+            }).error(function () {
+                alert('Une erreur est survenue : grade update');
+            });
+        }
+        else{
+            HistoriqueGrade.add($scope.historiqueGrade).success(function(){ 
                 $scope.listerHistoriqueAvancement();
                 $scope.reinitialiserFormulaireAvancement();          
             }).error(function () {
                 alert('Une erreur est survenue : grade add');
             });
-        }).error(function () {
-            alert('Une erreur est survenue : grade update');
-        });
+        }
         
     };
 
     $scope.reinitialiserFormulaireAvancement=function(){
-        $scope.grade={id:"",employe:$scope.employe,encours:1};  
-        
+        $scope.historiqueGrade={id:"",employe:$scope.employe,encours:1};          
     };
    
     /*                     AVANCEMENT                                 */

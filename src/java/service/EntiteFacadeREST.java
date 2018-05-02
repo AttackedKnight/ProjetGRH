@@ -61,6 +61,19 @@ public class EntiteFacadeREST extends AbstractFacade<Entite> {
     public Entite find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    @GET
+    @Path("sousentite/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Entite> getSousEntite(@PathParam("id") Integer id) {
+          List<Entite> e=em.createQuery("SELECT e FROM Entite e WHERE  e.entite.id = :id", Entite.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(e.size()>0){
+            return e;
+        }
+        return null;
+    }
 
     @GET
     @Override

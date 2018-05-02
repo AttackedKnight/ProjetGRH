@@ -21,6 +21,10 @@ return{
         },
         edit:function(item){
             return $http.put(chemin+'/webresources/sn.grh.entite/'+item.id,item);
+        },
+        getSousEntite:function (e){
+               
+            return $http.get(chemin+'/webresources/sn.grh.entite/sousentite/'+e.id);
         }
 };
 });
