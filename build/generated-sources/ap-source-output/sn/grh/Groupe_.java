@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Accesgroupe;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-04-26T19:45:43")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-05-08T10:24:20")
 @StaticMetamodel(Groupe.class)
 public class Groupe_ { 
 

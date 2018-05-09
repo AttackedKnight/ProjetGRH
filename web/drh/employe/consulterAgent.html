@@ -2,42 +2,136 @@
     <div class="box-header">
         <h1 class="box-title">Liste des Employes</h1>
     </div>
-
-    <div class="box-body table-responsive no-padding">
-      <table class="table table-striped" id="example1">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-target="#enService" data-toggle="tab" style="cursor: pointer;">En service</a></li>
+            <li><a data-target="#enConge" data-toggle="tab" style="cursor: pointer;">En conge</a></li>
+            <li><a data-target="#avancement" data-toggle="tab" style="cursor: pointer;">Avancement</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="enService">
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-striped" id="example1">
           
-        <thead>
-            <tr>
-              <th style="font-weight: bold; font-size: 1.1em;">Matricule</th>
-              <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
-              <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
-              <th style="font-weight: bold; font-size: 1.1em;" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                  Type
-              </th>
-              <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
-              <th style="font-weight: bold; font-size: 1.1em;">Fonction</th>
-              <th style="font-weight: bold; font-size: 1.1em;">Details</th>
-            </tr>
-        </thead>
-        <tbody> 
-            <tr ng-repeat="untravailleur in travailleurs | orderBy:critereTri :ordreTri">
-                <td>{{untravailleur.employe.matriculeInterne}}</td>
-                <td>{{untravailleur.employe.prenom}}</td>
-                <td>{{untravailleur.employe.nom}} </td>
-                <td ng-if="groupeUtilisateur.code=='DRH_AD'">
-                    {{untravailleur.employe.typeEmploye.code}}
-                </td>
-                <td>{{untravailleur.entite.nom}}</td>
-                <td>{{untravailleur.fonction.libelle}}</td>
-                <td>
-                    <a ng-href="#/drh/employe/detailAgent/{{untravailleur.employe.id}}" title="Détail">
-                        <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
-                    </a>
-                </td>
-            </tr>
-        </tbody>
-      </table>
-    </div><!-- /.box-body -->
+                        <thead>
+                            <tr>
+                              <th style="font-weight: bold; font-size: 1.1em;">Matricule</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
+                              <th style="font-weight: bold; font-size: 1.1em;" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                                  Type
+                              </th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Fonction</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr ng-repeat="untravailleur in travailleurs">
+                                <td>{{untravailleur.employe.matriculeInterne}}</td>
+                                <td>{{untravailleur.employe.prenom}}</td>
+                                <td>{{untravailleur.employe.nom}} </td>
+                                <td ng-if="groupeUtilisateur.code=='DRH_AD'">
+                                    {{untravailleur.employe.typeEmploye.code}}
+                                </td>
+                                <td>{{untravailleur.entite.nom}}</td>
+                                <td>{{untravailleur.fonction.libelle}}</td>
+                                <td>
+                                    <a ng-href="#/drh/employe/detailAgent/{{untravailleur.employe.id}}" title="Détail">
+                                        <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.tab-pane -->
+                  
+            <div class="tab-pane" id="enConge">
+                <div class="box-body table-responsive no-padding">
+                    samba
+                </div><!-- /.box-body -->
+            </div><!-- /.tab-pane -->
+            <div class="tab-pane" id="avancement">
+                <div class="box-body table-responsive no-padding">
+                    <form name="CritereForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                              <label>Selectionner</label>
+                              <select ng-change="definirCritere()" id="position" ng-model="position" class="form-control">
+                                  <option value="on">Le</option>
+                                  <option value="before">Avant</option>
+                                  <option value="after">Apres</option>
+                                  <option value="between">Entre</option>
+                              </select>
+                            </div>
+                            <div class="form-group col-md-3" ng-hide="intervalle">
+                              <label>Sélectionner une date</label>
+                              <input type="date" class="form-control" ng-model="dateFournie">
+
+                            </div>
+                            <div class="form-group col-md-3" ng-show="intervalle">
+                                <label>Date début</label>
+                                <input type="date" class="form-control" name="dateMin" ng-model="dateMin">
+                            </div>
+                            <div class="form-group col-md-3" ng-show="intervalle">
+                                <label>Date fin</label>
+                                <input type="date" class="form-control" name="dateMax" ng-model="dateMax">
+                                <div ng-messages="CritereForm.dateMax.$error" min="{{dateMin}}" role="alert" ng-show="CritereForm.dateMax.$invalid"  class="alert alert-block alert-danger has-error">
+                                    <div ng-message="max">Cette date doit etre supérieur ou égale à la date de début</div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label>Valider</label><br>
+                                <button class="btn btn-primary" ng-click="validerCritere()">
+                                    <i class="fa fa-check"></i> Valider
+                                </button>
+                            </div>
+                            
+                        </div>
+                     </form>
+                     <table class="table table-striped" id="example2">
+          
+                        <thead>
+                            <tr>
+                              <th style="font-weight: bold; font-size: 1.1em;">Matricule</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
+                              <th style="font-weight: bold; font-size: 1.1em;" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                                  Type
+                              </th>
+<!--                              <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Fonction</th>-->
+                              <th style="font-weight: bold; font-size: 1.1em;">Date Avancement</th>
+                              <th style="font-weight: bold; font-size: 1.1em;">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr ng-repeat="unavancement in avancements">
+                                <td>{{unavancement.employe.matriculeInterne}}</td>
+                                <td>{{unavancement.employe.prenom}}</td>
+                                <td>{{unavancement.employe.nom}} </td>
+                                <td ng-if="groupeUtilisateur.code=='DRH_AD'">
+                                    {{unavancement.employe.typeEmploye.code}}
+                                </td>
+<!--                                <td>{{unavancement.entite.nom}}</td>
+                                <td>{{unavancement.fonction.libelle}}</td>-->
+                                <td>{{unavancement.dateProchainAvancement | date: 'dd MMM yyyy'}}</td>
+                                <td>
+                                    <a ng-href="#/drh/employe/detailAgent/{{unavancement.employe.id}}" title="Détail">
+                                        <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        
+                    </table>
+                </div><!-- /.box-body -->
+            </div><!-- /.tab-pane -->
+        </div><!-- /.tab-content -->
+    </div><!-- nav-tabs-custom -->
+
+    
 </div><!-- /.box -->
  
               
