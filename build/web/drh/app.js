@@ -32,6 +32,27 @@ angular.module("DrhModule",['ngRoute','ngMessages']).config(function ($routeProv
     }).when('/drh/entite/consulter/:id',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeEntiteController'
+        
+    }).when('/drh/entite/consulter/:id/type/:type',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeEntiteController'
+        
+    }).when('/drh/entite/consulter/:id/homme/type/:type',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeHommeEntiteController'
+        
+    }).when('/drh/entite/consulter/:id/homme',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeHommeEntiteController'
+        
+    }).when('/drh/entite/consulter/:id/femme/type/:type',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeFemmeEntiteController'
+        
+    }).when('/drh/entite/consulter/:id/femme',{
+        templateUrl: 'drh/employe/consulterAgent.html',
+        controller: 'ConsulterEmployeFemmeEntiteController'
+        
     }).when('/drh/employe/detailAgent/:id',{
         templateUrl: 'drh/employe/detailAgent.html',
         controller: 'DetailEmployeController'

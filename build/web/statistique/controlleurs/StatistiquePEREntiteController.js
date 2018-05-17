@@ -14,7 +14,7 @@ angular.module('StatistiqueModule').controller('StatistiquePEREntiteController',
     
     Entite.findAll().success(function (data) {
         $scope.entites=data;
-        $scope.entiteChoisie=data[0];
+        $scope.entiteChoisie=data[1];
         $scope.montrerStatistique();
     }).error(function () {
         alert('Une erreur est survenue : entites');
@@ -22,27 +22,81 @@ angular.module('StatistiqueModule').controller('StatistiquePEREntiteController',
     
     $scope.changerEntite=function(){
         
+        $scope.filles=[];
         $scope.montrerStatistique();
+    };
+    $scope.filles=[];
+
+    $scope.getEntitesFille=function(){
+       
+        var filles=[];
+        
+        for(var i=0;i<$scope.entites.length;i++){
+            if($scope.estEnfant($scope.entites[i],$scope.entiteChoisie)==true){
+                filles.push($scope.entites[i]);
+            }
+        }
+        
+        return filles;
+        
+    };
+    
+    $scope.estEnfant=function(entite,parent){        
+        var e=entite;
+        var b=false;
+        while(e !=null){
+            if(e.id==parent.id){
+                b=true;
+                break;
+            }          
+            e=e.entite;
+        }
+        return b;
     };
     
     $scope.montrerStatistique=function(){
+        
+        $scope.filles=$scope.getEntitesFille();
+        
         $scope.countemploye=function(){
-            StatistiqueEntite.countemployeEntite($scope.entiteChoisie).success(function (data){
-                $scope.effectifemploye=data;
+            
+            $scope.effectifemploye=0;
+            var req_tab=[];
+            
+            for(var i=0;i<$scope.filles.length;i++)
+            {
+                req_tab.push(StatistiqueEntite.countemployeEntite($scope.filles[i]));
+            }
+            
+            $q.all(req_tab).then(function (result){              
+                for(var i=0;i<result.length;i++)
+                {
+                    $scope.effectifemploye+=parseInt(result[i].data);
+                }
                 $scope.countemployeper();
-            }).error(function () {
-                alert('Une erreur est survenue');
-            }); 
+            });
+            
         };
         $scope.countemploye();
 
         $scope.countemployeper=function(){
-            StatistiqueEntite.countemployeperEntite($scope.entiteChoisie).success(function (data){
-                $scope.effectifemployeper=data;
+            
+            $scope.effectifemployeper=0;
+            var req_tab=[];
+            
+            for(var i=0;i<$scope.filles.length;i++)
+            {
+                req_tab.push(StatistiqueEntite.countemployeperEntite($scope.filles[i]));
+            }
+            
+            $q.all(req_tab).then(function (result){              
+                for(var i=0;i<result.length;i++)
+                {
+                    $scope.effectifemployeper+=parseInt(result[i].data);
+                }
                 $scope.countemployehommeper();
-            }).error(function () {
-                alert('Une erreur est survenue');
-            }); 
+            });
+
         };
 
 
@@ -51,19 +105,42 @@ angular.module('StatistiqueModule').controller('StatistiquePEREntiteController',
         $scope.effectifTotalFemmePer=0;
 
         $scope.countemployehommeper=function(){
-            StatistiqueEntite.countemployehommeperEntite($scope.entiteChoisie).success(function (data){
-                $scope.effectifTotalHommePer=data;
+            
+            $scope.effectifTotalHommePer=0;
+            var req_tab=[];
+            
+            for(var i=0;i<$scope.filles.length;i++)
+            {
+                req_tab.push(StatistiqueEntite.countemployehommeperEntite($scope.filles[i]));
+            }
+            
+            $q.all(req_tab).then(function (result){              
+                for(var i=0;i<result.length;i++)
+                {
+                    $scope.effectifTotalHommePer+=parseInt(result[i].data);
+                }
                 $scope.countemployefemmeper();
-            }).error(function () {
-                alert('Une erreur est survenue');
-            }); 
+            });
+            
         };
 
 
 
         $scope.countemployefemmeper=function(){
-            StatistiqueEntite.countemployefemmeperEntite($scope.entiteChoisie).success(function (data){
-                $scope.effectifTotalFemmePer=data;
+            
+            $scope.effectifTotalFemmePer=0;
+            var req_tab=[];
+            
+            for(var i=0;i<$scope.filles.length;i++)
+            {
+                req_tab.push(StatistiqueEntite.countemployefemmeperEntite($scope.filles[i]));
+            }
+            
+            $q.all(req_tab).then(function (result){              
+                for(var i=0;i<result.length;i++)
+                {
+                    $scope.effectifTotalFemmePer+=parseInt(result[i].data);
+                }
                 $scope.pourcentagePer=(($scope.effectifemployeper/$scope.effectifemploye)*100).toFixed(2);
                 $scope.pourcentageHommesPer=(($scope.effectifTotalHommePer/$scope.effectifemployeper)*100).toFixed(2);
                 $scope.pourcentageFemmesPer=(($scope.effectifTotalFemmePer/$scope.effectifemployeper)*100).toFixed(2);
@@ -197,10 +274,7 @@ angular.module('StatistiqueModule').controller('StatistiquePEREntiteController',
                   handleRollOver(e);
                 });
 
-    //            function handleInit(){
-    //              chartHomFem.legend.addListener("rollOverItem", handleRollOver);
-    //            }
-
+ 
                     /*   Fin StatistiqueEntites Hommes et Femmes      */
 
                 function handleRollOver(e){
@@ -209,366 +283,392 @@ angular.module('StatistiqueModule').controller('StatistiquePEREntiteController',
                 }
 
 
-            }).error(function () {
-                alert('Une erreur est survenue');
             }); 
         };
 
         /*Trache age*/
 
-            $scope.today=new Date();
+        $scope.today=new Date();
 
-            $scope.trancheAge=function(debut,fin){
+        $scope.trancheAge=function(debut,fin){
 
-                var from=new Date();
-                var to=new Date();
+            var from=new Date();
+            var to=new Date();
 
-                from.setFullYear(from.getFullYear()-debut);
+            from.setFullYear(from.getFullYear()-debut);
 
-                to.setFullYear(to.getFullYear()-fin);
+            to.setFullYear(to.getFullYear()-fin);
 
-                var debut=from.getFullYear()+'-'+(from.getMonth()+1)+'-'+from.getDate();
-                var fin=to.getUTCFullYear()+'-'+(to.getUTCMonth()+1)+'-'+to.getUTCDate();
+            var debut=from.getFullYear()+'-'+(from.getMonth()+1)+'-'+from.getDate();
+            var fin=to.getUTCFullYear()+'-'+(to.getUTCMonth()+1)+'-'+to.getUTCDate();
 
-                var dates=debut+'/'+fin;
+            var dates=debut+'/'+fin;
 
-                return dates;
-            };
+            return dates;
+        };
 
-            $scope.getEffectifTrancheAgeHomme=function (date1,date2){
-                StatistiqueEntite.trancheagehommesperEntite($scope.entiteChoisie,date1,date2).success(function (data){
-                    return data;             
-                }).error(function () {
-                    alert('Une erreur est survenue');
+        $scope.construireGrapheTranche=function(debut,fin, intervalle){
+            $scope.donnees=[];
+
+            var end=debut+intervalle;
+
+            var intervalle_date;
+            var date1;
+            var date2;
+
+            var req_h=[];
+            var req_f=[];
+            /*Creation de l'objet a afficher sur le graphe*/
+            while(end<=fin){              
+                intervalle_date= $scope.trancheAge(debut,end);
+                date1=intervalle_date.split('/')[0];
+                date2=intervalle_date.split('/')[1];
+                var une_barre={};
+                une_barre.annee=debut+'-'+end;
+
+                $scope.donnees.push(une_barre);
+
+                debut=end;
+                end=debut+intervalle;
+                
+                for(var i=0;i<$scope.filles.length;i++)
+                {
+                    req_h.push(StatistiqueEntite.trancheagehommesperEntite($scope.filles[i],date1,date2));
+                }
+
+                for(var i=0;i<$scope.filles.length;i++)
+                {
+                    req_f.push(StatistiqueEntite.trancheagefemmesperEntite($scope.filles[i],date1,date2));
+                }
+            }
+
+            $q.all(req_h).then(function (result){
+                var indice_barre=0;
+                var cmp_entites_filles=0;
+                var hom_e=0;
+                var fem_e=0;
+                
+                for(var b=0;b<result.length;b++){
+                    hom_e+=parseInt(result[b].data);
+                    cmp_entites_filles++;
+                    if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.donnees.length){                     
+                        $scope.donnees[indice_barre].hommes=hom_e;
+                        cmp_entites_filles=0;
+                        hom_e=0;
+                        indice_barre+=1;
+                    }
+                }
+
+                $q.all(req_f).then(function (result){
+                    var indice_barre=0;
+                    var cmp_entites_filles=0;
+                    for(var b=0;b<result.length;b++){
+                        fem_e+=parseInt(result[b].data);
+                        cmp_entites_filles++;
+                        if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.donnees.length){                     
+                            $scope.donnees[indice_barre].femmes=fem_e;
+                            cmp_entites_filles=0;
+                            fem_e=0;
+                            indice_barre+=1;
+                        }
+                    }
+
+                    /*Dessiner le graphe Tranche d'age*/
+                    $scope.tracerDiagrammeTrancheAge($scope.donnees);
+                    
+
                 });
-             };
-             $scope.getEffectifTrancheAgeFemme=function (date1,date2){          
-                StatistiqueEntite.trancheagefemmesperEntite($scope.entiteChoisie,date1,date2).success(function (data){
-                    return data;
-                }).error(function () {
-                    alert('Une erreur est survenue');
-                });          
-             };
+            });
 
-            $scope.construireGrapheTranche=function(debut,fin, intervalle){
-                $scope.donnees=[];
+         /*Dessiner le graphe Tranche d'age*/
 
-                var end=debut+intervalle;
+        };
 
-                var intervalle_date;
-                var date1;
-                var date2;
+        $scope.tracerDiagrammeTrancheAge=function(donnees){
+            var chartTrancheAge = AmCharts.makeChart("trancheAge", {
+                "theme": "light",
+                "type": "serial",
+              "startDuration": 2,
+                "dataProvider": donnees,
+                "valueAxes": [{
+              "position": "left"
+                }],
+                "graphs": [{
+                    "balloonText": "[[category]]:<br/> <b> Hommes [[value]]</b>",
 
-                var req_h=[];
-                var req_f=[];
-                /*Creation de l'objet a afficher sur le graphe*/
-                while(end<=fin){              
-                    intervalle_date= $scope.trancheAge(debut,end);
-                    date1=intervalle_date.split('/')[0];
-                    date2=intervalle_date.split('/')[1];
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "hommes"
+                },{
+                    "balloonText": "[[category]]:<br/> <b> Femmmes [[value]]</b>",
+
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "femmes"
+                }],
+                "depth3D": 20,
+              "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": true,
+                    "cursorAlpha": 0,
+                    "zoomable": false
+                },
+                "categoryField": "annee",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "labelRotation": 0
+               },
+               "export": {
+                   "enabled": true
+               }
+
+            });
+        };
+
+        $scope.debutTrancheAge=20;
+        $scope.finTrancheAge=65;
+        $scope.intervalleTrancheAge=5;
+
+        $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge,$scope.intervalleTrancheAge);
+
+        $scope.actualiserTrancheAge=function(d,f,i){
+            if(parseInt(d)>0 && parseInt(f)>0 && parseInt(i)>0){
+                if(parseInt(d)>parseInt(f)){
+                    alert('La valeur de début doit etre inférieure à celle de fin');
+                }
+                else{
+                    $scope.construireGrapheTranche(parseInt(d),parseInt(f),parseInt(i));
+                }
+            }
+
+
+        };
+
+
+        /*Trache age*/
+
+
+        /*Debut Niveau etude*/
+
+        $scope.calculerEffectifPerParCorps=function(){
+            var corps=['Professeur','Maître de conférence','Assistant'];
+            var j=0;
+            var req_corps=[];
+            $scope.effectifsParCorps=[];
+
+            var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+            for(var i=0;i<=corps.length-1;i++){
+                j=getRandomInt(colors.length);
+
                     var une_barre={};
-                    une_barre.annee=debut+'-'+end;
+                    une_barre.annee=corps[i];
+                    une_barre.color=colors[j];
 
-                    $scope.donnees.push(une_barre);
+                    colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
 
-                    debut=end;
-                    end=debut+intervalle;
+                    $scope.effectifsParCorps.push(une_barre);
 
-                    var promise_h = StatistiqueEntite.trancheagehommesperEntite($scope.entiteChoisie,date1,date2);
-                    req_h.push(promise_h);
+                    for(var j=0;j<$scope.filles.length;j++)
+                    {
 
-                    var promise_f = StatistiqueEntite.trancheagefemmesperEntite($scope.entiteChoisie,date1,date2);
-                    req_f.push(promise_f);
-
-                }
-
-                $q.all(req_h).then(function (result){
-
-                    for(var i=0;i<result.length;i++){
-                        $scope.donnees[i].hommes=parseInt(result[i].data);
+                        req_corps.push(StatistiqueEntite.compterPerDeCorpsEntite($scope.filles[j],corps[i]));
                     }
 
-                    $q.all(req_f).then(function (result){
-                        for(var i=0;i<result.length;i++){
-                            $scope.donnees[i].femmes=parseInt(result[i].data);
+            }
+            $q.all(req_corps).then(function (result){
+               
+                var indice_barre=0;
+                var cmp_entites_filles=0;
+                var cumul=0;
+
+                for(var b=0;b<result.length;b++){
+                    cumul+=parseInt(result[b].data);
+                    cmp_entites_filles++;
+                    if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.effectifsParCorps.length){                     
+                        $scope.effectifsParCorps[indice_barre].pourcentage=cumul;
+                        cmp_entites_filles=0;
+                        cumul=0;
+                        indice_barre+=1;
+                    }
+                }
+
+                $scope.tracerDiagrammePerParCorps($scope.effectifsParCorps);
+            });
+        };
+
+        $scope.calculerEffectifPerParCorps();
+
+        $scope.tracerDiagrammePerParCorps=function(donnees){
+            var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
+                "theme": "light",
+                "type": "serial",
+              "startDuration": 2,
+                "dataProvider":donnees,
+                "valueAxes": [{
+              "position": "left"
+                }],
+                "graphs": [{
+                    "balloonText": "[[category]]: <b>[[value]]</b>",
+                    "fillColorsField": "color",
+                    "fillAlphas": 1,
+                    "lineAlpha": 0.1,
+                    "type": "column",
+                    "valueField": "pourcentage"
+                }],
+                "depth3D": 20,
+              "angle": 30,
+                "chartCursor": {
+                    "categoryBalloonEnabled": true,
+                    "cursorAlpha": 0,
+                    "zoomable": false
+                },
+                "categoryField": "annee",
+                "categoryAxis": {
+                    "gridPosition": "start",
+                    "labelRotation": 0
+                },
+                "export": {
+                    "enabled": true
+                }
+
+            });
+        };
+
+
+        /*- Fin niveau d'etude*/
+
+        /*Debut RECRUTEMENT*/
+
+
+
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+        }
+
+        function supprimerCouleur(colorsTab,index){
+            var tab=[];
+            var j=0;
+            for(var i=0;i<colorsTab.length;i++){
+                if(i!==index){
+
+                    tab[j]=colorsTab[i];
+                    j++;
+                }
+            }
+
+            return  tab;
+        }
+
+        $scope.countRecrutement=function(nombreAnnees){
+            $scope.recrutements=[];
+
+            var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+
+            var d = new Date();
+            var n = d.getFullYear();
+
+            var debutAnnee;
+            var finAnnee;
+            var i=0;
+
+            var req_recru=[];
+              /*Creation de l'objet a afficher sur le graphe*/
+            while(nombreAnnees>0){              
+
+                //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
+                debutAnnee=n+'-01-01';
+                finAnnee=n+'-12-31';                     
+                //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
+
+                i=getRandomInt(colors.length);
+
+                var une_barre={};
+                une_barre.annee=parseInt(n);
+                une_barre.color=colors[i];
+
+                colors=supprimerCouleur(colors,i); //Supprimer la couleur de la liste des couleurs:éviter répétition
+
+                $scope.recrutements.push(une_barre);
+
+                for(var i=0;i<$scope.filles.length;i++)
+                {
+                    req_recru.push(StatistiqueEntite.compterRecrutementPerEntite($scope.filles[i],debutAnnee,finAnnee));
+                }
+                n-=1;
+                nombreAnnees--;
+            }
+
+            $q.all(req_recru).then(function (result){
+                var indice_barre=0;
+                var cmp_entites_filles=0;
+                var cumul=0;
+
+                for(var b=0;b<result.length;b++){
+                    cumul+=parseInt(result[b].data);
+                    cmp_entites_filles++;
+                    if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.recrutements.length){                     
+                        $scope.recrutements[indice_barre].pourcentage=cumul;
+                        cmp_entites_filles=0;
+                        cumul=0;
+                        indice_barre+=1;
+                    }
+                }
+
+                $scope.recrutements.reverse();
+                
+                $scope.tracerDiagrammeRecrutementParAnnee($scope.recrutements);
+
+             });
+
+        };
+
+        $scope.tracerDiagrammeRecrutementParAnnee=function(recrutements){
+          var chartnbreRecrutement = AmCharts.makeChart("statNbreRecrutement", {
+                        "theme": "light",
+                        "type": "serial",
+                      "startDuration": 2,
+                        "dataProvider": recrutements,
+                        "valueAxes": [{
+                      "position": "left"
+                        }],
+                        "graphs": [{
+                            "balloonText": "[[category]]: <b>[[value]]</b><br/>",
+                            "fillColorsField": "color",
+                            "fillAlphas": 1,
+                            "lineAlpha": 0.1,
+                            "type": "column",
+                            "valueField": "pourcentage"
+                        }],
+                        "depth3D": 20,
+                      "angle": 30,
+                        "chartCursor": {
+                            "categoryBalloonEnabled": true,
+                            "cursorAlpha": 0,
+                            "zoomable": false
+                        },
+                        "categoryField": "annee",
+                        "categoryAxis": {
+                            "gridPosition": "start",
+                            "labelRotation": 0
+                        },
+                        "export": {
+                            "enabled": true
                         }
 
-                        /*Dessiner le graphe Tranche d'age*/
+                    });  
+        };
+        
+        $scope.intervaleAnneeRecrutement=5;
 
-                        var chartTrancheAge = AmCharts.makeChart("trancheAge", {
-                             "theme": "light",
-                             "type": "serial",
-                           "startDuration": 2,
-                             "dataProvider": $scope.donnees,
-                             "valueAxes": [{
-                           "position": "left"
-                             }],
-                             "graphs": [{
-                                 "balloonText": "[[category]]:<br/> <b> Hommes [[value]]</b>",
+        $scope.countRecrutement($scope.intervaleAnneeRecrutement);
 
-                                 "fillAlphas": 1,
-                                 "lineAlpha": 0.1,
-                                 "type": "column",
-                                 "valueField": "hommes"
-                             },{
-                                 "balloonText": "[[category]]:<br/> <b> Femmmes [[value]]</b>",
-
-                                 "fillAlphas": 1,
-                                 "lineAlpha": 0.1,
-                                 "type": "column",
-                                 "valueField": "femmes"
-                             }],
-                             "depth3D": 20,
-                           "angle": 30,
-                             "chartCursor": {
-                                 "categoryBalloonEnabled": true,
-                                 "cursorAlpha": 0,
-                                 "zoomable": false
-                             },
-                             "categoryField": "annee",
-                             "categoryAxis": {
-                                 "gridPosition": "start",
-                                 "labelRotation": 0
-                             },
-                            "export": {
-                                "enabled": true
-                            }
-
-                         });
-
-                    });
-                });
-
-    //            console.log($scope.donnees);
-             /*Dessiner le graphe Tranche d'age*/
-
-            };
-
-
-            $scope.debutTrancheAge=20;
-            $scope.finTrancheAge=60;
-            $scope.intervalleTrancheAge=4;
-
-            $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge,$scope.intervalleTrancheAge);
-
-            $scope.actualiserTrancheAge=function(d,f,i){
-                if(parseInt(d)>0 && parseInt(f)>0 && parseInt(i)>0){
-                    if(parseInt(d)>parseInt(f)){
-                        alert('La valeur de début doit etre inférieure à celle de fin');
-                    }
-                    else{
-                        $scope.construireGrapheTranche(parseInt(d),parseInt(f),parseInt(i));
-                    }
-                }
-
-
-            };
-
-
-             /*Trache age*/
-
-
-            /*Debut Niveau etude*/
-//
-//            $scope.calculerEffectifPerParCorps=function(){
-//                var corps=['Professeur','Maître de conférence','Assistant'];
-//                var j=0;
-//                var req_corps=[];
-//                $scope.effectifsParCorps=[];
-//
-//                var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
-//                for(var i=0;i<=corps.length-1;i++){
-//                    j=getRandomInt(colors.length);
-//
-//                        var une_barre={};
-//                        une_barre.annee=corps[i];
-//                        une_barre.color=colors[j];
-//
-//                        colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
-//
-//                        $scope.effectifsParCorps.push(une_barre);
-//
-//
-//                        var promise_corps = StatistiqueEntite.compterPerDeCorpsEntite($scope.entiteChoisie,corps[i]);
-//                        req_corps.push(promise_corps);
-//                }
-//                $q.all(req_corps).then(function (result){
-//                    for(var i=0;i<result.length;i++){
-//                            $scope.effectifsParCorps[i].pourcentage=parseInt(result[i].data);
-//                    }
-//                    $scope.tracerDiagrammePerParCorps($scope.effectifsParCorps);
-//                });
-//            };
-//
-//            $scope.calculerEffectifPerParCorps();
-//
-//            $scope.tracerDiagrammePerParCorps=function(donnees){
-//                var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
-//                    "theme": "light",
-//                    "type": "serial",
-//                  "startDuration": 2,
-//                    "dataProvider":donnees,
-//                    "valueAxes": [{
-//                  "position": "left"
-//                    }],
-//                    "graphs": [{
-//                        "balloonText": "[[category]]: <b>[[value]]</b>",
-//                        "fillColorsField": "color",
-//                        "fillAlphas": 1,
-//                        "lineAlpha": 0.1,
-//                        "type": "column",
-//                        "valueField": "pourcentage"
-//                    }],
-//                    "depth3D": 20,
-//                  "angle": 30,
-//                    "chartCursor": {
-//                        "categoryBalloonEnabled": true,
-//                        "cursorAlpha": 0,
-//                        "zoomable": false
-//                    },
-//                    "categoryField": "annee",
-//                    "categoryAxis": {
-//                        "gridPosition": "start",
-//                        "labelRotation": 0
-//                    },
-//                    "export": {
-//                        "enabled": true
-//                    }
-//
-//                });
-//             };
-//
-
-            /*- Fin niveau d'etude*/
-
-            /*Debut RECRUTEMENT*/
-
-    //        
-    //        $scope.recrute=function(anneedebut,anneefin){
-    //            var debut=new date();
-    //            var fin=new date();
-    //            debut.setFullYear(debut.getFullYear()-anneedebut);
-    //            fin.setFullYear(to.getFullYear()-anneefin);
-    //            var anneedebut=debut.getFullYear()+'-'+(debut.getMonth()+1)+'-'+debut.getDate();
-    //            var anneefin=fin.getUTCFullYear()+'-'+(fin.getUTCMonth()+1)+'-'+fin.getUTCDate();
-    //            var dates=debut+'/'+fin;
-    //            return dates;
-    //        };
-
-
-
-                function getRandomInt(max) {
-                    return Math.floor(Math.random() * Math.floor(max));
-                }
-
-                function supprimerCouleur(colorsTab,index){
-                    var tab=[];
-                    var j=0;
-                    for(var i=0;i<colorsTab.length;i++){
-                        if(i!==index){
-
-                            tab[j]=colorsTab[i];
-                            j++;
-                        }
-                    }
-
-                    return  tab;
-                }
-
-               $scope.countRecrutement=function(nombreAnnees){
-                    $scope.recrutements=[];
-
-                    var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
-
-                    var d = new Date();
-                    var n = d.getFullYear();
-
-                    var debutAnnee;
-                    var finAnnee;
-                    var i=0;
-
-                    var req_recru=[];
-                     /*Creation de l'objet a afficher sur le graphe*/
-                    while(nombreAnnees>0){              
-
-                        //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
-                         debutAnnee=n+'-01-01';
-                         finAnnee=n+'-12-31';                     
-                        //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
-
-                        i=getRandomInt(colors.length);
-
-                        var une_barre={};
-                        une_barre.annee=parseInt(n);
-                        une_barre.color=colors[i];
-
-                        colors=supprimerCouleur(colors,i); //Supprimer la couleur de la liste des couleurs:éviter répétition
-
-                        $scope.recrutements.push(une_barre);
-
-
-                        var promise_recru = StatistiqueEntite.compterRecrutementPerEntite($scope.entiteChoisie,debutAnnee,finAnnee);
-                        req_recru.push(promise_recru);
-
-                        n-=1;
-                        nombreAnnees--;
-                    }
-
-                    $q.all(req_recru).then(function (result){
-                        for(var i=0;i<result.length;i++){
-                            $scope.recrutements[i].pourcentage=parseInt(result[i].data);
-                        }
-
-                        $scope.recrutements.reverse();
-
-                        var chartnbreRecrutement = AmCharts.makeChart("statNbreRecrutement", {
-                            "theme": "light",
-                            "type": "serial",
-                          "startDuration": 2,
-                            "dataProvider": $scope.recrutements,
-                            "valueAxes": [{
-                          "position": "left"
-                            }],
-                            "graphs": [{
-                                "balloonText": "[[category]]: <b>[[value]]</b><br/>",
-                                "fillColorsField": "color",
-                                "fillAlphas": 1,
-                                "lineAlpha": 0.1,
-                                "type": "column",
-                                "valueField": "pourcentage"
-                            }],
-                            "depth3D": 20,
-                          "angle": 30,
-                            "chartCursor": {
-                                "categoryBalloonEnabled": true,
-                                "cursorAlpha": 0,
-                                "zoomable": false
-                            },
-                            "categoryField": "annee",
-                            "categoryAxis": {
-                                "gridPosition": "start",
-                                "labelRotation": 0
-                            },
-                            "export": {
-                                "enabled": true
-                            }
-
-                        });
-    //                    console.log($scope.recrutements);
-                    });
-
-               };
-
-
-            $scope.intervaleAnneeRecrutement=5;
-
-            $scope.countRecrutement($scope.intervaleAnneeRecrutement);
-
-            $scope.voirRecrutement=function(n){
-                if(parseInt(n)>0){
-                    $scope.countRecrutement(parseInt(n));
-                }
-            };
+        $scope.voirRecrutement=function(n){
+            if(parseInt(n)>0){
+                $scope.countRecrutement(parseInt(n));
+            }
+        };
 
           /*- Fin RECRUTEMENT*/
 

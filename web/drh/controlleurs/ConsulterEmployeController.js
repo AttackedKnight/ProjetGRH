@@ -163,7 +163,6 @@ angular.module('DrhModule').controller('ConsulterEmployeController',function($sc
     $scope.getPatsAvancementAfter=function(){
         HistoriqueGrade.findDateApresPats(d).success(function (data) {
             $scope.avancements=data;
-console.log(data);
         }).error(function () {
             alert('Une erreur est survenue');
         });

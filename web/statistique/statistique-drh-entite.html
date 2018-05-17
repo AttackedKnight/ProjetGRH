@@ -10,7 +10,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-       <a ng-href="#/drh/employe/consulter" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+       <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div><!-- ./col -->
     <div class="col-md-9">
@@ -21,16 +21,16 @@
     <div class="col-md-4 col-sm-6">
       <!-- small box -->
      
-          <div class="small-box bg-green">
-        <div class="inner">
-            <h4 style="font-weight: bold; font-size: 1.6em;">EFFECTIF PER</h4>
-            <span style="font-size: 2.1em;">{{effectifemployeper}}</span>
+        <div class="small-box bg-green">
+            <div class="inner">
+                <h4 style="font-weight: bold; font-size: 1.6em;">EFFECTIF PER</h4>
+                <span style="font-size: 2.1em;">{{effectifemployeper}}</span>
+            </div>
+            <div class="icon pull-right">
+              <i class="fa fa-user"></i>
+            </div>
+            <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
         </div>
-       <div class="icon pull-right">
-          <i class="fa fa-user"></i>
-        </div>
-        <a ng-href="#/drh/employe/consulter{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
      
       
     </div><!-- ./col -->
@@ -47,7 +47,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/employe/consulter/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
       
       
@@ -64,7 +64,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/employe/consulter/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
      
      
@@ -85,7 +85,7 @@
        <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/employe/consulter{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
      
       
@@ -103,7 +103,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/employe/consulter/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
       
       
@@ -120,7 +120,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/employe/consulter/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
      
      
@@ -222,6 +222,7 @@
                                         <option value="40">40</option>
                                         <option value="50">50</option>
                                         <option value="60">60</option>
+                                        <option value="65">65</option>
                                     </select>
                                   </div>
                                   <div class="col-md-3 mb-3">
@@ -231,7 +232,8 @@
                                         <option value="30">30</option>
                                         <option value="40">40</option>
                                         <option value="50">50</option>
-                                        <option value="60" >60</option>
+                                        <option value="60">60</option>
+                                        <option value="65">65</option>
                                     </select>
                                   </div>
                                   <div class="col-md-3 mb-3">
@@ -243,6 +245,11 @@
                                         <option value="4">4</option>
                                         <option value="5">5</option>
                                         <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                        
                                     </select>
                                   </div>
                                   <div class="col-md-3 mb-3">

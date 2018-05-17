@@ -572,8 +572,8 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController',functi
         
         
         $scope.debutTrancheAge=20;
-        $scope.finTrancheAge=60;
-        $scope.intervalleTrancheAge=4;
+        $scope.finTrancheAge=65;
+        $scope.intervalleTrancheAge=5;
         
         $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge,$scope.intervalleTrancheAge);
         
@@ -746,116 +746,117 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController',functi
     
     /*Debut Niveau etude*/
     
-//    $scope.calculerEffectifPerParCorps=function(){
-//        var corps=['Professeur','Maître de conférence','Assistant'];
-//        var j=0;
-//        var req_corps=[];
-//        $scope.effectifsParCorps=[];
-//
-//        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
-//        for(var i=0;i<=corps.length-1;i++){
-//            j=getRandomInt(colors.length);
-//
-//                var une_barre={};
-//                une_barre.annee=corps[i];
-//                une_barre.color=colors[j];
-//
-//                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
-//
-//                $scope.effectifsParCorps.push(une_barre);
-//
-//
-//                var promise_corps = Statistique.compterPerDeCorps(corps[i]);
-//                req_corps.push(promise_corps);
-//        }
-//        $q.all(req_corps).then(function (result){
-//            for(var i=0;i<result.length;i++){
-//                    $scope.effectifsParCorps[i].pourcentage=parseInt(result[i].data);
-//            }
-//            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParCorps);
-//        });
-//    };
-//        
-//    $scope.calculerEffectifPatsParClasse=function(){
-//        var maxClasse=4;
-//        var j=0;
-//        var req_classe=[];
-//        $scope.effectifsParClasse=[];
-//
-//        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
-//        for(var i=1;i<=maxClasse;i++){
-//            j=getRandomInt(colors.length);
-//
-//                var une_barre={};
-//                une_barre.annee="Classe "+i;
-//                une_barre.color=colors[j];
-//
-//                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
-//
-//                $scope.effectifsParClasse.push(une_barre);
-//
-//
-//                var promise_classe = Statistique.compterPatsDeClasse(i);
-//                req_classe.push(promise_classe);
-//        }
-//        $q.all(req_classe).then(function (result){
-//            for(var i=0;i<result.length;i++){
-//                    $scope.effectifsParClasse[i].pourcentage=parseInt(result[i].data);
-//            }
-//            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParClasse);
-//        });
-//    };
-//
-//    $scope.tracerDiagrammeNiveauEtude=function(donnees){
-//        var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
-//            "theme": "light",
-//            "type": "serial",
-//          "startDuration": 2,
-//            "dataProvider":donnees,
-//            "valueAxes": [{
-//          "position": "left"
-//            }],
-//            "graphs": [{
-//                "balloonText": "[[category]]: <b>[[value]]</b>",
-//                "fillColorsField": "color",
-//                "fillAlphas": 1,
-//                "lineAlpha": 0.1,
-//                "type": "column",
-//                "valueField": "pourcentage"
-//            }],
-//            "depth3D": 20,
-//          "angle": 30,
-//            "chartCursor": {
-//                "categoryBalloonEnabled": true,
-//                "cursorAlpha": 0,
-//                "zoomable": false
-//            },
-//            "categoryField": "annee",
-//            "categoryAxis": {
-//                "gridPosition": "start",
-//                "labelRotation": 0
-//            },
-//            "export": {
-//                "enabled": true
-//            }
-//
-//        });
-//    };
-//
-//    $scope.calculerEffectifPerParCorps();   // Affichage par defaut
-//        
-//    $scope.typeEffectifParNiveau='per';
-//    
-//    
-//    $scope.changerTypeEffectifParNiveau=function(){
-//        $scope.typeEffectifParNiveau=$('#typeEffectifParNiveau').val();
-//        if($scope.typeEffectifParNiveau=='per'){
-//            $scope.calculerEffectifPerParCorps();
-//        }
-//        else{
-//            $scope.calculerEffectifPatsParClasse();
-//        }
-//    };
+    $scope.calculerEffectifPerParCorps=function(){
+        var corps=['Professeur','Maître de conférence','Assistant'];
+        var j=0;
+        var req_corps=[];
+        $scope.effectifsParCorps=[];
+
+        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+        for(var i=0;i<=corps.length-1;i++){
+            j=getRandomInt(colors.length);
+
+                var une_barre={};
+                une_barre.annee=corps[i];
+                une_barre.color=colors[j];
+
+                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
+
+                $scope.effectifsParCorps.push(une_barre);
+
+
+                var promise_corps = Statistique.compterPerDeCorps(corps[i]);
+                req_corps.push(promise_corps);
+        }
+        $q.all(req_corps).then(function (result){
+            
+            for(var i=0;i<result.length;i++){
+                    $scope.effectifsParCorps[i].pourcentage=parseInt(result[i].data);
+            }
+            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParCorps);
+        });
+    };
+        
+    $scope.calculerEffectifPatsParClasse=function(){
+        var maxClasse=4;
+        var j=0;
+        var req_classe=[];
+        $scope.effectifsParClasse=[];
+
+        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+        for(var i=1;i<=maxClasse;i++){
+            j=getRandomInt(colors.length);
+
+                var une_barre={};
+                une_barre.annee="Classe "+i;
+                une_barre.color=colors[j];
+
+                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
+
+                $scope.effectifsParClasse.push(une_barre);
+
+
+                var promise_classe = Statistique.compterPatsDeClasse(i);
+                req_classe.push(promise_classe);
+        }
+        $q.all(req_classe).then(function (result){
+            for(var i=0;i<result.length;i++){
+                    $scope.effectifsParClasse[i].pourcentage=parseInt(result[i].data);
+            }
+            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParClasse);
+        });
+    };
+
+    $scope.tracerDiagrammeNiveauEtude=function(donnees){
+        var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
+            "theme": "light",
+            "type": "serial",
+          "startDuration": 2,
+            "dataProvider":donnees,
+            "valueAxes": [{
+          "position": "left"
+            }],
+            "graphs": [{
+                "balloonText": "[[category]]: <b>[[value]]</b>",
+                "fillColorsField": "color",
+                "fillAlphas": 1,
+                "lineAlpha": 0.1,
+                "type": "column",
+                "valueField": "pourcentage"
+            }],
+            "depth3D": 20,
+          "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": true,
+                "cursorAlpha": 0,
+                "zoomable": false
+            },
+            "categoryField": "annee",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelRotation": 0
+            },
+            "export": {
+                "enabled": true
+            }
+
+        });
+    };
+
+    $scope.calculerEffectifPerParCorps();   // Affichage par defaut
+        
+    $scope.typeEffectifParNiveau='per';
+    
+    
+    $scope.changerTypeEffectifParNiveau=function(){
+        $scope.typeEffectifParNiveau=$('#typeEffectifParNiveau').val();
+        if($scope.typeEffectifParNiveau=='per'){
+            $scope.calculerEffectifPerParCorps();
+        }
+        else{
+            $scope.calculerEffectifPatsParClasse();
+        }
+    };
         
     
 

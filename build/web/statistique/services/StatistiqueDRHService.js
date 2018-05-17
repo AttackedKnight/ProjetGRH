@@ -70,22 +70,22 @@ angular.module('StatistiqueModule').factory('Statistique', function ($http) {
                 return $http.get(chemin+'/webresources/sn.grh.employe/recrutement/per/'+debut+'/'+fin);
             },
             compterPatsDeClasse:function(indice){
-                 return $http.get(chemin+'/webresources/sn.grh.grade/pats/classe/'+indice);
+                 return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/classe/'+indice);
             },
             compterPatsHommeDeClasse:function(indice){
-                 return $http.get(chemin+'/webresources/sn.grh.grade/pats/homme/classe/'+indice);
+                 return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/homme/classe/'+indice);
             },
             compterPatsFemmeDeClasse:function(indice){
-                 return $http.get(chemin+'/webresources/sn.grh.grade/pats/femme/classe/'+indice);
+                 return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/femme/classe/'+indice);
             },
             compterPerDeCorps:function(indice){
-                 return $http.get(chemin+'/webresources/sn.grh.grade/per/corps/'+indice);
+                 return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/corps/'+indice);
             },
             compterPerHommeDeCorps:function(indice){
-                 return $http.get(chemin+'/webresources/sn.grh.grade/per/homme/corps/'+indice);
+                 return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/homme/corps/'+indice);
             },
             compterPerFemmeDeCorps:function(indice){
-                 return $http.get(chemin+'/webresources/sn.grh.grade/per/femme/corps/'+indice);
+                 return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/femme/corps/'+indice);
             }
             
         }; 

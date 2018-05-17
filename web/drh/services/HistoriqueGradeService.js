@@ -83,6 +83,34 @@ return{
         findDateEntrePerEntite:function(date1,date2,idEntite){
             return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/date/entre/'+date1+'/'+date2+'/'+idEntite);
         },
+        findDateAvantPerHommeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/homme/date/avant/'+date+'/'+idEntite);
+        },
+        findDateApresPerHommeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/homme/date/apres/'+date+'/'+idEntite);
+        }
+        ,
+        findDateAvancementPerHommeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/homme/date/avancement/'+date+'/'+idEntite);
+        }
+        ,
+        findDateEntrePerHommeEntite:function(date1,date2,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/homme/date/entre/'+date1+'/'+date2+'/'+idEntite);
+        },
+        findDateAvantPerFemmeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/femme/date/avant/'+date+'/'+idEntite);
+        },
+        findDateApresPerFemmeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/femme/date/apres/'+date+'/'+idEntite);
+        }
+        ,
+        findDateAvancementPerFemmeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/femme/date/avancement/'+date+'/'+idEntite);
+        }
+        ,
+        findDateEntrePerFemmeEntite:function(date1,date2,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/femme/date/entre/'+date1+'/'+date2+'/'+idEntite);
+        },
         findDateAvantPerFemme:function(date){
             return $http.get(chemin+'/webresources/sn.grh.historiquegrade/per/femme/date/avant/'+date);
         },
@@ -139,6 +167,36 @@ return{
         ,
         findDateEntrePatsEntite:function(date1,date2,idEntite){
             return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/date/entre/'+date1,date2+'/'+idEntite);
+        }
+        ,
+        findDateAvantPatsHommeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/homme/date/avant/'+date+'/'+idEntite);
+        },
+        findDateApresPatsHommeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/homme/date/apres/'+date+'/'+idEntite);
+        }
+        ,
+        findDateAvancemenPatsHommeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/homme/date/avancement/'+date+'/'+idEntite);
+        }
+        ,
+        findDateEntrePatsHommeEntite:function(date1,date2,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/homme/date/entre/'+date1,date2+'/'+idEntite);
+        }
+        ,
+        findDateAvantPatsFemmeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/femme/date/avant/'+date+'/'+idEntite);
+        },
+        findDateApresPatsFemmeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/femme/date/apres/'+date+'/'+idEntite);
+        }
+        ,
+        findDateAvancemenPatsFemmeEntite:function(date,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/femme/date/avancement/'+date+'/'+idEntite);
+        }
+        ,
+        findDateEntrePatsFemmeEntite:function(date1,date2,idEntite){
+            return $http.get(chemin+'/webresources/sn.grh.historiquegrade/pats/femme/date/entre/'+date1,date2+'/'+idEntite);
         }
         ,
         findDateAvantPatsFemme:function(date){

@@ -14,7 +14,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
     
     Entite.findAll().success(function (data) {
         $scope.entites=data;
-        $scope.entiteChoisie=data[0];
+        $scope.entiteChoisie=data[1];
         $scope.montrerStatistique();
     }).error(function () {
         alert('Une erreur est survenue : entites');
@@ -42,9 +42,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
     $scope.pourcentageFemmesPats=0;
     
     $scope.filles=[];
-    
-    
-    
+
     $scope.getEntitesFille=function(){
        
         var filles=[];
@@ -76,9 +74,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
    $scope.montrerStatistique=function(){
        
        $scope.filles=$scope.getEntitesFille();
-       
-       console.log($scope.filles);
-       
+             
        $scope.countemploye=function(){
             $scope.effectifemploye=0;
             
@@ -95,7 +91,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifemploye+=parseInt(result[i].data);
                 }
-//                $scope.effectifemploye=data;
+
 
                 $scope.voirPourcentageHommeFemmeGlobal();
 
@@ -124,8 +120,6 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifemployepats+=parseInt(result[i].data);
                 }
-//                $scope.effectifemployepats=data;
-
                 $scope.voirPourcentageHommeFemmePats();
 
                 $scope.countemployeper();
@@ -149,12 +143,9 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifemployeper+=parseInt(result[i].data);
                 }
-            
-//                $scope.effectifemployeper=data;
-
                 $scope.voirPourcentageHommeFemmePer();
 
-                 $scope.calculerPourcentagePerEtPats();
+                $scope.calculerPourcentagePerEtPats();
             }); 
         };
 
@@ -262,8 +253,6 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                     $scope.effectifTotalHomme+=parseInt(result[i].data);
                 }
             
-//                $scope.effectifTotalHomme=data;
-
                 $scope.countemployefemme();
             }); 
         };
@@ -282,9 +271,6 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifTotalFemme+=parseInt(result[i].data);
                 }
-//            StatistiqueEntite.countemployefemmeEntite($scope.entiteChoisie).success(function (data){
-//                $scope.effectifTotalFemme=data;
-
                 $scope.pourcentageHommes=(($scope.effectifTotalHomme/$scope.effectifemploye)*100).toFixed(2);
                 $scope.pourcentageFemmes=(($scope.effectifTotalFemme/$scope.effectifemploye)*100).toFixed(2);
 
@@ -320,9 +306,6 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifTotalHommePats+=parseInt(result[i].data);
                 }
-//            StatistiqueEntite.countemployehommepatsEntite($scope.entiteChoisie).success(function (data){
-//                $scope.effectifTotalHommePats=data;
-
                 $scope.countemployefemmepats();
             }); 
         };
@@ -343,9 +326,6 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifTotalHommePer+=parseInt(result[i].data);
                 }
-//            StatistiqueEntite.countemployehommeperEntite($scope.entiteChoisie).success(function (data){
-//                $scope.effectifTotalHommePer=data;
-
                 $scope.countemployefemmeper();
             }); 
         };
@@ -369,9 +349,6 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifTotalFemmePats+=parseInt(result[i].data);
                 }
-//            StatistiqueEntite.countemployefemmepatsEntite($scope.entiteChoisie).success(function (data){
-//                $scope.effectifTotalFemmePats=data;
-
                 $scope.pourcentageHommesPats=(($scope.effectifTotalHommePats/$scope.effectifemployepats)*100).toFixed(2);
                 $scope.pourcentageFemmesPats=(($scope.effectifTotalFemmePats/$scope.effectifemployepats)*100).toFixed(2);
 
@@ -400,8 +377,6 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 {
                     $scope.effectifTotalFemmePer+=parseInt(result[i].data);
                 }
-//            StatistiqueEntite.countemployefemmeperEntite($scope.entiteChoisie).success(function (data){
-//                $scope.effectifTotalFemmePer=data;
                 $scope.pourcentagePer=(($scope.effectifemployeper/$scope.effectifemploye)*100).toFixed(2);
                 $scope.pourcentageHommesPer=(($scope.effectifTotalHommePer/$scope.effectifemployeper)*100).toFixed(2);
                 $scope.pourcentageFemmesPer=(($scope.effectifTotalFemmePer/$scope.effectifemployeper)*100).toFixed(2);
@@ -541,12 +516,12 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
 
     $scope.changerTypeTrancheAge=function(){
         $scope.typeTrancheAge=$('#typeTrancheAge').val();
-        
+       
         $scope.debutTrancheAge=20;
-        $scope.finTrancheAge=60;
-        $scope.intervalleTrancheAge=4;
+        $scope.finTrancheAge=65;
+        $scope.intervalleTrancheAge=5;
 
-//        $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge,$scope.intervalleTrancheAge);
+        $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge,$scope.intervalleTrancheAge);
 
     };
 
@@ -569,7 +544,102 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
         return dates;
     };
 
+     $scope.construireGrapheTranche=function(debut,fin, intervalle){
+             $scope.donnees=[];
 
+             var end=debut+intervalle;
+
+             var intervalle_date;
+             var date1;
+             var date2;
+
+             var req_h=[];
+             var req_f=[];
+             /*Creation du tableau d'objets à afficher sur le graphe*/
+             while(end<=fin){              
+                 intervalle_date= $scope.trancheAge(debut,end);
+                 date1=intervalle_date.split('/')[0];
+                 date2=intervalle_date.split('/')[1];
+                 var une_barre={};
+                 une_barre.annee=debut+'-'+end;
+
+                 $scope.donnees.push(une_barre);
+
+                debut=end;
+                end=debut+intervalle;
+                if($scope.typeTrancheAge=="general"){
+                    
+                    for(var i=0;i<$scope.filles.length;i++)
+                    {
+                        req_h.push(StatistiqueEntite.trancheagehommesEntite($scope.filles[i],date1,date2));
+                    }
+
+                    for(var i=0;i<$scope.filles.length;i++)
+                    {
+                        req_f.push(StatistiqueEntite.trancheagefemmesEntite($scope.filles[i],date1,date2));
+                    }
+                }
+                if($scope.typeTrancheAge=="pats"){
+                    
+                    for(var i=0;i<$scope.filles.length;i++)
+                    {
+                        req_h.push(StatistiqueEntite.trancheagehommespatsEntite($scope.filles[i],date1,date2));
+                    }
+
+                    for(var i=0;i<$scope.filles.length;i++)
+                    {
+                        req_f.push(StatistiqueEntite.trancheagefemmespatsEntite($scope.filles[i],date1,date2));
+                    }
+                }
+                if($scope.typeTrancheAge=="per"){
+                    
+                    for(var i=0;i<$scope.filles.length;i++)
+                    {
+                        req_h.push(StatistiqueEntite.trancheagehommesperEntite($scope.filles[i],date1,date2));
+                    }
+
+                    for(var i=0;i<$scope.filles.length;i++)
+                    {
+                        req_f.push(StatistiqueEntite.trancheagefemmesperEntite($scope.filles[i],date1,date2));
+                    }
+                }
+            }
+          
+            $q.all(req_h).then(function (result){
+                var indice_barre=0;
+                var cmp_entites_filles=0;
+                var hom_e=0;
+                var fem_e=0;
+                
+                for(var b=0;b<result.length;b++){
+                    hom_e+=parseInt(result[b].data);
+                    cmp_entites_filles++;
+                    if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.donnees.length){                     
+                        $scope.donnees[indice_barre].hommes=hom_e;
+                        cmp_entites_filles=0;
+                        hom_e=0;
+                        indice_barre+=1;
+                    }
+                }
+                $q.all(req_f).then(function (result){
+                    var indice_barre=0;
+                    var cmp_entites_filles=0;
+                    for(var b=0;b<result.length;b++){
+                        fem_e+=parseInt(result[b].data);
+                        cmp_entites_filles++;
+                        if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.donnees.length){                     
+                            $scope.donnees[indice_barre].femmes=fem_e;
+                            cmp_entites_filles=0;
+                            fem_e=0;
+                            indice_barre+=1;
+                        }
+                    }
+                     /*Dessiner le graphe Tranche d'age*/
+                    $scope.tracerDiagrammeTrancheAge($scope.donnees);                  
+                });
+            });
+
+         };
         $scope.tracerDiagrammeTrancheAge=function(donnees){
             var chartTrancheAge = AmCharts.makeChart("trancheAge", {
                          "theme": "light",
@@ -615,10 +685,10 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
         
         
         $scope.debutTrancheAge=20;
-        $scope.finTrancheAge=60;
-        $scope.intervalleTrancheAge=4;
+        $scope.finTrancheAge=65;
+        $scope.intervalleTrancheAge=5;
         
-//        $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge,$scope.intervalleTrancheAge);
+       $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge,$scope.intervalleTrancheAge);
         
         $scope.actualiserTrancheAge=function(d,f,i){
             if(parseInt(d)>0 && parseInt(f)>0 && parseInt(i)>0){
@@ -626,7 +696,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                     alert('La valeur de début doit etre inférieure à celle de fin');
                 }
                 else{
-//                    $scope.construireGrapheTranche(parseInt(d),parseInt(f),parseInt(i));
+                    $scope.construireGrapheTranche(parseInt(d),parseInt(f),parseInt(i));
                 }
             }
             
@@ -699,30 +769,24 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
 
                     $scope.recrutements.push(une_barre);
 
-
+                    
                     if($scope.typeRecrutementParAnnee=='general'){
                         for(var i=0;i<$scope.filles.length;i++)
                         {
-                            req_recru.push(StatistiqueEntite.compterRecrutementEntite($scope.filles[i]),debutAnnee,finAnnee);
+                            req_recru.push(StatistiqueEntite.compterRecrutementEntite($scope.filles[i],debutAnnee,finAnnee));
                         }
-//                        var promise_recru = StatistiqueEntite.compterRecrutementEntite($scope.entiteChoisie,debutAnnee,finAnnee);
-//                        req_recru.push(promise_recru);
                     }
-                    else if($scope.typeRecrutementParAnnee=='per'){
+                    if($scope.typeRecrutementParAnnee=='per'){
                         for(var i=0;i<$scope.filles.length;i++)
                         {
-                            req_recru.push(StatistiqueEntite.compterRecrutementPerEntite($scope.filles[i]),debutAnnee,finAnnee);
+                            req_recru.push(StatistiqueEntite.compterRecrutementPerEntite($scope.filles[i],debutAnnee,finAnnee));
                         }
-//                        var promise_recru = StatistiqueEntite.compterRecrutementPerEntite($scope.entiteChoisie,debutAnnee,finAnnee);
-//                        req_recru.push(promise_recru);
                     }
-                    else{
+                    if($scope.typeRecrutementParAnnee=='pats'){
                         for(var i=0;i<$scope.filles.length;i++)
                         {
-                            req_recru.push(StatistiqueEntite.compterRecrutementPatsEntite($scope.filles[i]),debutAnnee,finAnnee);
+                            req_recru.push(StatistiqueEntite.compterRecrutementPatsEntite($scope.filles[i],debutAnnee,finAnnee));
                         }
-//                        var promise_recru = StatistiqueEntite.compterRecrutementPatsEntite($scope.entiteChoisie,debutAnnee,finAnnee);
-//                        req_recru.push(promise_recru);
                     }
                     
                     
@@ -730,16 +794,25 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                     n-=1;
                     nombreAnnees--;
                 }
-                
                 $q.all(req_recru).then(function (result){
-                    for(var i=0;i<result.length;i++){
-                        $scope.recrutements[i].pourcentage=parseInt(result[i].data);
+                    var indice_barre=0;
+                    var cmp_entites_filles=0;
+                    var cumul=0;
+
+                    for(var b=0;b<result.length;b++){
+                        cumul+=parseInt(result[b].data);
+                        cmp_entites_filles++;
+                        if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.recrutements.length){                     
+                            $scope.recrutements[indice_barre].pourcentage=cumul;
+                            cmp_entites_filles=0;
+                            cumul=0;
+                            indice_barre+=1;
+                        }
                     }
-                    
                     $scope.recrutements.reverse();
                     
                     $scope.tracerDiagrammeRecrutementParAnnee($scope.recrutements);
-//                    console.log($scope.recrutements);
+
                 });
                 
            };
@@ -783,7 +856,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
         
         $scope.intervaleAnneeRecrutement=5;
 
-//        $scope.countRecrutement($scope.intervaleAnneeRecrutement);
+        $scope.countRecrutement($scope.intervaleAnneeRecrutement);
 
         $scope.voirRecrutement=function(n){
             if(parseInt(n)>0){
@@ -795,116 +868,146 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
       
           /*Debut Niveau etude*/
     
-//    $scope.calculerEffectifPerParCorps=function(){
-//        var corps=['Professeur','Maître de conférence','Assistant'];
-//        var j=0;
-//        var req_corps=[];
-//        $scope.effectifsParCorps=[];
-//
-//        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
-//        for(var i=0;i<=corps.length-1;i++){
-//            j=getRandomInt(colors.length);
-//
-//                var une_barre={};
-//                une_barre.annee=corps[i];
-//                une_barre.color=colors[j];
-//
-//                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
-//
-//                $scope.effectifsParCorps.push(une_barre);
-//
-//
-//                var promise_corps = StatistiqueEntite.compterPerDeCorpsEntite($scope.entiteChoisie,corps[i]);
-//                req_corps.push(promise_corps);
-//        }
-//        $q.all(req_corps).then(function (result){
-//            for(var i=0;i<result.length;i++){
-//                    $scope.effectifsParCorps[i].pourcentage=parseInt(result[i].data);
-//            }
-//            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParCorps);
-//        });
-//    };
-//        
-//    $scope.calculerEffectifPatsParClasse=function(){
-//        var maxClasse=4;
-//        var j=0;
-//        var req_classe=[];
-//        $scope.effectifsParClasse=[];
-//
-//        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
-//        for(var i=1;i<=maxClasse;i++){
-//            j=getRandomInt(colors.length);
-//
-//                var une_barre={};
-//                une_barre.annee="Classe "+i;
-//                une_barre.color=colors[j];
-//
-//                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
-//
-//                $scope.effectifsParClasse.push(une_barre);
-//
-//
-//                var promise_classe = StatistiqueEntite.compterPatsDeClasseEntite($scope.entiteChoisie,i);
-//                req_classe.push(promise_classe);
-//        }
-//        $q.all(req_classe).then(function (result){
-//            for(var i=0;i<result.length;i++){
-//                    $scope.effectifsParClasse[i].pourcentage=parseInt(result[i].data);
-//            }
-//            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParClasse);
-//        });
-//    };
-//
-//    $scope.tracerDiagrammeNiveauEtude=function(donnees){
-//        var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
-//            "theme": "light",
-//            "type": "serial",
-//          "startDuration": 2,
-//            "dataProvider":donnees,
-//            "valueAxes": [{
-//          "position": "left"
-//            }],
-//            "graphs": [{
-//                "balloonText": "[[category]]: <b>[[value]]</b>",
-//                "fillColorsField": "color",
-//                "fillAlphas": 1,
-//                "lineAlpha": 0.1,
-//                "type": "column",
-//                "valueField": "pourcentage"
-//            }],
-//            "depth3D": 20,
-//          "angle": 30,
-//            "chartCursor": {
-//                "categoryBalloonEnabled": true,
-//                "cursorAlpha": 0,
-//                "zoomable": false
-//            },
-//            "categoryField": "annee",
-//            "categoryAxis": {
-//                "gridPosition": "start",
-//                "labelRotation": 0
-//            },
-//            "export": {
-//                "enabled": true
-//            }
-//
-//        });
-//    };
-//
-//    $scope.calculerEffectifPerParCorps();   // Affichage par defaut
-//        
-//    $scope.typeEffectifParNiveau='per';
-//    
-//    
-//    $scope.changerTypeEffectifParNiveau=function(){
-//        $scope.typeEffectifParNiveau=$('#typeEffectifParNiveau').val();
-//        if($scope.typeEffectifParNiveau=='per'){
-//            $scope.calculerEffectifPerParCorps();
-//        }
-//        else{
-//            $scope.calculerEffectifPatsParClasse();
-//        }
-//    };
+    $scope.calculerEffectifPerParCorps=function(){
+        var corps=['Professeur','Maître de conférence','Assistant'];
+        var j=0;
+        var req_corps=[];
+        $scope.effectifsParCorps=[];
+
+        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+        for(var i=0;i<=corps.length-1;i++){
+            j=getRandomInt(colors.length);
+
+            var une_barre={};
+            une_barre.annee=corps[i];
+            une_barre.color=colors[j];
+
+            colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
+
+            $scope.effectifsParCorps.push(une_barre);
+
+            for(var j=0;j<$scope.filles.length;j++)
+            {
+
+                req_corps.push(StatistiqueEntite.compterPerDeCorpsEntite($scope.filles[j],corps[i]));
+            }
+
+        }
+        $q.all(req_corps).then(function (result){
+            var indice_barre=0;
+            var cmp_entites_filles=0;
+            var cumul=0;
+
+            for(var b=0;b<result.length;b++){
+                cumul+=parseInt(result[b].data);
+                cmp_entites_filles++;
+                if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.effectifsParCorps.length){                     
+                    $scope.effectifsParCorps[indice_barre].pourcentage=cumul;
+                    cmp_entites_filles=0;
+                    cumul=0;
+                    indice_barre+=1;
+                }
+            }
+
+            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParCorps);
+        });
+    };
+        
+    $scope.calculerEffectifPatsParClasse=function(){
+        var maxClasse=4;
+        var j=0;
+        var req_classe=[];
+        $scope.effectifsParClasse=[];
+
+        var colors=["#000000","#A52A2A","#DC143C" ,"#006400" ,"#1E90FF","#2F4F4F" ,"#FFD700" ,"#FF69B4" ,"#ADFF2F","#0000CD","#FF4500","#046380"];
+        for(var i=1;i<=maxClasse;i++){
+            j=getRandomInt(colors.length);
+
+                var une_barre={};
+                une_barre.annee="Classe "+i;
+                une_barre.color=colors[j];
+
+                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
+
+                $scope.effectifsParClasse.push(une_barre);
+
+                for(var j=0;j<$scope.filles.length;j++)
+                {
+                    
+                    req_classe.push(StatistiqueEntite.compterPatsDeClasseEntite($scope.filles[j],i));
+                }
+        }
+
+        $q.all(req_classe).then(function (result){
+            var indice_barre=0;
+            var cmp_entites_filles=0;
+            var cumul=0;
+
+            for(var b=0;b<result.length;b++){
+                cumul+=parseInt(result[b].data);
+                cmp_entites_filles++;
+                if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.effectifsParClasse.length){                     
+                    $scope.effectifsParClasse[indice_barre].pourcentage=cumul;
+                    cmp_entites_filles=0;
+                    cumul=0;
+                    indice_barre+=1;
+                }
+            }
+
+            $scope.tracerDiagrammeNiveauEtude($scope.effectifsParClasse);
+        });
+    };
+
+    $scope.tracerDiagrammeNiveauEtude=function(donnees){
+        var chartNiveauEtude = AmCharts.makeChart("niveauEtude", {
+            "theme": "light",
+            "type": "serial",
+          "startDuration": 2,
+            "dataProvider":donnees,
+            "valueAxes": [{
+          "position": "left"
+            }],
+            "graphs": [{
+                "balloonText": "[[category]]: <b>[[value]]</b>",
+                "fillColorsField": "color",
+                "fillAlphas": 1,
+                "lineAlpha": 0.1,
+                "type": "column",
+                "valueField": "pourcentage"
+            }],
+            "depth3D": 20,
+          "angle": 30,
+            "chartCursor": {
+                "categoryBalloonEnabled": true,
+                "cursorAlpha": 0,
+                "zoomable": false
+            },
+            "categoryField": "annee",
+            "categoryAxis": {
+                "gridPosition": "start",
+                "labelRotation": 0
+            },
+            "export": {
+                "enabled": true
+            }
+
+        });
+    };
+
+    $scope.calculerEffectifPerParCorps();   // Affichage par defaut
+        
+    $scope.typeEffectifParNiveau='per';
+    
+    
+    $scope.changerTypeEffectifParNiveau=function(){
+        $scope.typeEffectifParNiveau=$('#typeEffectifParNiveau').val();
+        if($scope.typeEffectifParNiveau=='per'){
+            $scope.calculerEffectifPerParCorps();
+        }
+        else{
+            $scope.calculerEffectifPatsParClasse();
+        }
+    };
 
     /*- Fin niveau d'etude*/
 

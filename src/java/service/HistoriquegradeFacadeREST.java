@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import sn.grh.Employe;
 import sn.grh.Historiquegrade;
 
 /**
@@ -101,6 +102,88 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         return em;
     }
     
+    /* STATTISTIQUE NIVEAU D'ETUDE*/
+    
+    
+    @GET
+    @Path("pats/classe/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePatsParClasse(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("pats/homme/classe/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePatsHommeParClasse(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.sexe='masculin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("pats/femme/classe/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePatsFemmeParClasse(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.sexe='feminin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("per/corps/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePerParCorps(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+
+    @GET
+    @Path("per/homme/corps/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePerHommeParCorps(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.sexe='masculin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    @GET
+    @Path("per/femme/corps/{libelle}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public Integer comptePerFemmeParCorps(@PathParam("libelle") String libelle){
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.sexe='feminin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+                .setParameter("libelle", libelle)
+                .getResultList();
+        if(e.size()>0){
+            return e.size();
+        }
+        return 0;
+    }
+    
+    /* FIN STATISTIQUE NIVEAU ETUDE*/
     
     /*  general  */
      
@@ -326,7 +409,119 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         return null;
     }
     
+    /*  PATS HOMME ET FEMME PAR ENTITE*/
     
+    @GET
+    @Path("pats/homme/date/avancement/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementPatsHomme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement='"+date+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("pats/homme/date/avant/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementinferieurPatsHomme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement<'"+date+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("pats/homme/date/apres/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementsuperieurPatsHomme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>'"+date+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("pats/homme/date/entre/{date1}/{date2}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancemententrePatsHomme(@PathParam("date1") String date1, @PathParam("date2") String date2, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>='"+date1+"' and h.dateProchainAvancement<='"+date2+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("pats/femme/date/avancement/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementPatsFemme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement='"+date+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("pats/femme/date/avant/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementinferieurPatsFemme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement<'"+date+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("pats/femme/date/apres/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementsuperieurPatsFemme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>'"+date+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("pats/femme/date/entre/{date1}/{date2}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancemententrePatsFemme(@PathParam("date1") String date1, @PathParam("date2") String date2, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>='"+date1+"' and h.dateProchainAvancement<='"+date2+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PATS'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
     /*PATS HOMME*/
     
     @GET
@@ -539,6 +734,120 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Historiquegrade> findByEntiteProchainAvancemententrePer(@PathParam("date1") String date1,@PathParam("date2") String date2, @PathParam("id") Integer id) {
         List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>='"+date1+"' and h.dateProchainAvancement<='"+date2+"' AND h.employe.typeEmploye.code='PER' "
+                + "AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    
+    /*  HOMME ET FEMME PER PAR ENTITE   */
+    
+    @GET
+    @Path("per/homme/date/avancement/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementPerHomme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement='"+date+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PER' "
+                + "AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    @GET
+    @Path("per/homme/date/avant/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementinferieurPerHomme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement<'"+date+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PER'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("per/homme/date/apres/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementsuperieurPerHomme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>'"+date+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PER' "
+                + "AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("per/homme/date/entre/{date1}/{date2}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancemententrePerHomme(@PathParam("date1") String date1,@PathParam("date2") String date2, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>='"+date1+"' and h.dateProchainAvancement<='"+date2+"' AND h.employe.sexe='masculin' AND h.employe.typeEmploye.code='PER' "
+                + "AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    
+    @GET
+    @Path("per/femme/date/avancement/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementPerFemme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement='"+date+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PER' "
+                + "AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    @GET
+    @Path("per/femme/date/avant/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementinferieurPerFemme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement<'"+date+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PER'"
+                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("per/femme/date/apres/{date}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancementsuperieurPerFemme(@PathParam("date") String date, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>'"+date+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PER' "
+                + "AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("per/femme/date/entre/{date1}/{date2}/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findByEntiteProchainAvancemententrePerFemme(@PathParam("date1") String date1,@PathParam("date2") String date2, @PathParam("id") Integer id) {
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 and h.dateProchainAvancement>='"+date1+"' and h.dateProchainAvancement<='"+date2+"' AND h.employe.sexe='feminin' AND h.employe.typeEmploye.code='PER' "
                 + "AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL)", Historiquegrade.class)
                 .setParameter("id", id)
                 .getResultList();

@@ -65,7 +65,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
     $scope.getPerFemmeAvancementOn=function(){
         HistoriqueGrade.findDateAvancementPerFemme(d).success(function (data) {
             $scope.avancements=data;
-            console.log(data);
+            
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -73,7 +73,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
     $scope.getPerFemmeAvancementBefore=function(){
         HistoriqueGrade.findDateAvantPerFemme(d).success(function (data) {
             $scope.avancements=data;
-            console.log(data);
+            
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -81,7 +81,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
     $scope.getPerFemmeAvancementAfter=function(){
         HistoriqueGrade.findDateApresPerFemme(d).success(function (data) {
             $scope.avancements=data;
-            console.log(data);
+            
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -89,7 +89,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
     $scope.getPerFemmeAvancementBetween=function(){
         HistoriqueGrade.findDateEntrePerFemme(dMin,dMax).success(function (data) {
             $scope.avancements=data;
-            console.log(data);
+            
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -99,7 +99,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
     $scope.getPatsFemmeAvancementOn=function(){
         HistoriqueGrade.findDateAvancementPatsFemme(d).success(function (data) {
             $scope.avancements=data;
-            console.log(data);
+            
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -107,7 +107,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
     $scope.getPatsFemmeAvancementBefore=function(){
         HistoriqueGrade.findDateAvantPatsFemme(d).success(function (data) {
             $scope.avancements=data;
-            console.log(data);
+            
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -115,7 +115,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
     $scope.getPatsFemmeAvancementAfter=function(){
         HistoriqueGrade.findDateApresPatsFemme(d).success(function (data) {
             $scope.avancements=data;
-console.log(data);
+
         }).error(function () {
             alert('Une erreur est survenue');
         });
@@ -123,7 +123,7 @@ console.log(data);
     $scope.getPatsFemmeAvancementBetween=function(){
         HistoriqueGrade.findDateEntrePatsFemme(dMin,dMax).success(function (data) {
             $scope.avancements=data;
-          console.log(data);
+          
         }).error(function () {
             alert('Une erreur est survenue');
         });

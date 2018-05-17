@@ -9,7 +9,7 @@ import sn.grh.Servir;
 import sn.grh.Typeentite;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-05-08T10:24:20")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-05-16T10:47:47")
 @StaticMetamodel(Entite.class)
 public class Entite_ { 
 

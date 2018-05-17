@@ -41,6 +41,18 @@ return{
         findPerEtPatsEntite:function(id){
             return $http.get(chemin+'/webresources/sn.grh.servir/per/pats/'+id);
         },
+        findPerHommeEntite:function(id){
+            return $http.get(chemin+'/webresources/sn.grh.servir/hommeper/'+id);
+        },
+        findPerFemmeEntite:function(id){
+            return $http.get(chemin+'/webresources/sn.grh.servir/femmeper/'+id);
+        },
+        findPatsHommeEntite:function(id){
+            return $http.get(chemin+'/webresources/sn.grh.servir/hommepats/'+id);
+        },
+        findPatsFemmeEntite:function(id){
+            return $http.get(chemin+'/webresources/sn.grh.servir/femmepats/'+id);
+        },
         find:function(id){
             return $http.get(chemin+'/webresources/sn.grh.servir/'+id);
         },
