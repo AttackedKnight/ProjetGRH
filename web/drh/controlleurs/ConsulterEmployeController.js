@@ -320,24 +320,13 @@ angular.module('DrhModule').controller('ConsulterEmployeController',function($sc
                 "bFilter": true,
                 "bSort": true,
                 "bInfo": true,
-                "bAutoWidth": false
+                "bAutoWidth": false,
+                "bStateSave": true
               });        
             }, 2000);
              
         }
-//        if($('#example2 tr').length>0){
-//            setTimeout(function(){ 
-//                $('#example2').dataTable({
-//                "bPaginate": true,
-//                "bLengthChange": true,
-//                "bFilter": true,
-//                "bSort": true,
-//                "bInfo": true,
-//                "bAutoWidth": false
-//              });        
-//            }, 2000);
-//             
-//        }
+
         
     })();
     

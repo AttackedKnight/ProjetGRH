@@ -16,8 +16,8 @@ angular.module('DrhModule').controller('ConsulterEmployeEntiteController',functi
     }
    
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-    
-    
+   
+   
     /*     RECUPPERER ENTITES FILLES    */
      
     /*  Recuperer l'entite et chercher ses entites enfants  */
@@ -136,7 +136,9 @@ angular.module('DrhModule').controller('ConsulterEmployeEntiteController',functi
         if($rootScope.groupeUtilisateur.code=='PER_AD'){
             $scope.getEmployePerEntite();
         }
-
+        if($rootScope.groupeUtilisateur.code=='SERV_AD'){
+            $scope.getAllEmployeEntite();
+        }
         if($rootScope.groupeUtilisateur.code=='DRH_AD'){
 
 
@@ -491,7 +493,10 @@ angular.module('DrhModule').controller('ConsulterEmployeEntiteController',functi
         if($rootScope.groupeUtilisateur.code=='PER_AD'){
             $scope.getPerAvancement();
         }
-
+        if($rootScope.groupeUtilisateur.code=='SERV_AD'){
+            $scope.getAllAvancement();
+        }
+        
         if($rootScope.groupeUtilisateur.code=='DRH_AD'){
        
             if($routeParams.type==1){

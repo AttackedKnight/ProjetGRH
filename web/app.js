@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('globalModule',['ngRoute','ngMessages','EmployeModule','ngCookies','angularFileUpload','DrhModule','ParametrageModule','AuthentificationModule','StatistiqueModule']);
+angular.module('globalModule',['ngRoute','ngMessages','EmployeModule','ngCookies','angularFileUpload','DrhModule','ParametrageModule','AuthentificationModule','StatistiqueModule','ServiceModule']);
 
 /*Sur serveur*/
 //var chemin="https://10.157.20.203:8181/ProjetGRH"; 

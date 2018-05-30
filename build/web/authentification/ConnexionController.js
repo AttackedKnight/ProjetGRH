@@ -85,6 +85,10 @@ angular.module('AuthentificationModule').controller('ConnexionController',functi
                     $('#drh-menu').removeAttr('hidden');
                     document.location.href="#/drh";
                 }
+                if(data.groupe.code=='SERV_AD'){                
+                    $('#service-menu').removeAttr('hidden');
+                    document.location.href="#/service/"+data.entite.id;
+                }
                 if(data.groupe.code=='EMP'){                  
                     $('#employe-menu').removeAttr('hidden');
                     document.location.href="#/employe/detailAgent/"+data.employe.id;

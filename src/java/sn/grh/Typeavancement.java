@@ -8,6 +8,7 @@ package sn.grh;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author faroush-PC
  */
 @Entity
 @Table(name = "typeavancement")
@@ -50,7 +51,7 @@ public class Typeavancement implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
-    @OneToMany(mappedBy = "typeAvancement")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeAvancement")
     private List<Grade> gradeList;
 
     public Typeavancement() {

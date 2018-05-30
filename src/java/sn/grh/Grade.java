@@ -6,7 +6,6 @@
 package sn.grh;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -19,15 +18,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author faroush-PC
  */
 @Entity
 @Table(name = "grade")
@@ -35,9 +32,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Grade.findAll", query = "SELECT g FROM Grade g")
     , @NamedQuery(name = "Grade.findById", query = "SELECT g FROM Grade g WHERE g.id = :id")
-    })
+    , @NamedQuery(name = "Grade.findByDuree", query = "SELECT g FROM Grade g WHERE g.duree = :duree")
+    , @NamedQuery(name = "Grade.findByIndice", query = "SELECT g FROM Grade g WHERE g.indice = :indice")
+    , @NamedQuery(name = "Grade.findBySalaireBase", query = "SELECT g FROM Grade g WHERE g.salaireBase = :salaireBase")})
 public class Grade implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "id")
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Column(name = "duree")
@@ -52,16 +57,6 @@ public class Grade implements Serializable {
     private int salaireBase;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade")
     private List<Historiquegrade> historiquegradeList;
-
-   
-
-    private static final long serialVersionUID = 1L;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "id")
-    private Integer id;
-    
     @JoinColumn(name = "Categorie", referencedColumnName = "id")
     @ManyToOne
     private Categorie categorie;
@@ -74,14 +69,11 @@ public class Grade implements Serializable {
     @JoinColumn(name = "Echelon", referencedColumnName = "id")
     @ManyToOne
     private Echelon echelon;
-    
-    
-    
     @JoinColumn(name = "Niveau", referencedColumnName = "id")
     @ManyToOne
     private Niveau niveau;
     @JoinColumn(name = "TypeAvancement", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private Typeavancement typeAvancement;
 
     public Grade() {
@@ -91,7 +83,12 @@ public class Grade implements Serializable {
         this.id = id;
     }
 
-    
+    public Grade(Integer id, int duree, int indice, int salaireBase) {
+        this.id = id;
+        this.duree = duree;
+        this.indice = indice;
+        this.salaireBase = salaireBase;
+    }
 
     public Integer getId() {
         return id;
@@ -101,7 +98,38 @@ public class Grade implements Serializable {
         this.id = id;
     }
 
-    
+    public int getDuree() {
+        return duree;
+    }
+
+    public void setDuree(int duree) {
+        this.duree = duree;
+    }
+
+    public int getIndice() {
+        return indice;
+    }
+
+    public void setIndice(int indice) {
+        this.indice = indice;
+    }
+
+    public int getSalaireBase() {
+        return salaireBase;
+    }
+
+    public void setSalaireBase(int salaireBase) {
+        this.salaireBase = salaireBase;
+    }
+
+    @XmlTransient
+    public List<Historiquegrade> getHistoriquegradeList() {
+        return historiquegradeList;
+    }
+
+    public void setHistoriquegradeList(List<Historiquegrade> historiquegradeList) {
+        this.historiquegradeList = historiquegradeList;
+    }
 
     public Categorie getCategorie() {
         return categorie;
@@ -134,8 +162,6 @@ public class Grade implements Serializable {
     public void setEchelon(Echelon echelon) {
         this.echelon = echelon;
     }
-
- 
 
     public Niveau getNiveau() {
         return niveau;
@@ -176,41 +202,6 @@ public class Grade implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Grade[ id=" + id + " ]";
-    }
-
-    
-
-    public int getDuree() {
-        return duree;
-    }
-
-    public void setDuree(int duree) {
-        this.duree = duree;
-    }
-
-    public int getIndice() {
-        return indice;
-    }
-
-    public void setIndice(int indice) {
-        this.indice = indice;
-    }
-
-    public int getSalaireBase() {
-        return salaireBase;
-    }
-
-    public void setSalaireBase(int salaireBase) {
-        this.salaireBase = salaireBase;
-    }
-
-    @XmlTransient
-    public List<Historiquegrade> getHistoriquegradeList() {
-        return historiquegradeList;
-    }
-
-    public void setHistoriquegradeList(List<Historiquegrade> historiquegradeList) {
-        this.historiquegradeList = historiquegradeList;
     }
     
 }

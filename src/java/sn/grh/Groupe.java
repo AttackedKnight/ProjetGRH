@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author faroush-PC
  */
 @Entity
 @Table(name = "groupe")
@@ -31,14 +31,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Groupe.findAll", query = "SELECT g FROM Groupe g")
     , @NamedQuery(name = "Groupe.findById", query = "SELECT g FROM Groupe g WHERE g.id = :id")
-    , @NamedQuery(name = "Groupe.findByLibelle", query = "SELECT g FROM Groupe g WHERE g.libelle = :libelle")})
+    , @NamedQuery(name = "Groupe.findByLibelle", query = "SELECT g FROM Groupe g WHERE g.libelle = :libelle")
+    , @NamedQuery(name = "Groupe.findByCode", query = "SELECT g FROM Groupe g WHERE g.code = :code")})
 public class Groupe implements Serializable {
-
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
-    @Column(name = "code")
-    private String code;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,6 +46,11 @@ public class Groupe implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "code")
+    private String code;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupe")
     private List<Utilisateur> utilisateurList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupe")
@@ -63,9 +63,10 @@ public class Groupe implements Serializable {
         this.id = id;
     }
 
-    public Groupe(Integer id, String libelle) {
+    public Groupe(Integer id, String libelle, String code) {
         this.id = id;
         this.libelle = libelle;
+        this.code = code;
     }
 
     public Integer getId() {
@@ -82,6 +83,14 @@ public class Groupe implements Serializable {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @XmlTransient
@@ -125,14 +134,6 @@ public class Groupe implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Groupe[ id=" + id + " ]";
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
     
 }

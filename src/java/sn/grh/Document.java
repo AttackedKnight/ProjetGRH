@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author fallougalass
+ * @author faroush-PC
  */
 @Entity
 @Table(name = "document")
@@ -36,11 +36,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Document.findByDateEnregistrement", query = "SELECT d FROM Document d WHERE d.dateEnregistrement = :dateEnregistrement")
     , @NamedQuery(name = "Document.findByDateSignature", query = "SELECT d FROM Document d WHERE d.dateSignature = :dateSignature")
     , @NamedQuery(name = "Document.findByEcheance", query = "SELECT d FROM Document d WHERE d.echeance = :echeance")
-    , @NamedQuery(name = "Document.findByEmplacement", query = "SELECT d FROM Document d WHERE d.emplacement = :emplacement")})
+    , @NamedQuery(name = "Document.findByEmplacement", query = "SELECT d FROM Document d WHERE d.emplacement = :emplacement")
+    , @NamedQuery(name = "Document.findBySituationMatrimoniale", query = "SELECT d FROM Document d WHERE d.situationMatrimoniale = :situationMatrimoniale")})
 public class Document implements Serializable {
-
-    @Column(name = "situationMatrimoniale")
-    private Boolean situationMatrimoniale;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -69,6 +67,8 @@ public class Document implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "emplacement")
     private String emplacement;
+    @Column(name = "situationMatrimoniale")
+    private Boolean situationMatrimoniale;
     @JoinColumn(name = "Absence", referencedColumnName = "id")
     @ManyToOne
     private Absence absence;
@@ -150,6 +150,14 @@ public class Document implements Serializable {
         this.emplacement = emplacement;
     }
 
+    public Boolean getSituationMatrimoniale() {
+        return situationMatrimoniale;
+    }
+
+    public void setSituationMatrimoniale(Boolean situationMatrimoniale) {
+        this.situationMatrimoniale = situationMatrimoniale;
+    }
+
     public Absence getAbsence() {
         return absence;
     }
@@ -221,14 +229,6 @@ public class Document implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Document[ id=" + id + " ]";
-    }
-
-    public Boolean getSituationMatrimoniale() {
-        return situationMatrimoniale;
-    }
-
-    public void setSituationMatrimoniale(Boolean situationMatrimoniale) {
-        this.situationMatrimoniale = situationMatrimoniale;
     }
     
 }

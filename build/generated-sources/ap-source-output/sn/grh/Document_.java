@@ -11,14 +11,14 @@ import sn.grh.Employe;
 import sn.grh.Formation;
 import sn.grh.Typedocument;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-05-16T10:47:47")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-05-30T12:57:13")
 @StaticMetamodel(Document.class)
 public class Document_ { 
 
     public static volatile SingularAttribute<Document, String> emplacement;
     public static volatile SingularAttribute<Document, Avoircompetence> avoirCompetence;
-    public static volatile SingularAttribute<Document, Boolean> situationMatrimoniale;
     public static volatile SingularAttribute<Document, Date> dateSignature;
+    public static volatile SingularAttribute<Document, Boolean> situationMatrimoniale;
     public static volatile SingularAttribute<Document, Employe> employe;
     public static volatile SingularAttribute<Document, Absence> absence;
     public static volatile SingularAttribute<Document, Conge> conge;

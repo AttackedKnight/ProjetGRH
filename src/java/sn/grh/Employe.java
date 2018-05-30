@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author faroush-PC
  */
 @Entity
 @Table(name = "employe")
@@ -47,20 +47,10 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employe.findByDateRecrutement", query = "SELECT e FROM Employe e WHERE e.dateRecrutement = :dateRecrutement")
     , @NamedQuery(name = "Employe.findByNationalite", query = "SELECT e FROM Employe e WHERE e.nationalite = :nationalite")
     , @NamedQuery(name = "Employe.findByNombreEnfant", query = "SELECT e FROM Employe e WHERE e.nombreEnfant = :nombreEnfant")
-    , @NamedQuery(name = "Employe.findByNombreDeFemme", query = "SELECT e FROM Employe e WHERE e.nombreDeFemme = :nombreDeFemme")})
+    , @NamedQuery(name = "Employe.findByNombreDeFemme", query = "SELECT e FROM Employe e WHERE e.nombreDeFemme = :nombreDeFemme")
+    , @NamedQuery(name = "Employe.findByRetraite", query = "SELECT e FROM Employe e WHERE e.retraite = :retraite")
+    , @NamedQuery(name = "Employe.findByGeler", query = "SELECT e FROM Employe e WHERE e.geler = :geler")})
 public class Employe implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
-    private List<Historiquegrade> historiquegradeList;
-
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "retraite")
-    private boolean retraite;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "geler")
-    private boolean geler;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -116,12 +106,22 @@ public class Employe implements Serializable {
     private Integer nombreEnfant;
     @Column(name = "nombreDeFemme")
     private Integer nombreDeFemme;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "retraite")
+    private boolean retraite;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "geler")
+    private boolean geler;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Absence> absenceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Conge> congeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Document> documentList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
+    private List<Historiquegrade> historiquegradeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Formation> formationList;
     @OneToMany(mappedBy = "employe")
@@ -144,7 +144,6 @@ public class Employe implements Serializable {
     private Typeemploye typeEmploye;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Avoircompetence> avoircompetenceList;
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Adresse> adresseList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
@@ -157,7 +156,7 @@ public class Employe implements Serializable {
         this.id = id;
     }
 
-    public Employe(Integer id, String numeroCni, String prenom, String nom, Date dateDeNaissance, String lieuDeNaissance, String sexe, String nationalite) {
+    public Employe(Integer id, String numeroCni, String prenom, String nom, Date dateDeNaissance, String lieuDeNaissance, String sexe, String nationalite, boolean retraite, boolean geler) {
         this.id = id;
         this.numeroCni = numeroCni;
         this.prenom = prenom;
@@ -166,6 +165,8 @@ public class Employe implements Serializable {
         this.lieuDeNaissance = lieuDeNaissance;
         this.sexe = sexe;
         this.nationalite = nationalite;
+        this.retraite = retraite;
+        this.geler = geler;
     }
 
     public Integer getId() {
@@ -272,6 +273,22 @@ public class Employe implements Serializable {
         this.nombreDeFemme = nombreDeFemme;
     }
 
+    public boolean getRetraite() {
+        return retraite;
+    }
+
+    public void setRetraite(boolean retraite) {
+        this.retraite = retraite;
+    }
+
+    public boolean getGeler() {
+        return geler;
+    }
+
+    public void setGeler(boolean geler) {
+        this.geler = geler;
+    }
+
     @XmlTransient
     public List<Absence> getAbsenceList() {
         return absenceList;
@@ -297,6 +314,15 @@ public class Employe implements Serializable {
 
     public void setDocumentList(List<Document> documentList) {
         this.documentList = documentList;
+    }
+
+    @XmlTransient
+    public List<Historiquegrade> getHistoriquegradeList() {
+        return historiquegradeList;
+    }
+
+    public void setHistoriquegradeList(List<Historiquegrade> historiquegradeList) {
+        this.historiquegradeList = historiquegradeList;
     }
 
     @XmlTransient
@@ -376,8 +402,6 @@ public class Employe implements Serializable {
         this.avoircompetenceList = avoircompetenceList;
     }
 
-    
-
     @XmlTransient
     public List<Adresse> getAdresseList() {
         return adresseList;
@@ -419,31 +443,6 @@ public class Employe implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Employe[ id=" + id + " ]";
-    }
-
-    public boolean getRetraite() {
-        return retraite;
-    }
-
-    public void setRetraite(boolean retraite) {
-        this.retraite = retraite;
-    }
-
-    public boolean getGeler() {
-        return geler;
-    }
-
-    public void setGeler(boolean geler) {
-        this.geler = geler;
-    }
-
-    @XmlTransient
-    public List<Historiquegrade> getHistoriquegradeList() {
-        return historiquegradeList;
-    }
-
-    public void setHistoriquegradeList(List<Historiquegrade> historiquegradeList) {
-        this.historiquegradeList = historiquegradeList;
     }
     
 }

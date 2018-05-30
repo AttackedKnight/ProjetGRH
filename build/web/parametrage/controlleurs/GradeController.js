@@ -277,5 +277,24 @@ angular.module('ParametrageModule').controller('GradeController',function($scope
         
         
       };
+        (function datatable() {
+
+        if($('#example1 tr').length>0){
+            setTimeout(function(){ 
+                $('#example1').dataTable({
+                "bPaginate": true,
+                "bLengthChange": true,
+                "bFilter": true,
+                "bSort": true,
+                "bInfo": true,
+                "bAutoWidth": false,
+                "bStateSave": true
+              });        
+            }, 2000);
+             
+        }
+
+        
+    })();
         
 });

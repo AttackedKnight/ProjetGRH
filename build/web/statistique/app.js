@@ -26,6 +26,9 @@ angular.module('StatistiqueModule',['ngRoute','ngMessages'])
     }).when('/drh/pats/e',{
         templateUrl:'statistique/statistique-drh-entite.html',
         controller: 'StatistiquePATSEntiteController'
+    }).when('/service/statistique/:id',{
+        templateUrl:'statistique/statistique-service.html',
+        controller: 'StatistiqueServiceController'
     }).otherwise({
         redirectTo: '/404'
     });

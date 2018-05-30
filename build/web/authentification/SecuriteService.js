@@ -27,6 +27,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                 
                 if($rootScope.groupeUtilisateur.code=='SUP_AD'){
                     $('#admin-menu').removeAttr('hidden');
+                    $('body').removeClass('fixed');
                 }
                 if($rootScope.groupeUtilisateur.code=='PER_AD'){
                     $('#drh-menu').removeAttr('hidden');
@@ -34,6 +35,10 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                 if($rootScope.groupeUtilisateur.code=='PATS_AD' || $rootScope.groupeUtilisateur.code=='DRH_AD'){
                     $('#drh-menu').removeAttr('hidden');
                     $('#drh-demandes').removeAttr('hidden');
+                }
+                if($rootScope.groupeUtilisateur.code=='SERV_AD'){
+                    $('#service-menu').removeAttr('hidden');
+                    $('#service-demandes').removeAttr('hidden');
                 }
                 if($rootScope.groupeUtilisateur.code=='EMP'){
                     $rootScope.idUtilisateur=cookie.currentUser.user.employe.id;
@@ -109,6 +114,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
         hide:function(){
             
             
+            $('body').addClass('fixed');
             $('.no-print').css('display','none');
 
             $('header').attr('hidden','hidden');
@@ -120,6 +126,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
             $('#admin-menu').attr('hidden','hidden');
             $('#drh-menu').attr('hidden','hidden');
             $('#drh-demandes').attr('hidden','hidden');
+            $('#service-demandes').attr('hidden','hidden');
             $('#employe-menu').attr('hidden','hidden');
             $('#service-menu').attr('hidden','hidden');
             
@@ -127,39 +134,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
 
             
         }
-//        ,
-//        avoirPermission:function(action,nomTable){
-//            console.log('je suis appele');
-//            if(action=='ajouter' || action=='modifier' || action=='supprimer' || action=='lister' || action=='consulter'){
-//               
-//                for(var i=0;i<$rootScope.myPermission.length;i++){
-//                    if($rootScope.myPermission[i].nomTable==nomTable){
-//                        if(action=='ajouter'){
-//                            return $rootScope.myPermission[i].ajouter;
-//                        }
-//                        if(action=='modifier'){
-//                            return $rootScope.myPermission[i].ajouter;
-//                        }
-//                        if(action=='supprimer'){
-//                            return $rootScope.myPermission[i].ajouter;
-//                        }if(action=='lister'){
-//                            return $rootScope.myPermission[i].ajouter;
-//                        }
-//                        if(action=='consulte'){
-//                            return $rootScope.myPermission[i].ajouter;
-//                        }
-//                        
-//                    }
-//                }
-//                
-//                return false;
-//            }
-//            else{
-//                return false;
-//            }
-//               
-//        }
-             
+        
 };
 
 
