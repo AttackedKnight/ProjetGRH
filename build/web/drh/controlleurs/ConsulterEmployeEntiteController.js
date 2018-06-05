@@ -137,7 +137,15 @@ angular.module('DrhModule').controller('ConsulterEmployeEntiteController',functi
             $scope.getEmployePerEntite();
         }
         if($rootScope.groupeUtilisateur.code=='SERV_AD'){
-            $scope.getAllEmployeEntite();
+            if($routeParams.type==1){
+                $scope.getEmployePerEntite();
+            }
+            else if($routeParams.type==0){
+                $scope.getEmployePatsEntite();
+            }
+            else{
+                $scope.getAllEmployeEntite();
+            }
         }
         if($rootScope.groupeUtilisateur.code=='DRH_AD'){
 
@@ -533,7 +541,8 @@ angular.module('DrhModule').controller('ConsulterEmployeEntiteController',functi
                 "bFilter": false,
                 "bSort": true,
                 "bInfo": true,
-                "bAutoWidth": false
+                "bAutoWidth": false,
+                "bStateSave": true
               });        
             }, 2000);
              

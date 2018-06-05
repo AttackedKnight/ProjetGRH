@@ -1,4 +1,4 @@
-angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',function($scope ,Entite,$q,Securite, StatistiqueEntite){
+angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',function($scope,$cookies,$q,Entite,Securite, StatistiqueEntite){
  
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -11,10 +11,22 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
     
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-    
+
     Entite.findAll().success(function (data) {
         $scope.entites=data;
-        $scope.entiteChoisie=data[1];
+        
+        if (!$cookies.get('entiteChoisie'))
+        {   $scope.entiteChoisie=data[1];
+            /*Garder entite selectionne dans un cookie*/
+            $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
+            console.log('cookie entite choisie cree');
+
+        }
+        else{      
+            $scope.entiteChoisie=JSON.parse($cookies.get('entiteChoisie'));       
+            console.log('Utilisation du cookie entite choisie: '+$scope.entiteChoisie);
+        }
+        
         $scope.montrerStatistique();
     }).error(function () {
         alert('Une erreur est survenue : entites');
@@ -23,6 +35,8 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
     $scope.changerEntite=function(){
         
         $scope.filles=[];
+        /*Garder entite selectionne dans un cookie*/
+        $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
         $scope.montrerStatistique();
     };
     
@@ -555,7 +569,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
 
              var req_h=[];
              var req_f=[];
-             /*Creation du tableau d'objets Ã  afficher sur le graphe*/
+             /*Creation du tableau d'objets à afficher sur le graphe*/
              while(end<=fin){              
                  intervalle_date= $scope.trancheAge(debut,end);
                  date1=intervalle_date.split('/')[0];
@@ -693,7 +707,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
         $scope.actualiserTrancheAge=function(d,f,i){
             if(parseInt(d)>0 && parseInt(f)>0 && parseInt(i)>0){
                 if(parseInt(d)>parseInt(f)){
-                    alert('La valeur de dÃ©but doit etre infÃ©rieure Ã  celle de fin');
+                    alert('La valeur de début doit etre inférieure à celle de fin');
                 }
                 else{
                     $scope.construireGrapheTranche(parseInt(d),parseInt(f),parseInt(i));
@@ -765,7 +779,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                     une_barre.annee=parseInt(n);
                     une_barre.color=colors[i];
                     
-                    colors=supprimerCouleur(colors,i); //Supprimer la couleur de la liste des couleurs:Ã©viter rÃ©pÃ©tition
+                    colors=supprimerCouleur(colors,i); //Supprimer la couleur de la liste des couleurs:éviter répétition
 
                     $scope.recrutements.push(une_barre);
 
@@ -882,13 +896,13 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
             une_barre.annee=corps[i];
             une_barre.color=colors[j];
 
-            colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:Ã©viter rÃ©pÃ©tition
+            colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
 
             $scope.effectifsParCorps.push(une_barre);
 
             for(var j=0;j<$scope.filles.length;j++)
             {
-
+                
                 req_corps.push(StatistiqueEntite.compterPerDeCorpsEntite($scope.filles[j],corps[i]));
             }
 
@@ -901,14 +915,15 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
             for(var b=0;b<result.length;b++){
                 cumul+=parseInt(result[b].data);
                 cmp_entites_filles++;
-                if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.effectifsParCorps.length){                     
+                if(cmp_entites_filles==$scope.filles.length && indice_barre<$scope.effectifsParCorps.length){ 
+                    
                     $scope.effectifsParCorps[indice_barre].pourcentage=cumul;
                     cmp_entites_filles=0;
                     cumul=0;
                     indice_barre+=1;
                 }
             }
-
+            
             $scope.tracerDiagrammeNiveauEtude($scope.effectifsParCorps);
         });
     };
@@ -927,7 +942,7 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHEntiteController',
                 une_barre.annee="Classe "+i;
                 une_barre.color=colors[j];
 
-                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:Ã©viter rÃ©pÃ©tition
+                colors=supprimerCouleur(colors,j); //Supprimer la couleur de la liste des couleurs:éviter répétition
 
                 $scope.effectifsParClasse.push(une_barre);
 

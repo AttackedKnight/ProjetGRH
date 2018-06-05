@@ -107,8 +107,7 @@ angular.module('DrhModule').controller('ConsulterEmployeHommeEntiteController',f
         if($rootScope.groupeUtilisateur.code=='PER_AD'){
             $scope.getPerHommeEntite();
         }
-
-        if($rootScope.groupeUtilisateur.code=='DRH_AD'){
+        if($rootScope.groupeUtilisateur.code=='DRH_AD' || $rootScope.groupeUtilisateur.code=='SERV_AD'){
             if($routeParams.type==1){
                 $scope.getPerHommeEntite();
             }
@@ -116,6 +115,7 @@ angular.module('DrhModule').controller('ConsulterEmployeHommeEntiteController',f
                 $scope.getPatsHommeEntite();
             }
         }
+      
     };
     
     
@@ -404,7 +404,8 @@ angular.module('DrhModule').controller('ConsulterEmployeHommeEntiteController',f
                 "bFilter": true,
                 "bSort": true,
                 "bInfo": true,
-                "bAutoWidth": false
+                "bAutoWidth": false,
+                "bStateSave": true
               });        
             }, 2000);
              

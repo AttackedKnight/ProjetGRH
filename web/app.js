@@ -8,8 +8,10 @@ angular.module('globalModule',['ngRoute','ngMessages','EmployeModule','ngCookies
 /*Sur serveur*/
 //var chemin="https://10.157.20.203:8181/ProjetGRH"; 
 /*En local*/
-var chemin="http://localhost:8080/ProjetGRH";
+//var chemin="http://localhost:8080/ProjetGRH";
 
+/*En local:new port*/
+var chemin="http://localhost:29165/ProjetGRH";
 
 //angular.module('globalModule',['ngRoute','ngMessages','ngCookies','angularFileUpload','DrhModule','ParametrageModule','StatistiqueModule','AuthentificationModule']);
 //var chemin="http://localhost:8080/ProjetGRH"; 

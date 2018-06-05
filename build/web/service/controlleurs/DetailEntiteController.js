@@ -5,7 +5,7 @@
  */
 
 
-angular.module('ServiceModule').controller('DetailEntiteController',function($scope,$routeParams,Securite,Entite,TypeEntite,Servir,Employe)
+angular.module('ServiceModule').controller('DetailEntiteController',function($scope,$q,$routeParams,Securite,Entite,TypeEntite,Servir,Employe)
 {
     
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -20,31 +20,67 @@ angular.module('ServiceModule').controller('DetailEntiteController',function($sc
     
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
   
-   
-    
-    Entite.find($routeParams.id).success(function (data) {
-        $scope.VoirDetails(data);
+    Entite.findAll().success(function (data) {
+        $scope.entites=data;
+        $scope.getEntite();
     }).error(function () {
         dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue:creation</div>');
-    });          
+    }); 
+    
+    $scope.getEntite=function(){
+        Entite.find($routeParams.id).success(function (data) {
+            $scope.VoirDetails(data);
+        }).error(function () {
+            dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue:creation</div>');
+        });
+    };          
     
     
+    $scope.filles=[];
     
-//    TypeEntite.findAll().success(function (data) {
-//        $scope.typeentites=data;
-//    }).error(function () {
-//        alert('Une erreur est survenue');
-//    });          
+    $scope.getEntitesFille=function(){       
+        var filles=[];
+        for(var i=0;i<$scope.entites.length;i++){
+            if($scope.estEnfant($scope.entites[i],$scope.entite)==true){
+                filles.push($scope.entites[i]);
+            }
+        }    
+        return filles;
+    };
     
+    $scope.estEnfant=function(entite,parent){        
+        var e=entite;
+        var b=false;
+        while(e !=null){
+            if(e.id==parent.id){
+                b=true;
+                break;
+            }          
+            e=e.entite;
+        }
+        return b;
+    };
     
     $scope.VoirDetails=function(e){
+        
         $scope.entite=e;       
+        $scope.filles=$scope.getEntitesFille();
+        
+        var req_tab=[];
+        var cumul=0;
         Servir.findResponsableEntite(e).success(function (data){
-            Servir.countEmploye(e).success(function (effectif) {
-                $scope.effectif=effectif;
-            }).error(function () {
-                alert('Une erreur est survenue');
+            
+            for(var j=0;j<$scope.filles.length;j++){
+                req_tab.push(Servir.countEmploye($scope.filles[j]));
+            }
+            $q.all(req_tab).then(function (result){ 
+                for(var i=0;i<result.length;i++)
+                {
+                    cumul+=parseInt(result[i].data);
+                }
+                $scope.effectif=cumul;
             });
+
             $scope.responsable=data;
             
             if($scope.responsable){
@@ -52,13 +88,10 @@ angular.module('ServiceModule').controller('DetailEntiteController',function($sc
                 $scope.prenomNom=$scope.responsable.employe.civilite.code+' '+$scope.responsable.employe.prenom +' '+($scope.responsable.employe.nom).toUpperCase();
             }
             
-//             $('.les-entites').eq(0).trigger('click');
-            
         }).error(function () {
            alert('Une erreur est survenue');
              
         });
-        
         
     };
    

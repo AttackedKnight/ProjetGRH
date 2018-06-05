@@ -6,23 +6,23 @@ angular.module("ServiceModule",['ngRoute','ngMessages']).config(function ($route
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeEntiteController'
         
-    }).when('/service/entite/consulter/:id/type/:type',{
+    }).when('/service/consulter/:id/type/:type',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeEntiteController'
         
-    }).when('/service/entite/consulter/:id/homme/type/:type',{
+    }).when('/service/consulter/:id/homme/type/:type',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeHommeEntiteController'
         
-    }).when('/service/entite/consulter/:id/homme',{
+    }).when('/service/consulter/:id/homme',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeHommeEntiteController'
         
-    }).when('/service/entite/consulter/:id/femme/type/:type',{
+    }).when('/service/consulter/:id/femme/type/:type',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeFemmeEntiteController'
         
-    }).when('/service/entite/consulter/:id/femme',{
+    }).when('/service/consulter/:id/femme',{
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeFemmeEntiteController'
         

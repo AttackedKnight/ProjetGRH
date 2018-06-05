@@ -10,7 +10,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-       <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+       <a ng-href="#/service/consulter/{{entiteChoisie.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div><!-- ./col -->
     <div class="col-md-9">
@@ -29,7 +29,7 @@
             <div class="icon pull-right">
               <i class="fa fa-user"></i>
             </div>
-            <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+            <a ng-href="#/service/consulter/{{entiteChoisie.id}}/type/1" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
         </div>
      
       
@@ -47,7 +47,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/service/consulter/{{entiteChoisie.id}}/homme/type/1" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
       
       
@@ -64,7 +64,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/service/consulter/{{entiteChoisie.id}}/femme/type/1" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
      
      
@@ -85,7 +85,7 @@
        <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/service/consulter/{{entiteChoisie.id}}/type/0" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
      
       
@@ -103,7 +103,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/service/consulter/{{entiteChoisie.id}}/homme/type/0" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
       
       
@@ -120,7 +120,7 @@
         <div class="icon pull-right">
           <i class="fa fa-user"></i>
         </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <a ng-href="#/service/consulter/{{entiteChoisie.id}}/femme/type/0" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
       </div>
      
      
@@ -155,7 +155,7 @@
                   <h2 class="box-title">HOMMES / FEMMES</h2>           
                 </div>
                 <div class="box-body row">
-                    <div class="pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                    <div class="pull-right">
                        <div class="col-md-7">
                            <label>Selection</label>
                            <select class="form-control" id="typePourcentageHF" name="typePourcentageHF"  ng-model="typePourcentageHommeFemme">
@@ -186,7 +186,7 @@
                               <h2 class="box-title">TRANCHES D'AGES</h2>                             
                             </div>
                             <div class="box-body row">
-                                <div class="col-md-5 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                                <div class="col-md-5 row">
                                    <div class="col-md-7">
                                        <label>Selection</label>
                                        <select class="form-control" id="typeTrancheAge" ng-model="typeTrancheAge">
@@ -202,7 +202,7 @@
                                         </button>
                                     </div>                      
                                 </div>
-                                <div class="col-md-7 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
+                                <div class="col-md-7 row pull-right">
                                   <div class="col-md-3 mb-3">
                                     <label for="debut">Début</label>
                                     <select  class="form-control" id="debut" ng-model="debutTrancheAge">
@@ -265,7 +265,7 @@
                   
                 </div>
                 <div class="box-body row">
-                    <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                    <div class="col-md-6 row">
                        <div class="col-md-7">
                            <label>Selection</label>
                            <select class="form-control" id="typeRecrutementParAnnee" ng-model="typeRecrutementParAnnee">
@@ -281,7 +281,7 @@
                             </button>
                         </div>                      
                     </div>
-                    <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
+                    <div class="col-md-6 row pull-right">
                        <div class="col-md-7">
                            <label for="intervalle">Intervalle</label>
                             <select class="form-control" id="intervalle" ng-model="intervaleAnneeRecrutement">
@@ -314,7 +314,7 @@
                   <h3 class="box-title">CLASSIFICATION</h3>
                 </div>
                 <div class="box-body row">
-                    <div class="col-md-6 row pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                    <div class="col-md-6 row pull-right">
                        <div class="col-md-7">
                            <label>Selection</label>
                            <select class="form-control" id="typeEffectifParNiveau" ng-model="typeEffectifParNiveau">
@@ -345,7 +345,7 @@
                   
                 </div>
                 <div class="box-body row">
-                    <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                    <div class="col-md-6 row">
                        <div class="col-md-7">
                            <label>Selection</label>
                            <select class="form-control" id="typeEntreeSortie" ng-model="typeEntreeSortie">
@@ -361,7 +361,7 @@
                             </button>
                         </div>                      
                     </div>
-                    <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
+                    <div class="col-md-6 row pull-right">
                        <div class="col-md-7">
                            <label for="intervalle">Intervalle</label>
                             <select class="form-control" id="intervalleEntreeSortie" ng-model="intervalleEntreeSortie">

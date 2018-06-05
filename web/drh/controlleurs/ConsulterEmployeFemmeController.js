@@ -251,7 +251,8 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController',functio
                 "bFilter": true,
                 "bSort": true,
                 "bInfo": true,
-                "bAutoWidth": false
+                "bAutoWidth": false,
+                "bStateSave": true
               });        
             }, 2000);
              

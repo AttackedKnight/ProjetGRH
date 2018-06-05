@@ -1,4 +1,4 @@
-angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController',function($scope,Entite,$q,Securite, StatistiqueEntite){
+angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController',function($scope,$cookies,$q,Entite,Securite, StatistiqueEntite){
  
  
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -13,7 +13,18 @@ angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController'
     
     Entite.findAll().success(function (data) {
         $scope.entites=data;
-        $scope.entiteChoisie=data[1];
+        if (!$cookies.get('entiteChoisie'))
+        {   $scope.entiteChoisie=data[1];
+            /*Garder entite selectionne dans un cookie*/
+            $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
+            console.log('cookie entite choisie cree');
+
+        }
+        else{      
+            $scope.entiteChoisie=JSON.parse($cookies.get('entiteChoisie'));       
+            console.log('Utilisation du cookie entite choisie: '+$scope.entiteChoisie);
+        }
+        
         $scope.montrerStatistique();
     }).error(function () {
         alert('Une erreur est survenue : entites');
@@ -22,6 +33,8 @@ angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController'
     $scope.changerEntite=function(){
         
         $scope.filles=[];
+        /*Garder entite selectionne dans un cookie*/
+        $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
         $scope.montrerStatistique();
     };
     $scope.filles=[];

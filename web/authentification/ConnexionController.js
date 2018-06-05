@@ -87,7 +87,7 @@ angular.module('AuthentificationModule').controller('ConnexionController',functi
                 }
                 if(data.groupe.code=='SERV_AD'){                
                     $('#service-menu').removeAttr('hidden');
-                    document.location.href="#/service/"+data.entite.id;
+                    document.location.href="#/service/statistique/"+data.entite.id;
                 }
                 if(data.groupe.code=='EMP'){                  
                     $('#employe-menu').removeAttr('hidden');

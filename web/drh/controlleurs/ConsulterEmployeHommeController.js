@@ -250,7 +250,8 @@ angular.module('DrhModule').controller('ConsulterEmployeHommeController',functio
                 "bFilter": true,
                 "bSort": true,
                 "bInfo": true,
-                "bAutoWidth": false
+                "bAutoWidth": false,
+                "bStateSave": true
               });        
             }, 2000);
              
