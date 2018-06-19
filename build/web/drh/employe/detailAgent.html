@@ -253,7 +253,7 @@
                             <div class="row "  style="margin-top: 10px;">
                                 <div class="col-md-12">
                                     <span style="margin-right: 10px;" class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-times"> Annuler</i></span>
-                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlFormEditEmploye()"><i class="fa fa-times"> Enregistrer</i></span>
+                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlFormEditEmploye()"><i class="fa fa-check"> Enregistrer</i></span>
                                 </div>
                             </div>
                             </form>
@@ -501,7 +501,7 @@
                             </table>
                             <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                                <div class="col-md-offset-9 col-md-3 ">
-                                   <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlSituationMatriFormEdit('editSituationMatriForm')"><i class="fa fa-times"> Enregistrer</i></span>
+                                   <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlSituationMatriFormEdit('editSituationMatriForm')"><i class="fa fa-check"> Enregistrer</i></span>
                                     <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                 </div>
                             </div>                    
@@ -618,7 +618,7 @@
                             </div>
                                 <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                                     <div class="col-md-offset-9 col-md-3 ">
-                                        <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-times"> Enregistrer</i></span>
+                                        <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
                                          <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                      </div>
                                  </div>
@@ -704,7 +704,7 @@
                             </div>  
                             <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                             <div class="col-md-offset-9 col-md-3 ">
-                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editAdresseForm.$invalid"  ng-click="controlAdresseFormEdit()"><i class="fa fa-times"> Enregistrer</i></span>
+                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editAdresseForm.$invalid"  ng-click="controlAdresseFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
                                      <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                  </div>
                             </div> 
@@ -750,7 +750,8 @@
                             <div class="col-md-12" ng-if="avoirPermission('ajouter','servir')==true">
                                 
                                 <form role="form" class="newEmploiForm" name="newEmploiForm" novalidate="">        
-                                <table class="table">
+                                    <div class="table-responsive">
+                                        <table class="table">
                                     <thead>
                                         <tr>
                                             <th>Fonction</th>
@@ -850,12 +851,11 @@
                                         
                                     </tbody>
                                 </table>
+                                        
+                                    </div>
                                  </form>
                             </div>
-                          <div class="row">
-                           
-                            <div class="col-md-12 row">
-                                      <div class="panel-body table-responsive no-padding col-md-offset-1 col-md-10" style="margin-top: 6px; font-size: 1.2em;">
+                          <div class="panel-body table-responsive no-padding" style="margin-top: 6px; font-size: 1.2em;">
                                         <table class="table table-striped">
                                           <thead>
                                               <tr>
@@ -882,10 +882,6 @@
                                           </tbody>
                                         </table>
                                       </div>
-
-                            </div>
-                            </div>
-                               
                                
                         </div>
                     </div>
@@ -1074,159 +1070,161 @@
                       
                       <div id="formation" class="panel-collapse collapse">
                       
-                          <form role="form" class="formationForm" name="newFormationForm" id="newFormationForm" novalidate="" ng-if="avoirPermission('ajouter','formation')==true">
-                                <table class="table table-striped">
-                                   <thead>
-                                       <tr>
-                                           <th>Libelle</th>
-                                           <th>Date début</th>
-                                           <th>Date fin</th>
-                                           <th>Diplomante</th>
-                                           <th><span ng-if="diplomante">Nom diplome</span></th>
-                                       </tr>
-                                   </thead>
-                                   <tbody>
-                                       <tr>
-                                           <td>
-                                               <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="text" name="libelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-']*[a-zâäàéèùêëîïôöçñ]+$/i" ng-model="formation.libelle" ng-minlength="2" class="form-control" id="libelle">
-                                                 </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                          <div>Veuillez renseigner ce champs.</div>
+                            <form role="form" class="formationForm" name="newFormationForm" id="newFormationForm" novalidate="" ng-if="avoirPermission('ajouter','formation')==true">
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Libelle</th>
+                                                <th>Date début</th>
+                                                <th>Date fin</th>
+                                                <th>Diplomante</th>
+                                                <th><span ng-if="diplomante">Nom diplome</span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-group">
+                                                     <div class="input-group">
+                                                         <input type="text" name="libelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-']*[a-zâäàéèùêëîïôöçñ]+$/i" ng-model="formation.libelle" ng-minlength="2" class="form-control" id="libelle">
                                                       </div>
-                                                     <div ng-messages="newFormationForm.libelle.$error" role="alert" ng-show="newFormationForm.libelle.$touched && newFormationForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
-                                                          <div ng-message="minlength">Ce champs doit contenir 2 chiffres minimum.</div>
-                                                          <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                     <div class="alert alert-block alert-danger requis" style="display:none">
+                                                               <div>Veuillez renseigner ce champs.</div>
+                                                           </div>
+                                                          <div ng-messages="newFormationForm.libelle.$error" role="alert" ng-show="newFormationForm.libelle.$touched && newFormationForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
+                                                               <div ng-message="minlength">Ce champs doit contenir 2 chiffres minimum.</div>
+                                                               <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                          </div>
+
+                                                       </div>
+                                                </td>
+                                                <td>
+                                                     <div class="form-group">
+                                                     <div class="input-group">
+                                                          <input type="date" ng-model="formation.dateDebut" max="{{today}}" name="dateDebut" class="form-control" id="dateDebut" > 
+                                                      </div>
+                                                     <div class="alert alert-block alert-danger requis" style="display:none">
+                                                          <div>Veuillez renseigner ce champs.</div>
+                                                     </div>
+                                                     <div ng-messages="newFormationForm.dateDebut.$error" role="alert" ng-show="newFormationForm.dateDebut.$invalid"  class="alert alert-block alert-danger has-error">
+                                                         <div ng-message="max">Cette date ne doit pas dépasser la date actuelle</div>
+                                                     </div>
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group">
+                                                     <div class="input-group">
+                                                         <input type="date" ng-model="formation.dateFin"  name="dateFin" min="{{dateDebut}}" max="{{today}}" class="form-control" id="dateFin" > 
+                                                      </div>
+                                                       <div class="alert alert-block alert-danger requis" style="display:none">
+                                                           <div>Veuillez renseigner ce champs.</div>
+                                                      </div>
+                                                      <div ng-messages="newFormationForm.dateFin.$error" role="alert" ng-show="newFormationForm.dateFin.$invalid"  class="alert alert-block alert-danger has-error">
+                                                          <div ng-message="min">Cette date doit etre superieure à la date de début</div>
+                                                          <div ng-message="max">Cette date ne doit pas dépasser la date actuelle</div>
                                                      </div>
 
                                                   </div>
-                                           </td>
-                                           <td>
-                                                <div class="form-group">
-                                                <div class="input-group">
-                                                     <input type="date" ng-model="formation.dateDebut" max="{{today}}" name="dateDebut" class="form-control" id="dateDebut" > 
-                                                 </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                     <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div ng-messages="newFormationForm.dateDebut.$error" role="alert" ng-show="newFormationForm.dateDebut.$invalid"  class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="max">Cette date ne doit pas dépasser la date actuelle</div>
-                                                </div>
-                                             </div>
-                                           </td>
-                                           <td>
-                                               <div class="form-group">
-                                                <div class="input-group">
-                                                    <input type="date" ng-model="formation.dateFin"  name="dateFin" min="{{dateDebut}}" max="{{today}}" class="form-control" id="dateFin" > 
-                                                 </div>
-                                                  <div class="alert alert-block alert-danger requis" style="display:none">
-                                                      <div>Veuillez renseigner ce champs.</div>
-                                                 </div>
-                                                 <div ng-messages="newFormationForm.dateFin.$error" role="alert" ng-show="newFormationForm.dateFin.$invalid"  class="alert alert-block alert-danger has-error">
-                                                     <div ng-message="min">Cette date doit etre superieure à la date de début</div>
-                                                     <div ng-message="max">Cette date ne doit pas dépasser la date actuelle</div>
-                                                </div>
-                                                 
-                                             </div>
-                                           </td>
-                                           <td>
-                                             <input type="checkbox" name="diplomante" ng-model="diplomante">
-                                           </td>
-                                           <td>
-                                                <div class="form-group" ng-if="diplomante">
-                                                    <div class="input-group">
-                                                        <input type="text" name="libelleDiplome" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-']*[a-zâäàéèùêëîïôöçñ]+$/i" ng-model="diplome.nom" ng-minlength="2" class="form-control" id="libelleDiplome">
-                                                     </div>
-                                                    <div class="alert alert-block alert-danger requis" style="display:none">
-                                                        <div>Veuillez renseigner ce champs.</div>
-                                                    </div>
-                                                    <div ng-messages="newFormationForm.libelleDiplome.$error" role="alert" ng-show="newFormationForm.libelleDiplome.$touched && newFormationForm.libelleDiplome.$invalid" class="alert alert-block alert-danger has-error">
-                                                        <div ng-message="minlength">Ce champs doit contenir 2 chiffres minimum.</div>
-                                                        <div ng-message="pattern">Vérifier votre saisie.</div>
-                                                    </div>
+                                                </td>
+                                                <td>
+                                                  <input type="checkbox" name="diplomante" ng-model="diplomante">
+                                                </td>
+                                                <td>
+                                                     <div class="form-group" ng-if="diplomante">
+                                                         <div class="input-group">
+                                                             <input type="text" name="libelleDiplome" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-']*[a-zâäàéèùêëîïôöçñ]+$/i" ng-model="diplome.nom" ng-minlength="2" class="form-control" id="libelleDiplome">
+                                                          </div>
+                                                         <div class="alert alert-block alert-danger requis" style="display:none">
+                                                             <div>Veuillez renseigner ce champs.</div>
+                                                         </div>
+                                                         <div ng-messages="newFormationForm.libelleDiplome.$error" role="alert" ng-show="newFormationForm.libelleDiplome.$touched && newFormationForm.libelleDiplome.$invalid" class="alert alert-block alert-danger has-error">
+                                                             <div ng-message="minlength">Ce champs doit contenir 2 chiffres minimum.</div>
+                                                             <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                         </div>
 
-                                                </div>
-                                           </td>
-                                       </tr>
-                                        <tr>
-                                            <th>Type de document</th>
-                                             <th>Description</th>
-                                             <th colspan="3">Actions</th>
-                                        </tr>
-                                       <tr>                                            
-                                            <td>
-                                                 <div class="form-group">
-                                                     <div class="input-group">
-                                                         <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in typedocuments"></select>  
                                                      </div>
-                                                     <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
-                                                         <div>Veuillez renseigner ce champs.</div>
-                                                     </div>
-                                                 </div>
-                                             </td>
-                                             <td>
-                                                 <div class="form-group">
-                                                     <div class="input-group">
-                                                         <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
-                                                     </div>
-                                                      <div class="alert alert-block alert-danger requis" style="display:none">
-                                                         <div>Veuillez renseigner ce champs.</div>
-                                                     </div>                                      
-                                                 </div>
-                                             </td>
-                                             
-                                             <td colspan="3">
-                                                 <div class="row">
-                                                     <div class="col-md-7">
-                                                         <div class="detailUpload">
-                                                         </div>
-                                                         <div>                                     
-                                                             <div class="alert alert-block alert-danger requis missing-file" style="display:none">
-                                                             <div>Veuillez sélectionner un fichier.</div>
-                                                             </div>
-                                                             <div class="alert alert-block alert-danger requis error-format" style="display:none">
-                                                             <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
-                                                             </div>
-                                                         </div>
-                                                     </div>
-                                                     <div class="col-md-4">
-                                                         <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this,'newFormationForm')" name="fichiers" accept="application/pdf" id="fichiersFormation">
-                                                         <label for="fichiersFormation">
-                                                             <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
-                                                         </label>
-                                                         <span class="btn btn-danger" title="Annuler l'upload">
-                                                             <i class="fa fa-times" ></i>
-                                                         </span>
-                                                     </div>                                       
-                                                 </div>
-                                             </td>
-                                        </tr>
-                                       <tr>
-                                           <td>
-                                             
-                                           </td>
-                                           <td>
-                                               
-                                           </td>
-                                           <td>
-                                             
-                                           </td>
-                                           <td colspan="2">                                              
-                                                <button ng-click="controlFormationFormation('newFormationForm')" ng-disabled="newFormationForm.$invalid" class="btn btn-success">
-                                                    <i class="fa fa-plus"> Ajouter</i>
-                                                </button> 
-                                                <button ng-click="reinitialiserFormulaireFormation()"  class="btn btn-danger">
-                                                    <i class="fa fa-warning"> Annuler</i>
-                                                </button>
-                                           </td>
-                                       </tr>
-                                   </tbody>
-                               </table>
+                                                </td>
+                                            </tr>
+                                             <tr>
+                                                 <th>Type de document</th>
+                                                  <th>Description</th>
+                                                  <th colspan="3">Actions</th>
+                                             </tr>
+                                            <tr>                                            
+                                                 <td>
+                                                      <div class="form-group">
+                                                          <div class="input-group">
+                                                              <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in typedocuments"></select>  
+                                                          </div>
+                                                          <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
+                                                              <div>Veuillez renseigner ce champs.</div>
+                                                          </div>
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                      <div class="form-group">
+                                                          <div class="input-group">
+                                                              <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
+                                                          </div>
+                                                           <div class="alert alert-block alert-danger requis" style="display:none">
+                                                              <div>Veuillez renseigner ce champs.</div>
+                                                          </div>                                      
+                                                      </div>
+                                                  </td>
+
+                                                  <td colspan="3">
+                                                      <div class="row">
+                                                          <div class="col-md-7">
+                                                              <div class="detailUpload">
+                                                              </div>
+                                                              <div>                                     
+                                                                  <div class="alert alert-block alert-danger requis missing-file" style="display:none">
+                                                                  <div>Veuillez sélectionner un fichier.</div>
+                                                                  </div>
+                                                                  <div class="alert alert-block alert-danger requis error-format" style="display:none">
+                                                                  <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                                                  </div>
+                                                              </div>
+                                                          </div>
+                                                          <div class="col-md-4">
+                                                              <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this,'newFormationForm')" name="fichiers" accept="application/pdf" id="fichiersFormation">
+                                                              <label for="fichiersFormation">
+                                                                  <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
+                                                              </label>
+                                                              <span class="btn btn-danger" title="Annuler l'upload">
+                                                                  <i class="fa fa-times" ></i>
+                                                              </span>
+                                                          </div>                                       
+                                                      </div>
+                                                  </td>
+                                             </tr>
+                                            <tr>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td>
+
+                                                </td>
+                                                <td colspan="2">                                              
+                                                     <button ng-click="controlFormationFormation('newFormationForm')" ng-disabled="newFormationForm.$invalid" class="btn btn-success">
+                                                         <i class="fa fa-plus"> Ajouter</i>
+                                                     </button> 
+                                                     <button ng-click="reinitialiserFormulaireFormation()"  class="btn btn-danger">
+                                                         <i class="fa fa-warning"> Annuler</i>
+                                                     </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </form>
-                          <div class="row"  ng-if="formations.length>0">
-                                <div class="col-md-12 row">
-                                      <div class="panel-body table-responsive no-padding col-md-offset-1 col-md-10">
+                          <div ng-if="formations.length>0">
+                              
+                                    <div class="panel-body table-responsive no-padding">
                                         <table class="table table-striped">
                                           <thead>
                                               <tr>
@@ -1262,7 +1260,7 @@
                                         </table>
                                       </div>
 
-                            </div>
+                           
                             </div>
                                
                         </div>
@@ -1426,83 +1424,85 @@
 
               <div class="col-md-12" ng-if="avoirPermission('ajouter','document')==true">
                   
-                  <form role="form"  novalidate="" name="newDocumentForm" id="newDocumentForm">        
-                    <table class="table">
-                        <thead>
-                            <tr>
-                               <th>Type de document</th>
-                                <th>Description</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>                                            
-                               <td>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <select ng-model="document.typeDocument" class="form-control"  ng-options="typedocument.code  for typedocument in typedocuments"></select>  
-                                        </div>
-                                        <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <div class="input-group">
-                                            <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
-                                        </div>
-                                         <div class="alert alert-block alert-danger requis" style="display:none">
-                                            <div>Veuillez renseigner ce champs.</div>
-                                        </div>                                      
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="row">
-                                        <div class="col-md-7">
-                                            <div class="detailUpload">
-                                            </div>
-                                            <div>                                     
-                                                <div class="alert alert-block alert-danger requis missing-file" style="display:none">
-                                                <div>Veuillez sélectionner un fichier.</div>
+                    <form role="form"  novalidate="" name="newDocumentForm" id="newDocumentForm">        
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                       <th>Type de document</th>
+                                        <th>Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>                                            
+                                       <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <select ng-model="document.typeDocument" class="form-control"  ng-options="typedocument.code  for typedocument in typedocuments"></select>  
                                                 </div>
-                                                <div class="alert alert-block alert-danger requis error-format" style="display:none">
-                                                <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                                <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <input class="form-control hidden"  type="file"  onchange="angular.element(this).scope().previewUpload(this,'newDocumentForm')" name="fichiers" accept="application/pdf" id="fichiers">
-                                            <label for="fichiers">
-                                                <span class="btn btn-primary" title="Pièce Jointe" ng-click="cancelFileUpload()">
-                                                    <i class="fa fa-paperclip" ></i>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
+                                                </div>
+                                                 <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>                                      
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <div class="detailUpload">
+                                                    </div>
+                                                    <div>                                     
+                                                        <div class="alert alert-block alert-danger requis missing-file" style="display:none">
+                                                        <div>Veuillez sélectionner un fichier.</div>
+                                                        </div>
+                                                        <div class="alert alert-block alert-danger requis error-format" style="display:none">
+                                                        <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input class="form-control hidden"  type="file"  onchange="angular.element(this).scope().previewUpload(this,'newDocumentForm')" name="fichiers" accept="application/pdf" id="fichiers">
+                                                    <label for="fichiers">
+                                                        <span class="btn btn-primary" title="Pièce Jointe" ng-click="cancelFileUpload()">
+                                                            <i class="fa fa-paperclip" ></i>
+                                                        </span>
+                                                    </label>
+                                                    <span class="btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()">
+                                                        <i class="fa fa-times"></i>
+                                                    </span>
+
+                                                </div>                                       
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>                                            
+                                       <td>                                  
+                                        </td>
+                                        <td> 
+                                        </td>
+                                        <td>
+                                            <div class="row">
+                                                <span class="pull-right">
+                                                    <span class="btn btn-success" ng-click="ajouterNouveauDocument('newDocumentForm')"><i class="fa fa-plus"> Ajouter</i></span>
+                                                    <span class="btn btn-danger" ng-click="viderDocumentForm()"><i class="fa fa-warning"> Annuler</i></span>
                                                 </span>
-                                            </label>
-                                            <span class="btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()">
-                                                <i class="fa fa-times"></i>
-                                            </span>
-                                            
-                                        </div>                                       
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>                                            
-                               <td>                                  
-                                </td>
-                                <td> 
-                                </td>
-                                <td>
-                                    <div class="row">
-                                        <span class="pull-right">
-                                            <span class="btn btn-success" ng-click="ajouterNouveauDocument('newDocumentForm')"><i class="fa fa-plus"> Ajouter</i></span>
-                                            <span class="btn btn-danger" ng-click="viderDocumentForm()"><i class="fa fa-warning"> Annuler</i></span>
-                                        </span>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                     </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </form>
                 </div>
      <!-- Fin Formulaire-->
 

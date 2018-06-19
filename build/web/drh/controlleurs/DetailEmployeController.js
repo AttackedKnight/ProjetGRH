@@ -995,7 +995,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
                 
                 $scope.nouvelleFormation=true;
                 
-                if($scope.diplomante===true){
+                if($scope.diplomante==true){
                     $scope.completeFormation();
                 }
                 else{
@@ -1016,22 +1016,27 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         }
     };
     
+    /*Permet de completer le document en referencant la formation a laquelle elle se rapporte
+     * Elle est appele apres que la formation soit ajoutee dans la base de donnees et recuperer*/
     $scope.completerDocumentFormation=function(){
         $scope.document.formation=$scope.lastFormation;
+        
         $scope.completerDocument();   
 
+        
         $scope.uploadDocument($scope.lesFichiers);
         
         $scope.nouvelleFormation=false;
     };
     $scope.completeFormation=function(){
-        
+        Console.log("complete formation avac diplome")
         Diplome.findByLibelle($scope.diplome.nom).success(function(data){
-            
+            console.log("Data "+data)
             if(!data){
                 Diplome.add($scope.diplome).success(function(){
                     Diplome.findByLibelle($scope.diplome.nom).success(function(data){
                          $scope.formation.diplome=data;
+                         console.log("Diplome ajoute et recuperer "+$scope.formation)
                         $scope.addFormation();                                
                      }).error(function () {
                          alert('Une erreur est survenue:find diplome');
@@ -1042,6 +1047,7 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
                 
             }else{
                 $scope.formation.diplome=data;
+                console.log("Diplome recupere "+$scope.formation)
                 $scope.addFormation();
             }
         }).error(function () {
@@ -1257,6 +1263,8 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         return validite;
         
     };
+    
+    /*Complete les autre information sur le document : l'employe, la date d'echeance, ...*/
     $scope.completerDocument=function(){
         $scope.document.employe=$scope.employe;
         var e=new Date();
@@ -1283,17 +1291,19 @@ angular.module('DrhModule').controller('DetailEmployeController',function($scope
         
     };
     
+    /*Gerer l'upload de fichier*/
+    
     $scope.uploadDocument=function(fichiers){
         $scope.finUpload=false;
-        for(var i=0;i<fichiers.files.length;i++){
+        for(var i=0;i<fichiers.files.length;i++){   //  Parcour des fichier a uploader
             $scope.uploadedFile=fichiers.files[i];
-            var format=$scope.uploadedFile.name.split(".");
+            var format=$scope.uploadedFile.name.split("."); //Recuperation du format
             format=format[format.length-1];
-            var fd = new FormData();
-            fd.append($scope.employe.numeroCni, $scope.uploadedFile);
-            UploadFile.uploadDocument(fd).success(function(data){
+            var fd = new FormData();                //Creation d'un objet FormData
+            fd.append($scope.employe.numeroCni, $scope.uploadedFile);   //Ajout du fichier et de son emplacement au FormData
+            UploadFile.uploadDocument(fd).success(function(data){   //Appel du service(Objet java) charger d'uploader le fichier : la requete retourne le nom du fichier
                 $scope.document.emplacement=data;
-                $scope.addDocument();
+                $scope.addDocument();               //Ajout dans la base de donnees
             })
             .error(function(){
                 alert("erreur lors de l'enregistrement du document");

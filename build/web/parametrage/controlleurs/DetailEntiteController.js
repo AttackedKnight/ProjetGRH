@@ -19,7 +19,7 @@ angular.module('ParametrageModule').controller('DetailEntiteController',function
     $scope.entites=[];
     $scope.entite={id:""}; 
     
-    
+    console.log('yes yes')
     Entite.find($routeParams.id).success(function (data) {           
         $scope.entite=data;  
         
@@ -27,7 +27,7 @@ angular.module('ParametrageModule').controller('DetailEntiteController',function
         
         Entite.findAll().success(function (data) {           
         $scope.entites=data;
-        
+        console.log(data)
         for(var i=0;i<$scope.entites.length;i++){
             if($scope.entite.entite && $scope.entites[i].id==$scope.entite.entite.id){
                $scope.selectedEntite=$scope.entites[i];
@@ -40,10 +40,12 @@ angular.module('ParametrageModule').controller('DetailEntiteController',function
         
         TypeEntite.findAll().success(function (data) {
             $scope.typeentites=data;
+            console.log(data)
             for(var i=0;i<$scope.typeentites.length;i++){
 
                 if($scope.typeentites[i].id==$scope.entite.typeEntite.id){
                    $scope.selectedTypeEntite=$scope.typeentites[i];
+                   console.log("selectionnee")
                    break;
                 }
             }
@@ -70,6 +72,7 @@ angular.module('ParametrageModule').controller('DetailEntiteController',function
     
         
     $scope.controlForm=function(c){
+        console.log('goo')
         if(c.nom==null || c.nom==""){
             $("div.requis").eq(0).show("slow").delay(3000).hide("slow");
         }else{

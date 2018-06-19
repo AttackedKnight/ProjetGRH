@@ -1,7 +1,7 @@
 
  //Visualiser les details d' groupe d'utilisateur
     
-angular.module('ParametrageModule').controller('DetailUtilisateurController',function($scope,Securite,Utilisateur,Entite,Groupe,Utilisateur,$routeParams)
+angular.module('ParametrageModule').controller('DetailUtilisateurController',function($scope,Servir,Securite,Utilisateur,Entite,Groupe,Utilisateur,$routeParams)
 {
      /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
@@ -35,6 +35,19 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController',fun
     
     Utilisateur.getCompte(id).success(function (data){       
         $scope.utilisateur=data;
+        $scope.prenomNom="";
+        console.log($scope.utilisateur)
+        if($scope.utilisateur.groupe.code!="EMP"){
+            Servir.findResponsableEntite($scope.utilisateur.entite).success(function (data){ 
+                if(data){                   
+                    $scope.prenomNom=data.employe.civilite.code+' '+data.employe.prenom +' '+(data.employe.nom).toUpperCase();
+                }
+            }).error(function () {
+               alert('Une erreur est survenue');
+
+            });
+        }
+        
     }).error(function(){
         dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue</div>');
     });

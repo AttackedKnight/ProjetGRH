@@ -29,7 +29,7 @@ angular.module('DrhModule').controller('ConsulterEmployeController',function($sc
         }); 
     };
     $scope.getPats=function(){
-        Servir.findPats().success(function (data) {
+       Servir.findPats().success(function (data) {
             $scope.travailleurs=data;
         }).error(function () {
             alert('Une erreur est survenue');

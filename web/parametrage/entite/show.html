@@ -2,13 +2,13 @@
         <div class="box-header">
             <h3 class="box-title"> Entités(<i style="color:red ;font-weight:bold;">{{entites.length}}</i>)</h3>
         </div><!-- /.box-header -->
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <table id="example1" ng-if="entites.length>0" class="table table-bordered table-striped">
             <thead>
                 <tr>
                   <th>Type d'entité</th>
                   <th>Nom</th>
-                  <th>Adresse</th>
+                  <th class="hidden-xs">Adresse</th>
                   <th>Email</th>
                   <th>Téléphone</th>
                   <th>Action</th>
@@ -18,7 +18,7 @@
                 <tr ng-repeat="entite in entites">
                     <td>{{entite.typeEntite.code}}</td>
                     <td>{{entite.nom}}</td>
-                    <td>{{entite.adresse}}</td>
+                    <td class="hidden-xs">{{entite.adresse}}</td>
                     <td>{{entite.email}}</td>
                     <td>{{entite.telephone}}</td>
                     <th>

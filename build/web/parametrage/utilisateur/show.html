@@ -2,15 +2,15 @@
         <div class="box-header">
             <h3 class="box-title">COMPTES UTILISATEUR (<i style="color:red ;font-weight:bold;">{{utilisateurs.length}}</i>)</h3>
         </div><!-- /.box-header -->
-        <div class="box-body">
+        <div class="box-body table-responsive">
           <table class="table table-bordered table-striped" id="example1">
             <thead>
                 <tr>
 <!--                  <th>Prenom</th>
                   <th>Nom</th>-->
-                  <th>Entité</th>
+                  <th class="hidden-xs">Entité</th>
                   <th>Email</th>
-                  <th>Groupe d'uilisateur</th>
+                  <th>Groupe d'utilisateur</th>
                   <th>Actions</th>
                 </tr>
             </thead>
@@ -18,7 +18,14 @@
                 <tr ng-repeat="utilisateur in utilisateurs">
 <!--                    <td>{{utilisateur.prenom}}</td>
                     <td>{{utilisateur.nom}}</td>-->
-                    <td>{{utilisateur.entite.nom}} ({{utilisateur.entite.entite.nom}})</td>
+                    <td class="hidden-xs">
+                        <span ng-if="utilisateur.groupe.code!='EMP'">
+                            {{utilisateur.entite.nom}}
+                        </span>
+                        <span ng-if="utilisateur.groupe.code=='EMP'">
+                            Undefined
+                        </span>
+                    </td>
                     <td>{{utilisateur.email}}</td>
                     <td>{{utilisateur.groupe.libelle}}</td>
                     <th>

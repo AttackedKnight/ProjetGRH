@@ -157,7 +157,7 @@
                 </div>
                 <div class="box-body row">
                     <div class="pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-md-7">
+                       <div class="col-xs-7">
                            <label>Selection</label>
                            <select class="form-control" id="typePourcentageHF" name="typePourcentageHF"  ng-model="typePourcentageHommeFemme">
                                 <option value="general">Général</option>
@@ -165,7 +165,7 @@
                                 <option value="per">PER</option>
                             </select>
                         </div>
-                       <div class="col-md-3 ">
+                       <div class="col-xs-3 ">
                             <label>Valider</label>
                             <button class="btn btn-primary" ng-click="changerTypePourcentageHommeFemme()">
                                 <i class="fa fa-check"></i>
@@ -188,7 +188,7 @@
                             </div>
                             <div class="box-body row">
                                 <div class="col-md-5 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                                   <div class="col-md-7">
+                                   <div class="col-xs-7">
                                        <label>Selection</label>
                                        <select class="form-control" id="typeTrancheAge" ng-model="typeTrancheAge">
                                             <option value="general" selected>Général</option>
@@ -196,15 +196,15 @@
                                             <option value="per">PER</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-xs-3">
                                         <label>Valider</label>
                                         <button class="btn btn-primary" ng-click="changerTypeTrancheAge()">
                                             <i class="fa fa-check"></i>
                                         </button>
                                     </div>                      
                                 </div>
-                                <div class="col-md-7 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
-                                  <div class="col-md-3 mb-3">
+                                <div class="col-md-7 col-xs-12 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
+                                  <div class="col-xs-3 mb-3">
                                     <label for="debut">Début</label>
                                     <select  class="form-control" id="debut" ng-model="debutTrancheAge">
                                         <option value="20">20</option>
@@ -215,7 +215,7 @@
                                         <option value="65">65</option>
                                     </select>
                                   </div>
-                                  <div class="col-md-3 mb-3">
+                                  <div class="col-xs-3 mb-3">
                                     <label for="fin">Fin</label>
                                     <select  class="form-control" id="fin" ng-model="finTrancheAge">
                                         <option value="20">20</option>
@@ -226,7 +226,7 @@
                                         <option value="65">65</option>
                                     </select>
                                   </div>
-                                  <div class="col-md-3 mb-3">
+                                  <div class="col-xs-3 mb-3">
                                    <label for="intervalle">Intervalle</label>
                                     <select class="form-control" id="intervalle" ng-model="intervalleTrancheAge">
                                         <option value="1">1</option>
@@ -241,7 +241,7 @@
                                         <option value="10">10</option>
                                     </select>
                                   </div>
-                                  <div class="col-md-3 mb-3">
+                                  <div class="col-xs-3 mb-3">
                                       <label>Valider</label><br>
                                       <button class="btn btn-primary" ng-click="actualiserTrancheAge(debutTrancheAge,finTrancheAge,intervalleTrancheAge)">
                                           <i class="fa fa-check"></i>
@@ -266,7 +266,7 @@
                 </div>
                 <div class="box-body row">
                     <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-md-7">
+                       <div class="col-xs-7">
                            <label>Selection</label>
                            <select class="form-control" id="typeRecrutementParAnnee" ng-model="typeRecrutementParAnnee">
                                 <option value="general" selected>Général</option>
@@ -274,15 +274,15 @@
                                 <option value="per">PER</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xs-3">
                             <label>Valider</label>
                             <button class="btn btn-primary" ng-click="changerTypeRecrutementParAnnee()">
                                 <i class="fa fa-check"></i>
                             </button>
                         </div>                      
                     </div>
-                    <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
-                       <div class="col-md-7">
+                    <div class="col-md-6 col-xs-12 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
+                       <div class="col-md-7 col-xs-7">
                            <label for="intervalle">Intervalle</label>
                             <select class="form-control" id="intervalle" ng-model="intervaleAnneeRecrutement">
                              <option value="1">1</option>
@@ -297,13 +297,13 @@
                             <option value="10">10</option>
                         </select>
                         </div>
-                       <div class="col-md-3 ">
+                       <div class="col-md-3 col-xs-3">
                             <label for="valider">Valider</label>
                             <button class="btn btn-primary" ng-click="voirRecrutement(intervaleAnneeRecrutement)"><i class="fa fa-check"></i></button>
 
                         </div>    
                     </div>
-                  <div  class="col-md-12" style="height: 300px;" id="statNbreRecrutement" ></div>
+                  <div  class="col-md-12" style="height: 300px;" id="statNbreRecrutement"></div>
                 </div><!-- /.box-body-->
               </div><!-- /.box -->
         </div>
@@ -315,14 +315,14 @@
                 </div>
                 <div class="box-body row">
                     <div class="col-md-6 row pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-md-7">
+                       <div class="col-xs-7">
                            <label>Selection</label>
                            <select class="form-control" id="typeEffectifParNiveau" ng-model="typeEffectifParNiveau">
                                 <option value="pats">PATS</option>
                                 <option value="per">PER</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-xs-3">
                             <label>Valider</label>
                             <button class="btn btn-primary" ng-click="changerTypeEffectifParNiveau()">
                                 <i class="fa fa-check"></i>
@@ -346,7 +346,7 @@
                 </div>
                 <div class="box-body row">
                     <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-md-7">
+                       <div class="col-xs-7">
                            <label>Selection</label>
                            <select class="form-control" id="typeEntreeSortie" ng-model="typeEntreeSortie">
                                 <option value="general" selected>Général</option>
@@ -354,7 +354,7 @@
                                 <option value="per">PER</option>
                             </select>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-xs-2">
                             <label>Valider</label>
                             <button class="btn btn-primary">
                                 <i class="fa fa-check"></i>
@@ -362,7 +362,7 @@
                         </div>                      
                     </div>
                     <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
-                       <div class="col-md-7">
+                       <div class="col-xs-7">
                            <label for="intervalle">Intervalle</label>
                             <select class="form-control" id="intervalleEntreeSortie" ng-model="intervalleEntreeSortie">
                              <option value="1">1</option>
@@ -373,7 +373,7 @@
                             
                         </select>
                         </div>
-                       <div class="col-md-2 ">
+                       <div class="col-xs-2 ">
                             <label for="valider">Valider</label>
                             <button class="btn btn-primary" ><i class="fa fa-check"></i></button>
 
