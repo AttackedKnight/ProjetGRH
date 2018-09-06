@@ -62,7 +62,7 @@ public class FonctionFacadeREST extends AbstractFacade<Fonction> {
         super.edit(entity);
     }
 
-    @Secured
+    
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
@@ -86,7 +86,6 @@ public class FonctionFacadeREST extends AbstractFacade<Fonction> {
 
     @GET
     @Path("{id}")
-    @Secured
     @Produces({MediaType.APPLICATION_JSON})
     public Fonction find(@PathParam("id") Integer id) {
         return super.find(id);

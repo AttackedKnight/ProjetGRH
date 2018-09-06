@@ -10,6 +10,8 @@ import javax.annotation.Priority;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.container.ResourceInfo;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
@@ -25,10 +27,13 @@ public class AuthentificationFilter implements ContainerRequestFilter{
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
+               
+        
         System.out.println("***************FILTRE APPELE*******************");
-        System.out.println("***************METHOD :"+ requestContext.getMethod());
+//        System.out.println("***************METHOD :"+ requestContext.getMethod());
+//        System.out.println("***************HEADER :"+ requestContext.getUriInfo().getBaseUri());
         if(!Authentification.sessionExist()){
-            System.out.println("***************session inexistante ou expiree*******************");         
+            System.out.println("***************session inexistante ou expirée*******************");         
             requestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED).build());
             

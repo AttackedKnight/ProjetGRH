@@ -114,7 +114,6 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
         
         
         if(u.size()>0){
-            
             registerAccess(u.get(0));
             return u.get(0);
         }
@@ -125,8 +124,6 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     @Path("deconnexion")
     @Produces({MediaType.TEXT_PLAIN})
     public String logout() {
-        System.out.println("*********DECONNEXION*********");
-
         if(Authentification.sessionDestroy()){
             return "success";
         }   
@@ -136,23 +133,6 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     }
     
     public void registerAccess(Utilisateur user){
-        
-//        HttpSession session=request.getSession(true);
-//        session.setAttribute("user", user);          
-//        List<Accesgroupe> access=accesgroupeFacadeREST.findAllForGroup(user.getGroupe().getId());      
-//        HashMap<String,Boolean> permissionTable;
-//        for(int i=0;i<access.size();i++){
-//            permissionTable=new HashMap<>();
-//            permissionTable.put("ajouter", access.get(i).getAjouter());
-//            permissionTable.put("modifier", access.get(i).getModifier());
-//            permissionTable.put("supprimer", access.get(i).getSupprimer());
-//            permissionTable.put("consulter", access.get(i).getConsulter());
-//            permissionTable.put("lister", access.get(i).getLister());
-//            
-//            session.setAttribute(access.get(i).getNomTable(), permissionTable);
-//
-//        } 
-
         HttpSession session=request.getSession(true);
         
         Authentification.setSession(session);      
@@ -171,9 +151,9 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
             Authentification.setData(access.get(i).getNomTable(), permissionTable);
         } 
         
-        if(Authentification.sessionExist()){
-            System.out.println("*****************La session existe*************");
-        }
+//        if(Authentification.sessionExist()){
+//            System.out.println("*****************La session existe*************");
+//        }
     }
 
     @GET

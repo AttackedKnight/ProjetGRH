@@ -20,7 +20,7 @@ public class Authentification {
     private static HttpSession maSession = null;
 
     public Authentification() {
-        System.out.println("Authentification instancie");
+        System.out.println("Authentification instanciée");
     }
 
     public static void setSession(HttpSession session) {
