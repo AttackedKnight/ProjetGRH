@@ -1,762 +1,817 @@
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>UT | GRH</title>
-    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
-    <!-- Bootstrap 3.3.2 -->
-    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
-    <!-- FontAwesome 4.3.0 -->
-    <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
-  
-    <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-    
-    <!-- Ionicons 2.0.0 -->
-    <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
-    <!-- Theme style -->
-    <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
-    <!-- AdminLTE Skins. Choose a skin from the css/skins 
-         folder instead of downloading all of them to reduce the load. -->
-    <link href="dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
-    
-    <!-- DATA TABLES -->
-    <link href="plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
-    
-    <!-- iCheck -->
-    <link href="plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
-    <!-- Morris chart -->
-    <link href="plugins/morris/morris.css" rel="stylesheet" type="text/css" />
-    <!-- jvectormap -->
-    <link href="plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
-    <!-- Date Picker -->
-    <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
-    <!-- Daterange picker -->
-    <link href="plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
-    
-    <link href="bootstrap/css/export.css" rel="stylesheet" type="text/css"/>
-    
-    
-<!--    Modules supplementaires-->
-    
-    <link href="bower_components/angular-busy/dist/angular-busy.min.css" rel="stylesheet" type="text/css"/>
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
-    <![endif]-->
+    <head>
+        <meta charset="UTF-8">
+        <title>UT | GRH</title>
+        <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+        <!-- Bootstrap 3.3.2 -->
+        <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />    
+        <!-- FontAwesome 4.3.0 -->
+        <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />-->
+
+        <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+
+        <!-- Ionicons 2.0.0 -->
+        <link href="http://code.ionicframework.com/ionicons/2.0.0/css/ionicons.min.css" rel="stylesheet" type="text/css" />    
+        <!-- Theme style -->
+        <link href="dist/css/AdminLTE.min.css" rel="stylesheet" type="text/css" />
+        <!-- AdminLTE Skins. Choose a skin from the css/skins 
+             folder instead of downloading all of them to reduce the load. -->
+        <link href="dist/css/skins/_all-skins.min.css" rel="stylesheet" type="text/css" />
+
+        <!-- DATA TABLES -->
+        <link href="plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+
+        <!-- iCheck -->
+        <link href="plugins/iCheck/flat/blue.css" rel="stylesheet" type="text/css" />
+        <!-- Morris chart -->
+        <link href="plugins/morris/morris.css" rel="stylesheet" type="text/css" />
+        <!-- jvectormap -->
+        <link href="plugins/jvectormap/jquery-jvectormap-1.2.2.css" rel="stylesheet" type="text/css" />
+        <!-- Date Picker -->
+        <link href="plugins/datepicker/datepicker3.css" rel="stylesheet" type="text/css" />
+        <!-- Daterange picker -->
+        <link href="plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+        <!-- bootstrap wysihtml5 - text editor -->
+        <link href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" rel="stylesheet" type="text/css" />
+
+        <link href="bootstrap/css/export.css" rel="stylesheet" type="text/css"/>
+
+
+        <!--    Modules supplementaires-->
+
+        <link href="bower_components/angular-busy/dist/angular-busy.min.css" rel="stylesheet" type="text/css"/>
+        <link href="bower_components/angular-datatables/dist/css/angular-datatables.min.css" rel="stylesheet" type="text/css"/>
+        <link href="bower_components/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" type="text/css"/>
+        <link href="dist/css/loader.css" rel="stylesheet" type="text/css"/>
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
     </head>
-    
+
     <body class="skin-blue fixed" style="padding-right:0px;" ng-app="globalModule">
         <div id="ecran_attente" style="display:none; background: rgba(0,0,0,0.2); width: 100%; height: 100%; position: absolute;">
-            
+
         </div>
         <div class="wrapper">
-                <!--      Entete-->
-                <header class="main-header" hidden="hidden">
-            <!-- Logo -->
-<a href="" class="logo"><b>GRH</b></a>
-<!-- Header Navbar: style can be found in header.less -->
-<nav class="navbar navbar-static-top" role="navigation">
-  <!-- Sidebar toggle button-->
-  <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-    <span class="sr-only">Toggle navigation</span>
-  </a>
-  <div class="navbar-custom-menu">
-    <ul class="nav navbar-nav">
-      <!-- Messages: style can be found in dropdown.less-->
-      <li class="dropdown messages-menu">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-envelope-o"></i>
-          <span class="label label-success">4</span>
-        </a>
-        <ul class="dropdown-menu">
-          <li class="header">You have 4 messages</li>
-          <li>
-            <!-- inner menu: contains the actual data -->
-            <ul class="menu">
-              <li><!-- start message -->
-                <a href="#">
-                  <div class="pull-left">
-                    <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
-                  </div>
-                  <h4>
-                    Support Team
-                    <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                  </h4>
-                  <p>Why not buy a new awesome theme?</p>
-                </a>
-              </li><!-- end message -->
-              <li>
-                <a href="#">
-                  <div class="pull-left">
-                    <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image"/>
-                  </div>
-                  <h4>
-                    AdminLTE Design Team
-                    <small><i class="fa fa-clock-o"></i> 2 hours</small>
-                  </h4>
-                  <p>Why not buy a new awesome theme?</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div class="pull-left">
-                    <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="user image"/>
-                  </div>
-                  <h4>
-                    Developers
-                    <small><i class="fa fa-clock-o"></i> Today</small>
-                  </h4>
-                  <p>Why not buy a new awesome theme?</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div class="pull-left">
-                    <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image"/>
-                  </div>
-                  <h4>
-                    Sales Department
-                    <small><i class="fa fa-clock-o"></i> Yesterday</small>
-                  </h4>
-                  <p>Why not buy a new awesome theme?</p>
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <div class="pull-left">
-                    <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="user image"/>
-                  </div>
-                  <h4>
-                    Reviewers
-                    <small><i class="fa fa-clock-o"></i> 2 days</small>
-                  </h4>
-                  <p>Why not buy a new awesome theme?</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="footer"><a href="#">See All Messages</a></li>
-        </ul>
-      </li>
-      <!-- Notifications: style can be found in dropdown.less -->
-      <li class="dropdown notifications-menu">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-bell-o"></i>
-          <span class="label label-warning">10</span>
-        </a>
-        <ul class="dropdown-menu">
-          <li class="header">You have 10 notifications</li>
-          <li>
-            <!-- inner menu: contains the actual data -->
-            <ul class="menu">
-              <li>
-                <a href="#">
-                  <i class="fa fa-users text-aqua"></i> 5 new members joined today
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the page and may cause design problems
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="fa fa-users text-red"></i> 5 new members joined
-                </a>
-              </li>
+            <!--      Entete-->
+            <header class="main-header" hidden="hidden">
+                <!-- Logo -->
+                <a href="" class="logo"><b>GRH</b></a>
+                <!-- Header Navbar: style can be found in header.less -->
+                <nav class="navbar navbar-static-top" role="navigation">
+                    <!-- Sidebar toggle button-->
+                    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                        <span class="sr-only">Toggle navigation</span>
+                    </a>
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- Messages: style can be found in dropdown.less-->
+                            <li class="dropdown messages-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span class="label label-success">4</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 4 messages</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- start message -->
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
+                                                    </div>
+                                                    <h4>
+                                                        Support Team
+                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li><!-- end message -->
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image"/>
+                                                    </div>
+                                                    <h4>
+                                                        AdminLTE Design Team
+                                                        <small><i class="fa fa-clock-o"></i> 2 hours</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="user image"/>
+                                                    </div>
+                                                    <h4>
+                                                        Developers
+                                                        <small><i class="fa fa-clock-o"></i> Today</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user3-128x128.jpg" class="img-circle" alt="user image"/>
+                                                    </div>
+                                                    <h4>
+                                                        Sales Department
+                                                        <small><i class="fa fa-clock-o"></i> Yesterday</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <div class="pull-left">
+                                                        <img src="dist/img/user4-128x128.jpg" class="img-circle" alt="user image"/>
+                                                    </div>
+                                                    <h4>
+                                                        Reviewers
+                                                        <small><i class="fa fa-clock-o"></i> 2 days</small>
+                                                    </h4>
+                                                    <p>Why not buy a new awesome theme?</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">See All Messages</a></li>
+                                </ul>
+                            </li>
+                            <!-- Notifications: style can be found in dropdown.less -->
+                            <li class="dropdown notifications-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-bell-o"></i>
+                                    <span class="label label-warning">10</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 10 notifications</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-warning text-yellow"></i> Very long description here that may not fit into the page and may cause design problems
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-users text-red"></i> 5 new members joined
+                                                </a>
+                                            </li>
 
-              <li>
-                <a href="#">
-                  <i class="fa fa-shopping-cart text-green"></i> 25 sales made
-                </a>
-              </li>
-              <li>
-                <a href="#">
-                  <i class="fa fa-user text-red"></i> You changed your username
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="footer"><a href="#">View all</a></li>
-        </ul>
-      </li>
-      <!-- Tasks: style can be found in dropdown.less -->
-      <li class="dropdown tasks-menu">
-        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-          <i class="fa fa-flag-o"></i>
-          <span class="label label-danger">9</span>
-        </a>
-        <ul class="dropdown-menu">
-          <li class="header">You have 9 tasks</li>
-          <li>
-            <!-- inner menu: contains the actual data -->
-            <ul class="menu">
-              <li><!-- Task item -->
-                <a href="#">
-                  <h3>
-                    Design some buttons
-                    <small class="pull-right">20%</small>
-                  </h3>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                      <span class="sr-only">20% Complete</span>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-shopping-cart text-green"></i> 25 sales made
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <i class="fa fa-user text-red"></i> You changed your username
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="footer"><a href="#">View all</a></li>
+                                </ul>
+                            </li>
+                            <!-- Tasks: style can be found in dropdown.less -->
+                            <li class="dropdown tasks-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-flag-o"></i>
+                                    <span class="label label-danger">9</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="header">You have 9 tasks</li>
+                                    <li>
+                                        <!-- inner menu: contains the actual data -->
+                                        <ul class="menu">
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Design some buttons
+                                                        <small class="pull-right">20%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">20% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li><!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Create a nice theme
+                                                        <small class="pull-right">40%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">40% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li><!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Some task I need to do
+                                                        <small class="pull-right">60%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">60% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li><!-- end task item -->
+                                            <li><!-- Task item -->
+                                                <a href="#">
+                                                    <h3>
+                                                        Make beautiful transitions
+                                                        <small class="pull-right">80%</small>
+                                                    </h3>
+                                                    <div class="progress xs">
+                                                        <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+                                                            <span class="sr-only">80% Complete</span>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </li><!-- end task item -->
+                                        </ul>
+                                    </li>
+                                    <li class="footer">
+                                        <a href="#">View all tasks</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- User Account: style can be found in dropdown.less -->
+                            <li class="dropdown user user-menu">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <img src="{{avatarUtilisateur}}" class="user-image user-avatar" alt="User Image"/>
+                                    <span class="hidden-xs">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- User image -->
+                                    <li class="user-header">
+                                        <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
+                                        <p>
+                                            {{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}
+                                        </p>
+                                    </li>
+                                    <!-- Menu  Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a ng-href="#/authentification/profil" id="mon-profil" class="btn btn-default btn-flat">Profil</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a ng-href="#/logout" id="logout" class="btn btn-default btn-flat">Déconnexion</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
                     </div>
-                  </div>
-                </a>
-              </li><!-- end task item -->
-              <li><!-- Task item -->
-                <a href="#">
-                  <h3>
-                    Create a nice theme
-                    <small class="pull-right">40%</small>
-                  </h3>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-green" style="width: 40%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                      <span class="sr-only">40% Complete</span>
+                </nav>
+            </header>
+            <!--      Entete-->
+
+            <!--      Menu-->
+            <aside class="main-sidebar" hidden="hidden">
+                <section class="sidebar">
+                    <!-- Sidebar user panel -->
+                    <div class="user-panel">
+                        <div class="pull-left image">
+                            <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
+                        </div>
+                        <div class="pull-left">
+                            <p style="text-align: center; color: white; font-weight: bold;">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</p>
+                            <a href="#"><i class="fa fa-circle text-success"></i> En ligne</a>
+                        </div>
                     </div>
-                  </div>
-                </a>
-              </li><!-- end task item -->
-              <li><!-- Task item -->
-                <a href="#">
-                  <h3>
-                    Some task I need to do
-                    <small class="pull-right">60%</small>
-                  </h3>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-red" style="width: 60%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                      <span class="sr-only">60% Complete</span>
-                    </div>
-                  </div>
-                </a>
-              </li><!-- end task item -->
-              <li><!-- Task item -->
-                <a href="#">
-                  <h3>
-                    Make beautiful transitions
-                    <small class="pull-right">80%</small>
-                  </h3>
-                  <div class="progress xs">
-                    <div class="progress-bar progress-bar-yellow" style="width: 80%" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
-                      <span class="sr-only">80% Complete</span>
-                    </div>
-                  </div>
-                </a>
-              </li><!-- end task item -->
-            </ul>
-          </li>
-          <li class="footer">
-            <a href="#">View all tasks</a>
-          </li>
-        </ul>
-      </li>
-      <!-- User Account: style can be found in dropdown.less -->
-      <li class="dropdown user user-menu">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="{{avatarUtilisateur}}" class="user-image user-avatar" alt="User Image"/>
-          <span class="hidden-xs">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</span>
-        </a>
-        <ul class="dropdown-menu">
-          <!-- User image -->
-          <li class="user-header">
-              <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
-            <p>
-              {{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}
-            </p>
-          </li>
-          <!-- Menu  Footer-->
-          <li class="user-footer">
-            <div class="pull-left">
-              <a ng-href="#/authentification/profil" id="mon-profil" class="btn btn-default btn-flat">Profil</a>
+                    <!-- search form -->
+                    <form action="#" method="get" class="sidebar-form">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search..."/>
+                            <span class="input-group-btn">
+                                <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
+                            </span>
+                        </div>
+                    </form>
+                    <!-- /.search form -->
+                    <!-- sidebar menu: : style can be found in sidebar.less -->
+                    <ul class="sidebar-menu menu-root">
+                        <li class="header">MENU</li>
+                        <li class="treeview "  id="admin-menu" hidden="hidden">
+                            <a href="#">
+                                <i class="fa fa-gears"></i> <span>PARAMETRAGES</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="treeview menu-subroot">
+                                    <a href="#">
+                                        <i class="fa fa-key"></i> <span>Utilisateur</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/parametrage/utilisateur/show"><i class="fa fa-circle-o"></i>Comptes Utilisateur</a></li>
+                                        <li><a ng-href="#/parametrage/groupe/show"><i class="fa fa-circle-o"></i>Groupes d'utilisateur</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview menu-subroot">
+                                    <a href="#">
+                                        <i class="fa fa-institution"></i> <span>Entités</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/parametrage/typeentite"><i class="fa fa-circle-o"></i>Types D' Entite</a></li>
+                                        <li><a ng-href="#/parametrage/entite/show"><i class="fa fa-circle-o"></i>Entites</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview menu-subroot">
+                                    <a href="#">
+                                        <i class="fa fa-user"></i> <span>Agent</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/parametrage/typeemploye"><i class="fa fa-circle-o"></i>Types D' Employe</a></li>
+                                        <li><a ng-href="#/parametrage/civilite"><i class="fa fa-circle-o"></i>Civilite</a></li>
+                                        <li><a ng-href="#/parametrage/situationmatrimoniale"><i class="fa fa-circle-o"></i>Situation Matrimoniale</a></li>
+                                        <li><a ng-href="#/parametrage/fonction"><i class="fa fa-circle-o"></i>Fonctions</a></li>
+                                        <li><a ng-href="#/parametrage/typecontrat"><i class="fa fa-circle-o"></i>Types De Contrat</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview menu-subroot">
+                                    <a href="#">
+                                        <i class="fa fa-group"></i> <span>Sociales</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/parametrage/syndicat"><i class="fa fa-circle-o"></i>Syndicat</a></li>
+                                        <li><a ng-href="#/parametrage/mutuelledesante"><i class="fa fa-circle-o"></i>Mutuelle de santé</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview menu-subroot">
+                                    <a href="#">
+                                        <i class="fa fa-user-times"></i> <span>Absences</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/parametrage/autorisationabsence"><i class="fa fa-circle-o"></i>Autorisation D'absence</a></li>
+                                        <li><a ng-href="#/parametrage/typepermission"><i class="fa fa-circle-o"></i>Types De Permission</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview menu-subroot">
+                                    <a href="#">
+                                        <i class="fa fa-folder"></i> <span>Achivage</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/parametrage/typedocument"><i class="fa fa-circle-o"></i>Types De Document</a></li>
+                                    </ul>
+                                </li>
+                                <li class="treeview menu-subroot">
+                                    <a href="#">
+                                        <i class="fa fa-graduation-cap"></i> <span>Grade</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/parametrage/corps"><i class="fa fa-circle-o"></i>Corps</a></li>
+                                        <li><a ng-href="#/parametrage/classe"><i class="fa fa-circle-o"></i>Classe</a></li>
+                                        <li><a ng-href="#/parametrage/categorie"><i class="fa fa-circle-o"></i>Categorie</a></li>
+                                        <li><a ng-href="#/parametrage/niveau"><i class="fa fa-circle-o"></i>Niveau</a></li>
+                                        <li><a ng-href="#/parametrage/echelon"><i class="fa fa-circle-o"></i>Echelon</a></li>
+                                        <li><a ng-href="#/parametrage/grade"><i class="fa fa-circle-o"></i>Grade</a></li>
+                                        <li><a ng-href="#/parametrage/typeavancement"><i class="fa fa-circle-o"></i>Types D'avancement</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="treeview" id="drh-menu" hidden="hidden">
+                            <a href="#">
+                                <i class="fa fa-users"></i> <span>DRH</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li class="" ng-switch="groupeUtilisateur.code">
+                                    <a href="#" >
+                                        <i class="fa fa-bar-chart"></i><span>STATISTIQUES</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu" id="statistique-drh" >
+                                        <li ng-switch="groupeUtilisateur.code"> 
+                                            <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh"><i class="fa fa-bar-chart"></i>
+                                                Générales
+                                            </a>
+                                            <a class="statistique" ng-switch-when="PER_AD" ng-href="#/drh/per"><i class="fa fa-bar-chart"></i>
+                                                Générales
+                                            </a>
+                                            <a class="statistique" ng-switch-when="PATS_AD" ng-href="#/drh/pats"><i class="fa fa-bar-chart"></i>
+                                                Générales
+                                            </a>
+                                        </li>
+                                        <li ng-switch="groupeUtilisateur.code">
+                                            <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh/e"><i class="fa fa-bar-chart"></i>
+                                                Entités
+                                            </a>
+                                            <a class="statistique" ng-switch-when="PER_AD" ng-href="#/drh/per/e"><i class="fa fa-bar-chart"></i>
+                                                Entités
+                                            </a>
+                                            <a class="statistique" ng-switch-when="PATS_AD" ng-href="#/drh/pats/e"><i class="fa fa-bar-chart"></i>
+                                                Entités
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li> <a ng-href="#/drh/entite">
+                                        <i class="fa fa-institution"></i> <span>Entité</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-user"></i> <span>AGENTS</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li> 
+                                            <a ng-href="#/drh/employe/ajout">
+                                                <i class="fa fa-user-plus"></i> <span>Ajouter</span>
+                                            </a>
+                                        </li>
+                                        <li><a ng-href="#/drh/employe/consulter"><i class="fa fa-eye"></i>Consulter</a></li>
+                                    </ul>
+                                </li>
+                                <li id="drh-demandes" hidden="hidden">
+                                    <a href="#">
+                                        <i class="fa fa-pencil-square-o"></i> <span>DEMANDES</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/drh/demandes/absence"><i class="fa fa-pencil-square"></i>Absences</a></li>
+                                        <li><a ng-href="#/drh/demandes/conge"><i class="fa fa-pencil-square"></i>Congés</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class=" treeview" id="service-menu" hidden="hidden">
+                            <a href="#">
+                                <i class="fa fa-users"></i> <span>ENTITE</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li> <a ng-href="#/service/statistique/{{entiteUtilisateur.id}}">
+                                        <i class="fa fa-institution"></i> <span>Statistiques</span>
+                                    </a>
+                                </li>
+                                <li> <a ng-href="#/service/{{entiteUtilisateur.id}}">
+                                        <i class="fa fa-institution"></i> <span>Entité</span>
+                                    </a>
+                                </li>
+                                <li> 
+                                    <a ng-href="#/service/consulter/{{entiteUtilisateur.id}}">
+                                        <i class="fa fa-institution"></i> <span>Consulter</span>
+                                    </a>
+                                </li>
+
+                                <li id="service-demandes" hidden="hidden">
+                                    <a href="#">
+                                        <i class="fa fa-pencil-square-o"></i> <span>DEMANDES</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li><a ng-href="#/service/demandes/absence"><i class="fa fa-pencil-square"></i>Absences</a></li>
+                                        <li><a ng-href="#/service/demandes/conge"><i class="fa fa-pencil-square"></i>Congés</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="treeview" id="employe-menu" hidden="hidden">
+                            <a href="#">
+                                <i class="fa fa-dashboard"></i> <span>EMPLOYE</span> <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li> <a ng-href="#/employe/detailAgent/{{idUtilisateur}}">
+                                        <i class="fa fa-institution"></i> <span>Mon Dossier</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="fa fa-pencil-square-o"></i> <span>MES DEMANDES</span> <i class="fa fa-angle-left pull-right"></i>
+                                    </a>
+                                    <ul class="treeview-menu">
+                                        <li>
+                                            <a href="#/employe/demandes/absence">
+                                                <i class="fa fa-pencil-square"></i> <span>Absences</span>
+                                                <small class="label pull-right bg-green">new</small>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#/employe/demandes/conge">
+                                                <i class="fa fa-pencil-square"></i> <span>Congés</span>
+                                                <small class="label pull-right bg-green">new</small>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </section>
+            </aside>
+            <!--      Menu-->
+
+            <!-- Right side column. Contains the navbar and content of the page -->
+            <div class="content-wrapper" style="background: transparent;">
+                <!-- Chemin -->
+                <section class="content-header" hidden="hidden">
+                    <h1>
+                        <span>
+                            <i class="fa fa-calendar"></i>
+                            <small id="date_block"></small>
+                        </span>
+                        <span class="pull-right">
+                            <i class="fa fa-clock-o"></i>
+                            <span  id="div_horloge"></span>
+                        </span>
+
+
+                    </h1>
+                    <div cg-busy="myPromise">cg-busy</div>
+                </section>
+
+                <!-- Contenu page -->
+                <section class="content" style="min-height: 850px;" ng-view="">
+
+                </section>
+
             </div>
-            <div class="pull-right">
-                <a ng-href="#/logout" id="logout" class="btn btn-default btn-flat">Déconnexion</a>
-            </div>
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-</nav>
-        </header>
-        <!--      Entete-->
+            <footer class="main-footer" hidden="hidden">
+                <div class="pull-right hidden-xs">
+                    <b>Version</b> 2.0
+                </div>
+                <strong>Copyright &copy; 2018 <a href="">DSI UT</a>.</strong> All rights reserved.
+            </footer>
+        </div>
+
+
+
+        <!-- jQuery 2.1.3 -->
+        <script src="plugins/jQuery/jQuery-2.1.3.min.js"></script>
+        <!--    <script src="bower_components/jquery/dist/jquery-ui.js" type="text/javascript"></script>-->
+        <!-- jQuery UI 1.11.2 -->
+        <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
+
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+                                    $.widget.bridge('uibutton', $.ui.button);
+        </script>
+        <!-- Bootstrap 3.3.2 JS -->
+        <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>    
+
+
+        <!-- Sparkline -->
+        <script src="plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
+        <!-- jvectormap -->
+        <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
+        <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="plugins/knob/jquery.knob.js" type="text/javascript"></script>
+        <!-- daterangepicker -->
+        <script src="plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
+        <!-- datepicker -->
+        <script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
+        <!-- Bootstrap WYSIHTML5 -->
+        <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
+        <!-- iCheck -->
+        <script src="plugins/iCheck/icheck.min.js" type="text/javascript"></script>
+        <!-- Slimscroll -->
+        <!--<script src="plugins/slimScroll/jquery.slimscroll.js" type="text/javascript"></script>-->
+        <!-- FastClick -->
+        <script src='plugins/fastclick/fastclick.min.js'></script>
+        <!-- AdminLTE App -->
+        <script src="dist/js/app.min.js" type="text/javascript"></script>
+
+        <!--    Affichage des tableaux-->
+        <!-- DATA TABES SCRIPT -->
+
+        <script src="plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+        <!--<script src="//cdn.datatables.net/plug-ins/1.10.19/api/fnReloadAjax.js"></script>-->
+        <script src="plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
         
-        <!--      Menu-->
-        <aside class="main-sidebar" hidden="hidden">
-            <section class="sidebar">
-  <!-- Sidebar user panel -->
-  <div class="user-panel">
-    <div class="pull-left image">
-        <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
-    </div>
-    <div class="pull-left">
-        <p style="text-align: center; color: white; font-weight: bold;">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</p>
-        <a href="#"><i class="fa fa-circle text-success"></i> En ligne</a>
-    </div>
-  </div>
-  <!-- search form -->
-  <form action="#" method="get" class="sidebar-form">
-    <div class="input-group">
-      <input type="text" name="q" class="form-control" placeholder="Search..."/>
-      <span class="input-group-btn">
-        <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i></button>
-      </span>
-    </div>
-  </form>
-  <!-- /.search form -->
-  <!-- sidebar menu: : style can be found in sidebar.less -->
-  <ul class="sidebar-menu menu-root">
-    <li class="header">MENU</li>
-   <li class="treeview "  id="admin-menu" hidden="hidden">
-    <a href="#">
-        <i class="fa fa-gears"></i> <span>PARAMETRAGES</span> <i class="fa fa-angle-left pull-right"></i>
-    </a>
-    <ul class="treeview-menu">
-      <li><a ng-href="#/parametrage/utilisateur/show"><i class="fa fa-circle-o"></i>Comptes Utilisateur</a></li>
-      <li><a ng-href="#/parametrage/groupe/show"><i class="fa fa-users"></i>Groupes d'utilisateur</a></li>
-      <li><a ng-href="#/parametrage/entite/show"><i class="fa fa-circle-o"></i>Entites</a></li>
-      <li><a ng-href="#/parametrage/fonction"><i class="fa fa-circle-o"></i>Fonctions</a></li>
-      <li><a ng-href="#/parametrage/civilite"><i class="fa fa-circle-o"></i>Civilite</a></li>
-      <li><a ng-href="#/parametrage/situationmatrimoniale"><i class="fa fa-circle-o"></i>Situation Matrimoniale</a></li>
-      <li><a ng-href="#/parametrage/syndicat"><i class="fa fa-circle-o"></i>Syndicat</a></li>
-      <li><a ng-href="#/parametrage/mutuelledesante"><i class="fa fa-circle-o"></i>Mutuelle de santé</a></li>
-      <li><a ng-href="#/parametrage/autorisationabsence"><i class="fa fa-circle-o"></i>Autorisation D'absence</a></li>
-      <li><a ng-href="#/parametrage/typeentite"><i class="fa fa-circle-o"></i>Types D' Entite</a></li>
-      <li><a ng-href="#/parametrage/typeemploye"><i class="fa fa-circle-o"></i>Types D' Employe</a></li>
-      <li><a ng-href="#/parametrage/typeavancement"><i class="fa fa-circle-o"></i>Types D'avancement</a></li>
-      <li><a ng-href="#/parametrage/typedocument"><i class="fa fa-circle-o"></i>Types De Document</a></li>
-      <li><a ng-href="#/parametrage/typecontrat"><i class="fa fa-circle-o"></i>Types De Contrat</a></li>
-      <li><a ng-href="#/parametrage/typepermission"><i class="fa fa-circle-o"></i>Types De Permission</a></li>
-      <li class="treeview menu-subroot">
-        <a href="#">
-          <i class="fa fa-line-chart"></i> <span>Grade</span> <i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a ng-href="#/parametrage/corps"><i class="fa fa-circle-o"></i>Corps</a></li>
-          <li><a ng-href="#/parametrage/classe"><i class="fa fa-circle-o"></i>Classe</a></li>
-          <li><a ng-href="#/parametrage/categorie"><i class="fa fa-circle-o"></i>Categorie</a></li>
-          <li><a ng-href="#/parametrage/niveau"><i class="fa fa-circle-o"></i>Niveau</a></li>
-          <li><a ng-href="#/parametrage/echelon"><i class="fa fa-circle-o"></i>Echelon</a></li>
-          <li><a ng-href="#/parametrage/grade"><i class="fa fa-circle-o"></i>Grade</a></li>
-        </ul>
-      </li>
-    </ul>
-  </li>
-  <li class="treeview" id="drh-menu" hidden="hidden">
-      <a href="#">
-        <i class="fa fa-users"></i> <span>DRH</span> <i class="fa fa-angle-left pull-right"></i>
-      </a>
-      <ul class="treeview-menu">
-          <li class="" ng-switch="groupeUtilisateur.code">
-              <a href="#" >
-                <i class="fa fa-bar-chart"></i><span>STATISTIQUES</span> <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu" id="statistique-drh" >
-                <li ng-switch="groupeUtilisateur.code"> 
-                    <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh"><i class="fa fa-bar-chart"></i>
-                        Générales
-                    </a>
-                    <a class="statistique" ng-switch-when="PER_AD" ng-href="#/drh/per"><i class="fa fa-bar-chart"></i>
-                        Générales
-                    </a>
-                    <a class="statistique" ng-switch-when="PATS_AD" ng-href="#/drh/pats"><i class="fa fa-bar-chart"></i>
-                        Générales
-                    </a>
-                </li>
-                <li ng-switch="groupeUtilisateur.code">
-                    <a class="statistique" ng-switch-when="DRH_AD" ng-href="#/drh/e"><i class="fa fa-bar-chart"></i>
-                        Entités
-                    </a>
-                    <a class="statistique" ng-switch-when="PER_AD" ng-href="#/drh/per/e"><i class="fa fa-bar-chart"></i>
-                        Entités
-                    </a>
-                    <a class="statistique" ng-switch-when="PATS_AD" ng-href="#/drh/pats/e"><i class="fa fa-bar-chart"></i>
-                        Entités
-                    </a>
-                </li>
-            </ul>
-          </li>
-        <li> <a ng-href="#/drh/entite">
-            <i class="fa fa-institution"></i> <span>Entité</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-user"></i> <span>AGENTS</span> <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                <li> 
-                    <a ng-href="#/drh/employe/ajout">
-                        <i class="fa fa-user-plus"></i> <span>Ajouter</span>
-                    </a>
-                </li>
-                <li><a ng-href="#/drh/employe/consulter"><i class="fa fa-eye"></i>Consulter</a></li>
-            </ul>
-        </li>
-        <li id="drh-demandes" hidden="hidden">
-            <a href="#">
-                <i class="fa fa-pencil-square-o"></i> <span>DEMANDES</span> <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                <li><a ng-href="#/drh/demandes/absence"><i class="fa fa-pencil-square"></i>Absences</a></li>
-                <li><a ng-href="#/drh/demandes/conge"><i class="fa fa-pencil-square"></i>Congés</a></li>
-            </ul>
-        </li>
-      </ul>
-    </li>
-    <li class=" treeview" id="service-menu" hidden="hidden">
-      <a href="#">
-        <i class="fa fa-users"></i> <span>ENTITE</span> <i class="fa fa-angle-left pull-right"></i>
-      </a>
-      <ul class="treeview-menu">
-        <li> <a ng-href="#/service/statistique/{{entiteUtilisateur.id}}">
-            <i class="fa fa-institution"></i> <span>Statistiques</span>
-            </a>
-        </li>
-        <li> <a ng-href="#/service/{{entiteUtilisateur.id}}">
-            <i class="fa fa-institution"></i> <span>Entité</span>
-            </a>
-        </li>
-        <li> 
-            <a ng-href="#/service/consulter/{{entiteUtilisateur.id}}">
-                <i class="fa fa-institution"></i> <span>Consulter</span>
-            </a>
-        </li>
+        <script type="text/javascript">
+                                    $(function () {
+                                        $('input').iCheck({
+                                            checkboxClass: 'icheckbox_square-blue',
+                                            radioClass: 'iradio_square-blue',
+                                            increaseArea: '20%' // optional
+                                        });
+                                    });
 
-        <li id="service-demandes" hidden="hidden">
-            <a href="#">
-                <i class="fa fa-pencil-square-o"></i> <span>DEMANDES</span> <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                <li><a ng-href="#/service/demandes/absence"><i class="fa fa-pencil-square"></i>Absences</a></li>
-                <li><a ng-href="#/service/demandes/conge"><i class="fa fa-pencil-square"></i>Congés</a></li>
-            </ul>
-        </li>
-      </ul>
-    </li>
- 
-    <li class="treeview" id="employe-menu" hidden="hidden">
-      <a href="#">
-        <i class="fa fa-dashboard"></i> <span>EMPLOYE</span> <i class="fa fa-angle-left pull-right"></i>
-      </a>
-      <ul class="treeview-menu">
-        <li> <a ng-href="#/employe/detailAgent/{{idUtilisateur}}">
-            <i class="fa fa-institution"></i> <span>Mon Dossier</span>
-            </a>
-        </li>
-        <li>
-            <a href="#">
-                <i class="fa fa-pencil-square-o"></i> <span>MES DEMANDES</span> <i class="fa fa-angle-left pull-right"></i>
-            </a>
-            <ul class="treeview-menu">
-                <li>
-                    <a href="#/employe/demandes/absence">
-                      <i class="fa fa-pencil-square"></i> <span>Absences</span>
-                      <small class="label pull-right bg-green">new</small>
-                    </a>
-                </li>
-                <li>
-                    <a href="#/employe/demandes/conge">
-                      <i class="fa fa-pencil-square"></i> <span>Congés</span>
-                      <small class="label pull-right bg-green">new</small>
-                    </a>
-                </li>
-            </ul>
-        </li>
-      </ul>
-    </li>
 
-  </ul>
-</section>
-        </aside>
-        <!--      Menu-->
+
+
+                                    $('.dropdown').click(function (e) {
+                                        e.stopPropagation();
+                                        e.preventDefault();
+                                        if ($(this).hasClass('open')) {
+                                            $(this).removeClass('open');
+                                        } else {
+                                            $('.open').removeClass('open');
+                                            $(this).addClass('open');
+                                        }
+
+                                    });
+
+                                    $('.dropdown a').click(function (e) {
+                                        if (!$(this).hasClass("dropdown-toggle")) {
+                                            e.stopPropagation();
+                                            $('.open').removeClass('open');
+                                        }
+                                    });
+        </script>
+
+
+
+        <!--    Nos scripts-->
+        <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-messages/angular-messages.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-cookies/angular-cookies.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js" type="text/javascript"></script>
+        <script src="parametrage/menu.js" type="text/javascript"></script>
+        <!--    Bootbox-->
+        <script src="bootbox.min.js" type="text/javascript"></script>
+        <!--    Bootbox-->
+        <script src="horloge.js" type="text/javascript"></script>
+
+        <script src="app.js" type="text/javascript"></script>
+
+        <!--                  DEBUT       AUTHENTIFICATION-->
+        <script src="authentification/app.js" type="text/javascript"></script>
+
+        <script src="authentification/ConnexionService.js" type="text/javascript"></script>
+        <script src="authentification/SecuriteService.js" type="text/javascript"></script>
+        <script src="authentification/UploadFileService.js" type="text/javascript"></script>
+        <!--<script src="authentification/ProfilService.js" type="text/javascript"></script> Renomme en uploadFileService-->
+
+        <script src="authentification/ConnexionController.js" type="text/javascript"></script>
+        <script src="authentification/ProfilController.js" type="text/javascript"></script>
+        <!--<script src="authentification/PasswordConfirmDirective.js" type="text/javascript"></script> Separe en 2 fichier:MesDirectives.js et MesFiltres.js-->
+
+
+        <!--                  DEBUT       AUTHENTIFICATION-->
+        <!--                        PARAMETRAGE-->
+
+        <script src="parametrage/app.js" type="text/javascript"></script>
+
+        <script src="parametrage/services/GroupeService.js" type="text/javascript"></script>
+        <script src="parametrage/services/AccesGroupeService.js" type="text/javascript"></script>
+        <script src="parametrage/services/UtilisateurService.js" type="text/javascript"></script>
+        <script src="parametrage/services/CiviliteService.js" type="text/javascript"></script>
+        <script src="parametrage/services/GroupeService.js" type="text/javascript"></script>
+        <script src="parametrage/services/SyndicatService.js" type="text/javascript"></script>
+        <script src="parametrage/services/SituationMatrimonialeService.js" type="text/javascript"></script>
+        <script src="parametrage/services/TypeEmployeService.js" type="text/javascript"></script>
+        <script src="parametrage/services/TypeAutorisationService.js" type="text/javascript"></script>
+        <script src="parametrage/services/TypeAvancementService.js" type="text/javascript"></script>
+        <script src="parametrage/services/typeDocumentService.js" type="text/javascript"></script>
+        <script src="parametrage/services/TypeContratService.js" type="text/javascript"></script>
+        <script src="parametrage/services/TypePermissionService.js" type="text/javascript"></script>
+        <script src="parametrage/services/CorpsService.js" type="text/javascript"></script>
+        <script src="parametrage/services/ClasseService.js" type="text/javascript"></script>
+        <script src="parametrage/services/CategorieService.js" type="text/javascript"></script>
+        <script src="parametrage/services/NiveauService.js" type="text/javascript"></script>
+        <script src="parametrage/services/EchelonService.js" type="text/javascript"></script>
+        <script src="parametrage/services/TypeEntiteService.js" type="text/javascript"></script>
+        <script src="parametrage/services/EntiteService.js" type="text/javascript"></script>
+        <script src="parametrage/services/FonctionService.js" type="text/javascript"></script>
+        <script src="parametrage/services/MutuelleSanteService.js" type="text/javascript"></script>
+        <script src="parametrage/services/GradeServce.js" type="text/javascript"></script>
+
+
+        <script src="parametrage/controlleurs/UtilisateurController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/DetailUtilisateurController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/AccesController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/DetailAccesController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/CiviliteController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/SyndicatController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/TypeAutorisationController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/SituationMatrimonialeController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/TypeAvancementController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/TypeEmployeController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/TypeDocumentController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/TypeContratController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/TypePermissionController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/CorpsController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/CategorieController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/ClasseController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/EchelonController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/NiveauController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/GradeController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/TypeEntiteController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/EntiteController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/DetailEntiteController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/FonctionController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/MutuelleSanteController.js" type="text/javascript"></script>
+
+
+        <!--                  FIN      PARAMETRAGE-->
+
+        <!--                  DEBUT       DRH-->
+        <script src="drh/app.js" type="text/javascript"></script>
+
+        <script src="drh/services/ServirService.js" type="text/javascript"></script>
+        <script src="drh/services/EmployeService.js" type="text/javascript"></script>
+        <script src="drh/services/AdresseService.js" type="text/javascript"></script>
+        <script src="drh/services/ContactService.js" type="text/javascript"></script>
+        <script src="drh/services/EstMembreService.js" type="text/javascript"></script>
+        <script src="drh/services/GradeService.js" type="text/javascript"></script>
+        <script src="drh/services/MembreMutuelleService.js" type="text/javascript"></script>
+        <script src="drh/services/MailService.js" type="text/javascript"></script>
+        <script src="drh/services/FormationService.js" type="text/javascript"></script>
+        <script src="drh/services/DiplomeService.js" type="text/javascript"></script>
+        <script src="drh/services/DocumentService.js" type="text/javascript"></script>
+        <script src="drh/services/HistoriqueGradeService.js" type="text/javascript"></script>
+
+
+        <script src="drh/controlleurs/EmployeController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/DrhDetailEntiteController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ConsulterEmployeController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/DetailAbsenceController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/DetailCongeController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/DetailEmployeController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ListeAbscenceController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ListeCongeController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ConsulterEmployeEntiteController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ConsulterEmployeFemmeController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ConsulterEmployeHommeController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ConsulterEmployeHommeEntiteController.js" type="text/javascript"></script>
+        <script src="drh/controlleurs/ConsulterEmployeFemmeEntiteController.js" type="text/javascript"></script>
+        <!--                  FIN       DRH-->
+
+        <!--                  STATISTIQUES-->
+
+        <script src="statistique/app.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/amcharts.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/pie.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/light.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/serial.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/export.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/StatistiqueServiceController.js" type="text/javascript"></script>
+
+
+        <script src="statistique/services/StatistiqueDRHService.js" type="text/javascript"></script>
+        <script src="statistique/services/StatistiqueDRHEntiteService.js" type="text/javascript"></script>
+
+        <script src="statistique/controlleurs/StatistiquePATSController.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/StatistiquePERController.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/StatistiqueDRHController.js" type="text/javascript"></script>
+
+        <script src="statistique/controlleurs/StatistiquePATSEntiteController.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/StatistiquePEREntiteController.js" type="text/javascript"></script>
+        <script src="statistique/controlleurs/StatistiqueDRHEntiteController.js" type="text/javascript"></script>
+
+        <!--                  STATISTIQUES-->
+
+        <!--SERVICE-->
+
+
+
+        <script src="service/app.js" type="text/javascript"></script>
+        <script src="service/controlleurs/ServiceDetailEntiteController.js" type="text/javascript"></script>
+
+
+        <!--FIN SERVICE-->
+
+        <!--EMPLOYE-->
+
+
+        <script src="employe/app.js" type="text/javascript"></script>
+
+        <script src="employe/services/AbsenceService.js" type="text/javascript"></script>
+        <script src="employe/services/CongeService.js" type="text/javascript"></script>
+
+        <script src="employe/controlleurs/AbsenceController.js" type="text/javascript"></script>
+        <script src="employe/controlleurs/CongeController.js" type="text/javascript"></script>
+
+        <!--FIN EMPLOYE-->
         
-      <!-- Right side column. Contains the navbar and content of the page -->
-      <div class="content-wrapper" style="background: transparent;">
-        <!-- Chemin -->
-        <section class="content-header" hidden="hidden">
-          <h1>
-              <span>
-                  <i class="fa fa-calendar"></i>
-                  <small id="date_block"></small>
-              </span>
-              <span class="pull-right">
-                  <i class="fa fa-clock-o"></i>
-                  <span  id="div_horloge"></span>
-              </span>
-              
-            
-          </h1>
-          <!--<div cg-busy="myPromise"></div>-->
-        </section>
-
-        <!-- Contenu page -->
-        <section class="content" style="min-height: 850px;" ng-view="">
+        <!--DIRECTIVES,FILTRES ET AUTRES SERVICES-->
+        <script src="MesDirectives.js" type="text/javascript"></script>
+        <script src="MesFiltres.js" type="text/javascript"></script>        
+        <script src="SwalService.js" type="text/javascript"></script>
+         <!--DIRECTIVES,FILTRES ET AUTRES SERVICES-->
          
-        </section>
-        
-      </div>
-      <footer class="main-footer" hidden="hidden">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 2.0
-        </div>
-        <strong>Copyright &copy; 2018 <a href="">DSI UT</a>.</strong> All rights reserved.
-      </footer>
-        </div>
-      
-   
-   
-    <!-- jQuery 2.1.3 -->
-    <script src="plugins/jQuery/jQuery-2.1.3.min.js"></script>
-<!--    <script src="bower_components/jquery/dist/jquery-ui.js" type="text/javascript"></script>-->
-    <!-- jQuery UI 1.11.2 -->
-    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.min.js" type="text/javascript"></script>
-    
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-      $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <!-- Bootstrap 3.3.2 JS -->
-    <script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>    
-    
+        <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
 
-    <!-- Sparkline -->
-    <script src="plugins/sparkline/jquery.sparkline.min.js" type="text/javascript"></script>
-    <!-- jvectormap -->
-    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js" type="text/javascript"></script>
-    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js" type="text/javascript"></script>
-    <!-- jQuery Knob Chart -->
-    <script src="plugins/knob/jquery.knob.js" type="text/javascript"></script>
-    <!-- daterangepicker -->
-    <script src="plugins/daterangepicker/daterangepicker.js" type="text/javascript"></script>
-    <!-- datepicker -->
-    <script src="plugins/datepicker/bootstrap-datepicker.js" type="text/javascript"></script>
-    <!-- Bootstrap WYSIHTML5 -->
-    <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js" type="text/javascript"></script>
-    <!-- iCheck -->
-    <script src="plugins/iCheck/icheck.min.js" type="text/javascript"></script>
-    <!-- Slimscroll -->
-    <script src="plugins/slimScroll/jquery.slimscroll.min.js" type="text/javascript"></script>
-    <!-- FastClick -->
-    <script src='plugins/fastclick/fastclick.min.js'></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/app.min.js" type="text/javascript"></script>
+        <!--Modules supplementaires-->
+        <script src="bower_components/angular-datatables/dist/angular-datatables.js" type="text/javascript"></script>
+        <script src="bower_components/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="bower_components/angular-busy/dist/angular-busy.min.js" type="text/javascript"></script>
+        <script src="bower_components/sweetalert2/dist/sweetalert2.min.js" type="text/javascript"></script>
+        <!--    Nos scripts-->
 
-    <!--    Affichage des tableaux-->
-    <!-- DATA TABES SCRIPT -->
-    
-    <script src="plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
-    <script src="plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
-    <script type="text/javascript">
-        $(function () {
-          $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%' // optional
-          });
-        });  
-      
-   
-      
-      
-      $('.dropdown').click(function(e) { 
-            e.stopPropagation();
-            e.preventDefault();
-            if( $(this).hasClass('open') ) {
-                 $(this).removeClass('open');
-            }     
-            else{
-                $('.open').removeClass('open');
-                $(this).addClass('open');
-            } 
-        
-     });
-          
-     $('.dropdown a').click(function(e) { 
-         if(!$(this).hasClass("dropdown-toggle")){
-             e.stopPropagation();
-             $('.open').removeClass('open');
-         }   
-     });
-    </script>
-    
-
-      
-      <!--    Nos scripts-->
-    <script src="bower_components/angular/angular.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-route/angular-route.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-messages/angular-messages.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.min.js" type="text/javascript"></script>
-    <script src="bower_components/angular-file-upload/dist/angular-file-upload.min.js" type="text/javascript"></script>
-    <script src="parametrage/menu.js" type="text/javascript"></script>
-    <!--    Bootbox-->
-    <script src="bootbox.min.js" type="text/javascript"></script>
-    <!--    Bootbox-->
-
-    
-    <script src="app.js" type="text/javascript"></script>
-        
-    <!--                  DEBUT       AUTHENTIFICATION-->
-    <script src="authentification/app.js" type="text/javascript"></script>
-    
-    <script src="authentification/ConnexionService.js" type="text/javascript"></script>
-    <script src="authentification/SecuriteService.js" type="text/javascript"></script>
-    <script src="authentification/ProfilService.js" type="text/javascript"></script>
-    
-    <script src="authentification/ConnexionController.js" type="text/javascript"></script>
-    <script src="authentification/ProfilController.js" type="text/javascript"></script>
-    
-    <script src="authentification/PasswordConfirmDirective.js" type="text/javascript"></script>
-    
-    
-    <!--                  DEBUT       AUTHENTIFICATION-->
-    
-      <!--                        PARAMETRAGE-->
-      
-    <script src="parametrage/app.js" type="text/javascript"></script>
-      
-    <script src="parametrage/services/GroupeService.js" type="text/javascript"></script>
-    <script src="parametrage/services/AccesGroupeService.js" type="text/javascript"></script>
-    <script src="parametrage/services/UtilisateurService.js" type="text/javascript"></script>
-    <script src="parametrage/services/CiviliteService.js" type="text/javascript"></script>
-    <script src="parametrage/services/GroupeService.js" type="text/javascript"></script>
-    <script src="parametrage/services/SyndicatService.js" type="text/javascript"></script>
-    <script src="parametrage/services/SituationMatrimonialeService.js" type="text/javascript"></script>
-    <script src="parametrage/services/TypeEmployeService.js" type="text/javascript"></script>
-    <script src="parametrage/services/TypeAutorisationService.js" type="text/javascript"></script>
-    <script src="parametrage/services/TypeAvancementService.js" type="text/javascript"></script>
-    <script src="parametrage/services/typeDocumentService.js" type="text/javascript"></script>
-    <script src="parametrage/services/TypeContratService.js" type="text/javascript"></script>
-    <script src="parametrage/services/TypePermissionService.js" type="text/javascript"></script>
-    <script src="parametrage/services/CorpsService.js" type="text/javascript"></script>
-    <script src="parametrage/services/ClasseService.js" type="text/javascript"></script>
-    <script src="parametrage/services/CategorieService.js" type="text/javascript"></script>
-    <script src="parametrage/services/NiveauService.js" type="text/javascript"></script>
-    <script src="parametrage/services/EchelonService.js" type="text/javascript"></script>
-    <script src="parametrage/services/TypeEntiteService.js" type="text/javascript"></script>
-    <script src="parametrage/services/EntiteService.js" type="text/javascript"></script>
-    <script src="parametrage/services/FonctionService.js" type="text/javascript"></script>
-    <script src="parametrage/services/MutuelleSanteService.js" type="text/javascript"></script>
-    <script src="parametrage/services/GradeServce.js" type="text/javascript"></script>
-                      
-    
-    <script src="parametrage/controlleurs/UtilisateurController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/DetailUtilisateurController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/AccesController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/DetailAccesController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/CiviliteController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/SyndicatController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/TypeAutorisationController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/SituationMatrimonialeController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/TypeAvancementController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/TypeEmployeController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/TypeDocumentController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/TypeContratController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/TypePermissionController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/CorpsController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/CategorieController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/ClasseController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/EchelonController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/NiveauController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/GradeController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/TypeEntiteController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/EntiteController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/DetailEntiteController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/FonctionController.js" type="text/javascript"></script>
-    <script src="parametrage/controlleurs/MutuelleSanteController.js" type="text/javascript"></script>
-    
-    
-                         <!--                  FIN      PARAMETRAGE-->
-                         
-            <!--                  DEBUT       DRH-->
-    <script src="drh/app.js" type="text/javascript"></script>
-    
-    <script src="drh/services/ServirService.js" type="text/javascript"></script>
-    <script src="drh/services/EmployeService.js" type="text/javascript"></script>
-    <script src="drh/services/AdresseService.js" type="text/javascript"></script>
-    <script src="drh/services/ContactService.js" type="text/javascript"></script>
-    <script src="drh/services/EstMembreService.js" type="text/javascript"></script>
-    <script src="drh/services/GradeService.js" type="text/javascript"></script>
-    <script src="drh/services/MembreMutuelleService.js" type="text/javascript"></script>
-    <script src="drh/services/MailService.js" type="text/javascript"></script>
-    <script src="drh/services/FormationService.js" type="text/javascript"></script>
-    <script src="drh/services/DiplomeService.js" type="text/javascript"></script>
-    <script src="drh/services/DocumentService.js" type="text/javascript"></script>
-    <script src="drh/services/HistoriqueGradeService.js" type="text/javascript"></script>
-    
-    
-    <script src="drh/controlleurs/EmployeController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/DetailEntiteController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ConsulterEmployeController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/DetailAbsenceController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/DetailCongeController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/DetailEmployeController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ListeAbscenceController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ListeCongeController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ConsulterEmployeEntiteController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ConsulterEmployeFemmeController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ConsulterEmployeHommeController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ConsulterEmployeHommeEntiteController.js" type="text/javascript"></script>
-    <script src="drh/controlleurs/ConsulterEmployeFemmeEntiteController.js" type="text/javascript"></script>
-                <!--                  FIN       DRH-->
-  
-    <!--                  STATISTIQUES-->
-    
-    <script src="statistique/app.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/amcharts.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/pie.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/light.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/serial.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/export.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/StatistiqueServiceController.js" type="text/javascript"></script>
-
-    
-    <script src="statistique/services/StatistiqueDRHService.js" type="text/javascript"></script>
-    <script src="statistique/services/StatistiqueDRHEntiteService.js" type="text/javascript"></script>
-    
-    <script src="statistique/controlleurs/StatistiquePATSController.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/StatistiquePERController.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/StatistiqueDRHController.js" type="text/javascript"></script>
-    
-    <script src="statistique/controlleurs/StatistiquePATSEntiteController.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/StatistiquePEREntiteController.js" type="text/javascript"></script>
-    <script src="statistique/controlleurs/StatistiqueDRHEntiteController.js" type="text/javascript"></script>
-    
-    <!--                  STATISTIQUES-->
-    
-    <!--SERVICE-->
-  
- 
-    
-    <script src="service/app.js" type="text/javascript"></script>
-    <script src="service/controlleurs/DetailEntiteController.js" type="text/javascript"></script>
- 
-  
-     <!--FIN SERVICE-->
-  
-    <!--EMPLOYE-->
-    
-    
-    <script src="employe/app.js" type="text/javascript"></script>
-    
-    <script src="employe/services/AbsenceService.js" type="text/javascript"></script>
-    <script src="employe/services/CongeService.js" type="text/javascript"></script>
-    
-    <script src="employe/controlleurs/AbsenceController.js" type="text/javascript"></script>
-    <script src="employe/controlleurs/CongeController.js" type="text/javascript"></script>
-    
-    <!--FIN EMPLOYE-->
-    
-    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
-    
-    <!--Modules supplementaires-->
-    <script src="bower_components/angular-busy/dist/angular-busy.min.js" type="text/javascript"></script>
-    <!--    Nos scripts-->
-   
-  </body>
+    </body>
 </html>

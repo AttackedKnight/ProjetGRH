@@ -1,9 +1,9 @@
 <div class="box box-primary">   
     <div class="box-header">
-      <h3 class="box-title">Nouveau compte utilisateur</h3>
+        <h3 class="box-title">Nouveau compte utilisateur</h3>
     </div><!-- /.box-header -->
     <!-- form start -->
-    
+
     <div class="box-body row" style="max-height: 600px ;">
         <form role="form" name="compteUtilisateurForm" class="col-md-offset-1 col-md-10">
             <div class="form-group">
@@ -22,9 +22,9 @@
                     <div>Veuillez sélectionner un groupe d'utilisateur.</div>
                 </div>
             </div>
-           <div class="form-group">
-               <label for="login">Login</label>
-               <input type="text" class="form-control" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" id="login" name="login">
+            <div class="form-group">
+                <label for="login">Login</label>
+                <input type="text" class="form-control" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" id="login" name="login">
                 <div ng-messages="compteUtilisateurForm.login.$error" role="alert" ng-show="compteUtilisateurForm.login.$touched && compteUtilisateurForm.login.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 6 caractères au minimum.</div>
                     <div ng-message="pattern">Vérifier votre saisie.</div>
@@ -32,7 +32,7 @@
                 <div class="alert alert-block alert-danger requis" style="display:none">
                     <div>Veuillez renseigner ce champs.</div>
                 </div>
-           </div>
+            </div>
             <div class="form-group">
                 <label for="motDePasse">Mot de passe</label>
                 <input type="password" class="form-control" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" id="motDePasse" name="motDePasse">
@@ -47,16 +47,16 @@
             <div class="form-group">
                 <label for="motDePasseConfirm">Confirmation du mot de passe</label>
                 <input type="password" class="form-control" pw-check='motDePasse' ng-model="motDePasseConfirm"  id="motDePasseConfirm" name="motDePasseConfirm">
-                <div   class='msg-block' ng-class="{'alert alert-block alert-danger requis' : profilForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length>=utilisateur.motDePasse.length}"  ng-show='compteUtilisateurForm.$error'>
-                  <span class='msg-error' ng-show='compteUtilisateurForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length>=utilisateur.motDePasse.length'>
-                    Les 2 mots de passe ne correspondent pas
-                  </span>
+                <div   class='msg-block' ng-class="{'alert alert-block alert-danger requis' : profilForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length >= utilisateur.motDePasse.length}"  ng-show='compteUtilisateurForm.$error'>
+                    <span class='msg-error' ng-show='compteUtilisateurForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length >= utilisateur.motDePasse.length'>
+                        Les 2 mots de passe ne correspondent pas
+                    </span>
                 </div>
             </div>
         </form>
     </div><!-- /.box-body -->
 
-  <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
-      <button type="submit" ng-disabled="compteUtilisateurForm.$invalid"  ng-click="controlForm(utilisateur)" class="btn btn-primary">Valider</button>
-  </div>
+    <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
+        <button type="submit" ng-disabled="compteUtilisateurForm.$invalid"  ng-click="controlForm(utilisateur)" class="btn btn-primary">Valider</button>
+    </div>
 </div><!-- /.box -->

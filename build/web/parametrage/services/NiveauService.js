@@ -5,24 +5,24 @@
  */
 
 angular.module('ParametrageModule').factory('Niveau', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.niveau');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.niveau');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.niveau/'+id);
-        },
-
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.niveau',item);
-        },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.niveau/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.niveau/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.niveau/'+item.id,item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.niveau', item);
+        },
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.niveau/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.niveau/' + item.id, item);
         }
-};
+    };
 });

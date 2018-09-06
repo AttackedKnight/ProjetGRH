@@ -2,15 +2,15 @@
 
 
 <div class="container">
-    
-   <div class="row">
+
+    <div class="row">
         <div class="col-md-11">
             <div class="box">
                 <div class="box-header">
                     <h1 class="box-title">Liste des Employes en congé</h1>
                     <div class="box-tools">
-                       <div class="input-group">
-                             <input type="text" name="recherche" ng-model="trier.recherche" class="form-control input-md" style="width: 200px;" placeholder="Recherche..."/>
+                        <div class="input-group">
+                            <input type="text" name="recherche" ng-model="trier.recherche" class="form-control input-md" style="width: 200px;" placeholder="Recherche..."/>
                             <div class="input-group-btn">
                                 <button class="btn btn-md btn-default"><i class="fa fa-search"></i></button>
                             </div>
@@ -18,68 +18,68 @@
                     </div>
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive no-padding">
-                  <table class="table table-striped">
-                    <thead>
-                        <tr>
-                          <th style="font-weight: bold; font-size: 1.1em;">Matricule</th>
-                          <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
-                          <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
-                          <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
-                          <th style="font-weight: bold; font-size: 1.1em;">Fonction</th>
-                          <th style="font-weight: bold; font-size: 1.1em;">Details</th>
-                        </tr>
-                    </thead>
-                    <tbody> 
-                        
-                        <!-- 
-                         <tr ng-repeat="employe in employes | filter:trier">
-                           <td>{{employe.matriculeInterne}}</td>
-                            <td>{{employe.prenom}}</td>
-                            <td>{{employe.nom}}</td>
-                            <td>{{employe.}}</td>
-                            <td>Stagiaire</td>
-                            <td> <a ng-href="#/drh/employe/detail/{{entite.id}}" title="Détail">
-                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
-                        </a></td>
-                        </tr>
-                        
-                        -->
-                        
-                        <tr>
-                            <td>183189/f</td>
-                            <td>Samba ndao</td>
-                            <td>Mbengue</td>
-                            <td>DSI</td>
-                            <td>Stagiaire</td>
-                            <td> <a ng-href="#/drh/demandes/detailConge" title="Détail">
-                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
-                        </a></td>
-                        </tr>
-                        <tr>
-                            <td>173742/u</td>
-                           <td>Fallou</td>
-                            <td>Mbengue</td>
-                            <td>DSI</td>
-                            <td>Stagiaire</td>
-                            <td> <a ng-href="#/drh/demandes/detailConge" title="Détail">
-                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
-                        </a></td>
-                        </tr>
-                        <tr>
-                            <td>185748/a</td>
-                            <td>Farouma</td>
-                            <td>Tall</td>
-                            <td>DSI</td>
-                            <td>Stagiaire</td>
-                            <td> <a ng-href="#/drh/demandes/detailConge" title="Détail">
-                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
-                        </a></td>
-                        </tr>
-                    </tbody>
-                  </table>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="font-weight: bold; font-size: 1.1em;">Matricule</th>
+                                <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
+                                <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
+                                <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
+                                <th style="font-weight: bold; font-size: 1.1em;">Fonction</th>
+                                <th style="font-weight: bold; font-size: 1.1em;">Details</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+
+                            <!-- 
+                             <tr ng-repeat="employe in employes | filter:trier">
+                               <td>{{employe.matriculeInterne}}</td>
+                                <td>{{employe.prenom}}</td>
+                                <td>{{employe.nom}}</td>
+                                <td>{{employe.}}</td>
+                                <td>Stagiaire</td>
+                                <td> <a ng-href="#/drh/employe/detail/{{entite.id}}" title="Détail">
+                                <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                            </a></td>
+                            </tr>
+                            
+                            -->
+
+                            <tr>
+                                <td>183189/f</td>
+                                <td>Samba ndao</td>
+                                <td>Mbengue</td>
+                                <td>DSI</td>
+                                <td>Stagiaire</td>
+                                <td> <a ng-href="#/drh/demandes/detailConge" title="Détail">
+                                        <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                    </a></td>
+                            </tr>
+                            <tr>
+                                <td>173742/u</td>
+                                <td>Fallou</td>
+                                <td>Mbengue</td>
+                                <td>DSI</td>
+                                <td>Stagiaire</td>
+                                <td> <a ng-href="#/drh/demandes/detailConge" title="Détail">
+                                        <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                    </a></td>
+                            </tr>
+                            <tr>
+                                <td>185748/a</td>
+                                <td>Farouma</td>
+                                <td>Tall</td>
+                                <td>DSI</td>
+                                <td>Stagiaire</td>
+                                <td> <a ng-href="#/drh/demandes/detailConge" title="Détail">
+                                        <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                    </a></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div><!-- /.box-body -->
-              </div><!-- /.box -->
-            </div>
-          </div>
-    
+            </div><!-- /.box -->
+        </div>
+    </div>
+
 </div>

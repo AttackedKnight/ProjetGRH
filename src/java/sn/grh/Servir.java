@@ -40,10 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Servir implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "responsable")
-    private boolean responsable;
+    private Boolean responsable;
     @Basic(optional = false)
     @NotNull
     @Column(name = "debut")
@@ -69,7 +67,7 @@ public class Servir implements Serializable {
     @ManyToOne(optional = false)
     private Fonction fonction;
     @JoinColumn(name = "TypeContrat", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Typecontrat typeContrat;
 
     public Servir() {
@@ -79,17 +77,16 @@ public class Servir implements Serializable {
         this.id = id;
     }
 
-    public Servir(Integer id, boolean responsable, Date debut) {
+    public Servir(Integer id, Date debut) {
         this.id = id;
-        this.responsable = responsable;
         this.debut = debut;
     }
 
-    public boolean getResponsable() {
+    public Boolean getResponsable() {
         return responsable;
     }
 
-    public void setResponsable(boolean responsable) {
+    public void setResponsable(Boolean responsable) {
         this.responsable = responsable;
     }
 

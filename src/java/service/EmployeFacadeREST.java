@@ -24,6 +24,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Employe;
 import sn.grh.Typeemploye;
+import sn.grh.Utilisateur;
 
 /**
  *
@@ -36,6 +37,7 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
     @PersistenceContext(unitName = "ProjetGRHPU")
     private EntityManager em;
 
+    
     public EmployeFacadeREST() {
         super(Employe.class);
     }
@@ -64,7 +66,6 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Employe find(@PathParam("id") Integer id) {
-     
         return super.find(id);
     }
 

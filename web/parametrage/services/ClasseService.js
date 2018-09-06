@@ -5,25 +5,25 @@
  */
 
 angular.module('ParametrageModule').factory('Classe', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.classe');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.classe');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.classe/'+id);
-        },
-
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.classe',item);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.classe/' + id);
         },
 
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.classe/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.classe', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.classe/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.classe/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.classe/' + item.id, item);
         }
-};
+    };
 });

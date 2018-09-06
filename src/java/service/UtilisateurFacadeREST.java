@@ -5,10 +5,14 @@
  */
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,7 +21,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import sn.auth.Authentification;
+import sn.grh.Accesgroupe;
 import sn.grh.Utilisateur;
 
 /**
@@ -28,9 +35,14 @@ import sn.grh.Utilisateur;
 @Path("sn.grh.utilisateur")
 public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
 
+    @EJB
+    private AccesgroupeFacadeREST accesgroupeFacadeREST;
+
     @PersistenceContext(unitName = "ProjetGRHPU")
     private EntityManager em;
-
+    
+    @Context private HttpServletRequest request;
+    
     public UtilisateurFacadeREST() {
         super(Utilisateur.class);
     }
@@ -99,10 +111,69 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
                 .setParameter("motDePasse", motDePasse)
                 .getResultList();
         
+        
+        
         if(u.size()>0){
+            
+            registerAccess(u.get(0));
             return u.get(0);
         }
         return null;
+    }
+    
+    @GET
+    @Path("deconnexion")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String logout() {
+        System.out.println("*********DECONNEXION*********");
+
+        if(Authentification.sessionDestroy()){
+            return "success";
+        }   
+        
+        return "fail";
+
+    }
+    
+    public void registerAccess(Utilisateur user){
+        
+//        HttpSession session=request.getSession(true);
+//        session.setAttribute("user", user);          
+//        List<Accesgroupe> access=accesgroupeFacadeREST.findAllForGroup(user.getGroupe().getId());      
+//        HashMap<String,Boolean> permissionTable;
+//        for(int i=0;i<access.size();i++){
+//            permissionTable=new HashMap<>();
+//            permissionTable.put("ajouter", access.get(i).getAjouter());
+//            permissionTable.put("modifier", access.get(i).getModifier());
+//            permissionTable.put("supprimer", access.get(i).getSupprimer());
+//            permissionTable.put("consulter", access.get(i).getConsulter());
+//            permissionTable.put("lister", access.get(i).getLister());
+//            
+//            session.setAttribute(access.get(i).getNomTable(), permissionTable);
+//
+//        } 
+
+        HttpSession session=request.getSession(true);
+        
+        Authentification.setSession(session);      
+        Authentification.setData("user", user);
+        
+        List<Accesgroupe> access=accesgroupeFacadeREST.findAllForGroup(user.getGroupe().getId());      
+        HashMap<String,Boolean> permissionTable;
+        for(int i=0;i<access.size();i++){
+            permissionTable=new HashMap<>();
+            permissionTable.put("ajouter", access.get(i).getAjouter());
+            permissionTable.put("modifier", access.get(i).getModifier());
+            permissionTable.put("supprimer", access.get(i).getSupprimer());
+            permissionTable.put("consulter", access.get(i).getConsulter());
+            permissionTable.put("lister", access.get(i).getLister());
+            
+            Authentification.setData(access.get(i).getNomTable(), permissionTable);
+        } 
+        
+        if(Authentification.sessionExist()){
+            System.out.println("*****************La session existe*************");
+        }
     }
 
     @GET

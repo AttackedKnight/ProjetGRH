@@ -5,26 +5,26 @@
  */
 
 angular.module('ParametrageModule').factory('MutuelleSante', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.mutuellesante');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.mutuellesante');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.mutuellesante/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.mutuellesante/' + id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.mutuellesante',item);
-        },
-
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.mutuellesante/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.mutuellesante', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.mutuellesante/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.mutuellesante/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.mutuellesante/' + item.id, item);
         }
-};
+    };
 });
 
 

@@ -5,28 +5,28 @@
  */
 
 angular.module('ParametrageModule').factory('Typecontrat', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.typecontrat');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.typecontrat');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.typecontrat/'+id);
-        },
-
-        add:function(item){
-        
-            return $http.post(chemin+'/webresources/sn.grh.typecontrat',item);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.typecontrat/' + id);
         },
 
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.typecontrat/'+id);
+        add: function (item) {
+
+            return $http.post(chemin + '/webresources/sn.grh.typecontrat', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.typecontrat/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.typecontrat/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.typecontrat/' + item.id, item);
         }
-};
+    };
 });
 
 

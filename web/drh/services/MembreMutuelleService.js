@@ -5,26 +5,26 @@
  */
 
 angular.module('DrhModule').factory('MembreMutuelle', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.membremutuelle');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.membremutuelle');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.membremutuelle/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.membremutuelle/' + id);
         },
-        findByEmploye:function(e){
-            return $http.get(chemin+'/webresources/sn.grh.membremutuelle/employe/'+e.id);
+        findByEmploye: function (e) {
+            return $http.get(chemin + '/webresources/sn.grh.membremutuelle/employe/' + e.id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.membremutuelle',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.membremutuelle', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.membremutuelle/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.membremutuelle/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.membremutuelle/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.membremutuelle/' + item.id, item);
         }
-};
+    };
 });

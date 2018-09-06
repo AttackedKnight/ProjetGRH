@@ -5,32 +5,32 @@
  */
 
 angular.module('ParametrageModule').factory('Syndicat', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.syndicat');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.syndicat');
         },
-        findSyndicatPats:function(){
-            return $http.get(chemin+'/webresources/sn.grh.syndicat/pats');
+        findSyndicatPats: function () {
+            return $http.get(chemin + '/webresources/sn.grh.syndicat/pats');
         },
-        findSyndicatPer:function(){
-            return $http.get(chemin+'/webresources/sn.grh.syndicat/per');
+        findSyndicatPer: function () {
+            return $http.get(chemin + '/webresources/sn.grh.syndicat/per');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.syndicat/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.syndicat/' + id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.syndicat',item);
-        },
-
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.syndicat/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.syndicat', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.syndicat/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.syndicat/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.syndicat/' + item.id, item);
         }
-};
+    };
 });
 
 

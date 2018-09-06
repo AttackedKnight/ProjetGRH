@@ -5,23 +5,23 @@
  */
 
 angular.module('EmployeModule').factory('Absence', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.absence');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.absence');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.absence/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.absence/' + id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.absence',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.absence', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.absence/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.absence/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.absence/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.absence/' + item.id, item);
         }
-};
+    };
 });

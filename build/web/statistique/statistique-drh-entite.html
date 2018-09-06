@@ -1,136 +1,136 @@
 <!-- Small boxes (Stat box) -->
 <div class="row">
     <div class="col-md-3 col-sm-6">
-      <!-- small box -->
-      <div class="small-box bg-aqua">
-        <div class="inner">
-            <h4 style="font-weight: bold; font-size: 1.6em;">TOTAL EMPLOYES</h4>
-            <span style="font-size: 2.1em;"> {{effectifemploye}}</span>
-        </div>
-        <div class="icon pull-right">
-          <i class="fa fa-user"></i>
-        </div>
-       <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        <!-- small box -->
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h4 style="font-weight: bold; font-size: 1.6em;">TOTAL EMPLOYES</h4>
+                <span style="font-size: 2.1em;"> {{effectifemploye}}</span>
+            </div>
+            <div class="icon pull-right">
+                <i class="fa fa-user"></i>
+            </div>
+            <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div><!-- ./col -->
     <div class="col-md-9">
-        
-        <div class="row" ng-if="groupeUtilisateur.code!='PATS_AD'"><!-- row PER -->
-    
-    
-    <div class="col-md-4 col-sm-6">
-      <!-- small box -->
-     
-        <div class="small-box bg-green">
-            <div class="inner">
-                <h4 style="font-weight: bold; font-size: 1.6em;">EFFECTIF PER</h4>
-                <span style="font-size: 2.1em;">{{effectifemployeper}}</span>
-            </div>
-            <div class="icon pull-right">
-              <i class="fa fa-user"></i>
-            </div>
-            <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-     
-      
-    </div><!-- ./col -->
-    <div class="col-md-4 col-sm-6">
-      <!-- small box -->
-      
-       
-          <div class="small-box bg-yellow">
-        <div class="inner">
-          <h4 style="font-weight: bold; font-size: 1.6em;">HOMMES (PER)</h4>
-          <span style="font-size: 2.1em;">{{effectifTotalHommePer}}</span>
-<!--          <p>User Registrations</p>-->
-        </div>
-        <div class="icon pull-right">
-          <i class="fa fa-user"></i>
-        </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-      
-      
-    </div><!-- ./col -->
-    <div class="col-md-4 col-sm-6">
-      <!-- small box -->
-      
-        <div class="small-box bg-red">
-        <div class="inner">
-            <h4 style="font-weight: bold; font-size: 1.6em;">FEMMES (PER)</h4>
-          <span style="font-size: 2.1em;">{{effectifTotalFemmePer}}</span>
-<!--          <p>Unique Visitors</p>-->
-        </div>
-        <div class="icon pull-right">
-          <i class="fa fa-user"></i>
-        </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-     
-     
-    </div><!-- ./col -->
-  </div><!-- fin row PER -->
-  <!-- row PATS -->
-  <div class="row" ng-if="groupeUtilisateur.code!='PER_AD'">
-    
-    
-    <div class="col-md-4 col-sm-6">
-      <!-- small box -->
-     
-          <div class="small-box bg-green">
-        <div class="inner">
-            <h4 style="font-weight: bold; font-size: 1.6em;">EFFECTIF PATS</h4>
-            <span style="font-size: 2.1em;">{{effectifemployepats}}</span>
-        </div>
-       <div class="icon pull-right">
-          <i class="fa fa-user"></i>
-        </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-     
-      
-    </div><!-- ./col -->
-    <div class="col-md-4 col-sm-6">
-      <!-- small box -->
-      
-       
-          <div class="small-box bg-yellow">
-        <div class="inner">
-          <h4 style="font-weight: bold; font-size: 1.6em;">HOMMES (PATS)</h4>
-          <span style="font-size: 2.1em;">{{effectifTotalHommePats}}</span>
-<!--          <p>User Registrations</p>-->
-        </div>
-        <div class="icon pull-right">
-          <i class="fa fa-user"></i>
-        </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-      
-      
-    </div><!-- ./col -->
-    <div class="col-md-4 col-sm-6">
-      <!-- small box -->
-      
-        <div class="small-box bg-red">
-        <div class="inner">
-            <h4 style="font-weight: bold; font-size: 1.6em;">FEMMES (PATS)</h4>
-          <span style="font-size: 2.1em;">{{effectifTotalFemmePats}}</span>
-<!--          <p>Unique Visitors</p>-->
-        </div>
-        <div class="icon pull-right">
-          <i class="fa fa-user"></i>
-        </div>
-        <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
-      </div>
-     
-     
-    </div><!-- ./col -->
-  </div><!-- fin row PATS -->
- 
-   </div><!-- ./col -->
-  </div><!-- /.row -->
 
-  <!-- Main row -->
+        <div class="row" ng-if="groupeUtilisateur.code != 'PATS_AD'"><!-- row PER -->
+
+
+            <div class="col-md-4 col-sm-6">
+                <!-- small box -->
+
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">EFFECTIF PER</h4>
+                        <span style="font-size: 2.1em;">{{effectifemployeper}}</span>
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+
+            </div><!-- ./col -->
+            <div class="col-md-4 col-sm-6">
+                <!-- small box -->
+
+
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">HOMMES (PER)</h4>
+                        <span style="font-size: 2.1em;">{{effectifTotalHommePer}}</span>
+                        <!--          <p>User Registrations</p>-->
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+
+            </div><!-- ./col -->
+            <div class="col-md-4 col-sm-6">
+                <!-- small box -->
+
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">FEMMES (PER)</h4>
+                        <span style="font-size: 2.1em;">{{effectifTotalFemmePer}}</span>
+                        <!--          <p>Unique Visitors</p>-->
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+
+            </div><!-- ./col -->
+        </div><!-- fin row PER -->
+        <!-- row PATS -->
+        <div class="row" ng-if="groupeUtilisateur.code != 'PER_AD'">
+
+
+            <div class="col-md-4 col-sm-6">
+                <!-- small box -->
+
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">EFFECTIF PATS</h4>
+                        <span style="font-size: 2.1em;">{{effectifemployepats}}</span>
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+
+            </div><!-- ./col -->
+            <div class="col-md-4 col-sm-6">
+                <!-- small box -->
+
+
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">HOMMES (PATS)</h4>
+                        <span style="font-size: 2.1em;">{{effectifTotalHommePats}}</span>
+                        <!--          <p>User Registrations</p>-->
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+
+            </div><!-- ./col -->
+            <div class="col-md-4 col-sm-6">
+                <!-- small box -->
+
+                <div class="small-box bg-red">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">FEMMES (PATS)</h4>
+                        <span style="font-size: 2.1em;">{{effectifTotalFemmePats}}</span>
+                        <!--          <p>Unique Visitors</p>-->
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+
+            </div><!-- ./col -->
+        </div><!-- fin row PATS -->
+
+    </div><!-- ./col -->
+</div><!-- /.row -->
+
+<!-- Main row -->
 <div style="background: white; padding-top: 4px;">
     <div class="selection-entite row">
         <div class="col-md-6 pull-right">
@@ -142,144 +142,144 @@
                 <i class="fa fa-check"></i> Valider
             </button>
         </div>
-        
+
     </div> 
     <br>   
     <div class="row">
         <div class="col-md-6">
             <div class="box box-solid box-primary">
                 <div class="box-header">
-                  <i class="fa fa-pie-chart"></i>
-                  <h3 class="box-title">PATS / PER</h3>
-                  
+                    <i class="fa fa-pie-chart"></i>
+                    <h3 class="box-title">PATS / PER</h3>
+
                 </div>
                 <div class="box-body row">
-                  <div  class="col-md-12" style="height: 360px;" id="statPatsPer"></div>
+                    <div  class="col-md-12" style="height: 360px;" id="statPatsPer"></div>
                 </div><!-- /.box-body-->
-              </div><!-- /.box -->
+            </div><!-- /.box -->
         </div>
-        
-             <div class="col-md-6">
+
+        <div class="col-md-6">
             <div class="box box-solid box-primary ">
                 <div class="box-header">
-                  <i class="fa fa-pie-chart"></i>
-                  <h2 class="box-title">HOMMES / FEMMES</h2>           
+                    <i class="fa fa-pie-chart"></i>
+                    <h2 class="box-title">HOMMES / FEMMES</h2>           
                 </div>
                 <div class="box-body row">
-                    <div class="pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-xs-7">
-                           <label>Selection</label>
-                           <select class="form-control" id="typePourcentageHF" name="typePourcentageHF"  ng-model="typePourcentageHommeFemme">
+                    <div class="pull-right" ng-if="groupeUtilisateur.code == 'DRH_AD'">
+                        <div class="col-xs-7">
+                            <label>Selection</label>
+                            <select class="form-control" id="typePourcentageHF" name="typePourcentageHF"  ng-model="typePourcentageHommeFemme">
                                 <option value="general">Général</option>
                                 <option value="pats">PATS</option>
                                 <option value="per">PER</option>
                             </select>
                         </div>
-                       <div class="col-xs-3">
+                        <div class="col-xs-3">
                             <label>Valider</label>
                             <button class="btn btn-primary" ng-click="changerTypePourcentageHommeFemme()">
                                 <i class="fa fa-check"></i>
                             </button>
                         </div>                      
-                      </div>
+                    </div>
                     <div class="col-md-12" ng-style="hgt" id="statHomFem" >
-                        
+
                     </div>
                 </div><!-- /.box-body-->
-              </div><!-- /.box -->
+            </div><!-- /.box -->
         </div>
     </div>
     <div class="row">
-                  <div class="col-md-12">
-                        <div class="box box-solid box-primary ">
-                            <div class="box-header">
-                              <i class="fa fa-bar-chart-o"></i>
-                              <h2 class="box-title">TRANCHES D'AGES</h2>                             
-                            </div>
-                            <div class="box-body row">
-                                <div class="col-md-5 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                                   <div class="col-xs-7">
-                                       <label>Selection</label>
-                                       <select class="form-control" id="typeTrancheAge" ng-model="typeTrancheAge">
-                                            <option value="general" selected>Général</option>
-                                            <option value="pats">PATS</option>
-                                            <option value="per">PER</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-xs-3">
-                                        <label>Valider</label>
-                                        <button class="btn btn-primary" ng-click="changerTypeTrancheAge()">
-                                            <i class="fa fa-check"></i>
-                                        </button>
-                                    </div>                      
-                                </div>
-                                <div class="col-md-7 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
-                                  <div class="col-xs-3 mb-3">
-                                    <label for="debut">Début</label>
-                                    <select  class="form-control" id="debut" ng-model="debutTrancheAge">
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                        <option value="65">65</option>
-                                    </select>
-                                  </div>
-                                  <div class="col-xs-3 mb-3">
-                                    <label for="fin">Fin</label>
-                                    <select  class="form-control" id="fin" ng-model="finTrancheAge">
-                                        <option value="20">20</option>
-                                        <option value="30">30</option>
-                                        <option value="40">40</option>
-                                        <option value="50">50</option>
-                                        <option value="60">60</option>
-                                        <option value="65">65</option>
-                                    </select>
-                                  </div>
-                                  <div class="col-xs-3 mb-3">
-                                   <label for="intervalle">Intervalle</label>
-                                    <select class="form-control" id="intervalle" ng-model="intervalleTrancheAge">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                        <option value="3">3</option>
-                                        <option value="4">4</option>
-                                        <option value="5">5</option>
-                                        <option value="6">6</option>
-                                        <option value="7">7</option>
-                                        <option value="8">8</option>
-                                        <option value="9">9</option>
-                                        <option value="10">10</option>
-                                        
-                                    </select>
-                                  </div>
-                                  <div class="col-xs-3 mb-3">
-                                      <label>Valider</label><br>
-                                      <button class="btn btn-primary" ng-click="actualiserTrancheAge(debutTrancheAge,finTrancheAge,intervalleTrancheAge)">
-                                          <i class="fa fa-check"></i>
-                                      </button>                 
-                                  </div>
-                                 
-                              </div>
-                              <div class="col-md-12" style="height: 400px;" id="trancheAge" ></div>
-                            </div><!-- /.box-body-->
-                          </div><!-- /.box -->
+        <div class="col-md-12">
+            <div class="box box-solid box-primary ">
+                <div class="box-header">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h2 class="box-title">TRANCHES D'AGES</h2>                             
+                </div>
+                <div class="box-body row">
+                    <div class="col-md-5 row" ng-if="groupeUtilisateur.code == 'DRH_AD'">
+                        <div class="col-xs-7">
+                            <label>Selection</label>
+                            <select class="form-control" id="typeTrancheAge" ng-model="typeTrancheAge">
+                                <option value="general" selected>Général</option>
+                                <option value="pats">PATS</option>
+                                <option value="per">PER</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3">
+                            <label>Valider</label>
+                            <button class="btn btn-primary" ng-click="changerTypeTrancheAge()">
+                                <i class="fa fa-check"></i>
+                            </button>
+                        </div>                      
                     </div>
-                 
-              </div>
+                    <div class="col-md-7 row" ng-class="{'pull-right' : groupeUtilisateur.code != 'DRH_AD'}">
+                        <div class="col-xs-3 mb-3">
+                            <label for="debut">Début</label>
+                            <select  class="form-control" id="debut" ng-model="debutTrancheAge">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60">60</option>
+                                <option value="65">65</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 mb-3">
+                            <label for="fin">Fin</label>
+                            <select  class="form-control" id="fin" ng-model="finTrancheAge">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60">60</option>
+                                <option value="65">65</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 mb-3">
+                            <label for="intervalle">Intervalle</label>
+                            <select class="form-control" id="intervalle" ng-model="intervalleTrancheAge">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+
+                            </select>
+                        </div>
+                        <div class="col-xs-3 mb-3">
+                            <label>Valider</label><br>
+                            <button class="btn btn-primary" ng-click="actualiserTrancheAge(debutTrancheAge, finTrancheAge, intervalleTrancheAge)">
+                                <i class="fa fa-check"></i>
+                            </button>                 
+                        </div>
+
+                    </div>
+                    <div class="col-md-12" style="height: 400px;" id="trancheAge" ></div>
+                </div><!-- /.box-body-->
+            </div><!-- /.box -->
+        </div>
+
+    </div>
     <div class="row">
         <div class="col-md-6">
             <div class="box box-solid box-primary  ">
                 <div class="box-header">
-                  <i class="fa fa-bar-chart-o"></i>
-                  <h3 class="box-title">RECRUTEMENT PAR ANNEE</h3>
-                   
-                  
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">RECRUTEMENT PAR ANNEE</h3>
+
+
                 </div>
                 <div class="box-body row">
-                    <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-xs-7">
-                           <label>Selection</label>
-                           <select class="form-control" id="typeRecrutementParAnnee" ng-model="typeRecrutementParAnnee">
+                    <div class="col-md-6 row" ng-if="groupeUtilisateur.code == 'DRH_AD'">
+                        <div class="col-xs-7">
+                            <label>Selection</label>
+                            <select class="form-control" id="typeRecrutementParAnnee" ng-model="typeRecrutementParAnnee">
                                 <option value="general" selected>Général</option>
                                 <option value="pats">PATS</option>
                                 <option value="per">PER</option>
@@ -292,43 +292,43 @@
                             </button>
                         </div>                      
                     </div>
-                    <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
-                       <div class="col-xs-7">
-                           <label for="intervalle">Intervalle</label>
+                    <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code != 'DRH_AD'}">
+                        <div class="col-xs-7">
+                            <label for="intervalle">Intervalle</label>
                             <select class="form-control" id="intervalle" ng-model="intervaleAnneeRecrutement">
-                             <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            <option value="6">6</option>
-                            <option value="7">7</option>
-                            <option value="8">8</option>
-                            <option value="9">9</option>
-                            <option value="10">10</option>
-                        </select>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
                         </div>
-                       <div class="col-xs-3 ">
+                        <div class="col-xs-3 ">
                             <label for="valider">Valider</label>
                             <button class="btn btn-primary" ng-click="voirRecrutement(intervaleAnneeRecrutement)"><i class="fa fa-check"></i></button>
 
                         </div>    
                     </div>
-                  <div  class="col-md-12" style="height: 300px;" id="statNbreRecrutement" ></div>
+                    <div  class="col-md-12" style="height: 300px;" id="statNbreRecrutement" ></div>
                 </div><!-- /.box-body-->
-              </div><!-- /.box -->
+            </div><!-- /.box -->
         </div>
-         <div class="col-md-6">
+        <div class="col-md-6">
             <div class="box box-solid box-primary  ">
                 <div class="box-header">
-                  <i class="fa fa-bar-chart-o"></i>
-                  <h3 class="box-title">CLASSIFICATION</h3>
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">CLASSIFICATION</h3>
                 </div>
                 <div class="box-body row">
-                    <div class="col-md-6 row pull-right" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-xs-7">
-                           <label>Selection</label>
-                           <select class="form-control" id="typeEffectifParNiveau" ng-model="typeEffectifParNiveau">
+                    <div class="col-md-6 row pull-right" ng-if="groupeUtilisateur.code == 'DRH_AD'">
+                        <div class="col-xs-7">
+                            <label>Selection</label>
+                            <select class="form-control" id="typeEffectifParNiveau" ng-model="typeEffectifParNiveau">
                                 <option value="pats">PATS</option>
                                 <option value="per">PER</option>
                             </select>
@@ -342,80 +342,80 @@
                     </div>
                     <div  class="col-md-12" ng-style="hgt2"  id="niveauEtude" ></div>
                 </div><!-- /.box-body-->
-              </div><!-- /.box -->
+            </div><!-- /.box -->
         </div>
     </div>
-              <!-- Debut entree sortie -->
-   <div class="row">
-        <div class="col-md-12">
-            <div class="box box-solid box-primary  ">
-                <div class="box-header">
-                  <i class="fa fa-bar-chart-o"></i>
-                  <h3 class="box-title">ENTREES ET SORTIES</h3>
-                   
-                  
-                </div>
-                <div class="box-body row">
-                    <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
-                       <div class="col-xs-7">
-                           <label>Selection</label>
-                           <select class="form-control" id="typeEntreeSortie" ng-model="typeEntreeSortie">
-                                <option value="general" selected>Général</option>
-                                <option value="pats">PATS</option>
-                                <option value="per">PER</option>
+    <!-- Debut entree sortie -->
+    <!--   <div class="row">
+            <div class="col-md-12">
+                <div class="box box-solid box-primary  ">
+                    <div class="box-header">
+                      <i class="fa fa-bar-chart-o"></i>
+                      <h3 class="box-title">ENTREES ET SORTIES</h3>
+                       
+                      
+                    </div>
+                    <div class="box-body row">
+                        <div class="col-md-6 row" ng-if="groupeUtilisateur.code=='DRH_AD'">
+                           <div class="col-xs-7">
+                               <label>Selection</label>
+                               <select class="form-control" id="typeEntreeSortie" ng-model="typeEntreeSortie">
+                                    <option value="general" selected>Général</option>
+                                    <option value="pats">PATS</option>
+                                    <option value="per">PER</option>
+                                </select>
+                            </div>
+                            <div class="col-xs-2">
+                                <label>Valider</label>
+                                <button class="btn btn-primary">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                            </div>                      
+                        </div>
+                        <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
+                           <div class="col-xs-7">
+                               <label for="intervalle">Intervalle</label>
+                                <select class="form-control" id="intervalleEntreeSortie" ng-model="intervalleEntreeSortie">
+                                 <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                
                             </select>
+                            </div>
+                           <div class="col-xs-2 ">
+                                <label for="valider">Valider</label>
+                                <button class="btn btn-primary" ><i class="fa fa-check"></i></button>
+    
+                            </div>    
                         </div>
-                        <div class="col-xs-2">
-                            <label>Valider</label>
-                            <button class="btn btn-primary">
-                                <i class="fa fa-check"></i>
-                            </button>
-                        </div>                      
-                    </div>
-                    <div class="col-md-6 row" ng-class="{'pull-right' : groupeUtilisateur.code!='DRH_AD'}">
-                       <div class="col-xs-7">
-                           <label for="intervalle">Intervalle</label>
-                            <select class="form-control" id="intervalleEntreeSortie" ng-model="intervalleEntreeSortie">
-                             <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                            
-                        </select>
-                        </div>
-                       <div class="col-xs-2 ">
-                            <label for="valider">Valider</label>
-                            <button class="btn btn-primary" ><i class="fa fa-check"></i></button>
-
-                        </div>    
-                    </div>
-                  <div  class="col-md-12" style="height: 400px;" id="entreeSortie" ></div>
-                </div><!-- /.box-body-->
-              </div><!-- /.box -->
-        </div>
-         
-    </div>
-              <!-- fin entree sortie -->
+                      <div  class="col-md-12" style="height: 400px;" id="entreeSortie" ></div>
+                    </div> /.box-body
+                  </div> /.box 
+            </div>
              
-    <!--  Metiers-->
-    <div class="row" >
-        <div class="col-md-12">
-          <!-- jQuery Knob -->
-          <div class="box box-solid box-primary ">
-            <div class="box-header">
-              <i class="fa fa-pie-chart"></i>
-              <h3 class="box-title">LES METIERS</h3>
-
-            </div><!-- /.box-header -->
-            <div class="box-body row">
-               <div class="col-md-12" style="height: 400px;" id="statFonction"></div> 
-            </div><!-- /.box-body -->
-          </div><!-- /.box -->
-        </div><!-- /.col -->
-    </div><!-- /.row -->
+        </div>
+                   fin entree sortie 
+                 
+          Metiers
+        
+        <div class="row" >
+            <div class="col-md-12">
+               jQuery Knob 
+              <div class="box box-solid box-primary ">
+                <div class="box-header">
+                  <i class="fa fa-pie-chart"></i>
+                  <h3 class="box-title">LES METIERS</h3>
+    
+                </div> /.box-header 
+                <div class="box-body row">
+                   <div class="col-md-12" style="height: 400px;" id="statFonction"></div> 
+                </div> /.box-body 
+              </div> /.box 
+            </div> /.col 
+        </div> /.row -->
     <!--  Metiers-->
 </div>
 
-      <!-- Morris.js charts:En rapport avec les statistiques -->
- 
+<!-- Morris.js charts:En rapport avec les statistiques -->

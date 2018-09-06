@@ -60,9 +60,7 @@ public class Employe implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "numeroCni")
     private String numeroCni;
     @Size(max = 255)
@@ -96,12 +94,12 @@ public class Employe implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "sexe")
     private String sexe;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "dateRecrutement")
     @Temporal(TemporalType.DATE)
     private Date dateRecrutement;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "nationalite")
     private String nationalite;
     @Column(name = "nombreEnfant")
@@ -158,15 +156,14 @@ public class Employe implements Serializable {
         this.id = id;
     }
 
-    public Employe(Integer id, String numeroCni, String prenom, String nom, Date dateDeNaissance, String lieuDeNaissance, String sexe, String nationalite, boolean retraite, boolean geler) {
+    public Employe(Integer id, String prenom, String nom, Date dateDeNaissance, String lieuDeNaissance, String sexe, Date dateRecrutement, boolean retraite, boolean geler) {
         this.id = id;
-        this.numeroCni = numeroCni;
         this.prenom = prenom;
         this.nom = nom;
         this.dateDeNaissance = dateDeNaissance;
         this.lieuDeNaissance = lieuDeNaissance;
         this.sexe = sexe;
-        this.nationalite = nationalite;
+        this.dateRecrutement = dateRecrutement;
         this.retraite = retraite;
         this.geler = geler;
     }

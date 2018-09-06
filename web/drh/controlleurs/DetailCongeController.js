@@ -5,19 +5,19 @@
  */
 
 
-angular.module('DrhModule').controller('DetailCongeController',function($scope,Securite)
-{   
-    
-     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
+angular.module('DrhModule').controller('DetailCongeController', function ($scope, Securite)
+{
 
-   
-    if(Securite.estConnecte()==false){
-        document.location.href="#/";
-        return; 
+    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
+
+
+    if (Securite.estConnecte() == false) {
+        document.location.href = "#/";
+        return;
     }
-   
-    
+
+
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-    
+
 });
 

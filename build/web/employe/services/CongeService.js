@@ -5,24 +5,24 @@
  */
 
 angular.module('EmployeModule').factory('Conge', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.conge');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.conge');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.conge/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.conge/' + id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.conge',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.conge', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.conge/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.conge/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.conge/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.conge/' + item.id, item);
         }
-};
+    };
 });
 

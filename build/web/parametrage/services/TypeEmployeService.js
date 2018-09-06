@@ -5,25 +5,25 @@
  */
 
 angular.module('ParametrageModule').factory('TypeEmploye', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.typeemploye');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.typeemploye');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.typeemploye/'+id);
-        },
-
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.typeemploye',item);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.typeemploye/' + id);
         },
 
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.typeemploye/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.typeemploye', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.typeemploye/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.typeemploye/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.typeemploye/' + item.id, item);
         }
-};
+    };
 });

@@ -5,29 +5,29 @@
  */
 
 angular.module('ParametrageModule').factory('Document', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.document');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.document');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.document/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.document/' + id);
         },
-        findByLibelle:function(nom){
-            return $http.get(chemin+'/webresources/sn.grh.document/nom/'+nom);
+        findByLibelle: function (nom) {
+            return $http.get(chemin + '/webresources/sn.grh.document/nom/' + nom);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.document',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.document', item);
         },
-        findByEmploye:function(e){
-            return $http.get(chemin+'/webresources/sn.grh.document/employe/'+e.id);
+        findByEmploye: function (e) {
+            return $http.get(chemin + '/webresources/sn.grh.document/employe/' + e.id);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.document/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.document/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.document/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.document/' + item.id, item);
         }
-};
+    };
 });

@@ -5,26 +5,26 @@
  */
 
 angular.module('DrhModule').factory('Grade', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.grade');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.grade');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.grade/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/' + id);
         },
-        findByEmploye:function(e){
-            return $http.get(chemin+'/webresources/sn.grh.grade/employe/'+e.id);
+        findByEmploye: function (e) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/employe/' + e.id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.grade',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.grade', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.grade/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.grade/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.grade/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.grade/' + item.id, item);
         }
-};
+    };
 });

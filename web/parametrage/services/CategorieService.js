@@ -5,25 +5,25 @@
  */
 
 angular.module('ParametrageModule').factory('Categorie', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.categorie');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.categorie');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.categorie/'+id);
-        },
-
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.categorie',item);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.categorie/' + id);
         },
 
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.categorie/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.categorie', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.categorie/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.categorie/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.categorie/' + item.id, item);
         }
-};
+    };
 });

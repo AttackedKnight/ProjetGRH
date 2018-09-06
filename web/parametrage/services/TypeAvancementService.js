@@ -5,25 +5,25 @@
  */
 
 angular.module('ParametrageModule').factory('Avancement', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.typeavancement');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.typeavancement');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.typeavancement/'+id);
-        },
-
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.typeavancement',item);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.typeavancement/' + id);
         },
 
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.typeavancement/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.typeavancement', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.typeavancement/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.typeavancement/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.typeavancement/' + item.id, item);
         }
-};
+    };
 });

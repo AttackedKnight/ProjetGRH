@@ -5,26 +5,26 @@
  */
 
 angular.module('DrhModule').factory('Adresse', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.adresse');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.adresse');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.adresse/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.adresse/' + id);
         },
-        findByEmploye:function(e){
-            return $http.get(chemin+'/webresources/sn.grh.adresse/employe/'+e.id);
+        findByEmploye: function (e) {
+            return $http.get(chemin + '/webresources/sn.grh.adresse/employe/' + e.id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.adresse',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.adresse', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.adresse/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.adresse/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.adresse/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.adresse/' + item.id, item);
         }
-};
+    };
 });

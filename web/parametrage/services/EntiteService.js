@@ -5,26 +5,26 @@
  */
 
 angular.module('ParametrageModule').factory('Entite', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.entite');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.entite');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.entite/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.entite/' + id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.entite',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.entite', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.entite/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.entite/' + id);
         },
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.entite/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.entite/' + item.id, item);
         },
-        getSousEntite:function (e){
-               
-            return $http.get(chemin+'/webresources/sn.grh.entite/sousentite/'+e.id);
+        getSousEntite: function (e) {
+
+            return $http.get(chemin + '/webresources/sn.grh.entite/sousentite/' + e.id);
         }
-};
+    };
 });

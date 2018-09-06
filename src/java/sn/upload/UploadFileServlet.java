@@ -30,6 +30,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 /**
  *
  * @author fallougalass
+ * 
+ * Gere l'upload des document(archivage) :
+ * repertoire de sauvegarde=dossier "archive/cni proprietaire document" : cree s'il n'existe pas
+ * 
  */
 @WebServlet(name = "UploadFileServlet", urlPatterns = {"/UploadFileServlet"})
 public class UploadFileServlet extends HttpServlet {
@@ -98,9 +102,6 @@ public class UploadFileServlet extends HttpServlet {
 				FileItem fileItem = it.next();
 				boolean isFormField = fileItem.isFormField();
                                 if (!isFormField){
-
-//                                    String[] tab=fileItem.getName().split("\\.");
-//                                    String ext=tab[tab.length-1];
                                     
                                     File emplacement=new File(factory.getRepository()+File.separator+fileItem.getFieldName());
                                     //Verifier qu'un repertoire a ete cree pour l'employe  : sinon en cree: le repertoire a comme nom son num CNI  

@@ -1,11 +1,11 @@
 <div class="box box-primary">   
     <div class="box-header">
-      <h3 class="box-title">Ajouter un mutuelle</h3>
+        <h3 class="box-title">Ajouter un mutuelle</h3>
     </div><!-- /.box-header -->
     <!-- form start -->
     <form role="form" name="mutuelleForm">
-      <div class="box-body">
-           <div class="form-group">
+        <div class="box-body">
+            <div class="form-group">
                 <label for="libelle">Libelle<span style="color: red;">*</span></label>
                 <input  type="text" ng-model="mutuelle.nom" name="nom" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-']*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" id="libelle" placeholder="Libelle" />
                 <div ng-messages="mutuelleForm.nom.$error" role="alert" ng-show="mutuelleForm.nom.$touched && mutuelleForm.nom.$invalid" class="alert alert-block alert-danger has-error">
@@ -15,14 +15,14 @@
                 <div class="alert alert-block alert-danger requis" style="display:none">
                     <div>Veuillez renseigner ce champs.</div>
                 </div>
-           </div>
-      </div><!-- /.box-body -->
+            </div>
+        </div><!-- /.box-body -->
 
-      <div class="box-footer">
-          <button type="submit" ng-disabled="mutuelleForm.$invalid" ng-if="createForm" ng-click="controlForm(mutuelle)" class="btn btn-primary">Valider</button>
-          <button type="submit" ng-disabled="mutuelleForm.$invalid" ng-if="editForm" ng-click="controlForm(mutuelle)" class="btn btn-warning">Enregistrer</button>
-                 <button type="button" ng-click="annuler()" ng-disabled="mutuelleForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
-      </div>
+        <div class="box-footer">
+            <button type="submit" ng-disabled="mutuelleForm.$invalid" ng-if="createForm" ng-click="controlForm(mutuelle)" class="btn btn-primary">Valider</button>
+            <button type="submit" ng-disabled="mutuelleForm.$invalid" ng-if="editForm" ng-click="controlForm(mutuelle)" class="btn btn-warning">Enregistrer</button>
+            <button type="button" ng-click="annuler()" ng-disabled="mutuelleForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
+        </div>
     </form>
 </div><!-- /.box -->
 
@@ -39,7 +39,7 @@
             <tbody>
                 <tr ng-repeat="mutuelle in mutuelles">
 
-                    <td>{{ mutuelle.nom }}</td>
+                    <td>{{ mutuelle.nom}}</td>
 
                     <td>
                         <button ng-click="delete(mutuelle)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
@@ -50,9 +50,9 @@
             </tbody>
         </table>
     </div>
-   
- </div>  
-    <!-- Trigger the modal with a button -->
-   
+
+</div>  
+<!-- Trigger the modal with a button -->
+
 
 

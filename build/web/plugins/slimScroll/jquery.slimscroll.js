@@ -14,7 +14,7 @@
         // width in pixels of the visible scroll area
         width: 'auto',
         // height in pixels of the visible scroll area
-        height: '250px',
+        height: '500px',
         // width in pixels of the scrollbar and rail
         size: '7px',
         // scrollbar color, accepts any hex/color value

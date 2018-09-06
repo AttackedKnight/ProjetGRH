@@ -5,54 +5,54 @@
  */
 
 angular.module('ParametrageModule').factory('Grade', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.grade');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.grade');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.grade/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/' + id);
         },
-        findGradePer:function(){
-            return $http.get(chemin+'/webresources/sn.grh.grade/per');
+        findGradePer: function () {
+            return $http.get(chemin + '/webresources/sn.grh.grade/per');
         },
-        findPerCorps:function(corps){
-            return $http.get(chemin+'/webresources/sn.grh.grade/per/corps/'+corps);
+        findPerCorps: function (corps) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/per/corps/' + corps);
         },
-        findPerCorpsClasse:function(corps,classe){
-            return $http.get(chemin+'/webresources/sn.grh.grade/per/corps/'+corps+'/classe/'+classe);
+        findPerCorpsClasse: function (corps, classe) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/per/corps/' + corps + '/classe/' + classe);
         },
-        compterPerClasseCorps:function(corps){
-            return $http.get(chemin+'/webresources/sn.grh.grade/per/classe/corps/'+corps);
+        compterPerClasseCorps: function (corps) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/per/classe/corps/' + corps);
         },
-        findGradePats:function(){
-            return $http.get(chemin+'/webresources/sn.grh.grade/pats');
+        findGradePats: function () {
+            return $http.get(chemin + '/webresources/sn.grh.grade/pats');
         },
-        findPatsClasse:function(classe){
-            return $http.get(chemin+'/webresources/sn.grh.grade/pats/classe/'+classe);
+        findPatsClasse: function (classe) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/pats/classe/' + classe);
         },
-        findPatsClasseEtCategorie:function(classe,categorie){
-            return $http.get(chemin+'/webresources/sn.grh.grade/pats/classe/'+classe+'/categorie/'+categorie);
+        findPatsClasseEtCategorie: function (classe, categorie) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/pats/classe/' + classe + '/categorie/' + categorie);
         },
-        findPatsClasseEtCategorieEtNiveau:function(classe,categorie,niveau){
-            return $http.get(chemin+'/webresources/sn.grh.grade/pats/classe'+classe+'/categorie/'+categorie+'/niveau/'+niveau);
+        findPatsClasseEtCategorieEtNiveau: function (classe, categorie, niveau) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/pats/classe' + classe + '/categorie/' + categorie + '/niveau/' + niveau);
         },
-        compterPatsCategorieClasse:function(classe){
-            return $http.get(chemin+'/webresources/sn.grh.grade/pats/categorie/classe/'+classe);
+        compterPatsCategorieClasse: function (classe) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/pats/categorie/classe/' + classe);
         },
-        compterPatsNiveauClasse:function(classe){
-            return $http.get(chemin+'/webresources/sn.grh.grade/pats/niveau/classe/'+classe);
-        },      
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.grade',item);
+        compterPatsNiveauClasse: function (classe) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/pats/niveau/classe/' + classe);
         },
-
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.grade/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.grade', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.grade/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.grade/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.grade/' + item.id, item);
         }
-};
+    };
 });

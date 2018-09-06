@@ -37,7 +37,7 @@
     <class>sn.grh.Typeentite</class>
     <class>sn.grh.Typepermission</class>
     <class>sn.grh.Utilisateur</class>
-    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>

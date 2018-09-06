@@ -5,25 +5,25 @@
  */
 
 angular.module('ParametrageModule').factory('Civilite', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.civilite');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.civilite');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.civilite/'+id);
-        },
-
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.civilite',item);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.civilite/' + id);
         },
 
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.civilite/'+id);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.civilite', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.civilite/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.civilite/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.civilite/' + item.id, item);
         }
-};
+    };
 });

@@ -1,14 +1,14 @@
 <div class="col-md-offset-2 col-md-8" style="background: white;">  
     <form role="form" name="profilForm" enctype="multipart/form-data">
         <div class="box-header">
-            
+
             <div style="width: 50%; margin: auto; text-align: center" ng-show="edit">
                 <label class="label-info" for="profil">
                     <span class="btn btn-primary" id="btn_modifier_photo_profil">Changer</span>
                     <input type="file"  name='profil' id='profil' ng-model="imgProfil" onchange="angular.element(this).scope().preview(this)" accept="image/*" style='display: none;'/>
                 </label>
                 <span class="btn btn-warning" ng-click="showProfil()">Annuler</span>
-           </div>
+            </div>
             <div>        
                 <div style="width: 50%; margin: auto; text-align: center;">
                     <div id="profil-img" style="width: 120px ; height: 120px; border-radius: 100%; text-align: center; margin: auto;" >
@@ -19,10 +19,10 @@
             </div>
         </div>
         <!-- /.box-header -->
-      <div class="box-body">
+        <div class="box-body">
             <div class="form-group">
-               <label for="login">Login</label>
-               <input type="text" class="form-control" ng-disabled="!edit" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" id="login" name="login">
+                <label for="login">Login</label>
+                <input type="text" class="form-control" ng-disabled="!edit" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" id="login" name="login">
                 <div ng-messages="profilForm.login.$error" role="alert" ng-show="profilForm.login.$touched && profilForm.login.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 6 caractères au minimum.</div>
                     <div ng-message="pattern">Vérifier votre saisie.</div>
@@ -30,7 +30,7 @@
                 <div class="alert alert-block alert-danger requis" style="display:none">
                     <div>Veuillez renseigner ce champs.</div>
                 </div>
-           </div>
+            </div>
             <div class="form-group">
                 <label for="motDePasse">Mot de passe</label>
                 <input type="password" class="form-control" ng-disabled="!edit" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" id="motDePasse" name="motDePasse">
@@ -42,21 +42,21 @@
                     <div>Veuillez renseigner ce champs.</div>
                 </div>
             </div>
-          <div class="form-group" ng-show="edit">
+            <div class="form-group" ng-show="edit">
                 <label for="motDePasseConfirm">Confirmation du mot de passe</label>
                 <input type="password" class="form-control" pw-check='motDePasse' ng-model="motDePasseConfirm"  id="motDePasseConfirm" name="motDePasseConfirm">
-                <div   class='msg-block' ng-class="{'alert alert-block alert-danger requis' : profilForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length>=utilisateur.motDePasse.length}"  ng-show='profilForm.$error'>
-                  <span class='msg-error' ng-show='profilForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length>=utilisateur.motDePasse.length'>
-                    Les 2 mots de passe ne correspondent pas
-                  </span>
+                <div   class='msg-block' ng-class="{'alert alert-block alert-danger requis' : profilForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length >= utilisateur.motDePasse.length}"  ng-show='profilForm.$error'>
+                    <span class='msg-error' ng-show='profilForm.motDePasseConfirm.$error.pwmatch && motDePasseConfirm.length >= utilisateur.motDePasse.length'>
+                        Les 2 mots de passe ne correspondent pas
+                    </span>
                 </div>
             </div>
-      </div><!-- /.box-body -->
-      <div class="box-footer">
-          <button type="button"  ng-click="editable()" class="btn btn-primary">Modifier</button>
-           <button type="button" ng-click="cancel()" class="btn btn-primary">Annuler</button>
-          <button type="button"  ng-click="controlForm(utilisateur)" ng-disabled="profilForm.$invalid" ng-if="edit" class="btn btn-warning">Enregistrer</button>
-      </div>
+        </div><!-- /.box-body -->
+        <div class="box-footer">
+            <button type="button"  ng-click="editable()" class="btn btn-primary">Modifier</button>
+            <button type="button" ng-click="cancel()" class="btn btn-primary">Annuler</button>
+            <button type="button"  ng-click="controlForm(utilisateur)" ng-disabled="profilForm.$invalid" ng-if="edit" class="btn btn-warning">Enregistrer</button>
+        </div>
     </form>
 </div><!-- /.box -->
 

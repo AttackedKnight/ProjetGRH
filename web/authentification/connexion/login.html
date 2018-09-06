@@ -1,55 +1,55 @@
 <div class="col-xs-offset-1 col-xs-8 row" style="min-width: 350px; height: 550px; padding-top: 100px;  margin-top: 5%; background: url('images/rh1.jpg')">
-        <div class="login-box-body col-md-offset-3 col-md-6" style="background: rgba(0,0,0,0.8);">
+    <div class="login-box-body col-md-offset-3 col-md-6" style="background: rgba(0,0,0,0.8);">
         <p class="login-box-msg" style="padding: 4px; font-size: 1.3em; font-weight: bold; height: 50px;">
-<!--            <span style="width: 40%; height: 90px; display: inline-block; vertical-align: middle;">
-                <img src="authentification/connexion/c.png" alt="lock" style="width: 100%; height: 100%; border-radius: 90%;"/>
-            </span><br/>-->
+            <!--            <span style="width: 40%; height: 90px; display: inline-block; vertical-align: middle;">
+                            <img src="authentification/connexion/c.png" alt="lock" style="width: 100%; height: 100%; border-radius: 90%;"/>
+                        </span><br/>-->
             <span style="text-align: center; font-size: 1.5em; font-weight: bold;">Authentification</span>
         </p>
         <form role="form" name="connexionForm" style="padding: 4px;">
-          <div class="form-group has-feedback">
-              <input type="text" class="form-control"  ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" name="login"/>
-            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-            <div ng-messages="connexionForm.login.$error" role="alert" ng-show="connexionForm.login.$touched && connexionForm.login.$invalid" class="alert alert-block alert-danger has-error">
-                <div ng-message="minlength">Ce champs doit contenir 6 caractères au minimum.</div>
-                <div ng-message="pattern">Vérifier votre saisie.</div>
+            <div class="form-group has-feedback">
+                <input type="text" class="form-control"  ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" name="login"/>
+                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                <div ng-messages="connexionForm.login.$error" role="alert" ng-show="connexionForm.login.$touched && connexionForm.login.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="minlength">Ce champs doit contenir 6 caractères au minimum.</div>
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
             </div>
-            <div class="alert alert-block alert-danger requis" style="display:none">
-                <div>Veuillez renseigner ce champs.</div>
+            <div class="form-group has-feedback">
+                <input type="password" class="form-control" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" name="motDePasse"/>
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                <div ng-messages="connexionForm.motDePasse.$error" role="alert" ng-show="connexionForm.motDePasse.$touched && connexionForm.motDePasse.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="minlength">Ce champs doit contenir 8 caractères au minimum.</div>
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
             </div>
-          </div>
-          <div class="form-group has-feedback">
-              <input type="password" class="form-control" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" name="motDePasse"/>
-            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-            <div ng-messages="connexionForm.motDePasse.$error" role="alert" ng-show="connexionForm.motDePasse.$touched && connexionForm.motDePasse.$invalid" class="alert alert-block alert-danger has-error">
-                <div ng-message="minlength">Ce champs doit contenir 8 caractères au minimum.</div>
-                <div ng-message="pattern">Vérifier votre saisie.</div>
+            <div class="row">
+                <div class="col-xs-12">    
+                    <span style="color: red; font-style: italic; font-weight: bold;">{{erreurConnexion}}</span>                       
+                </div><!-- /.col -->          
             </div>
-            <div class="alert alert-block alert-danger requis" style="display:none">
-                <div>Veuillez renseigner ce champs.</div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <button type="submit" ng-disabled="connexionForm.$invalid"  ng-click="controlForm(utilisateur)"  class="btn btn-primary btn-block btn-flat">Connexion</button>
+                </div><!-- /.col -->
+                <div class="col-xs-12" style="color:white; font-weight: bold;">
+                    <div class="checkbox icheck" style="text-align: center;">
+                        <label>
+                            <input type="checkbox" ng-model="seSouvenir"> Se souvenir de moi
+                        </label>
+                    </div>                        
+                </div><!-- /.col -->
+
             </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">    
-                <span style="color: red; font-style: italic; font-weight: bold;">{{erreurConnexion}}</span>                       
-            </div><!-- /.col -->          
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-                  <button type="submit" ng-disabled="connexionForm.$invalid"  ng-click="controlForm(utilisateur)"  class="btn btn-primary btn-block btn-flat">Connexion</button>
-            </div><!-- /.col -->
-            <div class="col-xs-12" style="color:white; font-weight: bold;">
-                <div class="checkbox icheck" style="text-align: center;">
-                <label>
-                    <input type="checkbox" ng-model="seSouvenir"> Se souvenir de moi
-                </label>
-              </div>                        
-            </div><!-- /.col -->
-            
-          </div>
         </form>
         <a href="#">Mot de passe oublié</a><br>
 
-      </div>
-      <!-- /.login-box-body -->
+    </div>
+    <!-- /.login-box-body -->
 </div><!-- /.login-box -->

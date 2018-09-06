@@ -750,7 +750,7 @@ function dtRendererService(DTLoadingTemplate) {
 
     function renderDataTable($elem, options) {
         var dtId = '#' + $elem.attr('id');
-        if ($.fn.dataTable.isDataTable(dtId) && angular.isObject(options)) {
+        if ($.fn.dataTable.fnIsDataTable(dtId) && angular.isObject(options)) {
             options.destroy = true;
         }
         // See http://datatables.net/manual/api#Accessing-the-API to understand the difference between DataTable and dataTable

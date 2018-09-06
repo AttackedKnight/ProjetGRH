@@ -5,30 +5,30 @@
  */
 
 angular.module('DrhModule').factory('Formation', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.formation');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.formation');
         },
-        findAllEmployeFormation:function(item){
-            return $http.get(chemin+'/webresources/sn.grh.formation/employe/'+item.id);
+        findAllEmployeFormation: function (item) {
+            return $http.get(chemin + '/webresources/sn.grh.formation/employe/' + item.id);
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.formation/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.formation/' + id);
         },
-        findByEmploye:function(e){
-            return $http.get(chemin+'/webresources/sn.grh.formation/employe/'+e.id);
+        findByEmploye: function (e) {
+            return $http.get(chemin + '/webresources/sn.grh.formation/employe/' + e.id);
         },
-        add:function(item){
-            return $http.post(chemin+'/webresources/sn.grh.formation',item);
+        add: function (item) {
+            return $http.post(chemin + '/webresources/sn.grh.formation', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.formation/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.formation/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.formation/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.formation/' + item.id, item);
         }
-};
+    };
 });
 

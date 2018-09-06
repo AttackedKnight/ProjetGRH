@@ -5,10 +5,13 @@
  */
 package service;
 
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -17,8 +20,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
+import sn.auth.Authentification;
+import sn.auth.Secured;
 import sn.grh.Fonction;
+import sn.grh.Utilisateur;
 
 /**
  *
@@ -31,8 +38,14 @@ public class FonctionFacadeREST extends AbstractFacade<Fonction> {
     @PersistenceContext(unitName = "ProjetGRHPU")
     private EntityManager em;
 
+    
+    @Context 
+    private HttpServletRequest request;
+    
+    HashMap<String, Boolean> permissions;
+    
     public FonctionFacadeREST() {
-        super(Fonction.class);
+        super(Fonction.class); 
     }
 
     @POST
@@ -49,13 +62,14 @@ public class FonctionFacadeREST extends AbstractFacade<Fonction> {
         super.edit(entity);
     }
 
+    @Secured
     @DELETE
     @Path("{id}")
     public void remove(@PathParam("id") Integer id) {
         super.remove(super.find(id));
     }
     
-     @GET
+    @GET
     @Path("libelle/{libelle}")
     @Produces({MediaType.APPLICATION_JSON})
     public Fonction findFonction(@PathParam("libelle") String libelle) {
@@ -72,6 +86,7 @@ public class FonctionFacadeREST extends AbstractFacade<Fonction> {
 
     @GET
     @Path("{id}")
+    @Secured
     @Produces({MediaType.APPLICATION_JSON})
     public Fonction find(@PathParam("id") Integer id) {
         return super.find(id);

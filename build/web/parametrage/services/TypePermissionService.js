@@ -5,28 +5,28 @@
  */
 
 angular.module('ParametrageModule').factory('Typepermission', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.typepermission');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.typepermission');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.typepermission/'+id);
-        },
-
-        add:function(item){
-        
-            return $http.post(chemin+'/webresources/sn.grh.typepermission',item);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.typepermission/' + id);
         },
 
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.typepermission/'+id);
+        add: function (item) {
+
+            return $http.post(chemin + '/webresources/sn.grh.typepermission', item);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.typepermission/'+item.id,item);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.typepermission/' + id);
+        },
+
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.typepermission/' + item.id, item);
         }
-};
+    };
 });
 
 

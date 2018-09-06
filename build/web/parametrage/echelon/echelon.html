@@ -1,11 +1,11 @@
-<div class="box box-primary" ng-if="avoirPermission('ajouter','echelon')==true">   
+<div class="box box-primary" ng-if="avoirPermission('ajouter', 'echelon') == true">   
     <div class="box-header">
-      <h3 class="box-title">Ajouter un echelon</h3>
+        <h3 class="box-title">Ajouter un echelon</h3>
     </div><!-- /.box-header -->
     <!-- form start -->
     <form role="form" name="echelonForm">
-      <div class="box-body">
-           <div class="form-group">
+        <div class="box-body">
+            <div class="form-group">
                 <label for="libelle">Libelle<span style="color: red;">*</span></label>
                 <input  type="text" ng-model="echelon.libelle" name="libelle"  ng-pattern="/^([a-za-zâäàéèùêëîïôöçñ]|[1-9])+[a-zâäàéèùêëîïôöçñ ]*([a-za-zâäàéèùêëîïôöçñ]|[1-9])*$/i" class="form-control" id="libelle" placeholder="Libelle" />
                 <div role="alert" ng-show="echelonForm.libelle.$touched && echelonForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
@@ -14,42 +14,42 @@
                 <div class="alert alert-block alert-danger requis" style="display:none">
                     <div>Veuillez renseigner ce champs.</div>
                 </div>
-           </div>
-      </div><!-- /.box-body -->
-      <div class="box-footer">
-          <button type="submit" ng-disabled="echelonForm.$invalid" ng-if="createForm" ng-click="controlForm(echelon)" class="btn btn-primary">Valider</button>
-          <button type="submit" ng-disabled="echelonForm.$invalid" ng-if="editForm" ng-click="controlForm(echelon)" class="btn btn-warning">Enregistrer</button>
-     <button type="button" ng-click="annuler()" ng-disabled="echelonForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
-      </div>
+            </div>
+        </div><!-- /.box-body -->
+        <div class="box-footer">
+            <button type="submit" ng-disabled="echelonForm.$invalid" ng-if="createForm" ng-click="controlForm(echelon)" class="btn btn-primary">Valider</button>
+            <button type="submit" ng-disabled="echelonForm.$invalid" ng-if="editForm" ng-click="controlForm(echelon)" class="btn btn-warning">Enregistrer</button>
+            <button type="button" ng-click="annuler()" ng-disabled="echelonForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
+        </div>
     </form>
 </div><!-- /.box -->
 
-<div style="background: white;" ng-if="avoirPermission('lister','echelon')==true">    
+<div style="background: white;" ng-if="avoirPermission('lister', 'echelon') == true">    
     <div class="table-responsive" >
-    <h3>Liste des echelons</h3>
-    <table class="table table-bordered table-striped jambo_table bulk_action">
-        <thead>
-            <tr>
-                <th>Libelle</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="echelon in echelons">
-               
-                <td>{{ echelon.libelle }}</td>               
-                <td>
-                    <button ng-if="avoirPermission('supprimer','echelon')==true" ng-click="delete(echelon)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
-                    <button ng-click="setCurrent(echelon)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editSituation"><i class="fa fa-edit"></i></button>                 
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <h3>Liste des echelons</h3>
+        <table class="table table-striped table-bordered" datatable="ng">
+            <thead>
+                <tr>
+                    <th>Libelle</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="echelon in echelons">
+
+                    <td>{{ echelon.libelle}}</td>               
+                    <td>
+                        <button ng-if="avoirPermission('supprimer', 'echelon') == true" ng-click="delete(echelon)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        <button ng-click="setCurrent(echelon)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editSituation"><i class="fa fa-edit"></i></button>                 
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
 </div> 
-    <!-- Trigger the modal with a button -->
-   
+<!-- Trigger the modal with a button -->
+
 
 <!--
 <div class="box box-primary">
@@ -138,7 +138,7 @@
 
   </div>
 </div>
-   -->
-    <!-- Trigger the modal with a button -->
-   
+-->
+<!-- Trigger the modal with a button -->
+
 

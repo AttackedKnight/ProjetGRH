@@ -30,6 +30,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 /**
  *
  * @author fallougalass
+ * 
+ * Gere l'upload des avatar :
+ *      repertoire de sauvegarde=dossier "images"
+ *      nom fichier=cni proprietaire avatar ou l' id de l'entite a laquelle le compte est relie: ceci permet de faire un remplacement de l'ancien
+ *                  avatar par la nouvelle pour gagner de l'espace disque et nous evite d'aller
+ *                  
  */
 @WebServlet(name = "UploadServlet", urlPatterns = {"/UploadServlet"})
 public class UploadServlet extends HttpServlet {

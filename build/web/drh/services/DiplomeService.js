@@ -5,27 +5,27 @@
  */
 
 angular.module('ParametrageModule').factory('Diplome', function ($http) {
-return{
+    return{
 
-        findAll:function(){
-            return $http.get(chemin+'/webresources/sn.grh.diplome');
+        findAll: function () {
+            return $http.get(chemin + '/webresources/sn.grh.diplome');
         },
-        find:function(id){
-            return $http.get(chemin+'/webresources/sn.grh.diplome/'+id);
+        find: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.diplome/' + id);
         },
-        findByLibelle:function(nom){
-            return $http.get(chemin+'/webresources/sn.grh.diplome/nom/'+nom);
+        findByLibelle: function (nom) {
+            return $http.get(chemin + '/webresources/sn.grh.diplome/nom/' + nom);
         },
-        add:function(item){
+        add: function (item) {
             alert('called');
-            return $http.post(chemin+'/webresources/sn.grh.diplome',item);
+            return $http.post(chemin + '/webresources/sn.grh.diplome', item);
         },
-        delete:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.diplome/'+id);
+        delete: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.diplome/' + id);
         },
 
-        edit:function(item){
-            return $http.put(chemin+'/webresources/sn.grh.diplome/'+item.id,item);
+        edit: function (item) {
+            return $http.put(chemin + '/webresources/sn.grh.diplome/' + item.id, item);
         }
-};
+    };
 });

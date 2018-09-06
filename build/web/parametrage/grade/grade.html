@@ -1,6 +1,6 @@
 <div class="box box-primary">   
     <div class="box-header">
-      <h3 class="box-title">Ajouter un grade</h3>
+        <h3 class="box-title">Ajouter un grade</h3>
     </div><!-- /.box-header -->
     <!-- form start -->
     <form role="form" name="GradeForm" id="GradeForm">
@@ -9,138 +9,138 @@
                 <div class="form-row type-grade">
                     <div class="form-group col-md-offset-1 col-md-10">
                         <select class="form-control" id="typeGrade" ng-disabled="editForm" name="typeGrade" ng-change="changerTypeGrade()"  ng-model="typeGrade">
-                          <option value="pats">PATS</option>
-                          <option value="per">PER</option>
-                      </select>
-                  </div>
-                    
+                            <option value="pats">PATS</option>
+                            <option value="per">PER</option>
+                        </select>
+                    </div>
+
                 </div>
                 <div class="form-row">
-                  <div class="form-group col-md-2" ng-if="typeGrade=='per'">
-                      <div>
-                          <label>Corps</label>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-2">
+                    <div class="form-group col-md-2" ng-if="typeGrade == 'per'">
+                        <div>
+                            <label>Corps</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
                         <div>
                             <label>Classe</label>
                         </div> 
-                      
-                  </div>
-                  <div class="form-group col-md-1" ng-if="typeGrade=='pats'">
-                      <div>
-                          <label>Niveau</label>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-1" ng-if="typeGrade=='pats'">
-                      <div> 
-                          <label>Categorie</label>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-1">
-                      <div>
-                          <label>Echelon</label>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-2">
-                      <div>
-                          <label>Type Avancement</label>
-                      </div>                    
-                  </div>
-                  <div class="form-group col-md-2">
-                      <div>
-                          <label>Indice</label>
-                      </div>                   
-                  </div>
-                  <div class="form-group col-md-2">
-                      <div>
-                          <label>Salaire</label>
-                      </div>                     
-                  </div>
-                  <div class="form-group col-md-1">
-                      <div>
-                          <label>Durée</label>
-                      </div>
-                  </div>
-              </div>
-                <div class="form-row" ng-repeat="grade in lignes">
-                  <div class="form-group col-md-2" ng-if="typeGrade=='per'">
-                      <div>
-                          <select ng-model="grade.corps" class="form-control corps" ng-options="corps.libelle for corps in corps"></select>
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Veuillez renseigner ce champs.</div>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-2">
-                      <div>
-                          <select ng-model="grade.classe" class="form-control classe" ng-options="classe.libelle for classe in classes"></select> 
-                      </div> 
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Veuillez renseigner ce champs.</div>
-                      </div>
-                  </div>
 
-                  <div class="form-group col-md-1" ng-if="typeGrade=='pats'">
-                      <div>
-                          <select ng-model="grade.niveau" class="form-control niveau" ng-options="niveau.libelle for niveau in niveaux"></select>
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Erreur.</div>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-1" ng-if="typeGrade=='pats'">
-                      <div>
-                          <select ng-model="grade.categorie" class="form-control categorie" ng-options="categorie.libelle for categorie in categories"></select>
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Erreur.</div>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-1">
-                      <div>
-                          <select ng-model="grade.echelon" class="form-control echelon" ng-options="echelon.libelle for echelon in echelons"></select>
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Erreur.</div>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-2">
-                      <div>
-                          <select ng-model="grade.typeAvancement" class="form-control typeAvancement" ng-options="typeavancement.libelle for typeavancement in typeavancements"></select>
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Veuillez renseigner ce champs.</div>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-2">
-                      <div>
-                          <input type="number" min="1" class="form-control indice" ng-model="grade.indice" placeholder="Indice">
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Veuillez renseigner ce champs.</div>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-2">
-                      <div>
-                          <input type="text" name="salaireBase" class="form-control salaireBase" ng-pattern="/^[0-9]+$/i" ng-model="grade.salaireBase"  placeholder="Salaire de base">
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Veuillez renseigner ce champs.</div>
-                      </div>
-                      <div role="alert" ng-show="GradeForm.salaireBase.$touched && GradeForm.salaireBase.$invalid" class="alert alert-block alert-danger has-error">
-                        <div>Vérifier votre saisie.</div>
-                      </div>
-                  </div>
-                  <div class="form-group col-md-1">
-                      <div>
-                          <input type="number" min="1" max="4"  class="form-control duree" ng-model="grade.duree" placeholder="Durée">
-                      </div>
-                      <div class="alert alert-block alert-danger requis" style="display:none">
-                          <div>Erreur.</div>
-                      </div>
-                  </div>
-              </div>
+                    </div>
+                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                        <div>
+                            <label>Niveau</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                        <div> 
+                            <label>Categorie</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <div>
+                            <label>Echelon</label>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            <label>Type Avancement</label>
+                        </div>                    
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            <label>Indice</label>
+                        </div>                   
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            <label>Salaire</label>
+                        </div>                     
+                    </div>
+                    <div class="form-group col-md-1">
+                        <div>
+                            <label>Durée</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row" ng-repeat="grade in lignes">
+                    <div class="form-group col-md-2" ng-if="typeGrade == 'per'">
+                        <div>
+                            <select ng-model="grade.corps" class="form-control corps" ng-options="corps.libelle for corps in corps"></select>
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            <select ng-model="grade.classe" class="form-control classe" ng-options="classe.libelle for classe in classes"></select> 
+                        </div> 
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                        <div>
+                            <select ng-model="grade.niveau" class="form-control niveau" ng-options="niveau.libelle for niveau in niveaux"></select>
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Erreur.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                        <div>
+                            <select ng-model="grade.categorie" class="form-control categorie" ng-options="categorie.libelle for categorie in categories"></select>
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Erreur.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <div>
+                            <select ng-model="grade.echelon" class="form-control echelon" ng-options="echelon.libelle for echelon in echelons"></select>
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Erreur.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            <select ng-model="grade.typeAvancement" class="form-control typeAvancement" ng-options="typeavancement.libelle for typeavancement in typeavancements"></select>
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            <input type="number" min="1" class="form-control indice" ng-model="grade.indice" placeholder="Indice">
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <div>
+                            <input type="text" name="salaireBase" class="form-control salaireBase" ng-pattern="/^[0-9]+$/i" ng-model="grade.salaireBase"  placeholder="Salaire de base">
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
+                        <div role="alert" ng-show="GradeForm.salaireBase.$touched && GradeForm.salaireBase.$invalid" class="alert alert-block alert-danger has-error">
+                            <div>Vérifier votre saisie.</div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-1">
+                        <div>
+                            <input type="number" min="1" max="4"  class="form-control duree" ng-model="grade.duree" placeholder="Durée">
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Erreur.</div>
+                        </div>
+                    </div>
+                </div>
 
             </div><!-- /.box-body -->
         </div>
@@ -150,19 +150,19 @@
             </span>
         </div>
 
-      <div class="box-footer">
-          <button type="submit"  ng-disabled="GradeForm.$invalid" ng-if="createForm" ng-click="controlForm()" class="btn btn-primary">Valider</button>
-           <button type="submit" ng-disabled="GradeForm.$invalid" ng-if="editForm" ng-click="controlForm()" class="btn btn-warning">Enregistrer</button>
-          <button type="button" ng-click="annuler()" ng-disabled="GradeForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
-      </div>
+        <div class="box-footer">
+            <button type="submit"  ng-disabled="GradeForm.$invalid" ng-if="createForm" ng-click="controlForm()" class="btn btn-primary">Valider</button>
+            <button type="submit" ng-disabled="GradeForm.$invalid" ng-if="editForm" ng-click="controlForm()" class="btn btn-warning">Enregistrer</button>
+            <button type="button" ng-click="annuler()" ng-disabled="GradeForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
+        </div>
     </form>
 </div><!-- /.box -->   
 
 <div style="background: white;">
-    
+
     <div class="table-responsive" >
         <h3>Les grades</h3>
-       <table class="table table-striped jambo_table bulk_action " id="example1">
+        <table class="table table-striped table-bordered" datatable="ng">
             <thead>
                 <tr>
                     <th>Corps</th>
@@ -179,15 +179,15 @@
             </thead>
             <tbody>
                 <tr ng-repeat="grade in grades">
-                    <td>{{ grade.corps.libelle }}</td>
-                    <td>{{ grade.classe.libelle }}</td>
-                    <td>{{ grade.niveau.libelle }}</td>
-                    <td>{{ grade.categorie.libelle }}</td>
-                    <td>{{ grade.echelon.libelle }}</td>
-                    <td>{{ grade.typeAvancement.code }}</td>		
-                    <td>{{ grade.indice }}</td>
-                    <td>{{ grade.salaireBase }}</td>
-                    <td>{{ grade.duree }}</td>
+                    <td>{{ grade.corps.libelle}}</td>
+                    <td>{{ grade.classe.libelle}}</td>
+                    <td>{{ grade.niveau.libelle}}</td>
+                    <td>{{ grade.categorie.libelle}}</td>
+                    <td>{{ grade.echelon.libelle}}</td>
+                    <td>{{ grade.typeAvancement.code}}</td>		
+                    <td>{{ grade.indice}}</td>
+                    <td>{{ grade.salaireBase}}</td>
+                    <td>{{ grade.duree}}</td>
 
                     <td>
                         <button ng-click="delete(grade)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
@@ -197,8 +197,8 @@
             </tbody>
         </table>
     </div>
-    
+
 </div>
-    <!-- Trigger the modal with a button -->
-   
+<!-- Trigger the modal with a button -->
+
 

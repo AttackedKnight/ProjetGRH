@@ -1,12 +1,12 @@
 <div class="box box-primary">   
     <div class="box-header">
-      <h3 class="box-title">Modification du groupe d'utilisateur</h3>
+        <h3 class="box-title">Modification du groupe d'utilisateur</h3>
     </div><!-- /.box-header -->
     <!-- form start -->
-    
+
     <div class="box-body row" style="max-height: 600px ; overflow-y: auto;">
         <form role="form" name="groupeForm" class="col-md-offset-1 col-md-10">
-             <div class="form-group">
+            <div class="form-group">
                 <input type="text" class="form-control" ng-model="groupe.code" ng-pattern="/^[a-zâäàéèùêëîïôöçñ_]{2,}$/i" ng-minlength="2" placeholder="Code du groupe" name="code">
                 <div ng-messages="groupeForm.code.$error" role="alert" ng-show="groupeForm.code.$touched && groupeForm.code.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <table class="table table-bordered table-condensed table-striped">
-                 <thead>
+                <thead>
                     <tr>
                         <th>Tables</th>
                         <th>Ajouter<br><input type="checkbox" ng-click="cocherAjouter()" ng-model="a"></th>
@@ -38,9 +38,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    
+
                     <tr ng-repeat="entree in listeAcces" class="ligneTableau">
-                        <td><input type="checkbox" ng-model="state" ng-click="activer(entree,state)"> {{entree.nomTable}}</td>
+                        <td><input type="checkbox" ng-model="state" ng-click="activer(entree, state)"> {{entree.nomTable}}</td>
                         <td><input type="checkbox" ng-model="entree.ajouter"></td>
                         <td><input type="checkbox" ng-model="entree.modifier"></td>
                         <td><input type="checkbox" ng-model="entree.lister"></td>
@@ -49,7 +49,7 @@
                     </tr>                  
                 </tbody>  
                 <tfoot>
-                    
+
                     <tr>
                         <th>Tables</th>
                         <th>Ajouter</th>
@@ -62,9 +62,9 @@
             </table>
         </form>
 
-  </div><!-- /.box-body -->
+    </div><!-- /.box-body -->
 
-  <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
-      <input type="button" class="btn btn-primary pull-right" ng-disabled="groupeForm.$invalid" value="Modifier" name="modifier" ng-click="controlForm(groupe)" />
-  </div>
+    <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
+        <input type="button" class="btn btn-primary pull-right" ng-disabled="groupeForm.$invalid" value="Modifier" name="modifier" ng-click="controlForm(groupe)" />
+    </div>
 </div><!-- /.box -->

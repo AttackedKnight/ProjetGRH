@@ -5,23 +5,23 @@
  */
 
 
-angular.module('ParametrageModule').factory('AccesGroupeTable',function($http)
+angular.module('ParametrageModule').factory('AccesGroupeTable', function ($http)
 {
     return {
-        getAccess:function(){
-            return $http.get(chemin+'/webresources/sn.grh.accesgroupe');
+        getAccess: function () {
+            return $http.get(chemin + '/webresources/sn.grh.accesgroupe');
         },
-        showGroupeAccess:function(groupe){
-            return $http.get(chemin+'/webresources/sn.grh.accesgroupe/groupe/'+groupe.id);
+        showGroupeAccess: function (groupe) {
+            return $http.get(chemin + '/webresources/sn.grh.accesgroupe/groupe/' + groupe.id);
         },
-        newAccess:function(a){
-            return $http.post(chemin+'/webresources/sn.grh.accesgroupe',a);
+        newAccess: function (a) {
+            return $http.post(chemin + '/webresources/sn.grh.accesgroupe', a);
         },
-        editAccess:function(a){
-            return $http.put(chemin+'/webresources/sn.grh.accesgroupe/'+a.id,a);
+        editAccess: function (a) {
+            return $http.put(chemin + '/webresources/sn.grh.accesgroupe/' + a.id, a);
         },
-        deleteAccess:function(id){
-            return $http.delete(chemin+'/webresources/sn.grh.accesgroupe/'+id);
+        deleteAccess: function (id) {
+            return $http.delete(chemin + '/webresources/sn.grh.accesgroupe/' + id);
         }
     };
 });

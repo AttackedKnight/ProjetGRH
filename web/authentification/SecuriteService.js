@@ -1,52 +1,51 @@
-angular.module('AuthentificationModule').factory('Securite', function ($rootScope,$cookies,AccesGroupeTable) {
-   
-     
+angular.module('AuthentificationModule').factory('Securite', function ($rootScope, $cookies, SweetAlert, AccesGroupeTable) {
+
+
     return{
 
-        estConnecte:function(){
+        estConnecte: function () {
 //            $("#ecran_attente").show();
             if (!$cookies.get('globals'))
             {
-                
-               return false;   
-            }
-            else{
-                
-                var cookie =JSON.parse($cookies.get('globals'));
-                
-                
-                $rootScope.prenomUtilisateur=cookie.currentUser.user.employe ? cookie.currentUser.user.employe.prenom : "";              
-                $rootScope.nomUtilisateur=cookie.currentUser.user.employe ? cookie.currentUser.user.employe.nom : "";
-                $rootScope.groupeUtilisateur=cookie.currentUser.user.groupe;
-                $rootScope.avatarUtilisateur=cookie.currentUser.user.avatar;
-                $rootScope.entiteUtilisateur=cookie.currentUser.user.entite;
-                
-                
+
+                return false;
+            } else {
+
+                var cookie = JSON.parse($cookies.get('globals'));
+
+
+                $rootScope.prenomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.prenom : "";
+                $rootScope.nomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.nom : "";
+                $rootScope.groupeUtilisateur = cookie.currentUser.user.groupe;
+                $rootScope.avatarUtilisateur = cookie.currentUser.user.avatar;
+                $rootScope.entiteUtilisateur = cookie.currentUser.user.entite;
+
+
                 /*Recuperation des permissions*/
-                
-                
-                if($rootScope.groupeUtilisateur.code=='SUP_AD'){
+
+
+                if ($rootScope.groupeUtilisateur.code == 'SUP_AD') {
                     $('#admin-menu').removeAttr('hidden');
                     $('body').removeClass('fixed');
                 }
-                if($rootScope.groupeUtilisateur.code=='PER_AD'){
+                if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
                     $('#drh-menu').removeAttr('hidden');
                 }
-                if($rootScope.groupeUtilisateur.code=='PATS_AD' || $rootScope.groupeUtilisateur.code=='DRH_AD'){
+                if ($rootScope.groupeUtilisateur.code == 'PATS_AD' || $rootScope.groupeUtilisateur.code == 'DRH_AD') {
                     $('#drh-menu').removeAttr('hidden');
                     $('#drh-demandes').removeAttr('hidden');
                 }
-                if($rootScope.groupeUtilisateur.code=='SERV_AD'){
+                if ($rootScope.groupeUtilisateur.code == 'SERV_AD') {
                     $('#service-menu').removeAttr('hidden');
                     $('#service-demandes').removeAttr('hidden');
                 }
-                if($rootScope.groupeUtilisateur.code=='EMP'){
-                    $rootScope.idUtilisateur=cookie.currentUser.user.employe.id;
+                if ($rootScope.groupeUtilisateur.code == 'EMP') {
+                    $rootScope.idUtilisateur = cookie.currentUser.user.employe.id;
                     $('#employe-menu').removeAttr('hidden');
                 }
 
 
-                $('.no-print').css('display','none');
+                $('.no-print').css('display', 'none');
 
                 $('header').removeAttr('hidden');
                 $('aside').removeAttr('hidden');
@@ -55,32 +54,32 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
 
 
                 $('.content-wrapper').removeAttr('style');
-                $('body').css('padding-right','0px');
-                
-                if(!$rootScope.myPermission || $rootScope.myPermission.length==0){ 
-                
-                    AccesGroupeTable.showGroupeAccess($rootScope.groupeUtilisateur).success(function (p){           
-                        $rootScope.myPermission=p;  
-                        
-                        $rootScope.avoirPermission=function(action,nomTable){
-    //                        console.log('je suis appele');
-                            if(action=='ajouter' || action=='modifier' || action=='supprimer' || action=='lister' || action=='consulter'){
+                $('body').css('padding-right', '0px');
 
-                                for(var i=0;i<$rootScope.myPermission.length;i++){
-                                    if($rootScope.myPermission[i].nomTable==nomTable){
-                                        if(action=='ajouter'){
+                if (!$rootScope.myPermission || $rootScope.myPermission.length == 0) {
+
+                    AccesGroupeTable.showGroupeAccess($rootScope.groupeUtilisateur).success(function (p) {
+                        $rootScope.myPermission = p;
+
+                        $rootScope.avoirPermission = function (action, nomTable) {
+                            //                        console.log('je suis appele');
+                            if (action == 'ajouter' || action == 'modifier' || action == 'supprimer' || action == 'lister' || action == 'consulter') {
+
+                                for (var i = 0; i < $rootScope.myPermission.length; i++) {
+                                    if ($rootScope.myPermission[i].nomTable == nomTable) {
+                                        if (action == 'ajouter') {
                                             return $rootScope.myPermission[i].ajouter;
                                         }
-                                        if(action=='modifier'){
+                                        if (action == 'modifier') {
                                             return $rootScope.myPermission[i].modifier;
                                         }
-                                        if(action=='supprimer'){
+                                        if (action == 'supprimer') {
                                             return $rootScope.myPermission[i].supprimer;
                                         }
-                                        if(action=='lister'){
+                                        if (action == 'lister') {
                                             return $rootScope.myPermission[i].lister;
                                         }
-                                        if(action=='consulter'){
+                                        if (action == 'consulter') {
                                             return $rootScope.myPermission[i].consulter;
                                         }
 
@@ -88,54 +87,53 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                                 }
 
                                 return false;
-                            }
-                            else{
+                            } else {
                                 return false;
                             }
 
                         };
-                        
 
-                   }).error(function(){
-                        alert('Une erreur est survenue lors de la recupÃ©ration des permissions');
-                   });
-               }
-               
-                $rootScope.$watch('$viewContentLoaded', function(){                     
+
+                    }).error(function () {
+                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des permissions");
+                    });
+                }
+
+                $rootScope.$watch('$viewContentLoaded', function () {
                     /*$("#ecran_attente").hide();*/
-                    $('body').css('padding-right','0px');
-                    
+                    $('body').css('padding-right', '0px');
+
                 });
 
                 return true;
-               
+
             }
         },
-        hide:function(){
-            
-            
+        hide: function () {
+
+
             $('body').addClass('fixed');
-            $('.no-print').css('display','none');
+            $('.no-print').css('display', 'none');
 
-            $('header').attr('hidden','hidden');
-            $('aside').attr('hidden','hidden');
-            $('footer').attr('hidden','hidden');           
-            $('.content-header').attr('hidden','hidden');
-            
-            
-            $('#admin-menu').attr('hidden','hidden');
-            $('#drh-menu').attr('hidden','hidden');
-            $('#drh-demandes').attr('hidden','hidden');
-            $('#service-demandes').attr('hidden','hidden');
-            $('#employe-menu').attr('hidden','hidden');
-            $('#service-menu').attr('hidden','hidden');
-            
-            $('.content-wrapper').css('background','transparent');
+            $('header').attr('hidden', 'hidden');
+            $('aside').attr('hidden', 'hidden');
+            $('footer').attr('hidden', 'hidden');
+            $('.content-header').attr('hidden', 'hidden');
 
-            
+
+            $('#admin-menu').attr('hidden', 'hidden');
+            $('#drh-menu').attr('hidden', 'hidden');
+            $('#drh-demandes').attr('hidden', 'hidden');
+            $('#service-demandes').attr('hidden', 'hidden');
+            $('#employe-menu').attr('hidden', 'hidden');
+            $('#service-menu').attr('hidden', 'hidden');
+
+            $('.content-wrapper').css('background', 'transparent');
+
+
         }
-        
-};
+
+    };
 
 
 });
