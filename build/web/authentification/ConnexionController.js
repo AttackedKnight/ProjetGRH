@@ -21,6 +21,11 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
         var logout = document.location.href.substring(document.location.href.lastIndexOf("/"), document.location.href.length);
         if (logout === "/logout") {
             Connexion.clearCredentials();
+            Connexion.logout().success(function (data){
+                console.log("Session detruite");
+            }).error(function (){
+                console.log("Session non detruite");
+            });
         }
 
     })();

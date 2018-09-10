@@ -27,6 +27,9 @@ return{
         login:function(item){
             return $http.get(chemin+'/webresources/sn.grh.utilisateur/login/'+item.login+'/password/'+item.motDePasse);
         },
+        logout:function(){
+            return $http.get(chemin+'/webresources/sn.grh.utilisateur/deconnexion');
+        },
         setCredentials:function(utilisateur){
 
             $rootScope.globals = {

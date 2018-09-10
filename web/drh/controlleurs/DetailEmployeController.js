@@ -540,7 +540,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         }).error(function () {
             $scope.mutuelle = null;
         });
-        $scope.contacts = {};
+        $scope.contacts = {id:""};
         Contact.findByEmploye($scope.employe).success(function (data) {
             if (data) {
                 $scope.contacts = data;
@@ -562,7 +562,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             SweetAlert.finirChargementEchec("Erreur de chargement des informations de l'utilisateur !");
         });
 
-        $scope.adresse = {};
+        $scope.adresse = {id:""};
         Adresse.findByEmploye($scope.employe).success(function (data) {
             if (data) {
                 $scope.adresse = data;
