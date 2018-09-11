@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Employe;
 import sn.grh.Grade;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-03T17:27:31")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-11T15:07:25")
 @StaticMetamodel(Historiquegrade.class)
 public class Historiquegrade_ { 
 

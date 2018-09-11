@@ -66,8 +66,10 @@ type: type,
                 return;
         },
         confirmerAction: function (titre, texte) {
-              
-            return swal({
+
+            
+           return swal({
+
                 title: titre,
                 text: texte,
                 type: 'warning',

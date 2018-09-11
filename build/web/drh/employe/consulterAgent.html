@@ -23,7 +23,7 @@
                                 </th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Fonction</th>
-                                <th style="font-weight: bold; font-size: 1.1em;">Details</th>
+                                <th style="font-weight: bold; font-size: 1.1em;">Actions</th>
                             </tr>
                         </thead>
                         <tbody> 
@@ -37,9 +37,17 @@
                                 <td>{{untravailleur.entite.nom}}</td>
                                 <td>{{untravailleur.fonction.libelle}}</td>
                                 <td>
-                                    <a ng-href="#/drh/employe/detailAgent/{{untravailleur.employe.id}}" title="DÃ©tail">
-                                        <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
-                                    </a>
+                                   <span class="col-md-6">
+                                        <a ng-href="#/drh/employe/detailAgent/{{untravailleur.employe.id}}" title="Détail">
+                                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                        </a>
+                                    
+                                    </span>
+                                    <span class="col-md-6" ng-if="groupeUtilisateur.code == 'DRH_AD'">
+                                        <a ng-click="deleteAgent(untravailleur.employe.id)" class="btn btn-danger" title="supprimer">
+                                            <span class="fa fa-trash"></span>
+                                        </a>
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>

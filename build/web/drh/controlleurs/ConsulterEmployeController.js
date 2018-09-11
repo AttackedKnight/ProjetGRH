@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('DrhModule').controller('ConsulterEmployeController', function ($scope, $rootScope, Securite, SweetAlert, HistoriqueGrade, Servir, $routeParams)
+angular.module('DrhModule').controller('ConsulterEmployeController', function ($scope, $rootScope, Securite, SweetAlert, HistoriqueGrade, Servir, Employe, $routeParams)
 {
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -305,8 +305,42 @@ angular.module('DrhModule').controller('ConsulterEmployeController', function ($
 
 
     }
+    
+    $scope.deleteAgent = function (id) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        Employe.delete(id).success(function () {
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                           if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
+        $scope.getPats();
+    }
+    if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
+        $scope.getPer();
+    }
+
+    if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
 
 
+        if ($routeParams.type == 1) {
+            $scope.getPer();
+        } else if ($routeParams.type == 0) {
+            $scope.getPats();
+        } else {
+            $scope.getAll();
+        }
+
+
+    }
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                        });
+                    }
+                });
+   };
+
+    
 
 });
 
