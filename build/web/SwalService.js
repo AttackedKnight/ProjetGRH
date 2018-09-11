@@ -5,77 +5,69 @@
  */
 
 angular.module('globalModule').factory('SweetAlert', function () {
-    return{
+return{
 
-        simpleNotification: function (type, titre, texte) {
-            swal({
-                type: type,
-                title: titre,
-                text: texte
-            });
-            return;
-        },
-
+simpleNotification: function (type, titre, texte) {
+swal({
+type: type,
+        title: titre,
+        text: texte
+});
+        return;
+},
         notificationAvecSuggestion: function (type, titre, texte, action) {
-            swal({
-                type: type,
+        swal({
+        type: type,
                 title: titre,
                 text: texte,
                 footer: action,
-            });
-            return;
+        });
+                return;
         },
-
         finirChargementSucces: function (texte) {
-            const toast = swal.mixin({
-                toast: true,
+        const toast = swal.mixin({
+        toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
                 timer: 5000
-            });
-
-            toast({
+        });
+                toast({
                 type: 'success',
-                title: texte
-            })
-            return;
+                        title: texte
+                })
+                return;
         },
-
         finirChargementEchec: function (texte) {
-            const toast = swal.mixin({
-                toast: true,
+        const toast = swal.mixin({
+        toast: true,
                 position: 'top-end',
                 showConfirmButton: false,
                 timer: 5000
-            });
-
-            toast({
+        });
+                toast({
                 type: 'error',
-                title: texte
-            })
-            return;
+                        title: texte
+                })
+                return;
         },
-
         attendreChargement: function () {
-            return;
+        return;
         },
-
         attendreTraitement: function (titre, texte) {
 
-            swal({
+                swal({
                 title: titre,
-                html: texte,
-                allowOutsideClick: false,
-                onOpen: () => {
-                    swal.showLoading()
+                        html: texte,
+                        allowOutsideClick: false,
+                        onOpen: () => {
+                swal.showLoading()
                 }
-            });
-            return;
+                });
+                return;
         },
-
         confirmerAction: function (titre, texte) {
-            reponse=false;
-            swal({
+              
+            return swal({
                 title: titre,
                 text: texte,
                 type: 'warning',
@@ -87,11 +79,12 @@ angular.module('globalModule').factory('SweetAlert', function () {
                 focusCancel: true
             }).then((result) => {
                 if (result.value) {
-                    reponse=true;
+                    return true;
                 }
-                return reponse;
+                return false;
             });
             
+            
         }
-    };
-});
+};
+        });

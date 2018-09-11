@@ -21,16 +21,19 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
 
     Entite.find($routeParams.id).success(function (data) {
         $scope.entite = data;
-        $scope.trouverResponsable($scope.entite);
+
 
         Entite.findAll().success(function (data) {
             $scope.entites = data;
-            for (var i = 0; i < $scope.entites.length; i++) {
-                if ($scope.entite.entite && $scope.entites[i].id == $scope.entite.entite.id) {
-                    $scope.selectedEntite = $scope.entites[i];
-                    break;
+            if ($scope.entite.entite) {
+                for (var i = 0; i < $scope.entites.length; i++) {
+                    if ($scope.entites[i].id == $scope.entite.entite.id) {
+                        $scope.selectedEntite = $scope.entites[i];
+                        break;
+                    }
                 }
             }
+
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des entités");
         });
@@ -53,17 +56,18 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
     });
 
 
-    $scope.trouverResponsable = function (e) {
-        Servir.findResponsableEntite(e).success(function (data) {
-            $scope.responsable = "non dÃ©fini";
-            if (data != null) {
-                $scope.responsable = data.employe.prenom + " " + data.employe.nom;
-            }
-
-        }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du responsable");
-        });
-    };
+//    $scope.trouverResponsable = function (e) {
+//        Servir.findResponsableEntite(e).success(function (data) {
+//            $scope.responsable = "non dÃ©fini";
+//            alert(data);
+//            if (data != null) {
+//                $scope.responsable = data.employe.prenom + " " + data.employe.nom;
+//            }
+//
+//        }).error(function () {
+//            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du responsable");
+//        });
+//    };
 
 
     $scope.controlForm = function (c) {

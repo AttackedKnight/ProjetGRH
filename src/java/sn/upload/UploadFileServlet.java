@@ -80,7 +80,6 @@ public class UploadFileServlet extends HttpServlet {
             
 //             File fichier=new File(getServletContext().getRealPath(""));
 //                String racine=(new File(fichier.getParent())).getParent();
-//                System.out.println("Ceci est le repertoire images "+fichier.getAbsolutePath());
 //                File f=new File(fichier.getAbsolutePath()+File.separator+"archives");
 //
 //                factory.setRepository(f);

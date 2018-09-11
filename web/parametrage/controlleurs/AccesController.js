@@ -174,43 +174,29 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
     };
 
     $scope.supprimerGroupe = function (groupe) {
-        bootbox.confirm({
-            title: "Suppression !",
-            message: "Voulez vous supprimer l'Ã©lement",
-            buttons: {
-                cancel: {
-                    label: '<i class="fa fa-times"></i> Annuler'
-                },
-                confirm: {
-                    label: '<i class="fa fa-check"></i> Confirmer'
-                }
-            },
-            callback: function (result) {
-                if (result == true) {
-                    var dialog = bootbox.dialog({
-                        title: 'SUPPRESSION',
-                        message: '<p><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span>Suppression ...</span></p>'
-                    });
-                    //On recupere d'abord les acces de ce groupe dans la table accesgroupe pour les supprimer
-                    AccesGroupeTable.showGroupeAccess(groupe).success(function (data) {
-                        for (i = 0; i < data.length; i++) {
-                            AccesGroupeTable.deleteAccess(data[i].id);
-                        }
-                        //On supprime le groupe
-                        Groupe.deleteGroupe(groupe.id).success(function (data) {
-                            $scope.getGroupes();
-                            dialog.modal('hide');
+        
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        //On recupere d'abord les acces de ce groupe dans la table accesgroupe pour les supprimer
+                        AccesGroupeTable.showGroupeAccess(groupe).success(function (data) {
+                            for (i = 0; i < data.length; i++) {
+                                AccesGroupeTable.deleteAccess(data[i].id);
+                            }
+                            //On supprime le groupe
+                            Groupe.deleteGroupe(groupe.id).success(function (data) {
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                                $scope.getGroupes();
+                            }).error(function () {
+                                SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");       
+                            });
+                            
                         }).error(function () {
-                            dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue</div>');
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression des permissions");
                         });
-
-                    }).error(function () {
-                        dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Les acces du groupe n\'ont pas pu etre supprimer</div>');
-
-                    });
-                }
-            }
-        });
-
+                    }
+                });
+        
     };
 });

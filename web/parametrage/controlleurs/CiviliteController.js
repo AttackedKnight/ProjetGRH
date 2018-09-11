@@ -92,32 +92,20 @@ angular.module('ParametrageModule').controller('CiviliteController', function ($
     };
 
     $scope.delete = function (item) {
-        bootbox.confirm({
-            title: "Suppression !",
-            message: "Voulez vous supprimer l'Ã©lement",
-            buttons: {
-                cancel: {
-                    label: '<i class="fa fa-times"></i> Annuler'
-                },
-                confirm: {
-                    label: '<i class="fa fa-check"></i> Confirmer'
-                }
-            },
-            callback: function (result) {
-                if (result == true) {
-                    var dialog = bootbox.dialog({
-                        title: 'SUPPRESSION',
-                        message: '<p><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i><span>Suppression ...</span></p>'
-                    });
-                    Civilite.delete(item.id).success(function () {
-                        dialog.modal('hide');
-                        $scope.findAll();
-                    }).error(function () {
-                        dialog.find('.bootbox-body').html('<div class="alert alert-block alert-error"><i class="fa fa-3x fa-check" aria-hidden="true"></i>Une erreur est survenue</div>');
-                    });
-                }
-            }
-        });
+        
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        Civilite.delete(item.id).success(function () {
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            $scope.findAll();
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");
+                        });
+                    }
+                });
+                
 
     };
 

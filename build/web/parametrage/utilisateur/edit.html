@@ -3,20 +3,19 @@
         <h3 class="box-title">Modifier compte utilisateur</h3>
     </div><!-- /.box-header -->
     <!-- form start -->
-
     <div class="box-body row" style="max-height: 600px ;">
         <form role="form" name="compteUtilisateurForm" class="col-md-offset-1 col-md-10">
-            <div class="form-group">
+            <div class="form-group" ng-show="selectedEntite">
                 <label for="entite">Entité</label>
-                <select ng-model="utilisateur.entite"  class="form-control" id="entite" ng-options="entite.nom for entite in entites">
+                <select ng-model="selectedEntite"  class="form-control" id="entite" ng-options="entite.nom for entite in entites">
                 </select>
                 <div class="alert alert-block alert-danger requis" style="display:none">
                     <div>Veuillez sélectionner une entité.</div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="selectedGroupe">
                 <label for="groupe">Groupe d'utilisateur</label>
-                <select ng-model="utilisateur.groupe" class="form-control" id="groupe" ng-options="groupe.libelle for groupe in groupes">
+                <select ng-model="selectedGroupe" class="form-control" id="groupe" ng-options="groupe.libelle for groupe in groupes">
                 </select>
                 <div class="alert alert-block alert-danger requis" style="display:none">
                     <div>Veuillez sélectionner un groupe d'utilisateur.</div>

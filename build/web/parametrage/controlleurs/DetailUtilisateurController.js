@@ -46,7 +46,24 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController', fu
 
             });
         }
-
+        
+        if($scope.utilisateur.entite != null){
+            for (var i = 0; i < $scope.entites.length; i++) {
+                if ($scope.entites[i].id == $scope.utilisateur.entite.id) {
+                    $scope.selectedEntite = $scope.entites[i];
+                    break;
+                }
+            }
+        }
+        
+        
+        for (var i = 0; i < $scope.groupes.length; i++) {
+            if ($scope.groupes[i].id == $scope.utilisateur.groupe.id) {
+                $scope.selectedGroupe = $scope.groupes[i];
+                break;
+            }
+        }
+        
     }).error(function () {
         SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des informations sur le compte");
     });
@@ -75,6 +92,9 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController', fu
     };
 
     $scope.modifierCompteUtilisateur = function (compte) {
+        compte.entite = $scope.selectedEntite;
+        compte.groupe = $scope.selectedGroupe;
+        
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Utilisateur.editCompte(compte).success(function (data) {
             SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");

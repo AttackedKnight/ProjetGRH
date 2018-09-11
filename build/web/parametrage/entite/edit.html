@@ -49,7 +49,7 @@
                     <div>Veuillez renseigner ce champs.</div>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" ng-show="selectedTypeEntite">
                 <label for="typeentite">Type d'entité<span style="color: red;">*</span></label>
                 <select ng-model="selectedTypeEntite" id="typeentite" class="form-control" ng-options="typeentite.code for typeentite in typeentites"></select>
                 <div class="alert alert-block alert-danger requis" style="display:none">
@@ -57,7 +57,7 @@
                 </div>
             </div> 
 
-            <div class="form-group">
+            <div class="form-group" ng-show="selectedEntite">
                 <label for="entiteparent">Entité parent</label>
                 <select ng-options="e.nom group by e.typeEntite.libelle for e in entites" ng-model="selectedEntite"   class="form-control" id="entiteparent"></select>
             </div>
