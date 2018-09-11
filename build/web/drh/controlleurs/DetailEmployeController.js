@@ -1243,7 +1243,50 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         window.open(lien);
     };
 
+$scope.deleteContact = function (id) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        Contact.delete(id).success(function () {
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                           $scope.contacts = {id:""}; 
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                        });
+                    }
+                });
+   };
 
+$scope.deleteAdresse = function (id) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        Adresse.delete(id).success(function () {
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                           $scope.adresse = {id:""}; 
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                        });
+                    }
+                });
+   };
+   
+   $scope.deleteParcours = function (id) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        Servir.delete(id).success(function () {
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                           $scope.findServir();
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                        });
+                    }
+                });
+   };
 
 
     /*Gestion des documents electroniques*/

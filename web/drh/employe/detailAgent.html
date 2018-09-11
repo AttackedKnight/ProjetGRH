@@ -617,8 +617,8 @@
                                 </div>
                             </div>
                             <div class="row " style="margin-top: 5px; font-size: 1.2em;">
-                                <div class="col-md-offset-9 col-md-3 ">
-                                    <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
+                                <div class="col-md-3 ">
+                                    <span class="btn btn-success" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
                                     <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                 </div>
                             </div>
@@ -653,6 +653,8 @@
                         <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'contact') == true">
                             <div class="col-md-offset-9 col-md-3 ">
                                 <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
+                                <button class="btn btn-danger" ng-disabled="!contacts.id" ng-click="deleteContact(contacts.id)"><i class="fa fa-trash"> Supprimer</i></button>
+
                             </div>
                         </div> 
                     </div>
@@ -732,6 +734,8 @@
                         <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'adresse') == true">
                             <div class="col-md-offset-9 col-md-3 ">
                                 <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
+                                <button class="btn btn-danger" ng-disabled="!adresse.id" ng-click="deleteAdresse(adresse.id)"><i class="fa fa-trash"> Supprimer</i></button>
+
                             </div>
                         </div> 
                     </div>
@@ -763,7 +767,6 @@
                                             <th>
                                                 <span ng-show="servir.typeContrat == typecontrats[0]">Durée contrat(mois)</span>
                                             </th>
-
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -866,6 +869,7 @@
                                     <th>Entite</th>
                                     <th>Fonction</th>
                                     <th>Type de contrat</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody> 
@@ -879,7 +883,7 @@
                                     <td>{{unparcours.entite.nom}}</td>
                                     <td>{{unparcours.fonction.libelle}}</td>
                                     <td>{{unparcours.typeContrat.libelle}}</td>
-
+                                    <td><button class="btn btn-danger" ng-disabled="unparcours.fin == null" ng-click="deleteParcours(unparcours.id)"><i class="fa fa-trash"> Supprimer</i></button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1035,6 +1039,7 @@
                                                 <th ng-if="employe.typeEmploye.code == 'PATS'">Catégorie</th>
                                                 <th>Echelon</th>                      
                                                 <th>Date de passation</th>
+                                                <th>Suppression</th>
                                             </tr>
                                         </thead>
                                         <tbody> 
@@ -1047,6 +1052,8 @@
                                                 <td ng-if="employe.typeEmploye.code == 'PATS'">{{grade.grade.categorie.libelle}}</td>
                                                 <td>{{grade.grade.echelon.libelle}}</td>
                                                 <td>{{grade.datePassation| date: 'dd MMM yyyy'}}</td>
+                                                <td><button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteAgent(untravailleur.employe.id)"><i class="fa fa-trash"> Supprimer</i></button>
+</td>
                                             </tr>
 
 
@@ -1235,7 +1242,7 @@
                                         <th>Date fin</th>
                                         <th>Diplomante</th>
                                         <th>Diplome</th>
-                                        <th>Action</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -1252,8 +1259,10 @@
                                             <div class="row col-md-12">
                                                 <div class="col-md-3">
                                                     <button ng-click="visualiserDocumentformation(formation.id)" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                                                 </div>
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteAgent(untravailleur.employe.id)"><i class="fa fa-trash"></i></button>
                                                 </div>
-
                                             </div>
                                         </td>
 
@@ -1554,7 +1563,7 @@
                                                     <tr>
                                                         <th>Description </th>
                                                         <th>Date d'enregistrement</th>
-                                                        <th>Visualiser</th>
+                                                        <th>Actions</th>
 
                                                     </tr>
                                                 </thead>
@@ -1567,11 +1576,12 @@
                                                             <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
                                                         </td >
                                                         <td>
-                                                            <div >
+                                                            <div>
                                                                 <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
-                                                                    <i class="fa fa-eye">                    
-                                                                    </i>
+                                                                    <i class="fa fa-eye"></i>
                                                                 </a>
+                                                                <button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteAgent(untravailleur.employe.id)"><i class="fa fa-trash"></i></button>
+                                                
                                                             </div>
                                                         </td>
 

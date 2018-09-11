@@ -74,8 +74,8 @@ angular.module('globalModule').factory('SweetAlert', function () {
         },
 
         confirmerAction: function (titre, texte) {
-            reponse=false;
-            swal({
+            
+           return swal({
                 title: titre,
                 text: texte,
                 type: 'warning',
@@ -87,9 +87,9 @@ angular.module('globalModule').factory('SweetAlert', function () {
                 focusCancel: true
             }).then((result) => {
                 if (result.value) {
-                    reponse=true;
+                    return true;
                 }
-                return reponse;
+                return false;
             });
             
         }
