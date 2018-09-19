@@ -13,6 +13,9 @@ angular.module('ParametrageModule').factory('MutuelleSante', function ($http) {
         find: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.mutuellesante/' + id);
         },
+        findByLibelle: function (lib) {
+            return $http.get(chemin + '/webresources/sn.grh.mutuellesante/libelle/' + lib);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.mutuellesante', item);
         },

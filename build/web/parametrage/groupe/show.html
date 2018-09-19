@@ -6,15 +6,21 @@
         <table  ng-if="groupes.length > 0" class="table table-bordered table-striped" datatable="ng">
             <thead>
                 <tr>
-                    <th>Nom</th>
                     <th>Code</th>
+                    <th>Libelle</th>                   
+                    <th>Type(s) de personnel</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>                  
-                <tr ng-repeat="groupe in groupes">
-                    <td>{{groupe.libelle}}</td>
+                <tr ng-repeat="groupe in groupes">                  
                     <td>{{groupe.code}}</td>
+                    <td>{{groupe.libelle}}</td>
+                    <td>
+                        <span ng-repeat="typeemployeassocie in groupe.typeemployes">
+                            {{typeemployeassocie.code}}<b ng-show="!$last"> | </b>
+                        </span>
+                    </td>
                     <th>
                         <a ng-href="#/parametrage/groupe/show/{{groupe.id}}" title="Détail">
                             <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>

@@ -56,6 +56,19 @@ public class SyndicatFacadeREST extends AbstractFacade<Syndicat> {
     }
 
     @GET
+    @Path("libelle/{lib}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Syndicat findByLibelle(@PathParam("lib") String lib) {
+        List<Syndicat> li=em.createQuery("SELECT sy FROM Syndicat sy WHERE sy.nomSyndicat =:libelle", Syndicat.class)
+                .setParameter("libelle", lib)
+                .getResultList();
+        if(li.size()>0){
+            return li.get(0);
+        }
+        return null;
+    }    
+    
+    @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Syndicat find(@PathParam("id") Integer id) {

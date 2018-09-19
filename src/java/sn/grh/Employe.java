@@ -12,6 +12,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -28,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Baba Mbengue
+ * @author fallougalass
  */
 @Entity
 @Table(name = "employe")
@@ -54,8 +56,8 @@ public class Employe implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Size(max = 255)
@@ -128,6 +130,9 @@ public class Employe implements Serializable {
     private List<Contact> contactList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Membremutuelle> membremutuelleList;
+    @JoinColumn(name = "CaisseSociale", referencedColumnName = "id")
+    @ManyToOne
+    private Caissesociale caisseSociale;
     @JoinColumn(name = "Civilite", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Civilite civilite;
@@ -356,6 +361,14 @@ public class Employe implements Serializable {
 
     public void setMembremutuelleList(List<Membremutuelle> membremutuelleList) {
         this.membremutuelleList = membremutuelleList;
+    }
+
+    public Caissesociale getCaisseSociale() {
+        return caisseSociale;
+    }
+
+    public void setCaisseSociale(Caissesociale caisseSociale) {
+        this.caisseSociale = caisseSociale;
     }
 
     public Civilite getCivilite() {

@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Baba Mbengue
+ * @author fallougalass
  */
 @Entity
 @Table(name = "groupe")
@@ -37,8 +39,8 @@ public class Groupe implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -51,6 +53,8 @@ public class Groupe implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "code")
     private String code;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupe")
+    private List<Groupetypeemploye> groupetypeemployeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupe")
     private List<Utilisateur> utilisateurList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupe")
@@ -91,6 +95,15 @@ public class Groupe implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    @XmlTransient
+    public List<Groupetypeemploye> getGroupetypeemployeList() {
+        return groupetypeemployeList;
+    }
+
+    public void setGroupetypeemployeList(List<Groupetypeemploye> groupetypeemployeList) {
+        this.groupetypeemployeList = groupetypeemployeList;
     }
 
     @XmlTransient

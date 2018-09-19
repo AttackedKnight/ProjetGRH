@@ -209,8 +209,33 @@ public class GradeFacadeREST extends AbstractFacade<Grade> {
     public List<Grade> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
-
     
+    
+    @GET
+    @Path("nombre/{taille}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Grade> findLast(@PathParam("taille") Integer taille) {
+        List<Grade> li=em.createQuery("SELECT gt FROM Grade gt ORDER BY gt.id DESC", Grade.class).setMaxResults(taille)
+                .getResultList();
+        if(li.size()>0){
+            return li;
+        }
+        return null;
+    }
+    
+
+    @GET
+    @Path("id/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Grade findById(@PathParam("id") Integer id) {
+        List<Grade> li=em.createQuery("SELECT gt FROM Grade gt WHERE gt.id =:id", Grade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(li.size()>0){
+            return li.get(0);
+        }
+        return null;
+    }   
     
     @GET
     @Path("count")

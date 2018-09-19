@@ -68,7 +68,7 @@ public class GroupeFacadeREST extends AbstractFacade<Groupe> {
     @GET
     @Path("libelle/{libelle}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Groupe findFonction(@PathParam("libelle") String libelle) {
+    public Groupe findByLibelle(@PathParam("libelle") String libelle) {
         Groupe g=em.createQuery("SELECT g FROM Groupe g WHERE g.libelle = :libelle", Groupe.class)
                 .setParameter("libelle", libelle)
                 .getSingleResult();
@@ -102,7 +102,9 @@ public class GroupeFacadeREST extends AbstractFacade<Groupe> {
             String entityTableName = e.getName();
             tables+=entityTableName+"-";
         }
-        tables = tables.substring(0, tables.length() - 1);        //enlever le dernier  -
+        String fonctionnalitesSup="menuAdmin-menuDrh-menuEmploye-menuService-statistique";  //Gerer les permissions sur les fonctionnalites
+        tables+=fonctionnalitesSup;
+        
         tables=tables.toLowerCase();
         System.out.println(tables);
         

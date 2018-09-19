@@ -8,8 +8,11 @@ package sn.grh;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -22,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Baba Mbengue
+ * @author fallougalass
  */
 @Entity
 @Table(name = "syndicat")
@@ -30,13 +33,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Syndicat.findAll", query = "SELECT s FROM Syndicat s")
     , @NamedQuery(name = "Syndicat.findById", query = "SELECT s FROM Syndicat s WHERE s.id = :id")
-    , @NamedQuery(name = "Syndicat.findByNomSyndicat", query = "SELECT s FROM Syndicat s WHERE s.nomSyndicat = :nomSyndicat")})
+    , @NamedQuery(name = "Syndicat.findByNomSyndicat", query = "SELECT s FROM Syndicat s WHERE s.nomSyndicat = :nomSyndicat")
+    , @NamedQuery(name = "Syndicat.findByCode", query = "SELECT s FROM Syndicat s WHERE s.code = :code")})
 public class Syndicat implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -44,8 +48,15 @@ public class Syndicat implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "nomSyndicat")
     private String nomSyndicat;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "code")
+    private String code;
     @OneToMany(mappedBy = "syndicat")
     private List<Employe> employeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "syndicat")
+    private List<Syndicattypeemploye> syndicattypeemployeList;
 
     public Syndicat() {
     }
@@ -54,9 +65,10 @@ public class Syndicat implements Serializable {
         this.id = id;
     }
 
-    public Syndicat(Integer id, String nomSyndicat) {
+    public Syndicat(Integer id, String nomSyndicat, String code) {
         this.id = id;
         this.nomSyndicat = nomSyndicat;
+        this.code = code;
     }
 
     public Integer getId() {
@@ -75,6 +87,14 @@ public class Syndicat implements Serializable {
         this.nomSyndicat = nomSyndicat;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @XmlTransient
     public List<Employe> getEmployeList() {
         return employeList;
@@ -82,6 +102,15 @@ public class Syndicat implements Serializable {
 
     public void setEmployeList(List<Employe> employeList) {
         this.employeList = employeList;
+    }
+
+    @XmlTransient
+    public List<Syndicattypeemploye> getSyndicattypeemployeList() {
+        return syndicattypeemployeList;
+    }
+
+    public void setSyndicattypeemployeList(List<Syndicattypeemploye> syndicattypeemployeList) {
+        this.syndicattypeemployeList = syndicattypeemployeList;
     }
 
     @Override

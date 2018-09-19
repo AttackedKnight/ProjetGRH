@@ -13,6 +13,9 @@ angular.module('ParametrageModule').factory('Grade', function ($http) {
         find: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.grade/' + id);
         },
+        findLast: function (nombre) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/nombre/' + nombre);
+        },
         findGradePer: function () {
             return $http.get(chemin + '/webresources/sn.grh.grade/per');
         },
@@ -36,6 +39,9 @@ angular.module('ParametrageModule').factory('Grade', function ($http) {
         },
         findPatsClasseEtCategorieEtNiveau: function (classe, categorie, niveau) {
             return $http.get(chemin + '/webresources/sn.grh.grade/pats/classe' + classe + '/categorie/' + categorie + '/niveau/' + niveau);
+        },
+        findById: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.grade/id/' + id);
         },
         compterPatsCategorieClasse: function (classe) {
             return $http.get(chemin + '/webresources/sn.grh.grade/pats/categorie/classe/' + classe);

@@ -27,6 +27,14 @@
                     <div>Veuillez renseigner ce champs.</div>
                 </div>
             </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-xs-4">Type(s) de personnel concerné(s) : </label>
+                    <label ng-repeat="typeemploye in typeemployes" class="col-xs-2">
+                        <input class="choixTypeEmploye" type="checkbox" data-checklist-model="typeEmployeSelectionne" data-checklist-value="typeemploye"> {{typeemploye.code}} 
+                    </label>
+                </div>
+            </div>
 
             <table class="table table-bordered table-condensed table-striped">
                 <thead>

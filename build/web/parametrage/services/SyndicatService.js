@@ -19,6 +19,9 @@ angular.module('ParametrageModule').factory('Syndicat', function ($http) {
         find: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.syndicat/' + id);
         },
+        findByLibelle: function (lib) {
+            return $http.get(chemin + '/webresources/sn.grh.syndicat/libelle/' + lib);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.syndicat', item);
         },

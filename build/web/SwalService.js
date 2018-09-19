@@ -66,13 +66,10 @@ type: type,
                 return;
         },
         confirmerAction: function (titre, texte) {
-<<<<<<< HEAD
-              
-            return swal({
-=======
+
             
            return swal({
->>>>>>> 9ff7b6e1bc990209781d90294c9b9174e1700adf
+
                 title: titre,
                 text: texte,
                 type: 'warning',

@@ -1,7 +1,7 @@
 
 //Visualiser les details d' groupe d'utilisateur
 
-angular.module('ParametrageModule').controller('DetailAccesController', function ($scope, $q, Securite, Groupe, SweetAlert, $rootScope, AccesGroupeTable, $routeParams)
+angular.module('ParametrageModule').controller('DetailAccesController', function ($scope, $q, TypeEmploye, GroupeTypeEmploye, Securite, Groupe, SweetAlert, $rootScope, AccesGroupeTable, $routeParams)
 {
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
@@ -14,9 +14,91 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
+    TypeEmploye.findAll().success(function (data) {
+        $scope.typeemployes = data;
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employés");
+    });
+    $scope.typeEmployeSelectionne=[];
+    
+    /*RECUPERER LE(S) TYPE(S) D'EMPLOYE ASSOCIE(S) A CHAQUE GROUPE*/
+    $scope.getTypeEmployeGroupe = function () {
+        GroupeTypeEmploye.findByGroupe($scope.groupe.id).success(function(data){
+            if(data){
+               $scope.groupe.typeemployes=data; 
+            }
+            else{
+                $scope.groupe.typeemployes=[];
+            }
+            
+            $scope.typeEmployeSelectionne=angular.copy($scope.groupe.typeemployes);
+        }).error(function(){
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des types d'employe");
+        });
+       
+    };
+
+    $scope.editGroupeTypeEmploye = function (groupe) {
+
+        var promise;
+        var req_tab = [];
+
+        /*LA MISE A JOUR DANS LA TABLE DE JOINTURE "groupetypeemplye" consistera a :
+         * 
+         * -->supprimer une ou (des) entree(s) dans cette table s'il y a de(s) elements deselectionnes
+         * 
+         * -->ajouter une ou (des) entree(s) dans cette table s'il y a de(s) nouvelle(s) selection
+         * */
+
+        /*Verifier s 'il y a de new elements*/
+        for (var i = 0; i < $scope.typeEmployeSelectionne.length; i++) {
+            if ($scope.chercherTypeEmploye($scope.typeEmployeSelectionne[i], groupe.typeemployes) == -1)
+            {
+                promise = GroupeTypeEmploye.add({
+                    id: "",
+                    groupe: groupe,
+                    typeEmploye: $scope.typeEmployeSelectionne[i]
+                });
+                req_tab.push(promise);
+            }
+
+        }
+        /*Verifier s 'il y a deS element(s) qui ne figurent plus sur la nouvelle liste*/
+        for (var i = 0; i < groupe.typeemployes.length; i++) {
+            if ($scope.chercherTypeEmploye(groupe.typeemployes[i], $scope.typeEmployeSelectionne) == -1) {
+                promise = GroupeTypeEmploye.deleteByGroupeAndTypeEmploye({
+                    groupe: groupe.id,
+                    typeemploye: groupe.typeemployes[i].id
+                });
+                req_tab.push(promise);
+            }
+
+        }
+        $q.all(req_tab).then(function () {
+            SweetAlert.notificationAvecSuggestion("success", "Succes", "Groupe d'utilisateur crée avec succes",
+                    "<h5><i>Clicker <a href='#/parametrage/groupe/show'>ici</a> pour voir le(s) groupe(s)</i><h5>");
+            $('.choixTypeEmploye').removeAttr("checked");
+
+        }, function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
+        });
+        
+        
+    };
+
+    $scope.chercherTypeEmploye = function (el, tab) {
+
+        for (var j = 0; j < tab.length; j++) {
+            if (tab[j].id == el.id)
+                return 1;
+        }
+        return -1;
+    };
+
     var id = $routeParams.id;
     Groupe.getGroupe(id).success(function (data) {
         $scope.groupe = data;
+        $scope.getTypeEmployeGroupe();
         AccesGroupeTable.showGroupeAccess($scope.groupe).success(function (data) {
             $scope.listeAcces = data;
             SweetAlert.finirChargementSucces("Chargement complet !");
@@ -156,8 +238,10 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
             if (g.libelle == null || g.libelle == "") {
                 $("div.requis").eq(1).show("slow").delay(3000).hide("slow");
             } else {
-                //Modifier d'abord le groupe
-                $scope.modifierGroupeEtAcces(g);
+                
+                    $scope.modifierGroupeEtAcces(g);
+                
+                
             }
         }
 
@@ -166,20 +250,22 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
     $scope.modifierGroupeEtAcces = function (groupe) {
 
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
-        Groupe.editGroupe(groupe).success(function (data) {
+        Groupe.editGroupe(groupe).success(function () {
             //parcourir la liste des acces pour les mettre a jour         
+            $scope.editGroupeTypeEmploye(groupe)
             for (i = 0; i < $scope.listeAcces.length; i++) {
                 $scope.editAccess($scope.listeAcces[i]);
             }
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
-            document.location.href = '#/parametrage/groupe/show';
+            
+            
+            
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
         });
     };
 
     $scope.editAccess = function (a) {
-        AccesGroupeTable.editAccess(a).success(function (data) {
+        AccesGroupeTable.editAccess(a).success(function () {
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur",
                     "Une erreur est survenue lors de la modification des droits d'acces");

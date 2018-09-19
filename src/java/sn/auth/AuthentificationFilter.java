@@ -28,10 +28,6 @@ public class AuthentificationFilter implements ContainerRequestFilter{
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
                
-        
-        System.out.println("***************FILTRE APPELE*******************");
-//        System.out.println("***************METHOD :"+ requestContext.getMethod());
-//        System.out.println("***************HEADER :"+ requestContext.getUriInfo().getBaseUri());
         if(!Authentification.sessionExist()){
             System.out.println("***************session inexistante ou expirée*******************");         
             requestContext.abortWith(

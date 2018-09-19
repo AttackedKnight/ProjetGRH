@@ -6,38 +6,73 @@
     <form role="form" name="GradeForm" id="GradeForm">
         <div class="row">
             <div class="box-body">
-                <div class="form-row type-grade">
+                <div class="form-group">                   
+                    <div class="row">
+                        <span class="col-xs-4">Type(s) de personnel concerné(s) : <span style="color: red;">*</span></span>
+                        <label ng-repeat="typeemploye in typeemployes" class="col-xs-2">
+                            <input class="choixTypeEmploye" type="checkbox" data-checklist-model="typeEmployeSelectionne" data-checklist-value="typeemploye"> {{typeemploye.code}} 
+                        </label>
+                    </div>
+                    <div class="alert alert-block alert-danger requis selectionTypeEmploye" style="display:none">
+                        <div>Sélectionnez au moins un élement.</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <span class="col-xs-2">Eléments consitutifs : <span style="color: red;">*</span></span>
+                        <label  class="col-xs-2">
+                            <input class="choixTypeEmploye" type="checkbox" ng-model="corpsChecked" > Corps 
+                        </label>
+                        <label  class="col-xs-2">
+                            <input class="choixTypeEmploye" type="checkbox" ng-model="classeChecked" > Classe 
+                        </label>
+                        <label  class="col-xs-2">
+                            <input class="choixTypeEmploye" type="checkbox" ng-model="categorieChecked"> Categorie 
+                        </label>
+                        <label  class="col-xs-2">
+                            <input class="choixTypeEmploye" type="checkbox" ng-model="niveauChecked" > Niveau 
+                        </label>
+                        <label  class="col-xs-2">
+                            <input class="choixTypeEmploye" type="checkbox" ng-model="echelonChecked"> Echelon 
+                        </label>
+                    </div>
+                    <div class="alert alert-block alert-danger requis selectionElementGrade" style="display:none">
+                        <div>Sélectionnez au moins un élement.</div>
+                    </div>
+                </div>
+    <!--                <div class="form-row type-grade">
                     <div class="form-group col-md-offset-1 col-md-10">
+                        <select ng-options="typeemploye.code  for typeemploye in typeemployes" ng-model="typeEmployeSelectionne"   class="form-control" id="entiteparent"></select>
                         <select class="form-control" id="typeGrade" ng-disabled="editForm" name="typeGrade" ng-change="changerTypeGrade()"  ng-model="typeGrade">
                             <option value="pats">PATS</option>
                             <option value="per">PER</option>
                         </select>
                     </div>
 
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-2" ng-if="typeGrade == 'per'">
+                </div>-->
+                <div class="row">
+                    <div class="form-group col-md-2" ng-if="corpsChecked">
                         <div>
                             <label>Corps</label>
                         </div>
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-2" ng-if="classeChecked">
                         <div>
                             <label>Classe</label>
                         </div> 
 
                     </div>
-                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                    <div class="form-group col-md-1" ng-if="niveauChecked">
                         <div>
                             <label>Niveau</label>
                         </div>
                     </div>
-                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                    <div class="form-group col-md-1" ng-if="categorieChecked">
                         <div> 
                             <label>Categorie</label>
                         </div>
                     </div>
-                    <div class="form-group col-md-1">
+                    <div class="form-group col-md-1" ng-if="echelonChecked">
                         <div>
                             <label>Echelon</label>
                         </div>
@@ -63,8 +98,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-row" ng-repeat="grade in lignes">
-                    <div class="form-group col-md-2" ng-if="typeGrade == 'per'">
+                <div class="row" ng-repeat="grade in lignes">
+                    <div class="form-group col-md-2" ng-if="corpsChecked">
                         <div>
                             <select ng-model="grade.corps" class="form-control corps" ng-options="corps.libelle for corps in corps"></select>
                         </div>
@@ -72,7 +107,7 @@
                             <div>Veuillez renseigner ce champs.</div>
                         </div>
                     </div>
-                    <div class="form-group col-md-2">
+                    <div class="form-group col-md-2" ng-if="classeChecked">
                         <div>
                             <select ng-model="grade.classe" class="form-control classe" ng-options="classe.libelle for classe in classes"></select> 
                         </div> 
@@ -81,7 +116,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                    <div class="form-group col-md-1" ng-if="niveauChecked">
                         <div>
                             <select ng-model="grade.niveau" class="form-control niveau" ng-options="niveau.libelle for niveau in niveaux"></select>
                         </div>
@@ -89,7 +124,7 @@
                             <div>Erreur.</div>
                         </div>
                     </div>
-                    <div class="form-group col-md-1" ng-if="typeGrade == 'pats'">
+                    <div class="form-group col-md-1" ng-if="categorieChecked">
                         <div>
                             <select ng-model="grade.categorie" class="form-control categorie" ng-options="categorie.libelle for categorie in categories"></select>
                         </div>
@@ -97,7 +132,7 @@
                             <div>Erreur.</div>
                         </div>
                     </div>
-                    <div class="form-group col-md-1">
+                    <div class="form-group col-md-1" ng-if="echelonChecked">
                         <div>
                             <select ng-model="grade.echelon" class="form-control echelon" ng-options="echelon.libelle for echelon in echelons"></select>
                         </div>
@@ -170,10 +205,11 @@
                     <th>Niveau</th>
                     <th>Categorie</th>
                     <th>Echelon</th>
-                    <th>Type Avancement</th>
+                    <th title="Type Avancement">TA</th>
                     <th>Indice</th>
                     <th>Salaire</th>
-                    <th>DurÃ©e</th>                    
+                    <th>DurÃ©e</th>  
+                    <th title="Type(s) de personnel">TP</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -188,7 +224,11 @@
                     <td>{{ grade.indice}}</td>
                     <td>{{ grade.salaireBase}}</td>
                     <td>{{ grade.duree}}</td>
-
+                    <td>
+                        <span ng-repeat="typeemployeassocie in grade.typeemployes">
+                            {{typeemployeassocie.code}}<b ng-show="!$last"> | </b>
+                        </span>
+                    </td>
                     <td>
                         <button ng-click="delete(grade)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                         <button ng-click="setCurrent(grade)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></button>

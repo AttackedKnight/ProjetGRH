@@ -33,6 +33,8 @@ public class ApplicationConfig extends Application {
         resources.add(service.AccesgroupeFacadeREST.class);
         resources.add(service.AdresseFacadeREST.class);
         resources.add(service.AvoircompetenceFacadeREST.class);
+        resources.add(service.CaissesocialeFacadeREST.class);
+        resources.add(service.CaissesocialetypeemployeFacadeREST.class);
         resources.add(service.CategorieFacadeREST.class);
         resources.add(service.CiviliteFacadeREST.class);
         resources.add(service.ClasseFacadeREST.class);
@@ -48,14 +50,18 @@ public class ApplicationConfig extends Application {
         resources.add(service.FonctionFacadeREST.class);
         resources.add(service.FormationFacadeREST.class);
         resources.add(service.GradeFacadeREST.class);
+        resources.add(service.GradetypeemployeFacadeREST.class);
         resources.add(service.GroupeFacadeREST.class);
+        resources.add(service.GroupetypeemployeFacadeREST.class);
         resources.add(service.HistoriquegradeFacadeREST.class);
         resources.add(service.MembremutuelleFacadeREST.class);
         resources.add(service.MutuellesanteFacadeREST.class);
+        resources.add(service.MutuellesantetypeemployeFacadeREST.class);
         resources.add(service.NiveauFacadeREST.class);
         resources.add(service.ServirFacadeREST.class);
         resources.add(service.SituationmatrimonialeFacadeREST.class);
         resources.add(service.SyndicatFacadeREST.class);
+        resources.add(service.SyndicattypeemployeFacadeREST.class);
         resources.add(service.TypeautorisationFacadeREST.class);
         resources.add(service.TypeavancementFacadeREST.class);
         resources.add(service.TypecontratFacadeREST.class);

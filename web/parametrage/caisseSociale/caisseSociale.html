@@ -1,0 +1,95 @@
+<div class="box box-primary">
+
+    <div class="box-header">
+        <h3 class="box-title">Ajouter un type de contrat</h3>
+    </div><!-- /.box-header -->
+    <!-- form start -->
+    <form role="form" name="caissesocialeForm">
+        <div class="box-body">
+            <div class="form-group">
+                <label for="code">Code<span style="color: red;">*</span></label>
+                <input type="text" ng-model="caissesociale.code" name="code"  ng-minlength="2" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]{2,}$/i" class="form-control" id="code" placeholder="Code" />
+                <div ng-messages="caissesocialeForm.code.$error" role="alert" ng-show="caissesocialeForm.code.$touched && caissesocialeForm.code.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>   
+            <div class="form-group">
+                <label for="libelle">Libelle<span style="color: red;">*</span></label>
+                <input type="text" ng-model="caissesociale.libelle" name="libelle"  ng-minlength="2" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-?]*[a-zâäàéèùêëîïôöçñ]+$/i" class="form-control" id="libelle" placeholder="Libelle" />
+                <div ng-messages="caissesocialeForm.libelle.$error" role="alert" ng-show="caissesocialeForm.libelle.$touched && caissesocialeForm.libelle.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Type(s) de personnel concern�(s)<span style="color: red;">*</span></label><br>
+                <div class="row">
+                    <label ng-repeat="typeemploye in typeemployes" class="col-xs-2">
+                        <input class="choixTypeEmploye" type="checkbox" data-checklist-model="typeEmployeSelectionne" data-checklist-value="typeemploye"> {{typeemploye.code}} 
+                    </label>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button type="submit" ng-disabled="caissesocialeForm.$invalid" ng-if="createForm" ng-click="controlForm(caissesociale)" class="btn btn-primary">Valider</button>
+            <button type="submit" ng-disabled="caissesocialeForm.$invalid" ng-if="editForm" ng-click="controlForm(caissesociale)" class="btn btn-warning">Enregistrer</button>
+            <button type="button" ng-click="annuler()" ng-disabled="caissesocialeForm.$invalid" ng-if="editForm" class="btn btn-primary ">Annuler</button>
+        </div>
+    </form>
+
+
+</div><!-- /.box -->
+
+
+
+
+
+
+<div style="background: white;" >
+
+    <div class="table-responsive" >
+        <h3>Caisses Sociales</h3>
+        <table class="table table-bordered table-striped jambo_table bulk_action">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Libelle</th>
+                    <th>Type(s) de personnel</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="caissesociale in caissesociales| filter: searchValue">
+
+                    <td>{{ caissesociale.code}}</td>
+                    <td>{{ caissesociale.libelle}}</td>
+                    <td>
+                        <span ng-repeat="typeemployeassocie in caissesociale.typeemployes">
+                            {{typeemployeassocie.code}}<b ng-show="!$last"> | </b>
+                        </span>
+                    </td>
+                    <td>
+                        <button ng-click="delete(caissesociale)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                        <button ng-click="setCurrent(caissesociale)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editModal"><i class="fa fa-edit"></i></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+<!-- Trigger the modal with a button -->
+
+
+

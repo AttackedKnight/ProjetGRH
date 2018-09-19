@@ -133,27 +133,33 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     }
     
     public void registerAccess(Utilisateur user){
-        HttpSession session=request.getSession(true);
-        
-        Authentification.setSession(session);      
-        Authentification.setData("user", user);
-        
-        List<Accesgroupe> access=accesgroupeFacadeREST.findAllForGroup(user.getGroupe().getId());      
-        HashMap<String,Boolean> permissionTable;
-        for(int i=0;i<access.size();i++){
-            permissionTable=new HashMap<>();
-            permissionTable.put("ajouter", access.get(i).getAjouter());
-            permissionTable.put("modifier", access.get(i).getModifier());
-            permissionTable.put("supprimer", access.get(i).getSupprimer());
-            permissionTable.put("consulter", access.get(i).getConsulter());
-            permissionTable.put("lister", access.get(i).getLister());
+        if(!Authentification.sessionExist()){
             
-            Authentification.setData(access.get(i).getNomTable(), permissionTable);
-        } 
+            HttpSession session=request.getSession(true);
         
-//        if(Authentification.sessionExist()){
-//            System.out.println("*****************La session existe*************");
-//        }
+            Authentification.setSession(session);      
+            Authentification.setData("user", user);
+            
+            System.out.println("Nouvelle session");
+        }
+        
+        
+//        List<Accesgroupe> access=accesgroupeFacadeREST.findAllForGroup(user.getGroupe().getId());      
+//        HashMap<String,Boolean> permissionTable;
+//        for(int i=0;i<access.size();i++){
+//            permissionTable=new HashMap<>();
+//            permissionTable.put("ajouter", access.get(i).getAjouter());
+//            permissionTable.put("modifier", access.get(i).getModifier());
+//            permissionTable.put("supprimer", access.get(i).getSupprimer());
+//            permissionTable.put("consulter", access.get(i).getConsulter());
+//            permissionTable.put("lister", access.get(i).getLister());
+//            
+//            Authentification.setData(access.get(i).getNomTable(), permissionTable);
+//        } 
+        
+        if(Authentification.sessionExist()){
+            System.out.println("*****************La session existe*************");
+        }
     }
 
     @GET

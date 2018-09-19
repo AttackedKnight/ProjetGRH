@@ -6,11 +6,33 @@
     <form role="form" name="mutuelleForm">
         <div class="box-body">
             <div class="form-group">
+                <label for="code">Code<span style="color: red;">*</span></label>
+                <input type="text" ng-model="mutuelle.code" name="code"  ng-minlength="2" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]{2,}$/i" class="form-control" id="code" placeholder="Code" />
+                <div ng-messages="mutuelleForm.code.$error" role="alert" ng-show="mutuelleForm.code.$touched && mutuelleForm.code.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="libelle">Libelle<span style="color: red;">*</span></label>
                 <input  type="text" ng-model="mutuelle.nom" name="nom" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-']*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" id="libelle" placeholder="Libelle" />
                 <div ng-messages="mutuelleForm.nom.$error" role="alert" ng-show="mutuelleForm.nom.$touched && mutuelleForm.nom.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
                     <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Type(s) de personnel concern�(s)<span style="color: red;">*</span></label><br>
+                <div class="row">
+                    <label ng-repeat="typeemploye in typeemployes" class="col-xs-2">
+                        <input class="choixTypeEmploye" type="checkbox" data-checklist-model="typeEmployeSelectionne" data-checklist-value="typeemploye"> {{typeemploye.code}} 
+                    </label>
                 </div>
                 <div class="alert alert-block alert-danger requis" style="display:none">
                     <div>Veuillez renseigner ce champs.</div>
@@ -32,19 +54,24 @@
         <table class="table table-bordered table-striped jambo_table bulk_action">
             <thead>
                 <tr>
+                    <th>Code</th>
                     <th>Libelle</th>
+                    <th>Type(s) de personnel</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="mutuelle in mutuelles">
-
+                    <td>{{ mutuelle.code}}</td>
                     <td>{{ mutuelle.nom}}</td>
-
+                    <td>
+                        <span ng-repeat="typeemployeassocie in mutuelle.typeemployes">
+                            {{typeemployeassocie.code}}<b ng-show="!$last"> | </b>
+                        </span>
+                    </td>
                     <td>
                         <button ng-click="delete(mutuelle)" class="btn btn-danger"><i class="fa fa-trash"></i></button>
                         <button ng-click="setCurrent(mutuelle)" type="button" class="btn btn-warning btn-sm edit" data-toggle="modal" data-target="#editMutuelle"><i class="fa fa-edit"></i></button>
-
                     </td>
                 </tr>
             </tbody>

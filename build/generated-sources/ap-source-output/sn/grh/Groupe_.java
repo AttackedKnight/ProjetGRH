@@ -5,13 +5,15 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Accesgroupe;
+import sn.grh.Groupetypeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-11T15:07:25")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-17T21:17:06")
 @StaticMetamodel(Groupe.class)
 public class Groupe_ { 
 
     public static volatile SingularAttribute<Groupe, String> code;
+    public static volatile ListAttribute<Groupe, Groupetypeemploye> groupetypeemployeList;
     public static volatile SingularAttribute<Groupe, String> libelle;
     public static volatile ListAttribute<Groupe, Accesgroupe> accesgroupeList;
     public static volatile SingularAttribute<Groupe, Integer> id;

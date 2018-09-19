@@ -63,6 +63,19 @@ public class MutuellesanteFacadeREST extends AbstractFacade<Mutuellesante> {
     }
 
     @GET
+    @Path("libelle/{lib}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Mutuellesante findByLibelle(@PathParam("lib") String lib) {
+        List<Mutuellesante> li=em.createQuery("SELECT mu FROM Mutuellesante mu WHERE mu.nom =:libelle", Mutuellesante.class)
+                .setParameter("libelle", lib)
+                .getResultList();
+        if(li.size()>0){
+            return li.get(0);
+        }
+        return null;
+    }
+    
+    @GET
     @Override
     @Produces({MediaType.APPLICATION_JSON})
     public List<Mutuellesante> findAll() {

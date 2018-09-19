@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Baba Mbengue
+ * @author fallougalass
  */
 @Entity
 @Table(name = "typeemploye")
@@ -37,8 +39,8 @@ public class Typeemploye implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -52,7 +54,17 @@ public class Typeemploye implements Serializable {
     @Column(name = "libelle")
     private String libelle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
+    private List<Groupetypeemploye> groupetypeemployeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
+    private List<Gradetypeemploye> gradetypeemployeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
     private List<Employe> employeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
+    private List<Mutuellesantetypeemploye> mutuellesantetypeemployeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
+    private List<Caissesocialetypeemploye> caissesocialetypeemployeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
+    private List<Syndicattypeemploye> syndicattypeemployeList;
 
     public Typeemploye() {
     }
@@ -92,12 +104,57 @@ public class Typeemploye implements Serializable {
     }
 
     @XmlTransient
+    public List<Groupetypeemploye> getGroupetypeemployeList() {
+        return groupetypeemployeList;
+    }
+
+    public void setGroupetypeemployeList(List<Groupetypeemploye> groupetypeemployeList) {
+        this.groupetypeemployeList = groupetypeemployeList;
+    }
+
+    @XmlTransient
+    public List<Gradetypeemploye> getGradetypeemployeList() {
+        return gradetypeemployeList;
+    }
+
+    public void setGradetypeemployeList(List<Gradetypeemploye> gradetypeemployeList) {
+        this.gradetypeemployeList = gradetypeemployeList;
+    }
+
+    @XmlTransient
     public List<Employe> getEmployeList() {
         return employeList;
     }
 
     public void setEmployeList(List<Employe> employeList) {
         this.employeList = employeList;
+    }
+
+    @XmlTransient
+    public List<Mutuellesantetypeemploye> getMutuellesantetypeemployeList() {
+        return mutuellesantetypeemployeList;
+    }
+
+    public void setMutuellesantetypeemployeList(List<Mutuellesantetypeemploye> mutuellesantetypeemployeList) {
+        this.mutuellesantetypeemployeList = mutuellesantetypeemployeList;
+    }
+
+    @XmlTransient
+    public List<Caissesocialetypeemploye> getCaissesocialetypeemployeList() {
+        return caissesocialetypeemployeList;
+    }
+
+    public void setCaissesocialetypeemployeList(List<Caissesocialetypeemploye> caissesocialetypeemployeList) {
+        this.caissesocialetypeemployeList = caissesocialetypeemployeList;
+    }
+
+    @XmlTransient
+    public List<Syndicattypeemploye> getSyndicattypeemployeList() {
+        return syndicattypeemployeList;
+    }
+
+    public void setSyndicattypeemployeList(List<Syndicattypeemploye> syndicattypeemployeList) {
+        this.syndicattypeemployeList = syndicattypeemployeList;
     }
 
     @Override

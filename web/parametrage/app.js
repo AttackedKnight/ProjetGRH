@@ -82,6 +82,10 @@ angular.module('ParametrageModule', ['ngRoute', 'ngMessages'])
                 templateUrl: 'parametrage/mutuelle/mutuelle.html',
                 controller: 'MutuelleSanteController'
 
+            }).when('/parametrage/caissesociale', {
+                templateUrl: 'parametrage/caisseSociale/caisseSociale.html',
+                controller: 'CaisseSocialeController'
+
             }).when('/parametrage/autorisationabsence', {
                 templateUrl: 'parametrage/autorisationAbsence/typeAutorisation.html',
                 controller: 'TypeAutorisationController'

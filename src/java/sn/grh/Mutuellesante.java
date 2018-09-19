@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Baba Mbengue
+ * @author fallougalass
  */
 @Entity
 @Table(name = "mutuellesante")
@@ -31,13 +33,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Mutuellesante.findAll", query = "SELECT m FROM Mutuellesante m")
     , @NamedQuery(name = "Mutuellesante.findById", query = "SELECT m FROM Mutuellesante m WHERE m.id = :id")
-    , @NamedQuery(name = "Mutuellesante.findByNom", query = "SELECT m FROM Mutuellesante m WHERE m.nom = :nom")})
+    , @NamedQuery(name = "Mutuellesante.findByNom", query = "SELECT m FROM Mutuellesante m WHERE m.nom = :nom")
+    , @NamedQuery(name = "Mutuellesante.findByCode", query = "SELECT m FROM Mutuellesante m WHERE m.code = :code")})
 public class Mutuellesante implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -45,8 +48,15 @@ public class Mutuellesante implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "nom")
     private String nom;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "code")
+    private String code;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "mutuelleSante")
     private List<Membremutuelle> membremutuelleList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "mutuelleSante")
+    private List<Mutuellesantetypeemploye> mutuellesantetypeemployeList;
 
     public Mutuellesante() {
     }
@@ -55,9 +65,10 @@ public class Mutuellesante implements Serializable {
         this.id = id;
     }
 
-    public Mutuellesante(Integer id, String nom) {
+    public Mutuellesante(Integer id, String nom, String code) {
         this.id = id;
         this.nom = nom;
+        this.code = code;
     }
 
     public Integer getId() {
@@ -76,6 +87,14 @@ public class Mutuellesante implements Serializable {
         this.nom = nom;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @XmlTransient
     public List<Membremutuelle> getMembremutuelleList() {
         return membremutuelleList;
@@ -83,6 +102,15 @@ public class Mutuellesante implements Serializable {
 
     public void setMembremutuelleList(List<Membremutuelle> membremutuelleList) {
         this.membremutuelleList = membremutuelleList;
+    }
+
+    @XmlTransient
+    public List<Mutuellesantetypeemploye> getMutuellesantetypeemployeList() {
+        return mutuellesantetypeemployeList;
+    }
+
+    public void setMutuellesantetypeemployeList(List<Mutuellesantetypeemploye> mutuellesantetypeemployeList) {
+        this.mutuellesantetypeemployeList = mutuellesantetypeemployeList;
     }
 
     @Override

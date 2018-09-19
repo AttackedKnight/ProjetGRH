@@ -8,6 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Absence;
 import sn.grh.Adresse;
 import sn.grh.Avoircompetence;
+import sn.grh.Caissesociale;
 import sn.grh.Civilite;
 import sn.grh.Conge;
 import sn.grh.Contact;
@@ -21,7 +22,7 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-11T15:07:25")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-17T21:17:06")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 
@@ -33,6 +34,7 @@ public class Employe_ {
     public static volatile SingularAttribute<Employe, Boolean> retraite;
     public static volatile SingularAttribute<Employe, String> nom;
     public static volatile SingularAttribute<Employe, Date> dateRecrutement;
+    public static volatile SingularAttribute<Employe, Caissesociale> caisseSociale;
     public static volatile ListAttribute<Employe, Absence> absenceList;
     public static volatile SingularAttribute<Employe, Integer> id;
     public static volatile SingularAttribute<Employe, String> prenom;

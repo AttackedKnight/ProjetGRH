@@ -28,7 +28,10 @@ public class Authentification {
     }
 
     public static void setData(String cle, Object valeur) {
-        maSession.setAttribute(cle, valeur);
+        if(valeur !=null)
+            maSession.setAttribute(cle, valeur);
+        else
+            maSession.setAttribute(cle, null);
     }
 
     public static Object getData(String cle) {
@@ -70,7 +73,7 @@ public class Authentification {
     public static boolean sessionDestroy() {
         if (sessionExist()) {
             try {
-                maSession.setAttribute("user", null);
+//                maSession.setAttribute("user", null);
                 maSession.invalidate();
                 maSession=null;
                 return true;
