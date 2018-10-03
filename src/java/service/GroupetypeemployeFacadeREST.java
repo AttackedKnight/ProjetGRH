@@ -22,7 +22,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.json.JSONException;
 import org.json.JSONObject;
-import static sn.grh.Accesgroupe_.groupe;
 import sn.grh.Groupetypeemploye;
 import sn.otherclasse.StringListInteger;
 import sn.grh.Typeemploye;

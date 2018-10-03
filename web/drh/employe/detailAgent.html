@@ -1,20 +1,54 @@
 <!--<div class="container" style="font-size: 1.2em;">-->
 <div class="box box-solid" ng-if="avoirPermission('consulter', 'employe') == true">
+    
     <div class="box box-header box-primary" style="font-weight: bold;font-size: 1.4em;">
-        <span>{{employe.prenom| uppercase}} {{employe.nom| uppercase}}, 
-            <span style="color: green; font-weight: bold;">{{employe.matriculeInterne}}</span>
-            <span class="pull-right">
-                <span style="color:green; font-weight: bold;" > {{parcours[0].fonction.libelle}}</span>
-                <span ng-if="avoirPermission('supprimer', 'employe') == true">
+        <div class="col-md-3">
+             <div>
+                <div  style="margin: auto; text-align: center;">
+                    <div id="profil-img" style="width: 200px ; height: 250px; border-radius: 100%; text-align: center; margin: auto;" >
+                        <img  ng-src="{{avatar}}" id="previsualisation"  alt="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" data-toggle="tooltip"  title="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;" />                   
+                    </div>
+                </div>
+            </div>
+            <div style="margin: auto; text-align: center;">
+                <label class="label-info" for="profil" style="margin-top: 5px;">
+                    <input type="file"  name='profil' id='profil' ng-model="imgProfil" onchange="angular.element(this).scope().preview(this)" accept="image/*" style='display: none;'/>
+                    <span class="btn btn-warning" title="Modifier" ng-show="!editProfil" ng-click="toggleButtonProfil()" id="btn_modifier_photo_profil">
+                        <i class="fa fa-edit"></i>
+                    </span>
+                </label>
+                <span class="btn btn-danger" title="Annuler" ng-show="editProfil"  ng-click="showDefaultAvatar()">
+                    <i class="fa fa-times"></i>
+                </span>
+                <span class="btn btn-success" title="Appliquer" ng-show="editProfil"  ng-click="uploadAvatar()">
+                    <i class="fa fa-check"></i>
+                </span>
+                <!--<span class="btn btn-warning" ng-disabled="editAvatar"  ng-click="uploadAvatar()">Appliquer</span>-->
+            </div>
+                           
+                            <!--<img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>-->
+                        </div>
+        <div class="pull-right" ng-if="avoirPermission('supprimer', 'employe') == true">
                     <a ng-click="deleteAgent(employe)" class="btn btn-danger" title="supprimer">
                         <span class="fa fa-trash"></span>
                     </a>
-                </span>
-            </span>
-
-
-
-        </span>
+             </div>
+        <div style="margin-top: 10px;">
+            
+            <div style="width: 75%; text-align: justify;">
+                PRENOM : {{employe.prenom| uppercase}}  <hr>
+            </div> 
+            <div style="width: 75%; text-align: justify;">
+                NOM : {{employe.nom| uppercase}} <hr>
+            </div>
+            <div style="width: 75%; text-align: justify;">
+                MATRICULE : {{employe.matriculeInterne}}<hr>
+            </div>
+            <div style="width: 75%;text-align: justify;" >
+                FONCTION : {{parcours[0].fonction.libelle| uppercase}} <hr>
+            </div>
+            
+        </div>
         <!--<img ng-src="{{avatar}}" alt="avatar" title="avatar" class="pull-right img-thumbnail" style="width: 200px; height: 200px;"/>-->
     </div>
 
@@ -28,7 +62,7 @@
                         <h1 class="box-title ">Informations gÃ©nÃ©rales</h1>
                     </div>
                 </a>
-                <div id="informationPersonnelle" class="panel-collapse collapse in">
+                <div id="informationPersonnelle" class="panel-collapse collapse">
                     <div class="panel-body row" ng-if="editInfoGenerales == true" id="editInfoGenerales">
                         <form role="form" name="editInfoGeneralesForm" novalidate="">
                             <div class="col-md-9">
@@ -103,7 +137,7 @@
                                 </div>
                                 <div class="row " ng-if="employe.caisseSociale.id"  style="margin-top: 6px; font-size: 1.2em;">
                                     <div class="  col-md-7">
-                                        <label style="font-weight: bold;"> Numéro d'affiliation {{employe.caisseSociale.code}} :</label>
+                                        <label style="font-weight: bold;"> Numï¿½ro d'affiliation {{employe.caisseSociale.code}} :</label>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="input-group">
@@ -398,7 +432,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-3">
+<!--                        <div class="col-md-3">
                             <div style="margin: auto; text-align: center">
                                 <label class="label-info" for="profil">
                                     <span class="btn btn-warning" title="Modifier" ng-show="!editProfil" ng-click="toggleButtonProfil()" id="btn_modifier_photo_profil">
@@ -412,7 +446,7 @@
                                 <span class="btn btn-success" title="Appliquer" ng-show="editProfil"  ng-click="uploadAvatar()">
                                     <i class="fa fa-check"></i>
                                 </span>
-                                <!--<span class="btn btn-warning" ng-disabled="editAvatar"  ng-click="uploadAvatar()">Appliquer</span>-->
+                                <span class="btn btn-warning" ng-disabled="editAvatar"  ng-click="uploadAvatar()">Appliquer</span>
                             </div>
                             <div>
 
@@ -422,8 +456,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <!--<img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>-->
-                        </div>
+                            <img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>
+                        </div>-->
                         <div class="col-md-12" style="padding: 4px;" ng-if="avoirPermission('modifier', 'employe') == true">
                             <span class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-edit"> Modifier</i></span>
                         </div>
@@ -622,7 +656,7 @@
                                 </div>
                             </div>  
                             <div class="form-group">
-                                <label for="autreNumero" > Ajouter un autre numéro :</label>
+                                <label for="autreNumero" > Ajouter un autre numï¿½ro :</label>
                                 <input type="checkbox"  ng-model="autreNumero"  ng-click="toggleNumeroTel2()" id="autreNumero">                                              
                             </div>
                             <div class="row" ng-if="contacts.numero2 || autreNumero == true" style="margin-top: 6px; font-size: 1.2em;">

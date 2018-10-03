@@ -70,7 +70,7 @@
                     </a>
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <!-- Messages: style can be found in dropdown.less-->
+<!--                             Messages: style can be found in dropdown.less
                             <li class="dropdown messages-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-envelope-o"></i>
@@ -79,9 +79,9 @@
                                 <ul class="dropdown-menu">
                                     <li class="header">You have 4 messages</li>
                                     <li>
-                                        <!-- inner menu: contains the actual data -->
+                                         inner menu: contains the actual data 
                                         <ul class="menu">
-                                            <li><!-- start message -->
+                                            <li> start message 
                                                 <a href="#">
                                                     <div class="pull-left">
                                                         <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image"/>
@@ -92,7 +92,7 @@
                                                     </h4>
                                                     <p>Why not buy a new awesome theme?</p>
                                                 </a>
-                                            </li><!-- end message -->
+                                            </li> end message 
                                             <li>
                                                 <a href="#">
                                                     <div class="pull-left">
@@ -146,7 +146,7 @@
                                     <li class="footer"><a href="#">See All Messages</a></li>
                                 </ul>
                             </li>
-                            <!-- Notifications: style can be found in dropdown.less -->
+                             Notifications: style can be found in dropdown.less 
                             <li class="dropdown notifications-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-bell-o"></i>
@@ -155,7 +155,7 @@
                                 <ul class="dropdown-menu">
                                     <li class="header">You have 10 notifications</li>
                                     <li>
-                                        <!-- inner menu: contains the actual data -->
+                                         inner menu: contains the actual data 
                                         <ul class="menu">
                                             <li>
                                                 <a href="#">
@@ -188,7 +188,7 @@
                                     <li class="footer"><a href="#">View all</a></li>
                                 </ul>
                             </li>
-                            <!-- Tasks: style can be found in dropdown.less -->
+                             Tasks: style can be found in dropdown.less 
                             <li class="dropdown tasks-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <i class="fa fa-flag-o"></i>
@@ -197,9 +197,9 @@
                                 <ul class="dropdown-menu">
                                     <li class="header">You have 9 tasks</li>
                                     <li>
-                                        <!-- inner menu: contains the actual data -->
+                                         inner menu: contains the actual data 
                                         <ul class="menu">
-                                            <li><!-- Task item -->
+                                            <li> Task item 
                                                 <a href="#">
                                                     <h3>
                                                         Design some buttons
@@ -211,8 +211,8 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                            </li><!-- end task item -->
-                                            <li><!-- Task item -->
+                                            </li> end task item 
+                                            <li> Task item 
                                                 <a href="#">
                                                     <h3>
                                                         Create a nice theme
@@ -224,8 +224,8 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                            </li><!-- end task item -->
-                                            <li><!-- Task item -->
+                                            </li> end task item 
+                                            <li> Task item 
                                                 <a href="#">
                                                     <h3>
                                                         Some task I need to do
@@ -237,8 +237,8 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                            </li><!-- end task item -->
-                                            <li><!-- Task item -->
+                                            </li> end task item 
+                                            <li> Task item 
                                                 <a href="#">
                                                     <h3>
                                                         Make beautiful transitions
@@ -250,7 +250,7 @@
                                                         </div>
                                                     </div>
                                                 </a>
-                                            </li><!-- end task item -->
+                                            </li> end task item 
                                         </ul>
                                     </li>
                                     <li class="footer">
@@ -258,21 +258,19 @@
                                     </li>
                                 </ul>
                             </li>
-                            <!-- User Account: style can be found in dropdown.less -->
+                             User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="{{avatarUtilisateur}}" class="user-image user-avatar" alt="User Image"/>
                                     <span class="hidden-xs">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <!-- User image -->
                                     <li class="user-header">
                                         <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
                                         <p>
                                             {{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}
                                         </p>
                                     </li>
-                                    <!-- Menu  Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
                                             <a ng-href="#/authentification/profil" id="mon-profil" class="btn btn-default btn-flat">Profil</a>
@@ -298,7 +296,7 @@
                             <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
                         </div>
                         <div class="pull-left">
-                            <p style="text-align: center; color: white; font-weight: bold;">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</p>
+                            <p class="d-inline-block text-truncate" style="text-align: center; max-width: 150px;color: white; font-weight: bold;">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> En ligne</a>
                         </div>
                     </div>
@@ -477,7 +475,7 @@
                             <ul class="treeview-menu">
                                 <li> 
                                     <a ng-class="{'firstView' : avoirPermission('consulter', 'statistiqueentiteglabal') == true && avoirPermission('consulter', 'menuservice') == true}" ng-href="#/service/statistique/{{entiteUtilisateur.id}}">
-                                        <i class="fa fa-institution"></i> <span>Statistiques</span>
+                                       <i class="fa fa-bar-chart"></i> <span>Statistiques</span>
                                     </a>
                                 </li>
                                 <li ng-show="avoirPermission('consulter', 'entite') == true">
@@ -487,7 +485,7 @@
                                 </li>
                                 <li ng-show="avoirPermission('lister', 'employe') == true"> 
                                     <a ng-href="#/service/consulter/{{entiteUtilisateur.id}}">
-                                        <i class="fa fa-institution"></i> <span>Consulter</span>
+                                        <i class="fa fa-eye"></i> <span>Consulter</span>
                                     </a>
                                 </li>
 
@@ -510,7 +508,7 @@
                             <ul class="treeview-menu">
                                 <li> 
                                     <a ng-class="{'firstView' :  avoirPermission('consulter', 'employe') == true && avoirPermission('consulter', 'menuemploye') == true}" ng-href="#/employe/detailAgent/{{idEmploye}}">
-                                        <i class="fa fa-institution"></i> <span>Mon Dossier</span>
+                                        <i class="fa fa-eye"></i> <span>Mon Dossier</span>
                                     </a>
                                 </li>
 <!--                                <li>

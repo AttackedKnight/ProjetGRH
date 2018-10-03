@@ -22,7 +22,7 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-01T09:14:27")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-03T15:18:16")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 
@@ -35,6 +35,7 @@ public class Employe_ {
     public static volatile SingularAttribute<Employe, Date> dateRecrutement;
     public static volatile SingularAttribute<Employe, Caissesociale> caisseSociale;
     public static volatile ListAttribute<Employe, Absence> absenceList;
+    public static volatile SingularAttribute<Employe, Genre> genre;
     public static volatile SingularAttribute<Employe, Integer> id;
     public static volatile SingularAttribute<Employe, String> prenom;
     public static volatile ListAttribute<Employe, Historiquegrade> historiquegradeList;
@@ -42,7 +43,6 @@ public class Employe_ {
     public static volatile ListAttribute<Employe, Utilisateur> utilisateurList;
     public static volatile SingularAttribute<Employe, String> nationalite;
     public static volatile SingularAttribute<Employe, Boolean> geler;
-    public static volatile SingularAttribute<Employe, Genre> genreid;
     public static volatile ListAttribute<Employe, Conge> congeList;
     public static volatile SingularAttribute<Employe, String> matriculeInterne;
     public static volatile ListAttribute<Employe, Adresse> adresseList;

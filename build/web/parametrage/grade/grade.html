@@ -7,19 +7,19 @@
             <div class="row">
                 <div class="box-body">
                     <div class="form-group">                   
-                        <div class="row">
-                            <span class="col-xs-4">Type(s) de personnel concerné(s) : <span style="color: red;">*</span></span>
+                        <div class="row container">
+                            <span class="col-xs-4">Type(s) de personnel concernÃ©(s) : <span style="color: red;">*</span></span>
                             <label ng-repeat="typeemploye in typeemployes" class="col-xs-2">
                                 <input class="choixTypeEmploye" type="checkbox" data-checklist-model="typeEmployeSelectionne" data-checklist-value="typeemploye"> {{typeemploye.code}} 
                             </label>
                         </div>
                         <div class="alert alert-block alert-danger requis selectionTypeEmploye" style="display:none">
-                            <div>Sélectionnez au moins un élement.</div>
+                            <div>SÃ©lectionnez au moins un Ã©lement.</div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <div class="row">
-                            <span class="col-xs-2">Eléments consitutifs : <span style="color: red;">*</span></span>
+                        <div class="row container-fluid">
+                            <span class="col-xs-2">Correspondances : <span style="color: red;">*</span></span>
                             <label  class="col-xs-2">
                                 <input class="choixTypeEmploye" type="checkbox" ng-model="corpsChecked" > Corps 
                             </label>
@@ -37,10 +37,10 @@
                             </label>
                         </div>
                         <div class="alert alert-block alert-danger requis selectionElementGrade" style="display:none">
-                            <div>Sélectionnez au moins un élement.</div>
+                            <div>Sï¿½lectionnez au moins un ï¿½lement.</div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row container-fluid">
                         <div class="form-group col-md-2" ng-if="corpsChecked">
                             <div>
                                 <label>Corps</label>
@@ -88,7 +88,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row" ng-repeat="grade in lignes">
+                    <div class="row container-fluid" ng-repeat="grade in lignes">
                         <div class="form-group col-md-2" ng-if="corpsChecked">
                             <div>
                                 <select ng-model="grade.corps" class="form-control corps" ng-options="corps.libelle for corps in corps"></select>
@@ -268,7 +268,8 @@
     
         <div class="table-responsive" >
             <h3>Les grades</h3>
-            <table class="table table-striped table-bordered" datatable="ng">
+            <table class="table table-striped table-bordered" >
+                <!--datatable="ng"-->
                 <thead>
                     <tr>
                         <th>Corps</th>
