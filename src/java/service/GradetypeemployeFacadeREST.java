@@ -120,6 +120,18 @@ public class GradetypeemployeFacadeREST extends AbstractFacade<Gradetypeemploye>
         return null;
     }
     
+     @GET
+    @Path("type/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Grade> findByType(@PathParam("id") Integer id) {
+        List<Grade> li=em.createQuery("SELECT g.grade FROM Gradetypeemploye g WHERE g.typeEmploye.id =:id", Grade.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(li.size()>0){
+            return li;
+        }
+        return null;
+    }
     
     @Override
     protected EntityManager getEntityManager() {

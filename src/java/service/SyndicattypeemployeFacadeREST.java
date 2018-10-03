@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import sn.grh.Syndicat;
 import sn.grh.Syndicattypeemploye;
 import sn.grh.Typeemploye;
 
@@ -83,6 +84,18 @@ public class SyndicattypeemployeFacadeREST extends AbstractFacade<Syndicattypeem
     @Produces({MediaType.APPLICATION_JSON})
     public List<Typeemploye> findBySyndicat(@PathParam("id") Integer id) {
         List<Typeemploye> li=em.createQuery("SELECT sy.typeEmploye FROM Syndicattypeemploye sy WHERE sy.syndicat.id =:id", Typeemploye.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(li.size()>0){
+            return li;
+        }
+        return null;
+    }
+    @GET
+    @Path("type/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Syndicat> findByType(@PathParam("id") Integer id) {
+        List<Syndicat> li=em.createQuery("SELECT sy.syndicat FROM Syndicattypeemploye sy WHERE sy.typeEmploye.id =:id", Syndicat.class)
                 .setParameter("id", id)
                 .getResultList();
         if(li.size()>0){

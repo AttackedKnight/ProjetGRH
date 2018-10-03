@@ -9,11 +9,11 @@ import sn.grh.Absence;
 import sn.grh.Adresse;
 import sn.grh.Avoircompetence;
 import sn.grh.Caissesociale;
-import sn.grh.Civilite;
 import sn.grh.Conge;
 import sn.grh.Contact;
 import sn.grh.Document;
 import sn.grh.Formation;
+import sn.grh.Genre;
 import sn.grh.Historiquegrade;
 import sn.grh.Membremutuelle;
 import sn.grh.Servir;
@@ -22,7 +22,7 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-17T21:17:06")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-01T09:14:27")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 
@@ -30,7 +30,6 @@ public class Employe_ {
     public static volatile ListAttribute<Employe, Servir> servirList;
     public static volatile SingularAttribute<Employe, String> numeroCni;
     public static volatile SingularAttribute<Employe, Syndicat> syndicat;
-    public static volatile SingularAttribute<Employe, String> sexe;
     public static volatile SingularAttribute<Employe, Boolean> retraite;
     public static volatile SingularAttribute<Employe, String> nom;
     public static volatile SingularAttribute<Employe, Date> dateRecrutement;
@@ -41,9 +40,9 @@ public class Employe_ {
     public static volatile ListAttribute<Employe, Historiquegrade> historiquegradeList;
     public static volatile SingularAttribute<Employe, Integer> nombreEnfant;
     public static volatile ListAttribute<Employe, Utilisateur> utilisateurList;
-    public static volatile SingularAttribute<Employe, Civilite> civilite;
     public static volatile SingularAttribute<Employe, String> nationalite;
     public static volatile SingularAttribute<Employe, Boolean> geler;
+    public static volatile SingularAttribute<Employe, Genre> genreid;
     public static volatile ListAttribute<Employe, Conge> congeList;
     public static volatile SingularAttribute<Employe, String> matriculeInterne;
     public static volatile ListAttribute<Employe, Adresse> adresseList;

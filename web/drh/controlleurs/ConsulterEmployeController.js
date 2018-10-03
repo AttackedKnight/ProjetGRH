@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('DrhModule').controller('ConsulterEmployeController', function ($scope, $rootScope, Securite, SweetAlert, HistoriqueGrade, Servir, Employe, $routeParams)
+angular.module('DrhModule').controller('ConsulterEmployeController', function ($scope, $rootScope, UploadFile, Securite, SweetAlert, HistoriqueGrade, Servir, Employe, $routeParams)
 {
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -19,31 +19,75 @@ angular.module('DrhModule').controller('ConsulterEmployeController', function ($
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
 
-
-    $scope.getPer = function () {
-        Servir.findPer().success(function (data) {
-            $scope.travailleurs = data;
-
+    $scope.getEmploye = function () {
+        Servir.findEmploye($rootScope.typeEmployeAssocie.join("-")).success(function (data) {
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+                $scope.travailleurs = data.filter(retrieveType);
+            } else {
+                $scope.travailleurs = data;
+            }
+            $scope.getAvancement();
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés (PER) !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
         });
     };
-    $scope.getPats = function () {
-        Servir.findPats().success(function (data) {
-            $scope.travailleurs = data;
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés (PATS) !");
-        });
-    };
-    $scope.getAll = function () {
-        $scope.myPromise = Servir.findPerAndPats().success(function (data) {
-            $scope.travailleurs = data;
+    $scope.getEmploye();
 
+    function retrieveType(data) {
+        return data.employe.typeEmploye.id == $routeParams.type;
+    }
+
+    $scope.allAvancements = [];
+    $scope.getAvancement = function () {
+        HistoriqueGrade.findAvancement($rootScope.typeEmployeAssocie.join("-")).success(function (data) {
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+                $scope.allAvancements = data.filter(retrieveType);
+            } else {
+                $scope.allAvancements = data;
+            }
+            $scope.validerCritere();
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
         });
     };
 
+    $scope.getAvancementOn = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementOn);
+    };
+    $scope.getAvancementBefore = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementBefore);
+    };
+    $scope.getAvancementAfter = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementAfter);
+    };
+    $scope.getAvancementBetween = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementBetween);
+    };
+
+    function retrieveAvancementOn(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa.toDateString() == da.toDateString();
+    }
+
+    function retrieveAvancementBefore(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa < da;
+    }
+
+    function retrieveAvancementAfter(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa > da;
+    }
+
+    function retrieveAvancementBetween(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var daMin = new Date(dMin);
+        var daMax = new Date(dMax);
+        return (dpa> daMin && dpa < daMax);
+    }
 
     /*Avencements*/
     var today = new Date();
@@ -71,113 +115,7 @@ angular.module('DrhModule').controller('ConsulterEmployeController', function ($
     $scope.recupererChaineDate();
 
     /*Initialisation date et formatage*/
-
-
-
-
-
-    $scope.getAllAvancementOn = function () {
-        HistoriqueGrade.findDateAvancement(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getAllAvancementBefore = function () {
-        HistoriqueGrade.findDateAvant(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getAllAvancementAfter = function () {
-        HistoriqueGrade.findDateApres(d).success(function (data) {
-            $scope.avancements = data;
-
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getAllAvancementBetween = function () {
-        HistoriqueGrade.findDateEntre(dMin, dMax).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-
-    $scope.getPerAvancementOn = function () {
-        HistoriqueGrade.findDateAvancementPer(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getPerAvancementBefore = function () {
-        HistoriqueGrade.findDateAvantPer(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getPerAvancementAfter = function () {
-        HistoriqueGrade.findDateApresPer(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getPerAvancementBetween = function () {
-        HistoriqueGrade.findDateEntrePer(dMin, dMax).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-
-
-    $scope.getPatsAvancementOn = function () {
-        HistoriqueGrade.findDateAvancementPats(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getPatsAvancementBefore = function () {
-        HistoriqueGrade.findDateAvantPats(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getPatsAvancementAfter = function () {
-        HistoriqueGrade.findDateApresPats(d).success(function (data) {
-            $scope.avancements = data;
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-    $scope.getPatsAvancementBetween = function () {
-        HistoriqueGrade.findDateEntrePats(dMin, dMax).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
-        });
-    };
-
-
-
+    
     /*CRITERES REQUETES*/
 
     $scope.position = "after";
@@ -195,152 +133,69 @@ angular.module('DrhModule').controller('ConsulterEmployeController', function ($
     $scope.validerCritere = function () {
         $scope.recupererChaineDate();
 
-        if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
-
-            if ($scope.position == "between") {
-                $scope.getPatsAvancementBetween();
-            }
-            if ($scope.position == "on") {
-                $scope.getPatsAvancementOn();
-            }
-            if ($scope.position == "before") {
-                $scope.getPatsAvancementBefore();
-            }
-            if ($scope.position == "after") {
-                $scope.getPatsAvancementAfter();
-            }
-
-
+        if ($scope.position == "between") {
+            $scope.getAvancementBetween();
         }
-        if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-            if ($scope.position == "between") {
-                $scope.getPerAvancementBetween();
-            }
-            if ($scope.position == "on") {
-                $scope.getPerAvancementOn();
-            }
-            if ($scope.position == "before") {
-                $scope.getPerAvancementBefore();
-            }
-            if ($scope.position == "after") {
-                $scope.getPerAvancementAfter();
-            }
+        if ($scope.position == "on") {
+            $scope.getAvancementOn();
         }
-
-        if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
-
-
-            if ($routeParams.type == 1) {
-                if ($scope.position == "between") {
-                    $scope.getPerAvancementBetween();
-                }
-                if ($scope.position == "on") {
-                    $scope.getPerAvancementOn();
-                }
-                if ($scope.position == "before") {
-                    $scope.getPerAvancementBefore();
-                }
-                if ($scope.position == "after") {
-                    $scope.getPerAvancementAfter();
-                }
-            } else if ($routeParams.type == 0) {
-                if ($scope.position == "between") {
-                    $scope.getPatsAvancementBetween();
-                }
-                if ($scope.position == "on") {
-                    $scope.getPatsAvancementOn();
-                }
-                if ($scope.position == "before") {
-                    $scope.getPatsAvancementBefore();
-                }
-                if ($scope.position == "after") {
-                    $scope.getPatsAvancementAfter();
-                }
-            } else {
-                if ($scope.position == "between") {
-                    $scope.getAllAvancementBetween();
-                }
-                if ($scope.position == "on") {
-                    $scope.getAllAvancementOn();
-                }
-                if ($scope.position == "before") {
-                    $scope.getAllAvancementBefore();
-                }
-                if ($scope.position == "after") {
-                    $scope.getAllAvancementAfter();
-                }
-            }
-
-
+        if ($scope.position == "before") {
+            $scope.getAvancementBefore();
+        }
+        if ($scope.position == "after") {
+            $scope.getAvancementAfter();
         }
 
     };
 
-    $scope.validerCritere();
+
 
     /*CRITERES REQUETES*/
 
 
 
-    /*Avencements*/
+    /*Avancements*/
 
-
-    if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
-        $scope.getPats();
-    }
-    if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-        $scope.getPer();
-    }
-
-    if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
-
-
-        if ($routeParams.type == 1) {
-            $scope.getPer();
-        } else if ($routeParams.type == 0) {
-            $scope.getPats();
-        } else {
-            $scope.getAll();
-        }
-
-
-    }
-    
-    $scope.deleteAgent = function (id) {
+    $scope.deleteAgent = function (employe) {
         Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
-                        Employe.delete(id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
-                           if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
-        $scope.getPats();
-    }
-    if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-        $scope.getPer();
-    }
+                        Employe.delete(employe.id).success(function () {
+                            UploadFile.delete(angular.toJson({chemin: "archives/" + employe.numeroCni})).success(function () {
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                                if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
+                                    $scope.getPats();
+                                }
+                                if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
+                                    $scope.getPer();
+                                }
 
-    if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
-
-
-        if ($routeParams.type == 1) {
-            $scope.getPer();
-        } else if ($routeParams.type == 0) {
-            $scope.getPats();
-        } else {
-            $scope.getAll();
-        }
+                                if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
 
 
-    }
+                                    if ($routeParams.type == 1) {
+                                        $scope.getPer();
+                                    } else if ($routeParams.type == 0) {
+                                        $scope.getPats();
+                                    } else {
+                                        $scope.getAll();
+                                    }
+
+
+                                }
+                            }).error(function () {
+                                SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                            });
+
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
                         });
                     }
                 });
-   };
+    };
 
-    
+
 
 });
 

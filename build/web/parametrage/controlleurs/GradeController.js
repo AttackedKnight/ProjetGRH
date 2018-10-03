@@ -15,7 +15,6 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
         return;
     }
 
-
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.typeEmployeSelectionne = [];
@@ -32,16 +31,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
         
     };
     $scope.initialiserGrade();
-
-//    $scope.typeGrade = "pats";
-//
-//    $scope.changerTypeGrade = function () {
-//
-//        $scope.initialiserGrade();
-//        $scope.nouvelleLigne = true;
-//    };
-
-
+    
     $scope.nouvelleLigne = true;
     $scope.ajouterLigne = function () {
 
@@ -349,13 +339,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
         $scope.niveauChecked = (grade.niveau) ? true : false;
         $scope.categorieChecked = (grade.categorie) ? true : false;
         $scope.echelonChecked = (grade.echelon) ? true : false;
-
-//        if (!grade.corps || grade.corps == null) {
-//            $scope.typeGrade = "pats";
-//        } else {
-//            $scope.typeGrade = "per";
-//        }
-
+        
         $('.edit').attr('disabled', 'disabled');
         $scope.toggle();
     };

@@ -24,7 +24,7 @@ angular.module('AuthentificationModule').factory('UploadFile', function ($http) 
         delete: function (item) {
             return $http.post(chemin + '/DeleteFileServlet', item, {
                 transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
+                headers: {'Content-Type': 'application/json'}
             });
         },
         resetHttp: function () {

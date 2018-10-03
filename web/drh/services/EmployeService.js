@@ -21,7 +21,8 @@ angular.module('DrhModule').factory('Employe', function ($http) {
             return $http.get(chemin + '/webresources/sn.grh.employe/checkcni/' + numeroCni);
         },
         checkmatricule: function (matriculeInterne) {
-            return $http.get(chemin + '/webresources/sn.grh.employe/checkmatricule');
+            var matriculeInt= matriculeInterne.replace("/","-");
+            return $http.get(chemin + '/webresources/sn.grh.employe/checkmatricule/'+matriculeInt);
         },
         checkmatriculecs: function (matriculeCaisseSociale) {
             return $http.get(chemin + '/webresources/sn.grh.employe/checkmatriculecs/' + matriculeCaisseSociale);

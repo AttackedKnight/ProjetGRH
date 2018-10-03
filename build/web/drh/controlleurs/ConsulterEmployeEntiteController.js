@@ -32,9 +32,7 @@ $rootScope, SweetAlert, Entite, Securite, HistoriqueGrade, Servir)
             $scope.entites = data;
             $scope.filles = $scope.getEntitesFille();
 
-            $scope.getData();
-
-            $scope.validerCritere();
+            $scope.getEmployeEntite();
 
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des entités");
@@ -56,7 +54,7 @@ $rootScope, SweetAlert, Entite, Securite, HistoriqueGrade, Servir)
         return filles;
     };
 
-    $scope.estEnfant = function (entite, parent) {
+    $scope.estEnfant = function (entite, parent) {  /*Remonte les parents de l'entite enfant pour voir est ce qu'il va rencontrer l'entite donnee en parametre 2*/
         var e = entite;
         var b = false;
         while (e != null) {
@@ -72,13 +70,13 @@ $rootScope, SweetAlert, Entite, Securite, HistoriqueGrade, Servir)
 
     /*     RECUPPERER ENTITES FILLES    */
 
-    $scope.getAllEmployeEntite = function () {
-
+    /*ok*/
+    $scope.getEmployeEntite = function () {
         var req_tab = [];
         var cumul = [];
         for (var i = 0; i < $scope.filles.length; i++)
         {
-            req_tab.push(Servir.findPerEtPatsEntite($scope.filles[i].id));
+            req_tab.push(Servir.findEmployeEntite($rootScope.typeEmployeAssocie.join("-"),$scope.filles[i].id));
         }
         $q.all(req_tab).then(function (result) {
             for (var i = 0; i < result.length; i++)
@@ -87,81 +85,104 @@ $rootScope, SweetAlert, Entite, Securite, HistoriqueGrade, Servir)
                     cumul = cumul.concat(result[i].data);
                 }
             }
-            $scope.travailleurs = cumul;
-        });
-    };
-
-    $scope.getEmployePerEntite = function () {
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(Servir.findPerEntite($scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.travailleurs = cumul;
-        });
-
-    };
-
-    $scope.getEmployePatsEntite = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(Servir.findPatsEntite($scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.travailleurs = cumul;
-        });
-    };
-
-
-    $scope.getData = function () {
-        if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
-            $scope.getEmployePatsEntite();
-        }
-        if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-            $scope.getEmployePerEntite();
-        }
-        if ($rootScope.groupeUtilisateur.code == 'SERV_AD') {
-            if ($routeParams.type == 1) {
-                $scope.getEmployePerEntite();
-            } else if ($routeParams.type == 0) {
-                $scope.getEmployePatsEntite();
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+                $scope.travailleurs = cumul.filter(retrieveType);
             } else {
-                $scope.getAllEmployeEntite();
+                $scope.travailleurs = cumul;
             }
+            $scope.getEntiteAvancement();
+        });
+    };
+    
+    
+    function retrieveType(data) {
+        return data.employe.typeEmploye.id == $routeParams.type;
+    }
+    
+    $scope.allAvancements = [];
+    
+    $scope.getEntiteAvancement = function () {
+        var req_tab = [];
+        var cumul = [];
+        for (var i = 0; i < $scope.filles.length; i++)
+        {
+            req_tab.push(HistoriqueGrade.findAvancementEntite($rootScope.typeEmployeAssocie.join("-"), $scope.filles[i].id));
         }
-        if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
-
-
-            if ($routeParams.type == 1) {
-                $scope.getEmployePerEntite();
-            } else if ($routeParams.type == 0) {
-                $scope.getEmployePatsEntite();
+        $q.all(req_tab).then(function (result) {
+            for (var i = 0; i < result.length; i++)
+            {
+                if (result[i].data.length > 0) {
+                    cumul = cumul.concat(result[i].data);
+                }
+            }
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+                $scope.allAvancements = cumul.filter(retrieveType);
             } else {
-                $scope.getAllEmployeEntite();
+                $scope.allAvancements = cumul;
             }
-        }
+            $scope.validerCritere();
+        });
+
+    };
+    
+    $scope.getAvancementOn = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementOn);
+    };
+    $scope.getAvancementBefore = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementBefore);
+    };
+    $scope.getAvancementAfter = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementAfter);
+    };
+    $scope.getAvancementBetween = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementBetween);
     };
 
+    function retrieveAvancementOn(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa.toDateString() == da.toDateString();
+    }
 
+    function retrieveAvancementBefore(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa < da;
+    }
 
+    function retrieveAvancementAfter(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa > da;
+    }
 
+    function retrieveAvancementBetween(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var daMin = new Date(dMin);
+        var daMax = new Date(dMax);
+        return (dpa> daMin && dpa < daMax);
+    }
+
+     $scope.validerCritere = function () {
+        $scope.recupererChaineDate();
+
+        if ($scope.position == "between") {
+            $scope.getAvancementBetween();
+        }
+        if ($scope.position == "on") {
+            $scope.getAvancementOn();
+        }
+        if ($scope.position == "before") {
+            $scope.getAvancementBefore();
+        }
+        if ($scope.position == "after") {
+            $scope.getAvancementAfter();
+        }
+
+    };
+
+    
+    /*ok*/
 
     /*Avencements*/
     var today = new Date();
@@ -190,245 +211,6 @@ $rootScope, SweetAlert, Entite, Securite, HistoriqueGrade, Servir)
 
     /*Initialisation date et formatage*/
 
-
-
-
-
-    $scope.getEntiteAllAvancementOn = function () {
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateAvancementEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-    $scope.getEntiteAllAvancementBefore = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateAvantEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-
-    };
-    $scope.getEntiteAllAvancementAfter = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateApresEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-
-    };
-    $scope.getEntiteAllAvancementBetween = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateApresEntite(dMin, dMax, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-
-    $scope.getEntitePerAvancementOn = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateAvancementPerEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-    $scope.getEntitePerAvancementBefore = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateAvantPerEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-    $scope.getEntitePerAvancementAfter = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateApresPerEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-    $scope.getEntitePerAvancementBetween = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateEntrePerEntite(dMin, dMax, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-
-
-    $scope.getEntitePatsAvancementOn = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateAvancementPatsEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-    $scope.getEntitePatsAvancementBefore = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateAvantPatsEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-    $scope.getEntitePatsAvancementAfter = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateApresPatsEntite(d, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-    $scope.getEntitePatsAvancementBetween = function () {
-
-        var req_tab = [];
-        var cumul = [];
-        for (var i = 0; i < $scope.filles.length; i++)
-        {
-            req_tab.push(HistoriqueGrade.findDateEntrePatsEntite(dMin, dMax, $scope.filles[i].id));
-        }
-        $q.all(req_tab).then(function (result) {
-            for (var i = 0; i < result.length; i++)
-            {
-                if (result[i].data.length > 0) {
-                    cumul = cumul.concat(result[i].data);
-                }
-            }
-            $scope.avancements = cumul;
-        });
-
-    };
-
-
-
     /*CRITERES REQUETES*/
 
     $scope.position = "after";
@@ -443,89 +225,51 @@ $rootScope, SweetAlert, Entite, Securite, HistoriqueGrade, Servir)
         }
     };
 
-    $scope.getAllAvancement = function () {
-        if ($scope.position == "between") {
-            $scope.getEntiteAllAvancementBetween();
-        }
-        if ($scope.position == "on") {
-            $scope.getEntiteAllAvancementOn();
-        }
-        if ($scope.position == "before") {
-            $scope.getEntiteAllAvancementBefore();
-        }
-        if ($scope.position == "after") {
-            $scope.getEntiteAllAvancementAfter();
-        }
-    };
-    $scope.getPerAvancement = function () {
-        if ($scope.position == "between") {
-            $scope.getEntitePerAvancementBetween();
-        }
-        if ($scope.position == "on") {
-            $scope.getEntitePerAvancementOn();
-        }
-        if ($scope.position == "before") {
-            $scope.getEntitePerAvancementBefore();
-        }
-        if ($scope.position == "after") {
-            $scope.getEntitePerAvancementAfter();
-        }
-    };
-
-    $scope.getPatsAvancement = function () {
-        if ($scope.position == "between") {
-            $scope.getEntitePatsAvancementBetween();
-        }
-        if ($scope.position == "on") {
-            $scope.getEntitePatsAvancementOn();
-        }
-        if ($scope.position == "before") {
-            $scope.getEntitePatsAvancementBefore();
-        }
-        if ($scope.position == "after") {
-            $scope.getEntitePatsAvancementAfter();
-        }
-    };
-
-    $scope.validerCritere = function () {
-        $scope.recupererChaineDate();
-
-        if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
-
-            $scope.getPatsAvancement();
-        }
-        if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-            $scope.getPerAvancement();
-        }
-        if ($rootScope.groupeUtilisateur.code == 'SERV_AD') {
-            $scope.getAllAvancement();
-        }
-
-        if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
-
-            if ($routeParams.type == 1) {
-                $scope.getPerAvancement();
-            } else if ($routeParams.type == 0) {
-                $scope.getPatsAvancement();
-            } else {
-                $scope.getAllAvancement();
-            }
-
-
-        }
-
-    };
-
-//    $scope.validerCritere();
 
     /*CRITERES REQUETES*/
-
 
 
     /*Avencements*/
 
 
+    $scope.deleteAgent = function (employe) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        Employe.delete(employe.id).success(function () {
+                            UploadFile.delete(angular.toJson({chemin:"archives/" + employe.numeroCni})).success(function () {
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                                if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
+                                    $scope.getPats();
+                                }
+                                if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
+                                    $scope.getPer();
+                                }
 
+                                if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
+
+
+                                    if ($routeParams.type == 1) {
+                                        $scope.getPer();
+                                    } else if ($routeParams.type == 0) {
+                                        $scope.getPats();
+                                    } else {
+                                        $scope.getAll();
+                                    }
+
+
+                                }
+                            }).error(function () {
+                                SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                            });
+
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                        });
+                    }
+                });
+    };
 
 });
 

@@ -16,6 +16,9 @@ angular.module('ParametrageModule').factory('MutuelleTypeEmploye', function ($ht
         findByMutuelleSante: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.mutuellesantetypeemploye/mutuellesante/' + id);
         },
+        findByType: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.mutuellesantetypeemploye/type/' + id);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.mutuellesantetypeemploye', item);
         },

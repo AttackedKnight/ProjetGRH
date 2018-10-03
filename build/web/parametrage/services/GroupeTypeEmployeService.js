@@ -16,6 +16,9 @@ angular.module('ParametrageModule').factory('GroupeTypeEmploye', function ($http
         findByGroupe: function (id) {    //Retourne la liste des types d'employe : une colonne de la table
             return $http.get(chemin + '/webresources/sn.grh.groupetypeemploye/groupe/' + id);
         },
+        findIDListByGroupe: function (id) {    //Retourne la liste des types d'employe : une colonne de la table
+            return $http.get(chemin + '/webresources/sn.grh.groupetypeemploye/idtype/groupe/' + id);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.groupetypeemploye', item);
         },

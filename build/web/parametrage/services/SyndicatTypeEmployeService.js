@@ -16,6 +16,9 @@ angular.module('ParametrageModule').factory('SyndicatTypeEmploye', function ($ht
         findBySyndicat: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.syndicattypeemploye/syndicat/' + id);
         },
+        findByType: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.syndicattypeemploye/type/' + id);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.syndicattypeemploye', item);
         },

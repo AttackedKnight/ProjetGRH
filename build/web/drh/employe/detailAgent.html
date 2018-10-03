@@ -3,12 +3,22 @@
     <div class="box box-header box-primary" style="font-weight: bold;font-size: 1.4em;">
         <span>{{employe.prenom| uppercase}} {{employe.nom| uppercase}}, 
             <span style="color: green; font-weight: bold;">{{employe.matriculeInterne}}</span>
-            <span style="color:green; font-weight: bold;" class="pull-right"> {{parcours[0].fonction.libelle}}</span>
+            <span class="pull-right">
+                <span style="color:green; font-weight: bold;" > {{parcours[0].fonction.libelle}}</span>
+                <span ng-if="avoirPermission('supprimer', 'employe') == true">
+                    <a ng-click="deleteAgent(employe)" class="btn btn-danger" title="supprimer">
+                        <span class="fa fa-trash"></span>
+                    </a>
+                </span>
+            </span>
+
+
+
         </span>
         <!--<img ng-src="{{avatar}}" alt="avatar" title="avatar" class="pull-right img-thumbnail" style="width: 200px; height: 200px;"/>-->
     </div>
-    <div class="box-body">
 
+    <div class="box-body">
         <div class="box-group" id="accordion">
             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
             <div class="panel box box-primary box-solid">
@@ -71,10 +81,32 @@
                                 </div>
                                 <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
                                     <div class="  col-md-7">
-                                        <label style="font-weight: bold;"> Numero d'affiliation IPRES/FNR :</label>
+                                        <label style="font-weight: bold;"> Caisse sociale :</label>
                                     </div>
                                     <div class="col-md-4">
-                                        <div>
+                                        <div class="row" >
+                                            <label for="nonCaisse" class="col-md-4">
+                                                <input type="radio" id="nonCaisse" name="caissesociale" ng-model="currentCaisseSociale" value="0" ng-click="removeSelectedCaisseSociale()" /><br>
+                                                {{ "Aucun"}}
+                                            </label>
+                                            <label ng-repeat="caissesociale in caissesociales" for="{{caissesociale.code}}" class="col-md-4" >
+                                                <input type="radio"  
+                                                       name="caissesociale"
+                                                       ng-model="currentCaisseSociale"
+                                                       ng-value="{{caissesociale.id}}"
+                                                       id="{{caissesociale.code}}" 
+                                                       onclick="angular.element(this).scope().getCaisseSociale(this)"/><br>
+                                                {{caissesociale.code}} 
+                                            </label>
+                                        </div>
+                                    </div>                                    
+                                </div>
+                                <div class="row " ng-if="employe.caisseSociale.id"  style="margin-top: 6px; font-size: 1.2em;">
+                                    <div class="  col-md-7">
+                                        <label style="font-weight: bold;"> Num�ro d'affiliation {{employe.caisseSociale.code}} :</label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="input-group">
                                             <input  type="text" ng-model="employe.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
                                         </div>
                                         <div class="alert alert-block alert-danger requis" style="display:none">
@@ -188,11 +220,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <div>
-                                            <select name="genre" id="genre" ng-model="employe.sexe" class="form-control">
-                                                <option value="">Selectionner le sexe</option>
-                                                <option value="masculin">Masculin</option>
-                                                <option value="feminin">Féminin</option>
-                                            </select>
+                                            <select ng-model="employe.genre" name="genre" ng-change="checkGenre()" id="genre" class="form-control" ng-options="genre.libelle for genre in genres"></select>
                                         </div>
                                         <div class="alert alert-block alert-danger requis" style="display:none">
                                             <div>Veuillez renseigner ce champs.</div>
@@ -226,24 +254,40 @@
                                         <span style="font-weight: bold;">Inscription au mutuelle de santé :</span>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <input type="checkbox" name="incrit" ng-model="estMembreMutuelle"  ng-change="toggleMembreMutuelle()">
-
+                                    <div class="col-md-4 row">
+                                        <!--<input type="checkbox" name="incrit" ng-model="estMembreMutuelle"  ng-change="toggleMembreMutuelle()">-->
+                                        <label for="nonMutuelle" class="col-md-4">
+                                            <input type="radio" id="nonMutuelle" ng-model="currentMutuelle" value="0" name="mutuelle" ng-click="removeSelectedMutuelle()" />
+                                            {{ "Aucun"}}
+                                        </label>
+                                        <label ng-repeat="mutuelle in mutuelles" for="{{mutuelle.code}}" class="col-md-4" >
+                                            <input type="radio"  
+                                                   name="mutuelle"
+                                                   ng-value="{{mutuelle.id}}"  
+                                                   ng-model="currentMutuelle"
+                                                   onclick="angular.element(this).scope().getMutulleSante(this)"
+                                                   id="{{mutuelle.code}}" />
+                                            {{mutuelle.code}}
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
                                     <div class="col-md-7">
                                         <span style="font-weight: bold;"> Syndicat :</span>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label ng-repeat="syn in syndicats" for="{{syn.nomSyndicat}}" class="col-md-4" >
-                                            {{syn.nomSyndicat}}<br>
-                                            <input type="radio"  name="syndicat"  onchange="angular.element(this).scope().setSyndicat(this)" ng-value="{{syn.id}}"  ng-model="$parent.currentSyndicat" id="{{syn.nomSyndicat}}" />    
+                                    <div class="col-md-4 row">
+                                        <label ng-repeat="syn in syndicats" for="{{syn.code}}" class="col-md-4" >
+                                            {{syn.code}}<br>
+                                            <input type="radio"  
+                                                   name="syndicat" 
+                                                   ng-model="currentSyndicat"
+                                                   ng-value="{{syn.id}}"
+                                                   id="{{syn.code}}" 
+                                                   onclick="angular.element(this).scope().getSyndicat(this)"/>    
                                         </label>
                                         <label for="none" class="col-md-4">
-                                            Non<br>
-                                            <input type="radio"  name="syndicat" onchange="angular.element(this).scope().setSyndicat(this)"  ng-model="currentSyndicat" ng-value="{{0}}" id="none" />
-
+                                            Aucun
+                                            <input type="radio"  name="syndicat" value="0" ng-model="currentSyndicat" ng-click="removeSelectedSyndicat()"   id="none" />                 
                                         </label>
                                     </div>
                                 </div>                              
@@ -252,7 +296,7 @@
                             </div>
                             <div class="row "  style="margin-top: 10px;">
                                 <div class="col-md-12">
-                                    <span style="margin-right: 10px;" class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-times"> Annuler</i></span>
+                                    <span style="margin-right: 10px;" class="btn btn-danger pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-times"> Annuler</i></span>
                                     <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editInfoGeneralesForm.$invalid"  ng-click="controlFormEditEmploye()"><i class="fa fa-check"> Enregistrer</i></span>
                                 </div>
                             </div>
@@ -301,7 +345,7 @@
                                     <span style="font-weight: bold;"> Genre :</span>
                                 </div>
                                 <div class="col-md-4">
-                                    <span> {{employe.sexe}}</span>
+                                    <span> {{employe.genre.libelle}}</span>
                                 </div>
                             </div>
 
@@ -313,12 +357,12 @@
                                     <span> {{employe.dateRecrutement| date: 'dd MMM yyyy'}}</span>
                                 </div>
                             </div>
-                            <div class="row " ng-if="mutuelle" style="margin-top: 6px; font-size: 1.2em;">
+                            <div class="row " ng-if="membreMutuelle.mutuelleSante" style="margin-top: 6px; font-size: 1.2em;">
                                 <div class="  col-md-7">
                                     <span style="font-weight: bold;"> Mutuelle:</span>
                                 </div>
                                 <div class="col-md-4">
-                                    <span> {{mutuelle.mutuelleSante.nom}}</span>
+                                    <span> {{membreMutuelle.mutuelleSante.code}}</span>
                                 </div>
                             </div>
                             <div class="row " ng-if="employe.syndicat != null" style="margin-top: 6px; font-size: 1.2em;">
@@ -326,12 +370,12 @@
                                     <span style="font-weight: bold;"> Syndicat :</span>
                                 </div>
                                 <div class="col-md-4">
-                                    <span> {{employe.syndicat.nomSyndicat}}</span>
+                                    <span> {{employe.syndicat.code}}</span>
                                 </div>
                             </div>
-                            <div class="row " ng-if="employe.matriculeCaisseSociale != null" style="margin-top: 6px; font-size: 1.2em;">
+                            <div class="row " ng-if="employe.caisseSociale.id" style="margin-top: 6px; font-size: 1.2em;">
                                 <div class="  col-md-7">
-                                    <span style="font-weight: bold;"> Numero d'affiliation IPRES/FNR :</span>
+                                    <span style="font-weight: bold;"> Numero d'affiliation {{employe.caisseSociale.code}} :</span>
                                 </div>
                                 <div class="col-md-4">
                                     <span> {{employe.matriculeCaisseSociale}}</span>
@@ -357,20 +401,21 @@
                         <div class="col-md-3">
                             <div style="margin: auto; text-align: center">
                                 <label class="label-info" for="profil">
-                                    <span class="btn btn-primary" title="Modifier" id="btn_modifier_photo_profil">
+                                    <span class="btn btn-warning" title="Modifier" ng-show="!editProfil" ng-click="toggleButtonProfil()" id="btn_modifier_photo_profil">
                                         <i class="fa fa-edit"></i>
                                     </span>
                                     <input type="file"  name='profil' id='profil' ng-model="imgProfil" onchange="angular.element(this).scope().preview(this)" accept="image/*" style='display: none;'/>
                                 </label>
-                                <span class="btn btn-danger" title="Annuler"   ng-click="showDefaultAvatar()">
+                                <span class="btn btn-danger" title="Annuler" ng-show="editProfil"   ng-click="showDefaultAvatar()">
                                     <i class="fa fa-times"></i>
                                 </span>
-                                <span class="btn btn-warning" title="Appliquer"   ng-click="uploadAvatar()">
+                                <span class="btn btn-success" title="Appliquer" ng-show="editProfil"  ng-click="uploadAvatar()">
                                     <i class="fa fa-check"></i>
                                 </span>
                                 <!--<span class="btn btn-warning" ng-disabled="editAvatar"  ng-click="uploadAvatar()">Appliquer</span>-->
                             </div>
-                            <div>        
+                            <div>
+
                                 <div  style="margin: auto; text-align: center;">
                                     <div id="profil-img" style="width: 200px ; height: 250px; border-radius: 100%; text-align: center; margin: auto;" >
                                         <img  ng-src="{{avatar}}" id="previsualisation"  alt="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" data-toggle="tooltip"  title="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;" />                   
@@ -404,14 +449,14 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div>
-                                        <select ng-model="employe.situationMatrimoniale"   class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
+                                        <select ng-model="employe.situationMatrimoniale" ng-change="checkSituationMatrimoniale()"  class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
                                     </div>
                                     <div class="alert alert-block alert-danger requis" style="display:none">
                                         <div>Veuillez renseigner ce champs.</div>
                                     </div>
                                 </div>
                             </div>  
-                            <div class="row " ng-if="employe.sexe == 'masculin' && employe.situationMatrimoniale == situations[0]" style="margin-top: 5px; font-size: 1.2em;">
+                            <div class="row " ng-if="estMarie && homme" style="margin-top: 5px; font-size: 1.2em;">
                                 <div class="  col-md-7">
                                     <label style="font-weight: bold;" for="nombreDeFemme"> Nombre de femme(s) :</label>
                                 </div>
@@ -502,7 +547,7 @@
                             <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                                 <div class="col-md-offset-9 col-md-3 ">
                                     <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlSituationMatriFormEdit('editSituationMatriForm')"><i class="fa fa-check"> Enregistrer</i></span>
-                                    <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
+                                    <button ng-click="toggleSituationMatriEditForm()" class="btn btn-danger"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                 </div>
                             </div>                    
                         </form>
@@ -536,7 +581,7 @@
 
                         <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'situationmatrimoniale') == true">
                             <div class="col-md-offset-9 col-md-3 ">
-                                <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
+                                <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-edit" style="font-weight: bold"> Modifier</i></button>
                             </div>
                         </div> 
 
@@ -556,8 +601,8 @@
                 <div id="contact" class="panel-collapse collapse">
                     <div class="panel-body" ng-if="editContact == true">
                         <form role="form" name="editContactForm" class="editContactForm" novalidate="">
-                            <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                                <div class="  col-md-7">
+                            <div class="row" style="margin-top: 6px; font-size: 1.2em;">
+                                <div class="col-md-7">
                                     <label style="font-weight: bold;"> Téléphone 1 : </label>
                                 </div>
                                 <div class="col-md-4">
@@ -576,8 +621,12 @@
                                     </div>
                                 </div>
                             </div>  
-                            <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
-                                <div class="  col-md-7">
+                            <div class="form-group">
+                                <label for="autreNumero" > Ajouter un autre num�ro :</label>
+                                <input type="checkbox"  ng-model="autreNumero"  ng-click="toggleNumeroTel2()" id="autreNumero">                                              
+                            </div>
+                            <div class="row" ng-if="contacts.numero2 || autreNumero == true" style="margin-top: 6px; font-size: 1.2em;">
+                                <div class="col-md-7">
                                     <label style="font-weight: bold;"> Téléphone 2 :</label>
                                 </div>
                                 <div class="col-md-4">
@@ -652,7 +701,7 @@
                         </div>  
                         <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'contact') == true">
                             <div class="col-md-offset-9 col-md-3 ">
-                                <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
+                                <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-edit" style="font-weight: bold"> Modifier</i></button>
                                 <button class="btn btn-danger" ng-disabled="!contacts.id" ng-click="deleteContact(contacts.id)"><i class="fa fa-trash"> Supprimer</i></button>
 
                             </div>
@@ -669,7 +718,7 @@
                 </a>
 
                 <div id="adresse" class="panel-collapse collapse">
-                    
+
                     <div class="panel-body" ng-if="editAdresse == true">
                         <form role="form" name="editAdresseForm" class="editAdresseForm" novalidate="">
                             <div class="row " style="margin-top: 6px; font-size: 1.2em;">
@@ -733,7 +782,7 @@
                         </div>  
                         <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'adresse') == true">
                             <div class="col-md-offset-9 col-md-3 ">
-                                <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-pencil" style="font-weight: bold"> Modifier</i></button>
+                                <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-edit" style="font-weight: bold"> Modifier</i></button>
                                 <button class="btn btn-danger" ng-disabled="!adresse.id" ng-click="deleteAdresse(adresse.id)"><i class="fa fa-trash"> Supprimer</i></button>
 
                             </div>
@@ -850,7 +899,7 @@
                                                 <input type="submit" ng-disabled="newEmploiForm.$invalid" class="btn btn-block btn-success" ng-click="controlNewJobForm(servir)" value="AJOUTER">
                                             </td>
                                             <td>
-                                                <input type="reset" ng-click="reinitialiserFormulaireParcours()"  class="btn btn-block btn-danger"  value="ANNULER">
+                                                <input type="reset" ng-click="reinitialiserFormulaireParcours()"  class="btn btn-times btn-danger"  value="ANNULER">
                                             </td>
                                         </tr>
 
@@ -878,7 +927,7 @@
                                     <td>{{unparcours.debut| date: 'dd MMM yyyy'}}</td>
                                     <td>{{unparcours.fin| date: 'dd MMM yyyy'}}
                                         <span style="color: green; font-weight: bold;" ng-if="unparcours.fin == null">En cours  </span>
-                                        <i class="btn btn-danger btn-xs" title="Fin de service" ng-if="unparcours.fin == null" ng-click="finirService(unparcours)"><span class="fa fa-warning"></span>  Fin</i>
+                                        <i ng-show="avoirPermission('modifier', 'servir') == true" class="btn btn-danger btn-xs" title="Fin de service" ng-if="unparcours.fin == null" ng-click="finirService(unparcours)"><span class="fa fa-warning"></span>  Fin</i>
                                     </td>
                                     <td>{{unparcours.entite.nom}}</td>
                                     <td>{{unparcours.fonction.libelle}}</td>
@@ -917,114 +966,186 @@
                                         <span style="font-weight: bold; font-size: 1.2em;" ng-show="showGradeList == true">Fermer <i class="fa fa-eye-slash"></i></span>
                                     </button>
                                 </div>
-                                <div class="row" style="margin-top: 10px;" ng-if="employe.typeEmploye.code == 'PATS'" ng-show="showGradeList == true" id="add-grade-block">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="form-group col-md-9">
-                                                <label for="classe">Classe</label>
-                                                <select name="classe" id="classe" ng-model="classeSelectionnee" class="form-control">
-                                                    <option value="1">Classe 1</option>
-                                                    <option value="2">Classe 2</option>
-                                                    <option value="3">Classe 3</option>
-                                                    <option value="4">Classe 4</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label>Valider</label><br>
-                                                <span class="btn btn-primary" ng-click="getCategorieAndNiveauClasse()"><i class="fa fa-check"></i> Valider</span>                                          
-                                            </div>                      
-                                        </div>
-                                        <div>
-                                            <table class="table table-bordered">
-                                                <thead class="thead-dark">
-                                                    <tr>
-                                                        <th style="text-align:center;">Categorie / <br> Niveau</th>
-                                                        <th style="text-align:center;" ng-repeat="cat in categorieClasse">
-                                                            {{cat.libelle}}
-                                                        </th>              
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr ng-repeat="niv in niveauClasse">
-                                                        <td style="text-align:center; font-weight: bold;">
-                                                            {{niv.libelle}}
-                                                        </td>
-                                                        <td ng-repeat="cat in categorieClasse">
-                                                            <div class="form-check" ng-repeat="grade_cl in gradeClasse" ng-if="grade_cl.niveau.libelle == niv.libelle && grade_cl.categorie.libelle == cat.libelle">
-                                                                <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" ng-value="grade_cl" ng-model="historiqueGrade.grade">
-                                                                <label class="form-check-label" for="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_cl.indice}}">
-                                                                    echelon {{grade_cl.echelon.libelle}}
-                                                                </label>
-                                                            </div>
-                                                        </td>
+                                <div ng-if="avoirPermission('consulter', 'grade') == true && showGradeList == true">
+                                    <div class="row">
+                                        <label class="col-md-2">
+                                            <input type="radio" name="selection"  value=""  ng-model="selection"/>
+                                            {{ "Aucun"}}
+                                        </label>
 
-                                                    </tr> 
-                                                </tbody>
-                                            </table>
-                                            <div class="alert alert-block alert-danger requis" id="grade-not-selected" style="display:none">
-                                                <div>Veuillez selectionner un grade.</div>
-                                            </div>
+                                        <span class="col-md-3" ng-show="grades[0].corps != null" ng-repeat="(corps, value) in grades | groupBy: 'corps.libelle'">
+                                            <label>
+                                                <input type="radio" name="selection"  value="{{corps}}"  ng-model="$parent.selection"/>
+                                                {{ corps}}
+                                            </label>
+                                        </span>
+
+                                        <span class="col-md-2" ng-show="grades[0].corps == null" ng-repeat="(classe, value) in grades | groupBy: 'classe.libelle'">
+                                            <label>
+                                                <input type="radio" name="selection"  value="{{classe}}"  ng-model="$parent.selection"/>
+                                                Classe {{ classe}}
+                                            </label>
+                                        </span>
+
+                                    </div>
+                                    <div>
+                                        <table class="table table-bordered table-striped" ng-show="selection != ''">
+                                            <thead class="thead-dark">
+                                                <tr ng-show="grades[0].corps != null">
+                                                    <th style="text-align:center;">Classe</th>
+                                                    <th ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
+                                                        <span style="font-weight: bold;">{{ classe}}</span>                                
+                                                    </th>
+                                                </tr>
+                                                <tr ng-show="grades[0].corps == null">
+                                                    <th style="text-align:center;">Categorie / <br> Niveau</th>
+                                                    <th ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
+                                                        <span style="font-weight: bold;">{{ categorie}}</span>                                
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-show="grades[0].corps != null">
+                                                    <td style="text-align:center; font-weight: bold;"></td>
+                                                    <td ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
+                                                        <span ng-repeat="grade in value| orderBy : 'echelon.libelle'">
+                                                            <label for="{{grade.id}}" title="{{grade.indice}}">
+                                                                <input type="radio" id="{{grade.id}}" name="grade" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
+                                                                Echelon {{ grade.echelon.libelle}}
+                                                            </label><br>
+                                                        </span>
+                                                    </td>
+                                                </tr> 
+                                                <tr ng-show="grades[0].corps == null" ng-repeat="(niveau, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'niveau.libelle'">
+                                                    <td style="text-align:center; font-weight: bold;">{{niveau}}</td>
+                                                    <td ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
+                                                        <span ng-repeat="grade in value|  filterBy : ['niveau.libelle'] : niveau | orderBy : 'echelon.libelle'">
+                                                            <label for="{{grade.id}}" title="{{grade.indice}}">
+                                                                <input type="radio" id="{{grade.id}}" name="grade" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
+                                                                Echelon {{ grade.echelon.libelle}}
+                                                            </label><br>
+                                                        </span>
+                                                    </td>
+                                                </tr> 
+                                            </tbody>
+                                        </table>
+                                        <div class="alert alert-block alert-danger requis grade-not-selected" style="display:none">
+                                            <div>Veuillez selectionner un grade.</div>
                                         </div>
                                     </div>
-                                    <div class="col-md-3 pull-right">
+                                     <div class="col-md-3 pull-right" ng-show="selection != ''">
                                         <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
                                         <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
                                     </div>
                                 </div>
-                                <div class="row" style="margin-top: 10px;" ng-if="employe.typeEmploye.code == 'PER'" ng-show="showGradeList == true" id="add-grade-block">
-                                    <div class="col-md-12">
-                                        <div class="row">
-                                            <div class="form-group col-md-9">
-                                                <label for="corps">Corps</label>
-                                                <select name="corps" id="corps" ng-model="corpsSelectionnee" class="form-control">
-                                                    <option value="0">Assistant</option>
-                                                    <option value="1">Maître de conférence</option>
-                                                    <option value="2">Professeur</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-3">
-                                                <label>Valider</label><br>
-                                                <span class="btn btn-primary" ng-click="getClasseCorps()"><i class="fa fa-check"></i> Valider</span>                                          
-                                            </div>                      
-                                        </div>
-                                        <div>
-                                            <table class="table table-bordered">
-                                                <thead class="thead-dark">
-                                                    <tr>
-                                                        <th style="text-align:center;">Classe</th>
-                                                        <th style="text-align:center;" ng-repeat="cl in classeCorps">
-                                                            {{cl.libelle}}
-                                                        </th>              
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td style="text-align:center; font-weight: bold;">
-
-                                                        </td>
-                                                        <td ng-repeat="cl in classeCorps">
-                                                            <div class="form-check" ng-repeat="grade_co in gradeCorps" ng-if="grade_co.classe.libelle == cl.libelle">
-                                                                <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" ng-value="grade_co" ng-model="historiqueGrade.grade">
-                                                                <label class="form-check-label" for="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_co.indice}}">
-                                                                    echelon {{grade_co.echelon.libelle}}
-                                                                </label>
-                                                            </div>
-                                                        </td>
-
-                                                    </tr> 
-                                                </tbody>
-
-                                            </table>
-                                            <div class="alert alert-block alert-danger requis" id="grade-not-selected" style="display:none">
-                                                <div>Veuillez selectionner un grade.</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 pull-right">
-                                        <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
-                                        <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
-                                    </div>
-                                </div>
+                                <!--                                <div class="row" style="margin-top: 10px;" ng-if="avoirPermission('consulter', 'classe') == true" ng-show="showGradeList == true" id="add-grade-block">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-9">
+                                                                                <label for="classe">Classe</label>
+                                                                                <select name="classe" id="classe" ng-model="classeSelectionnee" class="form-control">
+                                                                                    <option value="1">Classe 1</option>
+                                                                                    <option value="2">Classe 2</option>
+                                                                                    <option value="3">Classe 3</option>
+                                                                                    <option value="4">Classe 4</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label>Valider</label><br>
+                                                                                <span class="btn btn-primary" ng-click="getCategorieAndNiveauClasse()"><i class="fa fa-check"></i> Valider</span>                                          
+                                                                            </div>                      
+                                                                        </div>
+                                                                        <div>
+                                                                            <table class="table table-bordered">
+                                                                                <thead class="thead-dark">
+                                                                                    <tr>
+                                                                                        <th style="text-align:center;">Categorie / <br> Niveau</th>
+                                                                                        <th style="text-align:center;" ng-repeat="cat in categorieClasse">
+                                                                                            {{cat.libelle}}
+                                                                                        </th>              
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr ng-repeat="niv in niveauClasse">
+                                                                                        <td style="text-align:center; font-weight: bold;">
+                                                                                            {{niv.libelle}}
+                                                                                        </td>
+                                                                                        <td ng-repeat="cat in categorieClasse">
+                                                                                            <div class="form-check" ng-repeat="grade_cl in gradeClasse" ng-if="grade_cl.niveau.libelle == niv.libelle && grade_cl.categorie.libelle == cat.libelle">
+                                                                                                <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" ng-value="grade_cl" ng-model="historiqueGrade.grade">
+                                                                                                <label class="form-check-label" for="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_cl.indice}}">
+                                                                                                    echelon {{grade_cl.echelon.libelle}}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </td>
+                                
+                                                                                    </tr> 
+                                                                                </tbody>
+                                                                            </table>
+                                                                            <div class="alert alert-block alert-danger requis" id="grade-not-selected" style="display:none">
+                                                                                <div>Veuillez selectionner un grade.</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3 pull-right">
+                                                                        <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
+                                                                        <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin-top: 10px;" ng-if="avoirPermission('consulter', 'corps') == true" ng-show="showGradeList == true" id="add-grade-block">
+                                                                    <div class="col-md-12">
+                                                                        <div class="row">
+                                                                            <div class="form-group col-md-9">
+                                                                                <label for="corps">Corps</label>
+                                                                                <select name="corps" id="corps" ng-model="corpsSelectionnee" class="form-control">
+                                                                                    <option value="0">Assistant</option>
+                                                                                    <option value="1">Maître de conférence</option>
+                                                                                    <option value="2">Professeur</option>
+                                                                                </select>
+                                                                            </div>
+                                                                            <div class="form-group col-md-3">
+                                                                                <label>Valider</label><br>
+                                                                                <span class="btn btn-primary" ng-click="getClasseCorps()"><i class="fa fa-check"></i> Valider</span>                                          
+                                                                            </div>                      
+                                                                        </div>
+                                                                        <div>
+                                                                            <table class="table table-bordered">
+                                                                                <thead class="thead-dark">
+                                                                                    <tr>
+                                                                                        <th style="text-align:center;">Classe</th>
+                                                                                        <th style="text-align:center;" ng-repeat="cl in classeCorps">
+                                                                                            {{cl.libelle}}
+                                                                                        </th>              
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td style="text-align:center; font-weight: bold;">
+                                
+                                                                                        </td>
+                                                                                        <td ng-repeat="cl in classeCorps">
+                                                                                            <div class="form-check" ng-repeat="grade_co in gradeCorps" ng-if="grade_co.classe.libelle == cl.libelle">
+                                                                                                <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" ng-value="grade_co" ng-model="historiqueGrade.grade">
+                                                                                                <label class="form-check-label" for="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_co.indice}}">
+                                                                                                    echelon {{grade_co.echelon.libelle}}
+                                                                                                </label>
+                                                                                            </div>
+                                                                                        </td>
+                                
+                                                                                    </tr> 
+                                                                                </tbody>
+                                
+                                                                            </table>
+                                                                            <div class="alert alert-block alert-danger requis" id="grade-not-selected" style="display:none">
+                                                                                <div>Veuillez selectionner un grade.</div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-3 pull-right">
+                                                                        <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
+                                                                        <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
+                                                                    </div>
+                                                                </div>-->
                             </form>
 
                             <div >
@@ -1033,10 +1154,10 @@
                                         <thead>
                                             <tr>
                                                 <th>Type d'avancement</th>
-                                                <th ng-if="employe.typeEmploye.code == 'PER'">Corps</th>
+                                                <th>Corps</th>
                                                 <th>Classe</th>
-                                                <th ng-if="employe.typeEmploye.code == 'PATS'">Niveau</th>
-                                                <th ng-if="employe.typeEmploye.code == 'PATS'">Catégorie</th>
+                                                <th>Niveau</th>
+                                                <th>Catégorie</th>
                                                 <th>Echelon</th>                      
                                                 <th>Date de passation</th>
                                                 <th>Suppression</th>
@@ -1044,16 +1165,16 @@
                                         </thead>
                                         <tbody> 
 
-                                            <tr ng-repeat="grade in grades" >
-                                                <td>{{grade.grade.typeAvancement.libelle}}</td>
-                                                <td ng-if="employe.typeEmploye.code == 'PER'">{{grade.grade.corps.libelle}}</td>
-                                                <td>{{grade.grade.classe.libelle}}</td>
-                                                <td ng-if="employe.typeEmploye.code == 'PATS'">{{grade.grade.niveau.libelle}}</td>
-                                                <td ng-if="employe.typeEmploye.code == 'PATS'">{{grade.grade.categorie.libelle}}</td>
-                                                <td>{{grade.grade.echelon.libelle}}</td>
-                                                <td>{{grade.datePassation| date: 'dd MMM yyyy'}}</td>
-                                                <td><button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteAgent(untravailleur.employe.id)"><i class="fa fa-trash"> Supprimer</i></button>
-</td>
+                                            <tr ng-repeat="ungrade in mesgrades" >
+                                                <td>{{ungrade.grade.typeAvancement.libelle}}</td>
+                                                <td>{{ungrade.grade.corps.libelle}}</td>
+                                                <td>{{ungrade.grade.classe.libelle}}</td>
+                                                <td>{{ungrade.grade.niveau.libelle}}</td>
+                                                <td>{{ungrade.grade.categorie.libelle}}</td>
+                                                <td>{{ungrade.grade.echelon.libelle}}</td>
+                                                <td>{{ungrade.datePassation| date: 'dd MMM yyyy'}}</td>
+                                                <td><button class="btn btn-danger"  ng-if="avoirPermission('supprimer', 'grade') == true" ng-click="deleteGrade(ungrade.id)"><i class="fa fa-trash"> Supprimer</i></button>
+                                                </td>
                                             </tr>
 
 
@@ -1223,7 +1344,7 @@
                                                 <i class="fa fa-plus"> Ajouter</i>
                                             </button> 
                                             <button ng-click="reinitialiserFormulaireFormation()"  class="btn btn-danger">
-                                                <i class="fa fa-warning"> Annuler</i>
+                                                <i class="fa fa-times"> Annuler</i>
                                             </button>
                                         </td>
                                     </tr>
@@ -1259,9 +1380,9 @@
                                             <div class="row col-md-12">
                                                 <div class="col-md-3">
                                                     <button ng-click="visualiserDocumentformation(formation.id)" class="btn btn-primary"><i class="fa fa-eye"></i></button>
-                                                 </div>
+                                                </div>
                                                 <div class="col-md-3">
-                                                    <button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteAgent(untravailleur.employe.id)"><i class="fa fa-trash"></i></button>
+                                                    <button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteFormationAndDocument(formation.id)"><i class="fa fa-trash"></i></button>
                                                 </div>
                                             </div>
                                         </td>
@@ -1276,147 +1397,147 @@
 
                 </div>
             </div>
-            <!-- ABSENCE-->
-            <div class="panel box box-primary box-solid"  ng-if="employe.typeEmploye.code == 'PATS' && avoirPermission('consulter', 'absence') == true">
-                <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#absence" class="box-header with-border">
-                    <div >
-                        <i class="fa fa-bookmark"></i>
-                        <h1 class="box-title ">Absence</h1>
-                    </div>
-                </a>
-
-                <div id="absence" class="panel-collapse collapse">
-
-                    <div class="container">
-
-                        <div class="row">
-                            <div class="col-md-11">
-                                <div class="panel-body table-responsive no-padding col-md-11">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Service</th>
-                                                <th>Fonction</th>
-                                                <th>Durée </th>
-                                                <th>Deductible</th>
-                                                <th>Justification</th>
-                                                <th>Détails</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody> 
-
-                                            <tr>
-                                                <td class="col-md-2">
-                                                    <span> 10/6/2017</span>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <span> Rectorat</span>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <span> Stagiaire</span>
-                                                </td >
-                                                <td class="col-md-2">
-                                                    <span> 3 jour(s)</span>
-                                                </td >
-                                                <td class="col-md-2">
-                                                    <span> Non déductible</span>
-                                                </td >
-                                                <td class="col-md-2">
-                                                    <span> Non justifié</span>
-                                                </td >
-                                                <td>
-                                                    <div class="col-md-2 ">
-                                                        <button ng-click="" class="btn btn-primary"><i class="fa fa-eye"></i></button>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-
-
-
-
-                                        </tbody>
-                                    </table>
+            <!--             ABSENCE
+                        <div class="panel box box-primary box-solid"  ng-if="avoirPermission('consulter', 'absence') == true">
+                            <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#absence" class="box-header with-border">
+                                <div >
+                                    <i class="fa fa-bookmark"></i>
+                                    <h1 class="box-title ">Absence</h1>
                                 </div>
-
+                            </a>
+            
+                            <div id="absence" class="panel-collapse collapse">
+            
+                                <div class="container">
+            
+                                    <div class="row">
+                                        <div class="col-md-11">
+                                            <div class="panel-body table-responsive no-padding col-md-11">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Date</th>
+                                                            <th>Service</th>
+                                                            <th>Fonction</th>
+                                                            <th>Durée </th>
+                                                            <th>Deductible</th>
+                                                            <th>Justification</th>
+                                                            <th>Détails</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody> 
+            
+                                                        <tr>
+                                                            <td class="col-md-2">
+                                                                <span> 10/6/2017</span>
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <span> Rectorat</span>
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <span> Stagiaire</span>
+                                                            </td >
+                                                            <td class="col-md-2">
+                                                                <span> 3 jour(s)</span>
+                                                            </td >
+                                                            <td class="col-md-2">
+                                                                <span> Non déductible</span>
+                                                            </td >
+                                                            <td class="col-md-2">
+                                                                <span> Non justifié</span>
+                                                            </td >
+                                                            <td>
+                                                                <div class="col-md-2 ">
+                                                                    <button ng-click="" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                                                                </div>
+                                                            </td>
+            
+                                                        </tr>
+            
+            
+            
+            
+                                                    </tbody>
+                                                </table>
+                                            </div>
+            
+                                        </div>
+                                    </div>
+                                </div>  
                             </div>
+            
+            
                         </div>
-                    </div>  
-                </div>
-
-
-            </div>
-            <!-- CONGE-->
-
-            <div class="panel box box-primary box-solid"  ng-if="employe.typeEmploye.code == 'PATS' && avoirPermission('consulter', 'conge') == true">
-                <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#conge" class="box-header with-border">
-                    <div >
-                        <i class="fa fa-bookmark-o"></i>
-                        <h1 class="box-title ">Conge</h1>
-                    </div>
-                </a>
-
-                <div id="conge" class="panel-collapse collapse">
-
-                    <div class="container">
-
-                        <div class="row">
-                            <div class="col-md-11">
-                                <div class="panel-body table-responsive no-padding col-md-11">
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-
-                                                <th>Service</th>
-                                                <th>Fonction</th>
-                                                <th>Date de retour du précédent congé </th>
-                                                <th>Date depart en congé</th>
-                                                <th>Nombre de jour(s)</th>
-                                                <th>Détails</th>
-
-                                            </tr>
-                                        </thead>
-                                        <tbody> 
-
-                                            <tr>
-                                                <td class="col-md-2">
-                                                    <span>Rectorat </span>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <span> Stagiaire</span>
-                                                </td>
-                                                <td class="col-md-2">
-                                                    <span> 10/6/2017</span>
-                                                </td >
-                                                <td class="col-md-2">
-                                                    <span> 10/6/2017</span>
-                                                </td >
-                                                <td class="col-md-2">
-                                                    <span> 30 jour(s)</span>
-                                                </td >
-                                                <td>
-                                                    <div class="col-md-2 ">
-                                                        <button ng-click="" class="btn btn-primary"><i class="fa fa-eye"></i></button>
-                                                    </div>
-                                                </td>
-
-                                            </tr>
-
-
-
-
-                                        </tbody>
-                                    </table>
+                         CONGE
+            
+                        <div class="panel box box-primary box-solid"  ng-if="avoirPermission('consulter', 'conge') == true">
+                            <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#conge" class="box-header with-border">
+                                <div >
+                                    <i class="fa fa-bookmark-o"></i>
+                                    <h1 class="box-title ">Conge</h1>
                                 </div>
-
+                            </a>
+            
+                            <div id="conge" class="panel-collapse collapse">
+            
+                                <div class="container">
+            
+                                    <div class="row">
+                                        <div class="col-md-11">
+                                            <div class="panel-body table-responsive no-padding col-md-11">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+            
+                                                            <th>Service</th>
+                                                            <th>Fonction</th>
+                                                            <th>Date de retour du précédent congé </th>
+                                                            <th>Date depart en congé</th>
+                                                            <th>Nombre de jour(s)</th>
+                                                            <th>Détails</th>
+            
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody> 
+            
+                                                        <tr>
+                                                            <td class="col-md-2">
+                                                                <span>Rectorat </span>
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <span> Stagiaire</span>
+                                                            </td>
+                                                            <td class="col-md-2">
+                                                                <span> 10/6/2017</span>
+                                                            </td >
+                                                            <td class="col-md-2">
+                                                                <span> 10/6/2017</span>
+                                                            </td >
+                                                            <td class="col-md-2">
+                                                                <span> 30 jour(s)</span>
+                                                            </td >
+                                                            <td>
+                                                                <div class="col-md-2 ">
+                                                                    <button ng-click="" class="btn btn-primary"><i class="fa fa-eye"></i></button>
+                                                                </div>
+                                                            </td>
+            
+                                                        </tr>
+            
+            
+            
+            
+                                                    </tbody>
+                                                </table>
+                                            </div>
+            
+                                        </div>
+                                    </div>
+                                </div>  
                             </div>
-                        </div>
-                    </div>  
-                </div>
-
-
-            </div>
+            
+            
+                        </div>-->
 
 
             <!-- Document -->
@@ -1505,7 +1626,7 @@
                                                 <div class="row">
                                                     <span class="pull-right">
                                                         <span class="btn btn-success" ng-click="ajouterNouveauDocument('newDocumentForm')"><i class="fa fa-plus"> Ajouter</i></span>
-                                                        <span class="btn btn-danger" ng-click="viderDocumentForm()"><i class="fa fa-warning"> Annuler</i></span>
+                                                        <span class="btn btn-danger" ng-click="viderDocumentForm()"><i class="fa fa-times"> Annuler</i></span>
                                                     </span>
                                                 </div>
                                             </td>
@@ -1530,31 +1651,7 @@
                             <div ng-repeat="typedoc in typedocuments" ng-class="{ 'active' : $first}" class="tab-pane" id="type{{$index + 1}}">
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <!--                    <dtable options="options" rows="documents" class="material dt" >
-                                                                        <column name="Description">
-                                                                            <column-header>
-                                                                                <div>{{$header}}</div>
-                                                                                <input
-                                                                                    type="text"
-                                                                                    ng-model-options="{ debounce: 100 }"
-                                                                                    placeholder="Rechercher"
-                                                                                    ng-click="prev($event)"
-                                                                                    ng-model="$parent.filterKeywords" />
-                                                                            </column-header>
-                                                                          {{$row.description}}
-                                                                        </column>
-                                                                        <column name="Date d'enregistrement">
-                                                                           <span>{{$row.dateEnregistrement | date:'dd MMM yyyy'}}</span>     
-                                                                        </column>
-                                                                        <column name="Visualiser">
-                                                                           <div>
-                                                                                 <a class="btn btn-primary" ng-click="visualiserDocument($row.emplacement)">
-                                                                                     <i class="fa fa-eye">                    
-                                                                                     </i>
-                                                                                 </a>
-                                                                            </div>     
-                                                                        </column>
-                                                                    </dtable>-->
+
                                         <div class="panel-body table-responsive no-padding col-md-12">
 
                                             <table class="table table-striped table-bordered tableau-document" datatable="ng" >
@@ -1580,8 +1677,8 @@
                                                                 <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
                                                                     <i class="fa fa-eye"></i>
                                                                 </a>
-                                                                <button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteAgent(untravailleur.employe.id)"><i class="fa fa-trash"></i></button>
-                                                
+                                                                <button class="btn btn-danger" ng-if="groupeUtilisateur.code == 'DRH_AD'" ng-click="deleteArchive(doc)"><i class="fa fa-trash"></i></button>
+
                                                             </div>
                                                         </td>
 

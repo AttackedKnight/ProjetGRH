@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('CiviliteController', function ($scope, Securite, SweetAlert, Civilite) {
+angular.module('ParametrageModule').controller('CiviliteController', function ($scope, Securite, SweetAlert, Genre, Situation, Civilite) {
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
@@ -15,6 +15,18 @@ angular.module('ParametrageModule').controller('CiviliteController', function ($
 
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
+    
+    Situation.findAll().success(function (data) {
+        $scope.situations = data;
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des corps !");
+    });
+
+    Genre.findAll().success(function (data) {
+        $scope.genres = data;
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des classes !");
+    });
 
     $scope.civilites = [];
     $scope.civilite = {id: ""};
@@ -29,10 +41,15 @@ angular.module('ParametrageModule').controller('CiviliteController', function ($
             if (c.libelle == null || c.libelle == "") {
                 $("div.requis").eq(1).show("slow").delay(3000).hide("slow");
             } else {
-                if ($scope.createForm == true) {
-                    $scope.add(c);
+                if (c.genre == null) {
+                    console.log(c.genre);
+                    $("div.requis").eq(2).show("slow").delay(3000).hide("slow");
                 } else {
-                    $scope.edit(c);
+                    if ($scope.createForm == true) {
+                        $scope.add(c);
+                    } else {
+                        $scope.edit(c);
+                    }
                 }
             }
         }

@@ -1,19 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <!--<div class="box box-solid box-primary  ">-->
-        <!--<div class="box-header">-->
-        <div ng-if="groupeUtilisateur.code == 'DRH_AD'"  style=" background: white; border-radius: 4px; padding: 4px; text-align: center; font-size: 1.3em; font-weight: bold;">
-            <span>Type d'employé : </span>
-            <span>
-                <label class="custom-control-label" for="per">PER</label>
-                <input type="radio" name="typeEmp" ng-value="{{true}}" ng-model="estPER" id="per"  ng-change="changerTypeEmploye()" >
-            </span>
-            <span>
-                <label for="pats" class="custom-control-label" >PATS</label>
-                <input type="radio" name="typeEmp" ng-value="{{false}}" ng-model="estPER" id="pats"  ng-change="changerTypeEmploye()" >
-            </span>
-        </div>
-        <!--</div>-->
+
         <div class="box-body row">
             <form role="form" name="newEmployeForm" novalidate="">
                 <div class="row">             
@@ -23,7 +10,6 @@
                                 <h3> INFORMATIONS PERSONNELLES</h3>
                             </div>
                             <div class="row">
-                                <!--                        <div>{{servir}}</div>-->
                                 <div class="col-md-6 ">
                                     <div class="box box-primary box-solid" id="bloc-identifiant">
                                         <div class="box-header">
@@ -56,7 +42,7 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <label for="MatriculeInterne"> Matricule :</label>
+                                                <label for="MatriculeInterne"> Matricule interne:</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-user"></i>
@@ -77,15 +63,22 @@
 
                                             </div>
                                             <div class="form-group">
-                                                <label>Matricule
-                                                    <span ng-if="groupeUtilisateur.code == 'PER_AD' || (groupeUtilisateur.code == 'DRH_AD' && typeEmp == 'PER')">
-                                                        FNR
-                                                    </span>
-                                                    <span ng-if="groupeUtilisateur.code == 'PATS_AD' || (groupeUtilisateur.code == 'DRH_AD' && typeEmp == 'PATS')">
-                                                        IPRES
-                                                    </span>
+                                                <label>Caisse sociale
                                                 </label>
-                                                <div class="input-group">
+                                                <div class="box-body">
+                                                    <div class="form-group row">
+                                                        <label for="nonCaisse">
+                                                            <input type="radio" id="nonCaisse" name="caissesociale" ng-click="removeSelectedCaisseSociale()" />
+                                                            {{ "Aucun"}}
+                                                        </label>
+                                                        <label ng-repeat="caissesociale in caissesociales" for="{{caissesociale.code}}" class="col-md-4" >
+                                                            <input type="radio"  name="caissesociale"  ng-value="{{caissesociale}}"  ng-model="$parent.employe.caisseSociale" id="{{caissesociale.code}}" />
+                                                            {{caissesociale.code}} 
+                                                        </label>
+                                                    </div>
+
+                                                </div>  
+                                                <div class="input-group" ng-if="employe.caisseSociale.id">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-user"></i>
                                                     </div>
@@ -117,13 +110,13 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-user"></i>
                                                     </div>
-                                                    <select ng-model="employe.situationMatrimoniale" class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
+                                                    <select ng-model="employe.situationMatrimoniale" ng-change="checkSituationMatrimoniale()" class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
                                                 </div>
                                                 <div class="alert alert-block alert-danger requis" style="display:none">
                                                     <div>Veuillez renseigner ce champs.</div>
                                                 </div>
                                             </div>
-                                            <div class="form-group" ng-if="employe.sexe == 'masculin' && employe.situationMatrimoniale == situations[0]">
+                                            <div class="form-group" ng-if="estMarie && homme">
                                                 <label for="nombreDeFemme"> Nombre de femme(s) : </label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
@@ -184,6 +177,10 @@
 
                                             </div>
                                             <div class="form-group">
+                                                <label for="autreNumero" > Ajouter un autre num�ro :</label>
+                                                <input type="checkbox"  ng-model="autreNumero"   id="autreNumero">                                              
+                                            </div>
+                                            <div class="form-group" ng-if="autreNumero">
                                                 <label for="telephone2"> Telephone 2 :</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
@@ -237,10 +234,10 @@
                                             <div class="row">
                                                 <div class="col-md-2" style="width: 35%; margin: auto; text-align: center">
                                                     <label class="label-info" for="profil">
-                                                        <span class="btn btn-primary" id="btn_modifier_photo_profil">Changer</span>
+                                                        <span class="btn btn-primary" id="btn_modifier_photo_profil"><i class="fa fa-download"></i> Changer</span>
                                                         <input type="file"  name='profil' id='profil' ng-model="imgProfil" onchange="angular.element(this).scope().preview(this)" accept="image/*" style='display: none;'/>
                                                     </label>
-                                                    <span class="btn btn-warning" ng-click="showDefaultAvatar()">Annuler</span>
+                                                    <span class="btn btn-danger" ng-click="showDefaultAvatar()"><i class="fa fa-times"></i> Annuler</span>
                                                 </div>
                                                 <div>        
                                                     <div class="col-md-2" style="width: 50%; margin: auto; text-align: center;">
@@ -291,13 +288,9 @@
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-user"></i>
                                                     </div>
-                                                    <select name="genre" id="genre" ng-model="employe.sexe" class="form-control">
-                                                        <option value="">Selectionner le sexe</option>
-                                                        <option value="masculin">Masculin</option>
-                                                        <option value="feminin">Féminin</option>
-                                                    </select>
+                                                    <select ng-model="employe.genre" ng-change="checkGenre()" class="form-control niveau" ng-options="genre.libelle for genre in genres"></select>
                                                 </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div class="alert alert-block alert-danger requis genreVide" style="display:none">
                                                     <div>Veuillez renseigner ce champs.</div>
                                                 </div>
                                                 <div class="alert alert-block alert-danger requis non-concorde" style="display:none">
@@ -312,12 +305,13 @@
                                                     </div>
                                                     <input type="date" placeholder="Date de naissance" name="dateDeNaissance" id="dateDeNaissance" max="{{today}}" class="form-control" ng-model="employe.dateDeNaissance">
                                                 </div>
-                                                <div ng-messages="newEmployeForm.dateDeNaissance.$error" role="alert" ng-show="newEmployeForm.dateDeNaissance.$invalid"  class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="max">Cette date doit etre inférieur à la date actuelle</div>
-                                                </div>
                                                 <div class="alert alert-block alert-danger requis" style="display:none">
                                                     <div>Veuillez renseigner ce champs.</div>
                                                 </div>
+                                                <div ng-messages="newEmployeForm.dateDeNaissance.$error" role="alert" ng-show="newEmployeForm.dateDeNaissance.$invalid"  class="alert alert-block alert-danger has-error">
+                                                    <div ng-message="max">Cette date doit etre inférieur à la date actuelle</div>
+                                                </div>
+                                                
                                             </div>
                                             <div class="form-group">
                                                 <label for="lieuDeNaissance"> Lieu de naissance :</label>
@@ -534,14 +528,14 @@
                                         </div>
                                         <div class="box-body">
                                             <div class="form-group row">
-                                                <label ng-repeat="syn in syndicats" for="{{syn.nomSyndicat}}" class="col-md-4" >
-                                                    <input type="radio"  name="syndicat"  ng-change="setSyndicat()" ng-value="{{syn.id}}"  ng-model="$parent.currentSyndicat" id="{{syn.nomSyndicat}}" />
-                                                    {{syn.nomSyndicat}}
+                                                <label for="nonSyndicat">
+                                                    <input type="radio" id="nonSyndicat" name="syndicat" ng-click="removeSelectedSyndicat()" />
+                                                    {{ "Aucun"}}
                                                 </label>
-                                                <label for="none" class="col-md-4">
-                                                    <input type="radio"  name="syndicat" ng-change="setSyndicat()" ng-selected="true" ng-model="currentSyndicat" ng-value="{{0}}" id="none" />
-                                                    Non
-                                                </label> 
+                                                <label ng-repeat="syndicat in syndicats" for="{{syndicat.code}}" class="col-md-4" >
+                                                    <input type="radio"  name="syndicat"  ng-value="{{syndicat}}"  ng-model="$parent.employe.syndicat" id="{{syndicat.code}}" />
+                                                    {{syndicat.code}}
+                                                </label>
                                             </div>
 
                                         </div>
@@ -554,98 +548,70 @@
                                             <h3 class="box-title">GRADE</h3>
                                         </div>
                                         <div class="box-body">
-                                            <div ng-if="groupeUtilisateur.code == 'PATS_AD' || groupeUtilisateur.code == 'DRH_AD'" ng-show="groupeUtilisateur.code == 'PATS_AD' || (groupeUtilisateur.code == 'DRH_AD' && typeEmp == 'PATS')">
+                                            <div ng-if="avoirPermission('consulter', 'grade') == true">
+                                                
                                                 <div class="row">
-                                                    <div class="form-group col-md-9">
-                                                        <label for="classe">Classe</label>
-                                                        <select name="classe" id="classe" ng-model="classeSelectionnee" class="form-control">
-                                                            <option value="1">Classe 1</option>
-                                                            <option value="2">Classe 2</option>
-                                                            <option value="3">Classe 3</option>
-                                                            <option value="4">Classe 4</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-md-3">
-                                                        <label>Valider</label>
-                                                        <span class="btn btn-primary" ng-click="getCategorieAndNiveauClasse()"><i class="fa fa-check"></i> Valider</span>                                          
-                                                    </div>                      
-                                                </div>
-                                                <div>
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-dark">
-                                                            <tr>
-                                                                <th style="text-align:center;">Categorie / <br> Niveau</th>
-                                                                <th style="text-align:center;" ng-repeat="cat in categorieClasse">
-                                                                    {{cat.libelle}}
-                                                                </th>              
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-repeat="niv in niveauClasse">
-                                                                <td style="text-align:center; font-weight: bold;">
-                                                                    {{niv.libelle}}
-                                                                </td>
-                                                                <td ng-repeat="cat in categorieClasse">
-                                                                    <div class="form-check" ng-repeat="grade_cl in gradeClasse" ng-if="grade_cl.niveau.libelle == niv.libelle && grade_cl.categorie.libelle == cat.libelle">
-                                                                        <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" ng-value="grade_cl" ng-model="historiqueGrade.grade">
-                                                                        <label class="form-check-label" for="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_cl.indice}}">
-                                                                            echelon {{grade_cl.echelon.libelle}}
-                                                                        </label>
-                                                                    </div>
-                                                                </td>
+                                                    <label class="col-md-2">
+                                                        <input type="radio" name="selection"  value=""  ng-model="selection"/>
+                                                        {{ "Aucun"}}
+                                                    </label>
 
-                                                            </tr> 
-                                                        </tbody>
-                                                    </table>
-                                                    <div class="alert alert-block alert-danger requis grade-not-selected" style="display:none">
-                                                        <div>Veuillez selectionner un grade.</div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div ng-if="groupeUtilisateur.code == 'PER_AD' || groupeUtilisateur.code == 'DRH_AD'" ng-show="groupeUtilisateur.code == 'PER_AD' || (groupeUtilisateur.code == 'DRH_AD' && typeEmp == 'PER')">
-                                                <div class="row">
-                                                    <div class="form-group col-md-9">
-                                                        <label for="corps">Corps</label>
-                                                        <select name="corps" id="corps" ng-model="corpsSelectionnee" class="form-control">
-                                                            <option value="0">Assistant</option>
-                                                            <option value="1">Maître de conférence</option>
-                                                            <option value="2">Professeur</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="form-group col-md-3">
-                                                        <label>Valider</label>
-                                                        <span class="btn btn-primary" ng-click="getClasseCorps()"><i class="fa fa-check"></i> Valider</span>                                          
-                                                    </div>                      
+                                                    <span class="col-md-3" ng-show="grades[0].corps != null" ng-repeat="(corps, value) in grades | groupBy: 'corps.libelle'">
+                                                        <label>
+                                                            <input type="radio" name="selection"  value="{{corps}}"  ng-model="$parent.selection"/>
+                                                            {{ corps}}
+                                                        </label>
+                                                    </span>
+
+                                                    <span class="col-md-2" ng-show="grades[0].corps == null" ng-repeat="(classe, value) in grades | groupBy: 'classe.libelle'">
+                                                        <label>
+                                                            <input type="radio" name="selection"  value="{{classe}}"  ng-model="$parent.selection"/>
+                                                            Classe {{ classe}}
+                                                        </label>
+                                                    </span>
+
                                                 </div>
                                                 <div>
-                                                    <table class="table table-bordered">
+                                                    <table class="table table-bordered table-striped" ng-show="selection != ''">
                                                         <thead class="thead-dark">
-                                                            <tr>
+                                                            <tr ng-show="grades[0].corps != null">
                                                                 <th style="text-align:center;">Classe</th>
-                                                                <th style="text-align:center;" ng-repeat="cl in classeCorps">
-                                                                    {{cl.libelle}}
-                                                                </th>              
+                                                                <th ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
+                                                                    <span style="font-weight: bold;">{{ classe}}</span>                                
+                                                                </th>
+                                                            </tr>
+                                                            <tr ng-show="grades[0].corps == null">
+                                                                <th style="text-align:center;">Categorie / <br> Niveau</th>
+                                                                <th ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
+                                                                    <span style="font-weight: bold;">{{ categorie}}</span>                                
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            <tr>
-                                                                <td style="text-align:center; font-weight: bold;">
-
+                                                            <tr ng-show="grades[0].corps != null">
+                                                                <td style="text-align:center; font-weight: bold;"></td>
+                                                                <td ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
+                                                                    <span ng-repeat="grade in value| orderBy : 'echelon.libelle'">
+                                                                        <label for="{{grade.id}}" title="{{grade.indice}}">
+                                                                            <input type="radio" id="{{grade.id}}" name="grade" ng-click="afficherSelection()" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
+                                                                            Echelon {{ grade.echelon.libelle}}
+                                                                        </label><br>
+                                                                    </span>
                                                                 </td>
-                                                                <td ng-repeat="cl in classeCorps">
-                                                                    <div class="form-check" ng-repeat="grade_co in gradeCorps" ng-if="grade_co.classe.libelle == cl.libelle">
-                                                                        <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" ng-value="grade_co" ng-model="historiqueGrade.grade">
-                                                                        <label class="form-check-label" for="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_co.indice}}">
-                                                                            echelon {{grade_co.echelon.libelle}}
-                                                                        </label>
-                                                                    </div>
+                                                            </tr> 
+                                                            <tr ng-show="grades[0].corps == null" ng-repeat="(niveau, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'niveau.libelle'">
+                                                                <td style="text-align:center; font-weight: bold;">{{niveau}}</td>
+                                                                <td ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
+                                                                    <span ng-repeat="grade in value|  filterBy : ['niveau.libelle'] : niveau | orderBy : 'echelon.libelle'">
+                                                                        <label for="{{grade.id}}" title="{{grade.indice}}">
+                                                                            <input type="radio" id="{{grade.id}}" name="grade" ng-click="afficherSelection()" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
+                                                                            Echelon {{ grade.echelon.libelle}}
+                                                                        </label><br>
+                                                                    </span>
                                                                 </td>
-
                                                             </tr> 
                                                         </tbody>
-
                                                     </table>
-
                                                     <div class="alert alert-block alert-danger requis grade-not-selected" style="display:none">
                                                         <div>Veuillez selectionner un grade.</div>
                                                     </div>
@@ -660,13 +626,17 @@
                                             <h3 class="box-title">MUTUELLE</h3>
                                         </div>
                                         <div class="box-body">
-                                            <div class="form-group">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-check"></i>
-                                                    <label> Inscrit:</label>
-                                                    <input type="checkbox" name="incrit" value="incrit" ng-model="estMembreMutuelle">
-                                                </div>      
+                                            <div class="form-group row">
+                                                <label for="nonMutuelle">
+                                                    <input type="radio" id="nonMutuelle" name="mutuelle" ng-click="removeSelectedMutuelle()" />
+                                                    {{ "Aucun"}}
+                                                </label>
+                                                <label ng-repeat="mutuelle in mutuelles" for="{{mutuelle.code}}" class="col-md-4" >
+                                                    <input type="radio"  name="mutuelle"  ng-value="{{mutuelle}}"  ng-model="$parent.membreMutuelle.mutuelleSante" id="{{mutuelle.code}}" />
+                                                    {{mutuelle.code}}
+                                                </label>
                                             </div>
+
                                         </div>
                                     </div>
 
@@ -688,7 +658,7 @@
                     <div>
                         <div class=" col-md-offset-3">
                             <div class="col-md-3 col-xs-6"> <input type="reset" ng-click="reinitialiser()" class="btn btn-block btn-danger"  value="ANNULER"> </div>
-                            <div class="col-md-3 col-xs-6"> <input type="submit" ng-disabled="newEmployeForm.$invalid" class="btn btn-block btn-success" ng-click="controlForm(employe, contact, adresse, servir)" value="ENREGISTRER"> </div>
+                            <div class="col-md-3 col-xs-6"> <input type="submit" ng-disabled="newEmployeForm.$invalid" class="btn btn-block btn-success" ng-click="controlIdentifiant()" value="ENREGISTRER"> </div>
                         </div> 
                     </div>
 

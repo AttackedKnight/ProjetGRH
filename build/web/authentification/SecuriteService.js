@@ -6,58 +6,34 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
         estConnecte: function () {
 //            $("#ecran_attente").show();
             if (!$cookies.get('globals'))
-            {
-
+            {   
                 return false;
             } else {
 
                 var cookie = JSON.parse($cookies.get('globals'));
 
-
+                /*Pour les utilisateurs appartenant au groupe employe*/
                 $rootScope.prenomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.prenom : "";
-                $rootScope.nomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.nom : "";
+                $rootScope.nomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.nom : ""; 
+                $rootScope.idEmploye = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.id : "";
+                /*Pour les utilisateurs appartenant au groupe employe*/
                 $rootScope.groupeUtilisateur = cookie.currentUser.user.groupe;
+                $rootScope.typeEmployeAssocie = cookie.currentUser.typeEmployeAssocie;
                 $rootScope.avatarUtilisateur = cookie.currentUser.user.avatar;
                 $rootScope.entiteUtilisateur = cookie.currentUser.user.entite;
-
+                $rootScope.typeEmploye_o = cookie.currentUser.typeEmploye_o;
 
                 /*Recuperation des permissions*/
 
-
-                if ($rootScope.groupeUtilisateur.code == 'SUP_AD') {
-                    $('#admin-menu').removeAttr('hidden');
-                    $('body').removeClass('fixed');
-                }
-                if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-                    $('#drh-menu').removeAttr('hidden');
-                }
-                if ($rootScope.groupeUtilisateur.code == 'PATS_AD' || $rootScope.groupeUtilisateur.code == 'DRH_AD') {
-                    $('#drh-menu').removeAttr('hidden');
-                    $('#drh-demandes').removeAttr('hidden');
-                }
-                if ($rootScope.groupeUtilisateur.code == 'SERV_AD') {
-                    $('#service-menu').removeAttr('hidden');
-                    $('#service-demandes').removeAttr('hidden');
-                }
-                if ($rootScope.groupeUtilisateur.code == 'EMP') {
-                    $rootScope.idUtilisateur = cookie.currentUser.user.employe.id;
-                    $('#employe-menu').removeAttr('hidden');
-                }
-
-
                 $('.no-print').css('display', 'none');
-
                 $('header').removeAttr('hidden');
                 $('aside').removeAttr('hidden');
                 $('footer').removeAttr('hidden');
                 $('.content-header').removeAttr('hidden');
-
-
                 $('.content-wrapper').removeAttr('style');
                 $('body').css('padding-right', '0px');
 
                 if (!$rootScope.myPermission || $rootScope.myPermission.length == 0) {
-
                     AccesGroupeTable.showGroupeAccess($rootScope.groupeUtilisateur).success(function (p) {
                         $rootScope.myPermission = p;
 
@@ -92,10 +68,8 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                             }
 
                         };
-
-
                     }).error(function () {
-                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des permissions");
+                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la r?cup?ration des permissions");
                     });
                 }
 
@@ -119,14 +93,6 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
             $('aside').attr('hidden', 'hidden');
             $('footer').attr('hidden', 'hidden');
             $('.content-header').attr('hidden', 'hidden');
-
-
-            $('#admin-menu').attr('hidden', 'hidden');
-            $('#drh-menu').attr('hidden', 'hidden');
-            $('#drh-demandes').attr('hidden', 'hidden');
-            $('#service-demandes').attr('hidden', 'hidden');
-            $('#employe-menu').attr('hidden', 'hidden');
-            $('#service-menu').attr('hidden', 'hidden');
 
             $('.content-wrapper').css('background', 'transparent');
 

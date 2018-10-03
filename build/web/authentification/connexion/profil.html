@@ -53,8 +53,8 @@
             </div>
         </div><!-- /.box-body -->
         <div class="box-footer">
-            <button type="button"  ng-click="editable()" class="btn btn-primary">Modifier</button>
-            <button type="button" ng-click="cancel()" class="btn btn-primary">Annuler</button>
+            <button type="button"  ng-show="!esteditable" ng-click="editable()" class="btn btn-primary">Modifier</button>
+            <button type="button" ng-click="cancel()" ng-show="esteditable" class="btn btn-danger">Annuler</button>
             <button type="button"  ng-click="controlForm(utilisateur)" ng-disabled="profilForm.$invalid" ng-if="edit" class="btn btn-warning">Enregistrer</button>
         </div>
     </form>

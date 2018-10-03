@@ -12,22 +12,94 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController', functi
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
+    
+    $scope.getEmploye = function () {
+        Servir.findEmployeFemme($rootScope.typeEmployeAssocie.join("-")).success(function (data) {
 
-
-
-    $scope.getPerFemme = function () {
-        Servir.findPerFemme().success(function (data) {
-            $scope.travailleurs = data;
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+                $scope.travailleurs = data.filter(retrieveType);
+            } else {
+                $scope.travailleurs = data;
+            }
+            $scope.getAvancement();
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
+            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
         });
     };
-    $scope.getPatsFemme = function () {
-        Servir.findPatsFemme().success(function (data) {
-            $scope.travailleurs = data;
+    $scope.getEmploye();
+
+    function retrieveType(data) {
+        return data.employe.typeEmploye.id == $routeParams.type;
+    }
+
+    $scope.allAvancements = [];
+    $scope.getAvancement = function () {
+        HistoriqueGrade.findAvancementFemme($rootScope.typeEmployeAssocie.join("-")).success(function (data) {
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+                $scope.allAvancements = data.filter(retrieveType);
+            } else {
+                $scope.allAvancements = data;
+            }
+            $scope.validerCritere();
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
+            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
         });
+    };
+
+    $scope.getAvancementOn = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementOn);
+    };
+    $scope.getAvancementBefore = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementBefore);
+    };
+    $scope.getAvancementAfter = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementAfter);
+    };
+    $scope.getAvancementBetween = function () {
+        $scope.avancements = $scope.allAvancements.filter(retrieveAvancementBetween);
+    };
+
+    function retrieveAvancementOn(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa.toDateString() == da.toDateString();
+    }
+
+    function retrieveAvancementBefore(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa < da;
+    }
+
+    function retrieveAvancementAfter(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var da = new Date(d);
+        return dpa > da;
+    }
+
+    function retrieveAvancementBetween(data) {
+        var dpa = new Date(data.dateProchainAvancement);
+        var daMin = new Date(dMin);
+        var daMax = new Date(dMax);
+        return (dpa> daMin && dpa < daMax);
+    }
+    
+    $scope.validerCritere = function () {
+        $scope.recupererChaineDate();
+
+        if ($scope.position == "between") {
+            $scope.getAvancementBetween();
+        }
+        if ($scope.position == "on") {
+            $scope.getAvancementOn();
+        }
+        if ($scope.position == "before") {
+            $scope.getAvancementBefore();
+        }
+        if ($scope.position == "after") {
+            $scope.getAvancementAfter();
+        }
+
     };
 
     /*Avencements*/
@@ -58,80 +130,6 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController', functi
     /*Initialisation date et formatage*/
 
 
-
-
-
-
-
-    $scope.getPerFemmeAvancementOn = function () {
-        HistoriqueGrade.findDateAvancementPerFemme(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-    $scope.getPerFemmeAvancementBefore = function () {
-        HistoriqueGrade.findDateAvantPerFemme(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-    $scope.getPerFemmeAvancementAfter = function () {
-        HistoriqueGrade.findDateApresPerFemme(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-    $scope.getPerFemmeAvancementBetween = function () {
-        HistoriqueGrade.findDateEntrePerFemme(dMin, dMax).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-
-
-    $scope.getPatsFemmeAvancementOn = function () {
-        HistoriqueGrade.findDateAvancementPatsFemme(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-    $scope.getPatsFemmeAvancementBefore = function () {
-        HistoriqueGrade.findDateAvantPatsFemme(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-    $scope.getPatsFemmeAvancementAfter = function () {
-        HistoriqueGrade.findDateApresPatsFemme(d).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-    $scope.getPatsFemmeAvancementBetween = function () {
-        HistoriqueGrade.findDateEntrePatsFemme(dMin, dMax).success(function (data) {
-            $scope.avancements = data;
-
-        }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés") 
-        });
-    };
-
-
-
     /*CRITERES REQUETES*/
 
     $scope.position = "after";
@@ -146,79 +144,7 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController', functi
         }
     };
 
-    $scope.validerCritere = function () {
-        $scope.recupererChaineDate();
 
-        if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
-
-            if ($scope.position == "between") {
-                $scope.getPatsFemmeAvancementBetween();
-            }
-            if ($scope.position == "on") {
-                $scope.getPatsFemmeAvancementOn();
-            }
-            if ($scope.position == "before") {
-                $scope.getPatsFemmeAvancementBefore();
-            }
-            if ($scope.position == "after") {
-                $scope.getPatsFemmeAvancementAfter();
-            }
-
-
-        }
-        if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-            if ($scope.position == "between") {
-                $scope.getPerFemmeAvancementBetween();
-            }
-            if ($scope.position == "on") {
-                $scope.getPerFemmeAvancementOn();
-            }
-            if ($scope.position == "before") {
-                $scope.getPerFemmeAvancementBefore();
-            }
-            if ($scope.position == "after") {
-                $scope.getPerFemmeAvancementAfter();
-            }
-        }
-
-        if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
-
-
-            if ($routeParams.type == 1) {
-                if ($scope.position == "between") {
-                    $scope.getPerFemmeAvancementBetween();
-                }
-                if ($scope.position == "on") {
-                    $scope.getPerFemmeAvancementOn();
-                }
-                if ($scope.position == "before") {
-                    $scope.getPerFemmeAvancementBefore();
-                }
-                if ($scope.position == "after") {
-                    $scope.getPerFemmeAvancementAfter();
-                }
-            }
-            if ($routeParams.type == 0) {
-                if ($scope.position == "between") {
-                    $scope.getPatsFemmeAvancementBetween();
-                }
-                if ($scope.position == "on") {
-                    $scope.getPatsFemmeAvancementOn();
-                }
-                if ($scope.position == "before") {
-                    $scope.getPatsFemmeAvancementBefore();
-                }
-                if ($scope.position == "after") {
-                    $scope.getPatsFemmeAvancementAfter();
-                }
-            }
-
-
-        }
-
-    };
-
-    $scope.validerCritere();
 
     /*CRITERES REQUETES*/
 
@@ -226,22 +152,44 @@ angular.module('DrhModule').controller('ConsulterEmployeFemmeController', functi
 
     /*Avencements*/
 
-    if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
-        $scope.getPatsFemme();
-    }
-    if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
-        $scope.getPerFemme();
-    }
+    $scope.deleteAgent = function (employe) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        Employe.delete(employe.id).success(function () {
+                            UploadFile.delete(angular.toJson({chemin:"archives/" + employe.numeroCni})).success(function () {
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                                if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
+                                    $scope.getPats();
+                                }
+                                if ($rootScope.groupeUtilisateur.code == 'PER_AD') {
+                                    $scope.getPer();
+                                }
 
-    if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
-        if ($routeParams.type == 1) {
-            $scope.getPerFemme();
-        }
-        if ($routeParams.type == 0) {
-            $scope.getPatsFemme();
-        }
-    }
+                                if ($rootScope.groupeUtilisateur.code == 'DRH_AD') {
 
+
+                                    if ($routeParams.type == 1) {
+                                        $scope.getPer();
+                                    } else if ($routeParams.type == 0) {
+                                        $scope.getPats();
+                                    } else {
+                                        $scope.getAll();
+                                    }
+
+
+                                }
+                            }).error(function () {
+                                SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                            });
+
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                        });
+                    }
+                });
+    };
 
 });
 

@@ -5,7 +5,7 @@
  */
 
 
-angular.module('ServiceModule').controller('ServiceDetailEntiteController', function ($scope, $q, $routeParams, SweetAlert, Securite, Entite, TypeEntite, Servir, Employe)
+angular.module('ServiceModule').controller('ServiceDetailEntiteController', function ($scope, $q, $routeParams, SweetAlert, Securite, Entite, Civilite, Servir, Employe)
 {
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -81,11 +81,21 @@ angular.module('ServiceModule').controller('ServiceDetailEntiteController', func
                 $scope.effectif = cumul;
             });
 
-            $scope.responsable = data;
+           
 
-            if ($scope.responsable) {
-
-                $scope.prenomNom = $scope.responsable.employe.civilite.code + ' ' + $scope.responsable.employe.prenom + ' ' + ($scope.responsable.employe.nom).toUpperCase();
+            if (data) {
+                $scope.responsable = data;
+                
+                var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilté)
+                if(data.employe.genre.libelle != 'Masculin'){
+                    situation = data.employe.situationMatrimoniale.id + '';
+                }
+                Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){
+                    $scope.prenomNom = civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
+                }).error(function(){
+                    SweetAlert.finirChargementEchec("Erreur lors de la récupération de la civilité!");
+                });
+//                $scope.prenomNom = $scope.responsable.employe.civilite.code + ' ' + $scope.responsable.employe.prenom + ' ' + ($scope.responsable.employe.nom).toUpperCase();
             }
 
         }).error(function () {

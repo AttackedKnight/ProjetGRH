@@ -54,9 +54,7 @@ public class Utilisateur implements Serializable {
     @Column(name = "motDePasse")
     private String motDePasse;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "email")
     private String email;
     @Size(max = 255)
@@ -79,11 +77,10 @@ public class Utilisateur implements Serializable {
         this.id = id;
     }
 
-    public Utilisateur(Integer id, String login, String motDePasse, String email) {
+    public Utilisateur(Integer id, String login, String motDePasse) {
         this.id = id;
         this.login = login;
         this.motDePasse = motDePasse;
-        this.email = email;
     }
 
     public Integer getId() {

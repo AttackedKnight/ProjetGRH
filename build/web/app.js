@@ -10,7 +10,7 @@
  */
 angular.module('globalModule', ['ngRoute', 'ngMessages', 'EmployeModule',
     'ngCookies', 'angularFileUpload', 'DrhModule', 'ParametrageModule', 'AuthentificationModule',
-    'StatistiqueModule', 'ServiceModule', 'datatables', 'checklist-model']);
+    'StatistiqueModule', 'ServiceModule', 'datatables', 'checklist-model','angular.filter']);
 
 /*Sur serveur*/
 //var chemin="https://10.157.20.203:8080/ProjetGRH"; 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('DetailEntiteController', function ($scope, Servir, Securite, SweetAlert, Entite, TypeEntite, $routeParams) {
+angular.module('ParametrageModule').controller('DetailEntiteController', function ($scope,Securite,Servir,Civilite, SweetAlert, Entite, TypeEntite, $routeParams) {
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
@@ -22,7 +22,22 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
     Entite.find($routeParams.id).success(function (data) {
         $scope.entite = data;
 
-
+        Servir.findResponsableEntite($scope.entite).success(function (data) {
+                if (data) {
+                    var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilté)
+                    if(data.employe.genre.libelle != 'Masculin'){
+                        situation = data.employe.situationMatrimoniale.id + '';
+                    }
+                    Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){
+                        $scope.responsable = civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
+                    }).error(function(){
+                        SweetAlert.finirChargementEchec("Erreur lors de la récupération de la civilité!");
+                    });
+                }
+            }).error(function () {
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du responsable");
+            });
+            
         Entite.findAll().success(function (data) {
             $scope.entites = data;
             if ($scope.entite.entite) {
@@ -55,19 +70,6 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
         SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des informations sur l'entité");
     });
 
-
-//    $scope.trouverResponsable = function (e) {
-//        Servir.findResponsableEntite(e).success(function (data) {
-//            $scope.responsable = "non dÃ©fini";
-//            alert(data);
-//            if (data != null) {
-//                $scope.responsable = data.employe.prenom + " " + data.employe.nom;
-//            }
-//
-//        }).error(function () {
-//            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du responsable");
-//        });
-//    };
 
 
     $scope.controlForm = function (c) {

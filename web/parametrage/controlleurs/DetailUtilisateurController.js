@@ -1,7 +1,7 @@
 
 //Visualiser les details d' groupe d'utilisateur
 
-angular.module('ParametrageModule').controller('DetailUtilisateurController', function ($scope, Servir, Securite, Utilisateur, Entite, Groupe, Utilisateur, SweetAlert, $routeParams)
+angular.module('ParametrageModule').controller('DetailUtilisateurController', function ($scope, Servir,Civilite, Securite, Utilisateur, Entite, Groupe, Utilisateur, SweetAlert, $routeParams)
 {
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
@@ -39,11 +39,19 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController', fu
         if ($scope.utilisateur.groupe.code != "EMP") {
             Servir.findResponsableEntite($scope.utilisateur.entite).success(function (data) {
                 if (data) {
-                    $scope.prenomNom = data.employe.civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
+                    var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilté)
+                    if(data.employe.genre.libelle != 'Masculin'){
+                        situation = data.employe.situationMatrimoniale.id + '';
+                    }
+                    Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){
+                        $scope.prenomNom = civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
+                    }).error(function(){
+                        SweetAlert.finirChargementEchec("Erreur lors de la récupération de la civilité!");
+                    });
+//                    $scope.prenomNom = data.employe.civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
                 }
             }).error(function () {
                 SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du responsable");
-
             });
         }
         

@@ -13,7 +13,7 @@ import sn.grh.Historiquegrade;
 import sn.grh.Niveau;
 import sn.grh.Typeavancement;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-09-17T21:17:06")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-01T09:14:27")
 @StaticMetamodel(Grade.class)
 public class Grade_ { 
 

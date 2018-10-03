@@ -16,6 +16,9 @@ angular.module('ParametrageModule').factory('GradeTypeEmploye', function ($http)
         findByGrade: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.gradetypeemploye/grade/' + id);
         },
+        findByType: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.gradetypeemploye/type/' + id);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.gradetypeemploye', item);
         },

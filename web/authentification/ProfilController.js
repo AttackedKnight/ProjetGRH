@@ -18,13 +18,15 @@ $cookies, Securite, UploadFile)
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
-
+    $scope.esteditable=false;
     $scope.editable = function () {
         $scope.edit = true;
+        $scope.esteditable=true;
     };
 
     $scope.cancel = function () {
         $scope.edit = false;
+        $scope.esteditable=false;
         $scope.motDePasseConfirm = "";
 
     };

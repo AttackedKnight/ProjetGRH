@@ -1,4 +1,4 @@
-angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController', function ($scope, $cookies, $q, Entite, Securite, StatistiqueEntite) {
+angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController', function ($scope,$rootScope,SweetAlert, $cookies, $q,GroupeTypeEmploye, Entite, Securite, StatistiqueEntite) {
 
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -10,6 +10,18 @@ angular.module('StatistiqueModule').controller('StatistiquePATSEntiteController'
     $('#statistique-drh li').eq(0).trigger('click');
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
+    GroupeTypeEmploye.findByGroupe($rootScope.groupeUtilisateur.id).success(function (data) {
+          for(var i=0;i<data.length;i++){
+              if(data[i].code=="PER"){
+                  $scope.idTypePer=data[i].id;
+              }
+              if(data[i].code=="PATS"){
+                  $scope.idTypePats=data[i].id;
+              }
+          }
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des type d'employé !");
+    });
 
     Entite.findAll().success(function (data) {
         $scope.entites = data;

@@ -49,6 +49,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.EntiteFacadeREST.class);
         resources.add(service.FonctionFacadeREST.class);
         resources.add(service.FormationFacadeREST.class);
+        resources.add(service.GenreFacadeREST.class);
         resources.add(service.GradeFacadeREST.class);
         resources.add(service.GradetypeemployeFacadeREST.class);
         resources.add(service.GroupeFacadeREST.class);

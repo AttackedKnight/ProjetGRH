@@ -6,22 +6,20 @@
 package sn.grh;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -53,8 +51,12 @@ public class Civilite implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "civilite")
-    private List<Employe> employeList;
+    @JoinColumn(name = "Genre", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Genre genre;
+    @JoinColumn(name = "SituationMatrimoniale", referencedColumnName = "id")
+    @ManyToOne
+    private Situationmatrimoniale situationMatrimoniale;
 
     public Civilite() {
     }
@@ -93,13 +95,20 @@ public class Civilite implements Serializable {
         this.libelle = libelle;
     }
 
-    @XmlTransient
-    public List<Employe> getEmployeList() {
-        return employeList;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setEmployeList(List<Employe> employeList) {
-        this.employeList = employeList;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public Situationmatrimoniale getSituationMatrimoniale() {
+        return situationMatrimoniale;
+    }
+
+    public void setSituationMatrimoniale(Situationmatrimoniale situationMatrimoniale) {
+        this.situationMatrimoniale = situationMatrimoniale;
     }
 
     @Override

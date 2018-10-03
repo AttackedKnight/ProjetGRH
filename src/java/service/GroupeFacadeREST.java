@@ -102,7 +102,8 @@ public class GroupeFacadeREST extends AbstractFacade<Groupe> {
             String entityTableName = e.getName();
             tables+=entityTableName+"-";
         }
-        String fonctionnalitesSup="menuAdmin-menuDrh-menuEmploye-menuService-statistique";  //Gerer les permissions sur les fonctionnalites
+        String fonctionnalitesSup="menuadmin-menuDrh-menuemploye-menuservice-statistiqueglobal"
+                + "-statistiqueentiteglabal-statistiqueper-Statistiquepats-statistiqueentiteper-statistiqueentitepats";  // Gerer les permissions sur les fonctionnalites
         tables+=fonctionnalitesSup;
         
         tables=tables.toLowerCase();

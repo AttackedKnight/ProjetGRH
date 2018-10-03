@@ -13,7 +13,12 @@ angular.module('ParametrageModule').factory('Civilite', function ($http) {
         find: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.civilite/' + id);
         },
-
+        findByGenreAndSituation: function (genre,situation) {
+            if(situation != '')
+                return $http.get(chemin + '/webresources/sn.grh.civilite/genre/' + genre+'/situation/'+situation);
+            else
+                return $http.get(chemin + '/webresources/sn.grh.civilite/genre/' + genre);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.civilite', item);
         },

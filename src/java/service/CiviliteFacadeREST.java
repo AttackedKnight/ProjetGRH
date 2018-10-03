@@ -61,6 +61,34 @@ public class CiviliteFacadeREST extends AbstractFacade<Civilite> {
     public Civilite find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    @GET
+    @Path("genre/{genre}/situation/{situation}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Civilite findByGenreAndSituation(@PathParam("genre") Integer genre , @PathParam("situation") Integer situation) {
+        List<Civilite> c = em.createQuery("SELECT c FROM Civilite c WHERE c.genre.id = :genre"
+                + " AND c.situationMatrimoniale.id = :situation", Civilite.class)
+                .setParameter("genre", genre)
+                .setParameter("situation", situation)
+                .getResultList();
+        if(c.size() > 0){
+            return c.get(0);
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("genre/{genre}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Civilite findByGenre(@PathParam("genre") Integer genre) {
+        List<Civilite> c = em.createQuery("SELECT c FROM Civilite c WHERE c.genre.id = :genre", Civilite.class)
+                .setParameter("genre", genre)
+                .getResultList();
+        if(c.size() > 0){
+            return c.get(0);
+        }
+        return null;
+    }
 
     @GET
     @Override

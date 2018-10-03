@@ -18,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import sn.grh.Mutuellesante;
 import sn.grh.Mutuellesantetypeemploye;
 import sn.grh.Typeemploye;
 
@@ -83,6 +84,18 @@ public class MutuellesantetypeemployeFacadeREST extends AbstractFacade<Mutuelles
     @Produces({MediaType.APPLICATION_JSON})
     public List<Typeemploye> findByMutuelleSante(@PathParam("id") Integer id) {
         List<Typeemploye> li=em.createQuery("SELECT mu.typeEmploye FROM Mutuellesantetypeemploye mu WHERE mu.mutuelleSante.id =:id", Typeemploye.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(li.size()>0){
+            return li;
+        }
+        return null;
+    }
+    @GET
+    @Path("type/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Mutuellesante> findByType(@PathParam("id") Integer id) {
+        List<Mutuellesante> li=em.createQuery("SELECT mu.mutuelleSante FROM Mutuellesantetypeemploye mu WHERE mu.typeEmploye.id =:id", Mutuellesante.class)
                 .setParameter("id", id)
                 .getResultList();
         if(li.size()>0){

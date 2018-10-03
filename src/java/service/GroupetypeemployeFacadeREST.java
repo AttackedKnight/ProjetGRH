@@ -5,7 +5,9 @@
  */
 package service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,8 +20,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.json.JSONException;
+import org.json.JSONObject;
 import static sn.grh.Accesgroupe_.groupe;
 import sn.grh.Groupetypeemploye;
+import sn.otherclasse.StringListInteger;
 import sn.grh.Typeemploye;
 
 /**
@@ -100,6 +105,20 @@ public class GroupetypeemployeFacadeREST extends AbstractFacade<Groupetypeemploy
         return null;
     }
 
+    @GET
+    @Path("idtype/groupe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringListInteger findIdListByGroupe(@PathParam("id") Integer id) throws JSONException {
+        List<Integer> li=em.createQuery("SELECT ge.typeEmploye.id FROM Groupetypeemploye ge WHERE ge.groupe.id =:id", Integer.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(li.size()>0){
+            StringListInteger sli=new StringListInteger(li);
+            return sli;
+        }
+        return null;
+    }
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_JSON})

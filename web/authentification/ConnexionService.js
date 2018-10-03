@@ -30,11 +30,13 @@ return{
         logout:function(){
             return $http.get(chemin+'/webresources/sn.grh.utilisateur/deconnexion');
         },
-        setCredentials:function(utilisateur){
+        setCredentials:function(utilisateur,typeEmployeAssocie,typeEmploye_o){   //Stocke les informations de l'utilisateur connecte dans une cookie
 
             $rootScope.globals = {
                 currentUser: {
-                    user: utilisateur
+                    user: utilisateur,
+                    typeEmployeAssocie:typeEmployeAssocie,
+                    typeEmploye_o : typeEmploye_o
                 }
             };
 
@@ -47,6 +49,7 @@ return{
         clearCredentials:function(){
             $rootScope.globals = {};
             $cookies.remove('globals');
+            $rootScope.myPermission=[];
             $http.defaults.headers.common.Authorization = 'Basic';
         }
         

@@ -15,7 +15,7 @@
     </div><!-- ./col -->
     <div class="col-md-9">
 
-        <div class="row" ng-if="groupeUtilisateur.code != 'PATS_AD'"><!-- row PER -->
+        <div class="row"  ng-if="avoirPermission('consulter', 'statistiqueper') == true || avoirPermission('consulter', 'statistiqueglobal') == true"><!-- row PER -->
 
 
             <div class="col-md-4 col-sm-6">
@@ -29,7 +29,7 @@
                     <div class="icon pull-right">
                         <i class="fa fa-user"></i>
                     </div>
-                    <a ng-href="#/drh/employe/consulter{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                    <a ng-href="#/drh/employe/consulter/type/{{idTypePer}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
 
 
@@ -47,7 +47,7 @@
                     <div class="icon pull-right">
                         <i class="fa fa-user"></i>
                     </div>
-                    <a ng-href="#/drh/employe/consulter/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                    <a ng-href="#/drh/employe/consulter/homme/type/{{idTypePer}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
 
 
@@ -64,14 +64,14 @@
                     <div class="icon pull-right">
                         <i class="fa fa-user"></i>
                     </div>
-                    <a ng-href="#/drh/employe/consulter/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/1' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                    <a ng-href="#/drh/employe/consulter/femme/type/{{idTypePer}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
 
 
             </div><!-- ./col -->
         </div><!-- fin row PER -->
         <!-- row PATS -->
-        <div class="row" ng-if="groupeUtilisateur.code != 'PER_AD'">
+        <div class="row" ng-if="avoirPermission('consulter', 'statistiquepats') == true  || avoirPermission('consulter', 'statistiqueglobal') == true">
 
 
             <div class="col-md-4 col-sm-6">
@@ -85,7 +85,7 @@
                     <div class="icon pull-right">
                         <i class="fa fa-user"></i>
                     </div>
-                    <a ng-href="#/drh/employe/consulter{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                    <a ng-href="#/drh/employe/consulter/type/{{idTypePats}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
 
 
@@ -103,7 +103,7 @@
                     <div class="icon pull-right">
                         <i class="fa fa-user"></i>
                     </div>
-                    <a ng-href="#/drh/employe/consulter/homme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                    <a ng-href="#/drh/employe/consulter/homme/type/{{idTypePats}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
 
 
@@ -120,7 +120,7 @@
                     <div class="icon pull-right">
                         <i class="fa fa-user"></i>
                     </div>
-                    <a ng-href="#/drh/employe/consulter/femme{{(groupeUtilisateur.code=='DRH_AD') ? '/type/0' : ''}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                    <a ng-href="#/drh/employe/consulter/femme/type/{{idTypePats}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
 
 

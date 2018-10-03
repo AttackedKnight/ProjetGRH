@@ -45,7 +45,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employe.findByNom", query = "SELECT e FROM Employe e WHERE e.nom = :nom")
     , @NamedQuery(name = "Employe.findByDateDeNaissance", query = "SELECT e FROM Employe e WHERE e.dateDeNaissance = :dateDeNaissance")
     , @NamedQuery(name = "Employe.findByLieuDeNaissance", query = "SELECT e FROM Employe e WHERE e.lieuDeNaissance = :lieuDeNaissance")
-    , @NamedQuery(name = "Employe.findBySexe", query = "SELECT e FROM Employe e WHERE e.sexe = :sexe")
     , @NamedQuery(name = "Employe.findByDateRecrutement", query = "SELECT e FROM Employe e WHERE e.dateRecrutement = :dateRecrutement")
     , @NamedQuery(name = "Employe.findByNationalite", query = "SELECT e FROM Employe e WHERE e.nationalite = :nationalite")
     , @NamedQuery(name = "Employe.findByNombreEnfant", query = "SELECT e FROM Employe e WHERE e.nombreEnfant = :nombreEnfant")
@@ -91,11 +90,6 @@ public class Employe implements Serializable {
     private String lieuDeNaissance;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
-    @Column(name = "sexe")
-    private String sexe;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dateRecrutement")
     @Temporal(TemporalType.DATE)
     private Date dateRecrutement;
@@ -133,9 +127,9 @@ public class Employe implements Serializable {
     @JoinColumn(name = "CaisseSociale", referencedColumnName = "id")
     @ManyToOne
     private Caissesociale caisseSociale;
-    @JoinColumn(name = "Civilite", referencedColumnName = "id")
+    @JoinColumn(name = "Genre", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Civilite civilite;
+    private Genre genre;
     @JoinColumn(name = "SituationMatrimoniale", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Situationmatrimoniale situationMatrimoniale;
@@ -159,13 +153,12 @@ public class Employe implements Serializable {
         this.id = id;
     }
 
-    public Employe(Integer id, String prenom, String nom, Date dateDeNaissance, String lieuDeNaissance, String sexe, Date dateRecrutement, boolean retraite, boolean geler) {
+    public Employe(Integer id, String prenom, String nom, Date dateDeNaissance, String lieuDeNaissance, Date dateRecrutement, boolean retraite, boolean geler) {
         this.id = id;
         this.prenom = prenom;
         this.nom = nom;
         this.dateDeNaissance = dateDeNaissance;
         this.lieuDeNaissance = lieuDeNaissance;
-        this.sexe = sexe;
         this.dateRecrutement = dateRecrutement;
         this.retraite = retraite;
         this.geler = geler;
@@ -233,14 +226,6 @@ public class Employe implements Serializable {
 
     public void setLieuDeNaissance(String lieuDeNaissance) {
         this.lieuDeNaissance = lieuDeNaissance;
-    }
-
-    public String getSexe() {
-        return sexe;
-    }
-
-    public void setSexe(String sexe) {
-        this.sexe = sexe;
     }
 
     public Date getDateRecrutement() {
@@ -371,12 +356,12 @@ public class Employe implements Serializable {
         this.caisseSociale = caisseSociale;
     }
 
-    public Civilite getCivilite() {
-        return civilite;
+    public Genre getGenre() {
+        return genre;
     }
 
-    public void setCivilite(Civilite civilite) {
-        this.civilite = civilite;
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     public Situationmatrimoniale getSituationMatrimoniale() {

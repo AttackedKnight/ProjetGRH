@@ -99,6 +99,19 @@ public class CaissesocialetypeemployeFacadeREST extends AbstractFacade<Caissesoc
         return null;
     }
     
+    @GET
+    @Path("type/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Caissesociale> findByTypeEmploye(@PathParam("id") Integer id) {
+        List<Caissesociale> li=em.createQuery("SELECT cs.caisseSociale FROM Caissesocialetypeemploye cs WHERE cs.typeEmploye.id =:id", Caissesociale.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(li.size()>0){
+            return li;
+        }
+        return null;
+    }
+    
 //    @GET
 //    @Path("caissesociale/{id}")
 //    @Produces({MediaType.APPLICATION_JSON})

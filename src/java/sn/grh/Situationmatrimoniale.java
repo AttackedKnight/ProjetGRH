@@ -47,6 +47,8 @@ public class Situationmatrimoniale implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
+    @OneToMany(mappedBy = "situationMatrimoniale")
+    private List<Civilite> civiliteList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "situationMatrimoniale")
     private List<Employe> employeList;
 
@@ -76,6 +78,15 @@ public class Situationmatrimoniale implements Serializable {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    @XmlTransient
+    public List<Civilite> getCiviliteList() {
+        return civiliteList;
+    }
+
+    public void setCiviliteList(List<Civilite> civiliteList) {
+        this.civiliteList = civiliteList;
     }
 
     @XmlTransient

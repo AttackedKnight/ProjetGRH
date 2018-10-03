@@ -1,4 +1,4 @@
-angular.module('StatistiqueModule').controller('StatistiqueServiceController', function ($scope, $routeParams, Entite, $q, Securite, StatistiqueEntite) {
+angular.module('StatistiqueModule').controller('StatistiqueServiceController', function ($scope,$rootScope,SweetAlert, $routeParams, Entite,GroupeTypeEmploye, $q, Securite, StatistiqueEntite) {
 
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -11,6 +11,20 @@ angular.module('StatistiqueModule').controller('StatistiqueServiceController', f
 
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
+    
+    GroupeTypeEmploye.findByGroupe($rootScope.groupeUtilisateur.id).success(function (data) {
+          for(var i=0;i<data.length;i++){
+              if(data[i].code=="PER"){
+                  $scope.idTypePer=data[i].id;
+              }
+              if(data[i].code=="PATS"){
+                  $scope.idTypePats=data[i].id;
+              }
+          }
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des type d'employé !");
+    });
+    
 
     Entite.find($routeParams.id).success(function (data) {
         $scope.entiteChoisie = data;

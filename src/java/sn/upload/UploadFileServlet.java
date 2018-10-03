@@ -115,7 +115,8 @@ public class UploadFileServlet extends HttpServlet {
                                     fileItem.write(uploadedFile);
                                     
                                     String chemin="archives/"+fileItem.getFieldName()+"/"+nomDuFichier;
-                                    out.println(chemin);
+                                    out.print(chemin);
+//                                    out.println(chemin);
 
 				}
 				

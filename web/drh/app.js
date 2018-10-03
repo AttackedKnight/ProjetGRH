@@ -3,7 +3,7 @@
  * */
 
 angular.module("DrhModule", ['ngRoute', 'ngMessages']).config(function ($routeProvider) {
-    $routeProvider.when('/drh/employe/ajout', {
+    $routeProvider.when('/drh/employe/ajout/type/:type', {
         templateUrl: 'drh/employe/ajouterAgent.html',
         controller: 'EmployeController'
         

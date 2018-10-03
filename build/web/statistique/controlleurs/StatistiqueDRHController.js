@@ -1,4 +1,4 @@
-angular.module('StatistiqueModule').controller('StatistiqueDRHController', function ($scope, $q, Securite, Statistique) {
+angular.module('StatistiqueModule').controller('StatistiqueDRHController', function ($scope,$rootScope, $q,SweetAlert, Securite, Statistique,GroupeTypeEmploye) {
 
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -11,8 +11,18 @@ angular.module('StatistiqueModule').controller('StatistiqueDRHController', funct
 
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-
-
+    GroupeTypeEmploye.findByGroupe($rootScope.groupeUtilisateur.id).success(function (data) {
+          for(var i=0;i<data.length;i++){
+              if(data[i].code=="PER"){
+                  $scope.idTypePer=data[i].id;
+              }
+              if(data[i].code=="PATS"){
+                  $scope.idTypePats=data[i].id;
+              }
+          }
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des type d'employé !");
+    });
 
     $scope.hgt = {height: 300 + 'px'};
     $scope.hgt2 = {height: 300 + 'px'};

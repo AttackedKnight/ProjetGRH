@@ -74,6 +74,10 @@ angular.module('ParametrageModule', ['ngRoute', 'ngMessages'])
                 templateUrl: 'parametrage/situation/situation.html',
                 controller: 'SituationMatrimonialeController'
 
+            }).when('/parametrage/genre', {
+                templateUrl: 'parametrage/genre/genre.html',
+                controller: 'GenreController'
+
             }).when('/parametrage/syndicat', {
                 templateUrl: 'parametrage/syndicat/syndicat.html',
                 controller: 'SyndicatController'

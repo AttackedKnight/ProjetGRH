@@ -19,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Contact;
+import sn.otherclasse.StringBoolean;
 
 /**
  *
@@ -76,31 +77,32 @@ public class ContactFacadeREST extends AbstractFacade<Contact> {
          return null;
     }
     
-      @GET
+    @GET
     @Path("checknum/{numero1}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Boolean Existingcontact(@PathParam("numero1") String num1) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringBoolean Existingcontact(@PathParam("numero1") String num1) {
         List<Contact> m=em.createQuery("SELECT c FROM Contact c WHERE c.numero1 = :numero1 OR c.numero2 = :numero1", Contact.class)
                 .setParameter("numero1", num1)
                  .getResultList();
          
          if(m.size()>0){
-             return true;
+             return new StringBoolean(true);
          }
-         return false;
+         return new StringBoolean(false);
     }
-       @GET
+       
+    @GET
     @Path("checkmail/{email}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Boolean Existingmail(@PathParam("email") String email) {
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringBoolean Existingmail(@PathParam("email") String email) {
         List<Contact> m=em.createQuery("SELECT c FROM Contact c WHERE c.email = :email", Contact.class)
                 .setParameter("email", email)
                  .getResultList();
          
          if(m.size()>0){
-             return true;
+             return new StringBoolean(true);
          }
-         return false;
+         return new StringBoolean(false);
     }
     
     @GET

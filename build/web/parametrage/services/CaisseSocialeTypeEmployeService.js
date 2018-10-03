@@ -16,6 +16,9 @@ angular.module('ParametrageModule').factory('CaisseSocialeTypeEmploye', function
         findByCaisseSociale: function (id) {    //Retourne la liste des types d'employe : une colonne de la table
             return $http.get(chemin + '/webresources/sn.grh.caissesocialetypeemploye/caissesociale/' + id);
         },
+        findByType: function (type) {    //Retourne la liste des caisses concernant un type d'employe donné : une colonne de la table
+            return $http.get(chemin + '/webresources/sn.grh.caissesocialetypeemploye/type/' + type);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.caissesocialetypeemploye', item);
         },
