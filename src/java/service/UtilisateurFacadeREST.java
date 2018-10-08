@@ -26,6 +26,7 @@ import javax.ws.rs.core.MediaType;
 import sn.auth.Authentification;
 import sn.grh.Accesgroupe;
 import sn.grh.Utilisateur;
+import sn.otherclasse.StringBoolean;
 
 /**
  *
@@ -42,6 +43,7 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     private EntityManager em;
     
     @Context private HttpServletRequest request;
+    public static HttpSession session;
     
     public UtilisateurFacadeREST() {
         super(Utilisateur.class);
@@ -109,10 +111,7 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
         List<Utilisateur> u=em.createQuery("SELECT u FROM Utilisateur u WHERE u.login = :login AND u.motDePasse = :motDePasse", Utilisateur.class)
                 .setParameter("login", login)
                 .setParameter("motDePasse", motDePasse)
-                .getResultList();
-        
-        
-        
+                .getResultList();       
         if(u.size()>0){
             registerAccess(u.get(0));
             return u.get(0);
@@ -122,42 +121,46 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     
     @GET
     @Path("deconnexion")
-    @Produces({MediaType.TEXT_PLAIN})
-    public String logout() {
-        if(Authentification.sessionDestroy()){
-            return "success";
-        }   
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringBoolean logout() {
+        if(sessionExist()){
+            session.invalidate();
+            System.out.println("session detruite");
+            session = null;
+
+            System.out.println(session.getId());
         
-        return "fail";
+        }
+        return new StringBoolean(true);
+    }
+    
+    @GET
+    @Path("checksession")
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringBoolean sessionExpire() {
+        if(sessionExist()){
+           return new StringBoolean(true);       
+        }
+        return new StringBoolean(false);
+    }
+    
+    public static boolean sessionExist() {
+            try{
+                Utilisateur u=(Utilisateur)session.getAttribute("user");
+                return true;
+            } catch (Exception e) {
+                return false;
+
+            }
 
     }
     
     public void registerAccess(Utilisateur user){
-        if(!Authentification.sessionExist()){
-            
-            HttpSession session=request.getSession(true);
-        
-            Authentification.setSession(session);      
-            Authentification.setData("user", user);
-            
-            System.out.println("Nouvelle session");
-        }
-        
-        
-//        List<Accesgroupe> access=accesgroupeFacadeREST.findAllForGroup(user.getGroupe().getId());      
-//        HashMap<String,Boolean> permissionTable;
-//        for(int i=0;i<access.size();i++){
-//            permissionTable=new HashMap<>();
-//            permissionTable.put("ajouter", access.get(i).getAjouter());
-//            permissionTable.put("modifier", access.get(i).getModifier());
-//            permissionTable.put("supprimer", access.get(i).getSupprimer());
-//            permissionTable.put("consulter", access.get(i).getConsulter());
-//            permissionTable.put("lister", access.get(i).getLister());
-//            
-//            Authentification.setData(access.get(i).getNomTable(), permissionTable);
-//        } 
-        
-        if(Authentification.sessionExist()){
+        System.out.println("Nouvelle session");           
+        session=request.getSession();
+        session.setAttribute("user", user);
+
+        if(request.getSession(false) != null){
             System.out.println("*****************La session existe*************");
         }
     }

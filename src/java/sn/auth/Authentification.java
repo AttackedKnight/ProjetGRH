@@ -17,7 +17,8 @@ import sn.grh.Utilisateur;
 @Stateless
 public class Authentification {
 
-    private static HttpSession maSession = null;
+//    private static HttpSession maSession = null;
+    private static HttpSession maSession;
 
     public Authentification() {
         System.out.println("Authentification instanciée");
@@ -58,7 +59,7 @@ public class Authentification {
     }
 
     public static boolean sessionExist() {
-        if (maSession !=null) {
+//        if (maSession !=null) {
             try{
                 Utilisateur u=(Utilisateur)maSession.getAttribute("user");
                 return true;
@@ -66,8 +67,8 @@ public class Authentification {
                 return false;
 
             }
-        }
-        return false;
+//        }
+//        return false;
     }
 
     public static boolean sessionDestroy() {
@@ -75,7 +76,7 @@ public class Authentification {
             try {
 //                maSession.setAttribute("user", null);
                 maSession.invalidate();
-                maSession=null;
+//                maSession=null;
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

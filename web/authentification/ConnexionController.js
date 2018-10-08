@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('AuthentificationModule').controller('ConnexionController', function ($scope, $cookies, $rootScope, Connexion, Securite, GroupeTypeEmploye)
+angular.module('AuthentificationModule').controller('ConnexionController', function ($scope,$interval ,$cookies, $rootScope, Connexion, Securite, GroupeTypeEmploye)
 {
     $scope.utilisateur = {id: ""};
 
@@ -22,7 +22,9 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
         if (logout === "/logout") {
             Connexion.clearCredentials();
             Connexion.logout().success(function (data) {
-                console.log("Session detruite");
+                if(data.value == true){
+                    console.log('Déconnecté'); 
+                }
             }).error(function () {
                 console.log("Session non detruite");
             });
@@ -54,6 +56,19 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
 
     };
 
+    function checkSession(){
+        console.log('checking session validity');
+        Connexion.sessionTimeOut().success(function (data) {
+                if(data.value == false){
+                    $interval.cancel($scope.checkConnected);
+                    window.location.href = "#/logout"
+                }
+            }).error(function () {
+                console.log("Erreur lors de la vérification de la validité de la session");
+            });
+    }
+//    var connected = true;
+    
 
     $scope.connecterUtilisateur = function (c) {
         Connexion.login(c).success(function (user) {
@@ -86,8 +101,8 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                             $('footer').removeAttr('hidden');
                             $('.content-header').removeAttr('hidden');
                             $('.content-wrapper').removeAttr('style');
+                            $scope.checkConnected=$interval(checkSession,65000);
                             setTimeout(function() {
-                                console.log($('.firstView')[0]);
                             $('.firstView')[0].click();
                             }, 2000);
                         }

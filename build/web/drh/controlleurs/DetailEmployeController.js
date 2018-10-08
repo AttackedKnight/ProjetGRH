@@ -866,7 +866,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     $scope.controlGradeForm = function () {
         var validite = true;
         if (!$scope.historiqueGrade.grade || $scope.historiqueGrade.grade == null) {
-            $('#grade-not-selected').show("slow").delay(3000).hide("slow");
+            $('.grade-not-selected').show("slow").delay(3000).hide("slow");
             validite = false;
         }
         if (validite === true) {
@@ -904,7 +904,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Le grade n'a pas pu etre ajouté");
         });
-    }
+    };
 
     $scope.reinitialiserFormulaireAvancement = function () {
         $scope.selection = "";

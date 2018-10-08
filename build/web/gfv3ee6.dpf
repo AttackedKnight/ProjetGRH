@@ -10,8 +10,8 @@
   </jsp-config>
   <session-config>
     <session-properties>
-      <property name="timeoutSeconds" value="-1"/>
-      <property name="enableCookies" value="false"/>
+      <property name="timeoutSeconds" value="6000"/>
+      <property name="enableCookies" value="true"/>
     </session-properties>
   </session-config>
 </glassfish-web-app>

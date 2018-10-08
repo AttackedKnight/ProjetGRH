@@ -30,6 +30,9 @@ return{
         logout:function(){
             return $http.get(chemin+'/webresources/sn.grh.utilisateur/deconnexion');
         },
+        sessionTimeOut:function(){
+            return $http.get(chemin+'/webresources/sn.grh.utilisateur/checksession');
+        },
         setCredentials:function(utilisateur,typeEmployeAssocie,typeEmploye_o){   //Stocke les informations de l'utilisateur connecte dans une cookie
 
             $rootScope.globals = {

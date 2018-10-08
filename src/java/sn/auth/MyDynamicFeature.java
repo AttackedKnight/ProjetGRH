@@ -31,7 +31,8 @@ public class MyDynamicFeature implements DynamicFeature{
         if ("service".equals(resourcePackage) && (resourceMethod.getAnnotation(GET.class) != null ||
                 resourceMethod.getAnnotation(POST.class) != null || resourceMethod.getAnnotation(DELETE.class) != null
                 || resourceMethod.getAnnotation(PUT.class) != null) &&
-                !resourceMethod.getName().equals("login") && !resourceMethod.getName().equals("logout")) {
+                !resourceMethod.getName().equals("login") && !resourceMethod.getName().equals("logout")
+                && !resourceMethod.getName().equals("sessionExpire")) {
             context.register(AuthentificationFilter.class);
         }
     }

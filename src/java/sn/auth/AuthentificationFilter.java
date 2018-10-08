@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
+import service.UtilisateurFacadeREST;
 
 /**
  *
@@ -28,7 +29,15 @@ public class AuthentificationFilter implements ContainerRequestFilter{
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
                
-        if(!Authentification.sessionExist()){
+//        if(!Authentification.sessionExist()){
+//            System.out.println("***************session inexistante ou expirée*******************");         
+//            requestContext.abortWith(
+//                Response.status(Response.Status.UNAUTHORIZED).build());
+//            
+//           return;
+//        }
+//        System.out.println("***************session ok*******************");
+        if(!UtilisateurFacadeREST.sessionExist()){
             System.out.println("***************session inexistante ou expirée*******************");         
             requestContext.abortWith(
                 Response.status(Response.Status.UNAUTHORIZED).build());
