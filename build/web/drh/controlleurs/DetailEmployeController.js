@@ -127,9 +127,10 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     };
 
     var idEmploye = $routeParams.id;
+    $scope.estPermanent = true;
     Employe.find(idEmploye).success(function (data) {
         $scope.employe = data;
-
+      
         $scope.monCni = angular.copy($scope.employe.numeroCni);
         $scope.monNumeroMatricule = angular.copy($scope.employe.matriculeInterne);
         $scope.monNumeroCaisseSociale = angular.copy($scope.employe.matriculeCaisseSociale);
@@ -137,7 +138,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         $scope.employe.dateDeNaissance = new Date($scope.employe.dateDeNaissance);
         $scope.employe.dateRecrutement = new Date($scope.employe.dateRecrutement);
         
-        if($scope.employe.situationMatrimoniale.libelle == "Marie"){
+        if($scope.employe.situationMatrimoniale && $scope.employe.situationMatrimoniale.libelle == "Marie"){
             $scope.estMarie = true;
         }
         if($scope.employe.genre && $scope.employe.genre.libelle == "Masculin"){
@@ -302,9 +303,9 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
             if ($scope.employe.numeroCni !== $scope.monCni) {
                 $scope.CheckCni();
-            } else if ($scope.employe.matriculeInterne !== $scope.monNumeroMatricule) {
+            } else if ($scope.estPermanent == true && $scope.employe.matriculeInterne !== $scope.monNumeroMatricule) {
                 $scope.checkMatriculeInterne();
-            } else if ($scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
+            } else if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
                 $scope.checkMatriculeCaisseSociale();
             } else {
                 $scope.effectuerMajEmploye();
@@ -345,9 +346,9 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             if (data.value == true) {
                 $('#cni_dup').show("slow").delay(3000).hide("slow");
             } else {
-                if ($scope.employe.matriculeInterne !== $scope.monNumeroMatricule) {
+                if ($scope.estPermanent == true && $scope.employe.matriculeInterne !== $scope.monNumeroMatricule) {
                     $scope.checkMatriculeInterne();
-                } else if ($scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
+                } else if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
                     $scope.checkMatriculeCaisseSociale();
                 } else {
                     $scope.effectuerMajEmploye();
@@ -364,7 +365,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
                 $('#mat_int_dup').show("slow").delay(3000).hide("slow");
 
             } else {
-                if ($scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
+                if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
                     $scope.checkMatriculeCaisseSociale();
                 } else {
                     $scope.effectuerMajEmploye();
@@ -688,6 +689,11 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         /*Recuperer le parcour professionnel de l'employe*/
         Servir.findByEmploye($scope.employe).success(function (data) {
             $scope.parcours = data;
+            if($scope.parcours[0].typeContrat.code == 'cdd'){
+                $scope.estPermanent = false;            //Verifier si c'est un permanent ou non
+            }else{
+                $scope.estPermanent = true;
+            }
             $scope.trouverResponsable();    /*Trouver son superieur hierarchique actuel*/
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des informations sur le poste !");

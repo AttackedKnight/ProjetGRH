@@ -10,7 +10,7 @@
   </jsp-config>
   <session-config>
     <session-properties>
-      <property name="timeoutSeconds" value="6000"/>
+      <property name="timeoutSeconds" value="1800"/>
       <property name="enableCookies" value="true"/>
     </session-properties>
   </session-config>

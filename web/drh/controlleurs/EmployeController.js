@@ -6,9 +6,9 @@
 
 
 angular.module('DrhModule').controller('EmployeController', function ($scope, SweetAlert, Mail, UploadFile, Securite,
-        Employe, Utilisateur, Groupe, Contact, Adresse,MembreMutuelle, HistoriqueGrade, Servir, Fonction, TypeEmploye,
-        Entite, Typecontrat, Fonction, Situation, Groupe, Genre, $routeParams, CaisseSocialeTypeEmploye, 
-        SyndicatTypeEmploye, GradeTypeEmploye,MutuelleTypeEmploye)
+        Employe, Utilisateur, Groupe, Contact, Adresse, MembreMutuelle, HistoriqueGrade, Servir, Fonction, TypeEmploye,
+        Entite, Typecontrat, Fonction, Situation, Groupe, Genre, $routeParams, CaisseSocialeTypeEmploye,
+        SyndicatTypeEmploye, GradeTypeEmploye, MutuelleTypeEmploye)
 {
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
@@ -62,7 +62,6 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         $scope.senegalaise = true;
         $scope.employe.nationalite = "Sénégalaise";
         $scope.selection = '';
-        $scope.removeSelection(); /*Pour cacher le tableaux de selection d'un grade*/
     };
 
     /* Réinitialisation du formulaire */
@@ -212,75 +211,105 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         }
     };
 
-    $scope.verifierUnicite = function () {
-
-        /*Verification unicite de certaines informations : cni matricule, numero telephone ,adresse email*/
-
+    $scope.verifiercni = function () {
         Employe.checkcni($scope.employe.numeroCni).success(function (data) {
             if (data.value == true) {
                 $('#cni_dup').show("slow").delay(3000).hide("slow");
             } else {
-                Employe.checkmatricule($scope.employe.matriculeInterne).success(function (data) {
-                    if (data.value == true) {
-                        $('#mat_int_dup').show("slow").delay(3000).hide("slow");
-                    } else {
-                        Employe.checkmatriculecs($scope.employe.matriculeCaisseSociale).success(function (data) {
-                            if (data.value == true) {
-                                $('#mat_cs_dup').show("slow").delay(3000).hide("slow");
-                            } else {
-                                Contact.checkcontact($scope.contact.numero1).success(function (data) {
-                                    if (data.value == true) {
-                                        $('#num_tel_1_dup').show("slow").delay(3000).hide("slow");
-                                    } else {
-                                        if ($scope.autreNumero) {
-                                            Contact.checkcontact($scope.contact.numero2).success(function (data) {
-                                                if (data.value == true) {
-                                                    $('#num_tel_2_dup').show("slow").delay(3000).hide("slow");
-                                                } else {
-                                                    Contact.checkmail($scope.contact.email).success(function (data) {
-                                                        if (data.value == true) {
-                                                            $('#email_dup').show("slow").delay(3000).hide("slow");
-                                                        } else {
-                                                            $scope.add();   //Ajout de l'employe
-
-                                                        }
-                                                    }).error(function () {
-                                                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification de l\'adresse email");
-                                                    });
-                                                }
-                                            }).error(function () {
-                                                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du num�ro de t�l�phone 2");
-                                            });
-                                        } else {
-
-                                            Contact.checkmail($scope.contact.email).success(function (data) {
-                                                if (data.value == true) {
-                                                    $('#email_dup').show("slow").delay(3000).hide("slow");
-                                                } else {
-                                                    $scope.add();   //Ajout de l'employe
-
-                                                }
-                                            }).error(function () {
-                                                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification de l\'adresse email");
-                                            });
-
-                                        }
-                                    }
-                                }).error(function () {
-                                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du numéro de t�l�phone 1");
-                                });
-                            }
-                        }).error(function () {
-                            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du matricule IPRES/FNR");
-                        });
+                if ($scope.employe.matriculeInterne) {
+                    $scope.verifierMatriculeInterne();
+                }
+                else {
+                    if ($scope.employe.matriculeCaisseSociale) {
+                        $scope.verifierMatriculeCaisseSociale();
                     }
-                }).error(function () {
-                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification matricule");
-                });
+                    else {
+                        $scope.verifierContact1();
+                    }
+                }
+
             }
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du cni");
         });
+    };
+    
+    $scope.verifierMatriculeInterne = function () {
+        Employe.checkmatricule($scope.employe.matriculeInterne).success(function (data) {
+            if (data.value == true) {
+                $('#mat_int_dup').show("slow").delay(3000).hide("slow");
+            }
+            else {
+                if ($scope.employe.matriculeCaisseSociale) {
+                    $scope.verifierMatriculeCaisseSociale();
+                }
+                else {
+                    $scope.verifierContact($scope.contact.numero1);
+                }
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification matricule");
+        });
+    };
+    
+    $scope.verifierMatriculeCaisseSociale = function () {
+        Employe.checkmatriculecs($scope.employe.matriculeCaisseSociale).success(function (data) {
+            if (data.value == true) {
+                $('#mat_cs_dup').show("slow").delay(3000).hide("slow");
+            } else {
+                $scope.verifierContact($scope.contact.numero1);
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du matricule IPRES/FNR");
+        });
+
+    };
+    
+    $scope.verifierContact1 = function () {
+        Contact.checkcontact($scope.contact.numero1).success(function (data) {
+            if (data.value == true) {
+                $('#num_tel_1_dup').show("slow").delay(3000).hide("slow");
+            } else {
+                if ($scope.autreNumero == true) {
+                    $scope.verifierContact2();
+                } else {
+                    $scope.verifierEmail();
+                }
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du numéro de t�l�phone 1");
+        });
+
+    };
+    
+    $scope.verifierContact2 = function () {
+        Contact.checkcontact($scope.contact.numero2).success(function (data) {
+            if (data.value == true) {
+                $('#num_tel_2_dup').show("slow").delay(3000).hide("slow");
+            } else {               
+                $scope.verifierEmail();               
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du numéro de t�l�phone 1");
+        });
+    };
+    
+    $scope.verifierEmail = function () {
+        Contact.checkmail($scope.contact.email).success(function (data) {
+            if (data.value == true) {
+                $('#email_dup').show("slow").delay(3000).hide("slow");
+            } else {
+                $scope.add();   //Ajout de l'employe
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification de l\'adresse email");
+        });
+
+    };
+    $scope.verifierUnicite = function () {
+
+        /*Verification unicite de certaines informations : cni matricule, numero telephone ,adresse email*/
+        $scope.verifiercni();
     };
 
     $scope.completerGrade = function () {
@@ -356,8 +385,14 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Employe.add($scope.employe).success(function () {
             $scope.findByNin();
-            SweetAlert.simpleNotification("success", "Succes", "Employ� ajout� avec succes</br>\n\
+            if ($scope.servir.typeContrat.code == 'cdi'){
+                SweetAlert.simpleNotification("success", "Succes", "Employ� ajout� avec succes<br>\n\
             Rendez-vous sur son boite email pour recuperer ses identifiants de connexion");
+            }
+            else{
+                SweetAlert.simpleNotification("success", "Succes", "Employ� ajout� avec succes");
+            }
+            
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'ajout de l'employ�");
         });
@@ -396,7 +431,16 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 
     $scope.addServir = function () {
         Servir.add($scope.servir).success(function () {
-            $scope.completerGrade();
+            if ($scope.servir.typeContrat.code == 'cdi') {
+                $scope.completerGrade();
+            } else {
+                if ($scope.file) {
+                    $scope.uploadAvatar();
+                } else {
+                    $scope.creerCompteUtilisateur();
+                }
+            }
+
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'enregistrement des informations sur le poste");
         });
@@ -443,27 +487,24 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 
     $scope.creerCompteUtilisateur = function () {
 
-        $scope.utilisateur.employe = $scope.employe;
-        $scope.utilisateur.email = $scope.contact.email;
-        $scope.utilisateur.groupe = $scope.groupe;
+        if ($scope.servir.typeContrat.code == 'cdi') {  //Un compte utilisateur est cree pour un employe permanent
+            $scope.utilisateur.employe = $scope.employe;
+            $scope.utilisateur.email = $scope.contact.email;
+            $scope.utilisateur.groupe = $scope.groupe;
 
-        $scope.utilisateur.login = "ut" + $scope.employe.matriculeInterne.replace("/", "");
-        $scope.utilisateur.motDePasse = "passut2018";
+            $scope.utilisateur.login = "ut" + $scope.employe.matriculeInterne.replace("/", "");
+            $scope.utilisateur.motDePasse = "passut2018";
 
-//        //Generer login
-//        do {
-//            $scope.utilisateur.login = creerIdentifiants();
-//        } while (!(/^[a-z]+[0-9.\-]*[a-z0-9]+$/i.test($scope.utilisateur.login)));
-//        //Generer mot de passe
-//        do {
-//            $scope.utilisateur.motDePasse = creerIdentifiants();
-//        } while (!(/^[a-z0-9]+$/i.test($scope.utilisateur.motDePasse)));
-
-        Utilisateur.createCompte($scope.utilisateur).success(function () {
-            $scope.envoyerMail();
-        }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la cr�ation du compte utilisateur");
-        });
+            Utilisateur.createCompte($scope.utilisateur).success(function () {
+                $scope.envoyerMail();
+            }).error(function () {
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la cr�ation du compte utilisateur");
+            });
+        }
+        else{
+            $scope.reinitialiser();
+        }
+        
     };
 
     /*                   CONTROLES DE SAISIE                      */
@@ -496,7 +537,11 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
             validite = false;
         }
         if (validite === true) {
-            $scope.controlSituationMatri();
+            if ($scope.servir.typeContrat.code == 'cdi') {
+                $scope.controlSituationMatri();
+            } else {
+                $scope.controlContact();
+            }
         }
 
     };
@@ -561,12 +606,17 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
             $('#entite').parent().next().show("slow").delay(3000).hide("slow");
             validite = false;
         }
-        if ($scope.servir.typeContrat == null) {
-            $('#contrat').parent().next().show("slow").delay(3000).hide("slow");
-            validite = false;
-        }
+//        if ($scope.servir.typeContrat == null) {
+//            $('#contrat').parent().next().show("slow").delay(3000).hide("slow");
+//            validite = false;
+//        }
         if (validite === true) {
-            $scope.controlGrade();
+            if ($scope.servir.typeContrat.code == 'cdi') {
+                $scope.controlGrade();
+            } else {
+                $scope.controlConcordance();
+            }
+
         }
     };
 

@@ -78,18 +78,12 @@ public class Employe implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "nom")
     private String nom;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dateDeNaissance")
     @Temporal(TemporalType.DATE)
     private Date dateDeNaissance;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 255)
     @Column(name = "lieuDeNaissance")
     private String lieuDeNaissance;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dateRecrutement")
     @Temporal(TemporalType.DATE)
     private Date dateRecrutement;
@@ -128,10 +122,10 @@ public class Employe implements Serializable {
     @ManyToOne
     private Caissesociale caisseSociale;
     @JoinColumn(name = "Genre", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Genre genre;
     @JoinColumn(name = "SituationMatrimoniale", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Situationmatrimoniale situationMatrimoniale;
     @JoinColumn(name = "Syndicat", referencedColumnName = "id")
     @ManyToOne
@@ -153,13 +147,10 @@ public class Employe implements Serializable {
         this.id = id;
     }
 
-    public Employe(Integer id, String prenom, String nom, Date dateDeNaissance, String lieuDeNaissance, Date dateRecrutement, boolean retraite, boolean geler) {
+    public Employe(Integer id, String prenom, String nom, boolean retraite, boolean geler) {
         this.id = id;
         this.prenom = prenom;
         this.nom = nom;
-        this.dateDeNaissance = dateDeNaissance;
-        this.lieuDeNaissance = lieuDeNaissance;
-        this.dateRecrutement = dateRecrutement;
         this.retraite = retraite;
         this.geler = geler;
     }

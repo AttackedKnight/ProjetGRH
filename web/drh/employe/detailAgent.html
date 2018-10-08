@@ -1,9 +1,9 @@
 <!--<div class="container" style="font-size: 1.2em;">-->
 <div class="box box-solid" ng-if="avoirPermission('consulter', 'employe') == true">
-    
+
     <div class="box box-header box-primary" style="font-weight: bold;font-size: 1.4em;">
-        <div class="col-md-3">
-             <div>
+        <div class="col-md-3" ng-if="estPermanent">
+            <div>
                 <div  style="margin: auto; text-align: center;">
                     <div id="profil-img" style="width: 200px ; height: 250px; border-radius: 100%; text-align: center; margin: auto;" >
                         <img  ng-src="{{avatar}}" id="previsualisation"  alt="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" data-toggle="tooltip"  title="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;" />                   
@@ -25,16 +25,16 @@
                 </span>
                 <!--<span class="btn btn-warning" ng-disabled="editAvatar"  ng-click="uploadAvatar()">Appliquer</span>-->
             </div>
-                           
-                            <!--<img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>-->
-                        </div>
+
+            <!--<img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>-->
+        </div>
         <div class="pull-right" ng-if="avoirPermission('supprimer', 'employe') == true">
-                    <a ng-click="deleteAgent(employe)" class="btn btn-danger" title="supprimer">
-                        <span class="fa fa-trash"></span>
-                    </a>
-             </div>
+            <a ng-click="deleteAgent(employe)" class="btn btn-danger" title="supprimer">
+                <span class="fa fa-trash"></span>
+            </a>
+        </div>
         <div style="margin-top: 10px;">
-            
+
             <div style="width: 75%; text-align: justify;">
                 PRENOM : {{employe.prenom| uppercase}}  <hr>
             </div> 
@@ -47,7 +47,7 @@
             <div style="width: 75%;text-align: justify;" >
                 FONCTION : {{parcours[0].fonction.libelle| uppercase}} <hr>
             </div>
-            
+
         </div>
         <!--<img ng-src="{{avatar}}" alt="avatar" title="avatar" class="pull-right img-thumbnail" style="width: 200px; height: 200px;"/>-->
     </div>
@@ -91,7 +91,7 @@
                                     </div>
 
                                 </div>
-                                <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
+                                <div class="row"  style="margin-top: 6px; font-size: 1.2em;" ng-if="estPermanent">
                                     <div class="  col-md-7">
                                         <label style="font-weight: bold;" for="matriculeInterne"> Matricule de solde :</label>
                                     </div>
@@ -113,7 +113,7 @@
                                     </div>
 
                                 </div>
-                                <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
+                                <div class="row" ng-if="estPermanent" style="margin-top: 6px; font-size: 1.2em;">
                                     <div class="  col-md-7">
                                         <label style="font-weight: bold;"> Caisse sociale :</label>
                                     </div>
@@ -283,7 +283,7 @@
                                     </div>
 
                                 </div>
-                                <div class="row " style="margin-top: 6px; font-size: 1.2em;">
+                                <div class="row" ng-if="estPermanent" style="margin-top: 6px; font-size: 1.2em;">
                                     <div class="  col-md-7">
                                         <span style="font-weight: bold;">Inscription au mutuelle de santé :</span>
                                     </div>
@@ -305,7 +305,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
+                                <div class="row" ng-if="estPermanent"  style="margin-top: 6px; font-size: 1.2em;">
                                     <div class="col-md-7">
                                         <span style="font-weight: bold;"> Syndicat :</span>
                                     </div>
@@ -391,7 +391,7 @@
                                     <span> {{employe.dateRecrutement| date: 'dd MMM yyyy'}}</span>
                                 </div>
                             </div>
-                            <div class="row " ng-if="membreMutuelle.mutuelleSante" style="margin-top: 6px; font-size: 1.2em;">
+                            <div class="row"  ng-if="membreMutuelle.mutuelleSante" style="margin-top: 6px; font-size: 1.2em;">
                                 <div class="  col-md-7">
                                     <span style="font-weight: bold;"> Mutuelle:</span>
                                 </div>
@@ -399,7 +399,7 @@
                                     <span> {{membreMutuelle.mutuelleSante.code}}</span>
                                 </div>
                             </div>
-                            <div class="row " ng-if="employe.syndicat != null" style="margin-top: 6px; font-size: 1.2em;">
+                            <div class="row" ng-if="employe.syndicat != null" style="margin-top: 6px; font-size: 1.2em;">
                                 <div class="  col-md-7">
                                     <span style="font-weight: bold;"> Syndicat :</span>
                                 </div>
@@ -432,32 +432,6 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="col-md-3">
-                            <div style="margin: auto; text-align: center">
-                                <label class="label-info" for="profil">
-                                    <span class="btn btn-warning" title="Modifier" ng-show="!editProfil" ng-click="toggleButtonProfil()" id="btn_modifier_photo_profil">
-                                        <i class="fa fa-edit"></i>
-                                    </span>
-                                    <input type="file"  name='profil' id='profil' ng-model="imgProfil" onchange="angular.element(this).scope().preview(this)" accept="image/*" style='display: none;'/>
-                                </label>
-                                <span class="btn btn-danger" title="Annuler" ng-show="editProfil"   ng-click="showDefaultAvatar()">
-                                    <i class="fa fa-times"></i>
-                                </span>
-                                <span class="btn btn-success" title="Appliquer" ng-show="editProfil"  ng-click="uploadAvatar()">
-                                    <i class="fa fa-check"></i>
-                                </span>
-                                <span class="btn btn-warning" ng-disabled="editAvatar"  ng-click="uploadAvatar()">Appliquer</span>
-                            </div>
-                            <div>
-
-                                <div  style="margin: auto; text-align: center;">
-                                    <div id="profil-img" style="width: 200px ; height: 250px; border-radius: 100%; text-align: center; margin: auto;" >
-                                        <img  ng-src="{{avatar}}" id="previsualisation"  alt="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" data-toggle="tooltip"  title="{{employe.prenom| uppercase}} {{employe.nom| uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;" />                   
-                                    </div>
-                                </div>
-                            </div>
-                            <img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>
-                        </div>-->
                         <div class="col-md-12" style="padding: 4px;" ng-if="avoirPermission('modifier', 'employe') == true">
                             <span class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-edit"> Modifier</i></span>
                         </div>
@@ -466,7 +440,7 @@
                 </div>
             </div>
             <!-- Situation matrimorniale -->
-            <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'situationmatrimoniale') == true">
+            <div class="panel box box-primary box-solid" ng-if="estPermanent == true && avoirPermission('consulter', 'situationmatrimoniale') == true">
                 <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#situationMatrimorniale" class="box-header with-border">
                     <div >
                         <i class="fa fa-users"></i>
@@ -975,7 +949,7 @@
                 </div>
             </div>
             <!-- Grade -->
-            <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'grade') == true">
+            <div class="panel box box-primary box-solid" ng-if="estPermanent && avoirPermission('consulter', 'grade') == true">
                 <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#grade" class="box-header with-border">
                     <div >
                         <i class="fa fa-male"></i>
@@ -1067,7 +1041,7 @@
                                             <div>Veuillez selectionner un grade.</div>
                                         </div>
                                     </div>
-                                     <div class="col-md-3 pull-right" ng-show="selection != ''">
+                                    <div class="col-md-3 pull-right" ng-show="selection != ''">
                                         <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
                                         <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
                                     </div>
@@ -1224,7 +1198,7 @@
             </div>
 
             <!-- Formation -->
-            <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'formation') == true">
+            <div class="panel box box-primary box-solid" ng-if="estPermanent && avoirPermission('consulter', 'formation') == true">
                 <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#formation" class="box-header with-border">
                     <div >
                         <i class="fa fa-book"></i>

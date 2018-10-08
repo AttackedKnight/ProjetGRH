@@ -49,7 +49,7 @@ public class Genre implements Serializable {
     private String libelle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
     private List<Civilite> civiliteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genre")
+    @OneToMany(mappedBy = "genre")
     private List<Employe> employeList;
 
     public Genre() {

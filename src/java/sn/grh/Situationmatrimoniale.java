@@ -8,7 +8,6 @@ package sn.grh;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -49,7 +48,7 @@ public class Situationmatrimoniale implements Serializable {
     private String libelle;
     @OneToMany(mappedBy = "situationMatrimoniale")
     private List<Civilite> civiliteList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "situationMatrimoniale")
+    @OneToMany(mappedBy = "situationMatrimoniale")
     private List<Employe> employeList;
 
     public Situationmatrimoniale() {

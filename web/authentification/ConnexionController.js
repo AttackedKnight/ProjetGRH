@@ -101,7 +101,7 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                             $('footer').removeAttr('hidden');
                             $('.content-header').removeAttr('hidden');
                             $('.content-wrapper').removeAttr('style');
-                            $scope.checkConnected=$interval(checkSession,65000);
+                            $scope.checkConnected=$interval(checkSession,1805000);
                             setTimeout(function() {
                             $('.firstView')[0].click();
                             }, 2000);
