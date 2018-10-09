@@ -1,4 +1,4 @@
-angular.module('AuthentificationModule').factory('Securite', function ($rootScope, $cookies, SweetAlert, AccesGroupeTable) {
+angular.module('AuthentificationModule').factory('Securite', function ($rootScope, $cookies, $interval, Connexion, SweetAlert, AccesGroupeTable) {
 
 
     return{
@@ -6,7 +6,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
         estConnecte: function () {
 //            $("#ecran_attente").show();
             if (!$cookies.get('globals'))
-            {   
+            {
                 return false;
             } else {
 
@@ -14,7 +14,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
 
                 /*Pour les utilisateurs appartenant au groupe employe*/
                 $rootScope.prenomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.prenom : "";
-                $rootScope.nomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.nom : ""; 
+                $rootScope.nomUtilisateur = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.nom : "";
                 $rootScope.idEmploye = cookie.currentUser.user.employe ? cookie.currentUser.user.employe.id : "";
                 /*Pour les utilisateurs appartenant au groupe employe*/
                 $rootScope.groupeUtilisateur = cookie.currentUser.user.groupe;
@@ -24,7 +24,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                 $rootScope.typeEmploye_o = cookie.currentUser.typeEmploye_o;
 
                 /*Recuperation des permissions*/
-
+                $rootScope.angular = angular;
                 $('.no-print').css('display', 'none');
                 $('header').removeAttr('hidden');
                 $('aside').removeAttr('hidden');
@@ -32,6 +32,17 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                 $('.content-header').removeAttr('hidden');
                 $('.content-wrapper').removeAttr('style');
                 $('body').css('padding-right', '0px');
+
+                $rootScope.checkSession = function () {
+                    Connexion.sessionTimeOut().success(function (data) {
+                        if (data.value == false) {
+                            $interval.cancel($rootScope.checkConnected);
+                            window.location.href = "#/logout"
+                        }
+                    }).error(function () {
+                        console.log("Erreur lors de la vérification de la validité de la session");
+                    });
+                };
 
                 if (!$rootScope.myPermission || $rootScope.myPermission.length == 0) {
                     AccesGroupeTable.showGroupeAccess($rootScope.groupeUtilisateur).success(function (p) {

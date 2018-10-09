@@ -2,7 +2,7 @@
 <div class="box box-solid" ng-if="avoirPermission('consulter', 'employe') == true">
 
     <div class="box box-header box-primary" style="font-weight: bold;font-size: 1.4em;">
-        <div class="col-md-3" ng-if="estPermanent">
+        <div class="col-md-3 ng-cloak" ng-show="estPermanent">
             <div>
                 <div  style="margin: auto; text-align: center;">
                     <div id="profil-img" style="width: 200px ; height: 250px; border-radius: 100%; text-align: center; margin: auto;" >
@@ -28,12 +28,7 @@
 
             <!--<img ng-src="{{avatar}}" id="photo-employe" alt="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" data-toggle="tooltip"  title="{{employe.prenom | uppercase}} {{employe.nom | uppercase}}" class="img-thumbnail" style="width: 200px; height: 250px;"/>-->
         </div>
-        <div class="pull-right" ng-if="avoirPermission('supprimer', 'employe') == true">
-            <a ng-click="deleteAgent(employe)" class="btn btn-danger" title="supprimer">
-                <span class="fa fa-trash"></span>
-            </a>
-        </div>
-        <div style="margin-top: 10px;">
+        <div class="col-md-7" style="margin-top: 10px;">
 
             <div style="width: 75%; text-align: justify;">
                 PRENOM : {{employe.prenom| uppercase}}  <hr>
@@ -48,6 +43,14 @@
                 FONCTION : {{parcours[0].fonction.libelle| uppercase}} <hr>
             </div>
 
+        </div>
+        <div class="col-md-2" style="margin-top: 10px;">
+            <span ng-click="reloadPage()" class="btn btn-primary" title="Rafraichir">
+                <span class="fa fa-refresh"></span>
+            </span>
+            <span ng-click="deleteAgent(employe)" class="btn btn-danger" title="Supprimer">
+                <span class="fa fa-trash"></span>
+            </span>           
         </div>
         <!--<img ng-src="{{avatar}}" alt="avatar" title="avatar" class="pull-right img-thumbnail" style="width: 200px; height: 200px;"/>-->
     </div>
@@ -1046,114 +1049,7 @@
                                         <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
                                     </div>
                                 </div>
-                                <!--                                <div class="row" style="margin-top: 10px;" ng-if="avoirPermission('consulter', 'classe') == true" ng-show="showGradeList == true" id="add-grade-block">
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-9">
-                                                                                <label for="classe">Classe</label>
-                                                                                <select name="classe" id="classe" ng-model="classeSelectionnee" class="form-control">
-                                                                                    <option value="1">Classe 1</option>
-                                                                                    <option value="2">Classe 2</option>
-                                                                                    <option value="3">Classe 3</option>
-                                                                                    <option value="4">Classe 4</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3">
-                                                                                <label>Valider</label><br>
-                                                                                <span class="btn btn-primary" ng-click="getCategorieAndNiveauClasse()"><i class="fa fa-check"></i> Valider</span>                                          
-                                                                            </div>                      
-                                                                        </div>
-                                                                        <div>
-                                                                            <table class="table table-bordered">
-                                                                                <thead class="thead-dark">
-                                                                                    <tr>
-                                                                                        <th style="text-align:center;">Categorie / <br> Niveau</th>
-                                                                                        <th style="text-align:center;" ng-repeat="cat in categorieClasse">
-                                                                                            {{cat.libelle}}
-                                                                                        </th>              
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr ng-repeat="niv in niveauClasse">
-                                                                                        <td style="text-align:center; font-weight: bold;">
-                                                                                            {{niv.libelle}}
-                                                                                        </td>
-                                                                                        <td ng-repeat="cat in categorieClasse">
-                                                                                            <div class="form-check" ng-repeat="grade_cl in gradeClasse" ng-if="grade_cl.niveau.libelle == niv.libelle && grade_cl.categorie.libelle == cat.libelle">
-                                                                                                <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" ng-value="grade_cl" ng-model="historiqueGrade.grade">
-                                                                                                <label class="form-check-label" for="echelon{{grade_cl.niveau.libelle}}{{grade_cl.categorie.libelle}}{{grade_cl.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_cl.indice}}">
-                                                                                                    echelon {{grade_cl.echelon.libelle}}
-                                                                                                </label>
-                                                                                            </div>
-                                                                                        </td>
                                 
-                                                                                    </tr> 
-                                                                                </tbody>
-                                                                            </table>
-                                                                            <div class="alert alert-block alert-danger requis" id="grade-not-selected" style="display:none">
-                                                                                <div>Veuillez selectionner un grade.</div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3 pull-right">
-                                                                        <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
-                                                                        <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row" style="margin-top: 10px;" ng-if="avoirPermission('consulter', 'corps') == true" ng-show="showGradeList == true" id="add-grade-block">
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <div class="form-group col-md-9">
-                                                                                <label for="corps">Corps</label>
-                                                                                <select name="corps" id="corps" ng-model="corpsSelectionnee" class="form-control">
-                                                                                    <option value="0">Assistant</option>
-                                                                                    <option value="1">Maître de conférence</option>
-                                                                                    <option value="2">Professeur</option>
-                                                                                </select>
-                                                                            </div>
-                                                                            <div class="form-group col-md-3">
-                                                                                <label>Valider</label><br>
-                                                                                <span class="btn btn-primary" ng-click="getClasseCorps()"><i class="fa fa-check"></i> Valider</span>                                          
-                                                                            </div>                      
-                                                                        </div>
-                                                                        <div>
-                                                                            <table class="table table-bordered">
-                                                                                <thead class="thead-dark">
-                                                                                    <tr>
-                                                                                        <th style="text-align:center;">Classe</th>
-                                                                                        <th style="text-align:center;" ng-repeat="cl in classeCorps">
-                                                                                            {{cl.libelle}}
-                                                                                        </th>              
-                                                                                    </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                    <tr>
-                                                                                        <td style="text-align:center; font-weight: bold;">
-                                
-                                                                                        </td>
-                                                                                        <td ng-repeat="cl in classeCorps">
-                                                                                            <div class="form-check" ng-repeat="grade_co in gradeCorps" ng-if="grade_co.classe.libelle == cl.libelle">
-                                                                                                <input class="form-check-input" type="radio" name="echelon" id="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" ng-value="grade_co" ng-model="historiqueGrade.grade">
-                                                                                                <label class="form-check-label" for="echelon{{grade_co.classe.libelle}}{{grade_co.echelon.libelle}}" data-toggle="tooltip" title="indice : {{grade_co.indice}}">
-                                                                                                    echelon {{grade_co.echelon.libelle}}
-                                                                                                </label>
-                                                                                            </div>
-                                                                                        </td>
-                                
-                                                                                    </tr> 
-                                                                                </tbody>
-                                
-                                                                            </table>
-                                                                            <div class="alert alert-block alert-danger requis" id="grade-not-selected" style="display:none">
-                                                                                <div>Veuillez selectionner un grade.</div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-3 pull-right">
-                                                                        <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
-                                                                        <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
-                                                                    </div>
-                                                                </div>-->
                             </form>
 
                             <div >

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('AuthentificationModule').controller('ConnexionController', function ($scope,$interval ,$cookies, $rootScope, Connexion, Securite, GroupeTypeEmploye)
+angular.module('AuthentificationModule').controller('ConnexionController', function ($scope,$cookies,$interval, $rootScope, Connexion, Securite, GroupeTypeEmploye)
 {
     $scope.utilisateur = {id: ""};
 
@@ -21,6 +21,11 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
         var logout = document.location.href.substring(document.location.href.lastIndexOf("/"), document.location.href.length);
         if (logout === "/logout") {
             Connexion.clearCredentials();
+            if(angular.isDefined($rootScope.checkSession)){
+                $interval.cancel($rootScope.checkConnected);
+                $rootScope.checkConnected = null;
+                $rootScope.checkSession = null;
+            }
             Connexion.logout().success(function (data) {
                 if(data.value == true){
                     console.log('Déconnecté'); 
@@ -56,17 +61,7 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
 
     };
 
-    function checkSession(){
-        console.log('checking session validity');
-        Connexion.sessionTimeOut().success(function (data) {
-                if(data.value == false){
-                    $interval.cancel($scope.checkConnected);
-                    window.location.href = "#/logout"
-                }
-            }).error(function () {
-                console.log("Erreur lors de la vérification de la validité de la session");
-            });
-    }
+    
 //    var connected = true;
     
 
@@ -101,7 +96,7 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                             $('footer').removeAttr('hidden');
                             $('.content-header').removeAttr('hidden');
                             $('.content-wrapper').removeAttr('style');
-                            $scope.checkConnected=$interval(checkSession,1805000);
+                            $rootScope.checkConnected=$interval($rootScope.checkSession,1870000);
                             setTimeout(function() {
                             $('.firstView')[0].click();
                             }, 2000);

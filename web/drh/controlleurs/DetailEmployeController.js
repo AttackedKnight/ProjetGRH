@@ -6,7 +6,7 @@
 
 
 
-angular.module('DrhModule').controller('DetailEmployeController', function ($scope, Securite, SweetAlert,
+angular.module('DrhModule').controller('DetailEmployeController', function ($scope,$route, Securite, SweetAlert,
         HistoriqueGrade, SyndicatTypeEmploye, GradeTypeEmploye, CaisseSocialeTypeEmploye, MutuelleTypeEmploye, 
         $routeParams, UploadFile, Typedocument, Situation, Entite, Diplome, Genre, Formation, Employe,
         Contact, Adresse, Servir, MembreMutuelle, Fonction, Typecontrat, Civilite, Document, Connexion)
@@ -1331,5 +1331,13 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
         });
+    };
+    
+    $scope.reloadPage = function(){
+        $route.reload();
+    };
+    
+    $scope.gelerCompte = function(){
+        ;
     };
 });

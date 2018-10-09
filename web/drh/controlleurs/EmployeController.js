@@ -5,7 +5,7 @@
  */
 
 
-angular.module('DrhModule').controller('EmployeController', function ($scope, SweetAlert, Mail, UploadFile, Securite,
+angular.module('DrhModule').controller('EmployeController', function ($scope,SweetAlert, Mail, UploadFile, Securite,
         Employe, Utilisateur, Groupe, Contact, Adresse, MembreMutuelle, HistoriqueGrade, Servir, Fonction, TypeEmploye,
         Entite, Typecontrat, Fonction, Situation, Groupe, Genre, $routeParams, CaisseSocialeTypeEmploye,
         SyndicatTypeEmploye, GradeTypeEmploye, MutuelleTypeEmploye)
@@ -35,7 +35,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
     $scope.today = new Date();
     $scope.employe.nationalite = "Sénégalaise";
     $scope.senegalaise = true;
-    $scope.selection = '';
+    $scope.selection = "";
 
     $scope.setNationalite = function () {
         if ($scope.senegalaise == true) {
@@ -61,7 +61,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         $scope.showDefaultAvatar();
         $scope.senegalaise = true;
         $scope.employe.nationalite = "Sénégalaise";
-        $scope.selection = '';
+        $scope.selection = "";
     };
 
     /* Réinitialisation du formulaire */
@@ -193,6 +193,16 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 
 
     /*          RECCUPERATION DES ELEMENTS PARAMETRES POUR LES AFFICHER DANS LES LISTES DE SELECTION        */
+    
+    $scope.getTypeContrat = function(){
+        if($scope.servir.typeContrat.code == 'cdi'){
+            $scope.estPermanent = true;
+        }
+        else
+        {
+            $scope.estPermanent = false;
+        }
+    };
 
     $scope.estMarie = false;
     $scope.checkSituationMatrimoniale = function () {
@@ -244,7 +254,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
                     $scope.verifierMatriculeCaisseSociale();
                 }
                 else {
-                    $scope.verifierContact($scope.contact.numero1);
+                    $scope.verifierContact1($scope.contact.numero1);
                 }
             }
         }).error(function () {
@@ -257,7 +267,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
             if (data.value == true) {
                 $('#mat_cs_dup').show("slow").delay(3000).hide("slow");
             } else {
-                $scope.verifierContact($scope.contact.numero1);
+                $scope.verifierContact1($scope.contact.numero1);
             }
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du matricule IPRES/FNR");
@@ -309,7 +319,13 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
     $scope.verifierUnicite = function () {
 
         /*Verification unicite de certaines informations : cni matricule, numero telephone ,adresse email*/
-        $scope.verifiercni();
+        if ($scope.estPermanent){
+            $scope.verifiercni();
+        }
+        else{
+            $scope.verifierContact1();
+        }
+        
     };
 
     $scope.completerGrade = function () {
@@ -385,7 +401,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Employe.add($scope.employe).success(function () {
             $scope.findByNin();
-            if ($scope.servir.typeContrat.code == 'cdi'){
+            if ($scope.estPermanent){
                 SweetAlert.simpleNotification("success", "Succes", "Employ� ajout� avec succes<br>\n\
             Rendez-vous sur son boite email pour recuperer ses identifiants de connexion");
             }
@@ -431,7 +447,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 
     $scope.addServir = function () {
         Servir.add($scope.servir).success(function () {
-            if ($scope.servir.typeContrat.code == 'cdi') {
+            if ($scope.estPermanent) {
                 $scope.completerGrade();
             } else {
                 if ($scope.file) {
@@ -487,7 +503,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 
     $scope.creerCompteUtilisateur = function () {
 
-        if ($scope.servir.typeContrat.code == 'cdi') {  //Un compte utilisateur est cree pour un employe permanent
+        if ($scope.estPermanent) {  //Un compte utilisateur est cree pour un employe permanent
             $scope.utilisateur.employe = $scope.employe;
             $scope.utilisateur.email = $scope.contact.email;
             $scope.utilisateur.groupe = $scope.groupe;
@@ -537,7 +553,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
             validite = false;
         }
         if (validite === true) {
-            if ($scope.servir.typeContrat.code == 'cdi') {
+            if ($scope.estPermanent) {
                 $scope.controlSituationMatri();
             } else {
                 $scope.controlContact();
@@ -611,7 +627,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 //            validite = false;
 //        }
         if (validite === true) {
-            if ($scope.servir.typeContrat.code == 'cdi') {
+            if ($scope.estPermanent) {
                 $scope.controlGrade();
             } else {
                 $scope.controlConcordance();

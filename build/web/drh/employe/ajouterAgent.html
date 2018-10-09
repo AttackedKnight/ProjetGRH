@@ -6,20 +6,20 @@
             </label>
             <span class="col-md-3" ng-repeat="typecontrat in typecontrats">
                 <label>
-                    <input type="radio" name="typeContrat"  ng-value="{{typecontrat}}"  ng-model="$parent.servir.typeContrat"/>
+                    <input type="radio" name="typeContrat"  ng-value="{{typecontrat}}" ng-click="getTypeContrat()"  ng-model="$parent.servir.typeContrat"/>
                     {{ (typecontrat.code == 'cdi') ? "Permanent" : "Contractuel"}}
                 </label>
             </span>
         </div>
 
-        <div class="box-body row" ng-show="servir.typeContrat">
+        <div class="box-body row" ng-show="angular.isDefined(estPermanent)">
             <form role="form" name="newEmployeForm" novalidate="">
                 <div class="row">             
                     <div class="col-md-12">
                         <div class="box box-primary box-solid">
                             <div class="box box-header ">
-                                <h3 ng-if="servir.typeContrat.code == 'cdi'"> INFORMATIONS PERSONNELLES</h3>
-                                <h3 ng-if="servir.typeContrat.code == 'cdd'"> INFORMATIONS</h3>
+                                <h3 ng-if="estPermanent"> INFORMATIONS PERSONNELLES</h3>
+                                <h3 ng-if="!estPermanent"> INFORMATIONS</h3>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
@@ -53,7 +53,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="form-group" ng-if="servir.typeContrat.code == 'cdi'">
+                                            <div class="form-group" ng-if="estPermanent">
                                                 <label for="MatriculeInterne"> Matricule interne:</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
@@ -74,7 +74,7 @@
                                                 </div>
 
                                             </div>
-                                            <div class="form-group" ng-if="servir.typeContrat.code == 'cdi'">
+                                            <div class="form-group" ng-if="estPermanent">
                                                 <label>Caisse sociale
                                                 </label>
                                                 <div class="box-body">
@@ -90,7 +90,7 @@
                                                     </div>
 
                                                 </div>  
-                                                <div class="input-group" ng-if="employe.caisseSociale.id">
+                                                <div class="input-group" ng-if="angular.isDefined(employe.caisseSociale.id)">
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-user"></i>
                                                     </div>
@@ -111,7 +111,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="box box-primary box-solid" id="bloc-situation" ng-if="servir.typeContrat.code == 'cdi'">
+                                    <div class="box box-primary box-solid" id="bloc-situation" ng-if="estPermanent">
                                         <div class="box-header">
                                             <h3 class="box-title">SITUATION MATRIMONIALE</h3>
                                         </div>
@@ -235,7 +235,7 @@
                                         </div>
                                     </div>
                                                                      
-                                    <div class="box box-primary box-solid" id="bloc-poste" ng-if="servir.typeContrat.code == 'cdd'">
+                                    <div class="box box-primary box-solid" id="bloc-poste" ng-if="!estPermanent">
                                         <div class="box-header">
                                             <h3 class="box-title">POSTE</h3>
                                         </div>
@@ -306,8 +306,22 @@
                                                 </div>
                                                 <div ng-messages="newEmployeForm.debut.$error" role="alert" ng-show="newEmployeForm.debut.$invalid"  class="alert alert-block alert-danger has-error">
                                                     <div ng-message="min">Cette date doit etre supérieur à la date de recrutement</div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="form-group" ng-if="!estPermanent">
+                                                <label for="dureeDuContrat">Dur�e(en mois) : </label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                    <input type="number" ng-model="servir.dureeDuContrat" ng-pattern="/^[1-9][0-9]?$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
                                                 </div>
-
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                                <div ng-messages="newEmployeForm.dureeDuContrat.$error" role="alert" ng-show="newEmployeForm.dureeDuContrat.$touched && newEmployeForm.dureeDuContrat.$invalid" class="alert alert-block alert-danger has-error">
+                                                    <div ng-message="pattern">V�rifier votre saisie.</div>
+                                                </div>                                  
                                             </div>
                                         </div>
                                     </div>                                    
@@ -319,7 +333,7 @@
                                             <h3 class="box-title">ETAT CIVIL</h3>                                 
                                         </div>
                                         <div class="box-body">
-                                            <div class="row" ng-if="servir.typeContrat.code == 'cdi'">
+                                            <div class="row" ng-show="estPermanent">
                                                 <div class="col-md-2" style="width: 35%; margin: auto; text-align: center">
                                                     <label class="label-info" for="profil">
                                                         <span class="btn btn-primary" id="btn_modifier_photo_profil"><i class="fa fa-download"></i> Changer</span>
@@ -499,7 +513,7 @@
                     </div>
                 </div>
 
-                <div class="row" ng-if="servir.typeContrat.code == 'cdi'">
+                <div class="row" ng-if="estPermanent">
                     <div class="col-md-12">
                         <div class="box box-primary box-solid">
                             <div class="box box-header">
@@ -579,7 +593,6 @@
                                                 <div ng-messages="newEmployeForm.debut.$error" role="alert" ng-show="newEmployeForm.debut.$invalid"  class="alert alert-block alert-danger has-error">
                                                     <div ng-message="min">Cette date doit etre supérieur à la date de recrutement</div>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
