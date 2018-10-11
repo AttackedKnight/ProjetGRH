@@ -57,11 +57,11 @@ angular.module('ParametrageModule').controller('CiviliteController', function ($
     $scope.add = function (c) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Civilite.add(c).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Civilité ajoutée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "CivilitÃ© ajoutÃ©e avec succes");
             $scope.findAll();
             $scope.civilite = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "La civilité n'a pas pu etre ajoutée");
+            SweetAlert.simpleNotification("error", "Erreur", "La civilitÃ© n'a pas pu etre ajoutÃ©e");
         });
     };
 
@@ -71,7 +71,7 @@ angular.module('ParametrageModule').controller('CiviliteController', function ($
             SweetAlert.finirChargementSucces("Chargement complet !");
             $scope.civilites = data;
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des civilités !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des civilitÃ©s !");
         });
     };
 
@@ -80,7 +80,7 @@ angular.module('ParametrageModule').controller('CiviliteController', function ($
     $scope.edit = function (item) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Civilite.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $scope.findAll();
             $scope.civilite = {id: ""};
             $scope.toggle();
@@ -110,12 +110,12 @@ angular.module('ParametrageModule').controller('CiviliteController', function ($
 
     $scope.delete = function (item) {
         
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Civilite.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

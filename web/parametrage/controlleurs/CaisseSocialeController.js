@@ -34,7 +34,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
     TypeEmploye.findAll().success(function (data) {
         $scope.typeemployes = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employÈs");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employ√©s");
     });
 
     $scope.controlForm = function (c) {
@@ -73,7 +73,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
         $q.all(req_tab).then(function () {
             $scope.typeEmployeSelectionne = [];
             $scope.findAll();
-            SweetAlert.simpleNotification("success", "Succes", "Ajout effectuÈ avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Ajout effectu√© avec succes");
             $('.choixTypeEmploye').removeAttr("checked");
 
 
@@ -88,7 +88,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
             $scope.findByLibelle(c.libelle);
             $scope.caissesociale = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "La caisse sociale n'a pas pu etre ajoutÈ");
+            SweetAlert.simpleNotification("error", "Erreur", "La caisse sociale n'a pas pu etre ajout√©");
         });
     };
 
@@ -96,7 +96,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
         CaisseSociale.findByLibelle(libelle).success(function (data) {
             $scope.addCaisseSocialeTypeEmploye(data);
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "La caisse sociale n'a pas pu etre rÈcuperer");
+            SweetAlert.simpleNotification("error", "Erreur", "La caisse sociale n'a pas pu etre recup√©r√©");
         });
     };
 
@@ -120,7 +120,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
             }
             SweetAlert.finirChargementSucces("Chargement complet !");
         }, function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rÈcupÈration des types d'employe");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recup√©ration des types d'employ√©s");
         });
     };
 
@@ -187,7 +187,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
             $scope.caissesociale = {id: ""};
             $scope.findAll();
             $scope.toggle();
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÈe avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectu√©e avec succes");
             $('.choixTypeEmploye').removeAttr("checked");
 
         }, function () {
@@ -219,7 +219,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
     $scope.delete = function (item) {
         var req_tab = [];
         var promise;
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet ÈlÈment ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet √©l√©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
@@ -237,7 +237,7 @@ angular.module('ParametrageModule').controller('CaisseSocialeController', functi
 
                             /*Supprimer l'element de la table caissesociale*/
                             CaisseSociale.delete(item.id).success(function () {
-                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÈe avec succes");
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectu√©e avec succes");
                                 $scope.findAll();
                             }).error(function () {
                                 SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

@@ -111,7 +111,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
     Entite.findAll().success(function (data) {
         $scope.entites = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des entit�s");
+        SweetAlert.finirChargementEchec("Erreur de chargement des entités");
     });
 
     Typecontrat.findAll().success(function (data) {
@@ -135,7 +135,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
     TypeEmploye.find($routeParams.type).success(function (data) {
         $scope.employe.typeEmploye = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employ�s");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employés");
     });
 
     Groupe.findByLibelle("employe").success(function (data) {
@@ -240,7 +240,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
 
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du cni");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification du cni");
         });
     };
     
@@ -258,7 +258,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                 }
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification matricule");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification matricule");
         });
     };
     
@@ -270,7 +270,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                 $scope.verifierContact1($scope.contact.numero1);
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du matricule IPRES/FNR");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification du matricule IPRES/FNR");
         });
 
     };
@@ -287,7 +287,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                 }
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du numéro de t�l�phone 1");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification du numéro de téléphone 1");
         });
 
     };
@@ -300,7 +300,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                 $scope.verifierEmail();               
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification du numéro de t�l�phone 1");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification du numéro de téléphone 2");
         });
     };
     
@@ -312,7 +312,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                 $scope.add();   //Ajout de l'employe
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de v�rification de l\'adresse email");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification de l\'adresse email");
         });
 
     };
@@ -389,7 +389,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                     $scope.ajouterPoste();
                 }
             }).error(function () {
-                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la r�cup�ration du responsable de l'entit�");
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupération du responsable de l'entité");
             });
         } else {
             $scope.ajouterPoste();
@@ -402,15 +402,15 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
         Employe.add($scope.employe).success(function () {
             $scope.findByNin();
             if ($scope.estPermanent){
-                SweetAlert.simpleNotification("success", "Succes", "Employ� ajout� avec succes<br>\n\
+                SweetAlert.simpleNotification("success", "Succes", "Employé ajouté avec succes<br>\n\
             Rendez-vous sur son boite email pour recuperer ses identifiants de connexion");
             }
             else{
-                SweetAlert.simpleNotification("success", "Succes", "Employ� ajout� avec succes");
+                SweetAlert.simpleNotification("success", "Succes", "Employé ajouté avec succes");
             }
             
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'ajout de l'employ�");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'ajout de l'employé");
         });
     };
 
@@ -419,7 +419,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
             $scope.employe = data;
             $scope.completerAdresse();
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la r�cuperation de l'employ� ajout�");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupération de l'employé ajouté");
         });
     };
 
@@ -431,7 +431,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                         $scope.servir.fonction = data;
                         $scope.addServir();
                     }).error(function () {
-                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la r�cup�ration des informations sur la fonction occup�e");
+                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupération des informations sur la fonction occupée");
                     });
                 }).error(function () {
                     SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'ajout de la nouvelle fonction");
@@ -441,7 +441,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                 $scope.addServir();
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la r�cup�ration des informations sur la fonction occup�e");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupération des informations sur la fonction occupée");
         });
     };
 
@@ -471,7 +471,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
                 $scope.creerCompteUtilisateur();
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'enregistrement du mutuelle de sant�");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'enregistrement du mutuelle de santé");
         });
     };
 
@@ -495,7 +495,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
         Mail.sendEmail(msg).success(function () {
             ;
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "L'envoi du mail a �chou�");
+            SweetAlert.simpleNotification("error", "Erreur", "L'envoi du mail a échoué");
         });
         $scope.utilisateur = {id: "", avatar: "images/avatar.png"};
         Mail.resetHttp();
@@ -514,7 +514,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
             Utilisateur.createCompte($scope.utilisateur).success(function () {
                 $scope.envoyerMail();
             }).error(function () {
-                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la cr�ation du compte utilisateur");
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la création du compte utilisateur");
             });
         }
         else{
@@ -649,7 +649,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
 
     $scope.controlConcordance = function () {
         var validite = true;
-        if ((($scope.employe.numeroCni).charAt(0) == '1' && $scope.employe.genre.libelle == 'F�minin') || (($scope.employe.numeroCni).charAt(0) == '2' && $scope.employe.genre.libelle == 'Masculin')) {
+        if ((($scope.employe.numeroCni).charAt(0) == '1' && $scope.employe.genre.libelle == 'F�minin') || (($scope.employe.numeroCni).charAt(0) == '2' && $scope.employe.genre.libelle == 'Masculin')) {
             $('.non-concorde').show("slow").delay(3000).hide("slow");
             validite = false;
         }

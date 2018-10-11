@@ -17,7 +17,7 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
     TypeEmploye.findAll().success(function (data) {
         $scope.typeemployes = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employés");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employÃ©s");
     });
     $scope.typeEmployeSelectionne=[];
     
@@ -33,7 +33,7 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
             
             $scope.typeEmployeSelectionne=angular.copy($scope.groupe.typeemployes);
         }).error(function(){
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des types d'employe");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des types d'employÃ©s");
         });
        
     };
@@ -75,7 +75,7 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
 
         }
         $q.all(req_tab).then(function () {
-            SweetAlert.notificationAvecSuggestion("success", "Succes", "Groupe d'utilisateur crée avec succes",
+            SweetAlert.notificationAvecSuggestion("success", "Succes", "Groupe d'utilisateur crÃ©Ã© avec succes",
                     "<h5><i>Clicker <a href='#/parametrage/groupe/show'>ici</a> pour voir le(s) groupe(s)</i><h5>");
             $('.choixTypeEmploye').removeAttr("checked");
 
@@ -107,10 +107,10 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
             $scope.getTables();
 
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de récupération des droits d'acces");
+            SweetAlert.finirChargementEchec("Erreur de rÃ©cupÃ©ration des droits d'acces");
         });
     }).error(function () {
-        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération\n\
+        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rÃ©cupÃ©ration\n\
         des informations du groupe d'utilisateur");
     });
 
@@ -124,7 +124,7 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
 
             $scope.checkNewAcces();
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des tables");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des tables");
         });
     };
 
@@ -199,7 +199,7 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
                     $scope.listeAcces = data;
                 }).error(function () {
                     SweetAlert.simpleNotification("error", "Erreur",
-                            "Erreur lors de la récupération des droits d'acces");
+                            "Erreur lors de la recupÃ©ration des droits d'acces");
 
                 });
             });
@@ -222,7 +222,7 @@ angular.module('ParametrageModule').controller('DetailAccesController', function
         AccesGroupeTable.newAccess(a).success(function (data) {
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur",
-                    "Une erreur est survenue lors de la création des droits d'acces");
+                    "Une erreur est survenue lors de la crï¿½ation des droits d'acces");
         });
     };
 

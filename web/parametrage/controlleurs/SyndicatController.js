@@ -36,7 +36,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
     TypeEmploye.findAll().success(function (data) {
         $scope.typeemployes = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employÈs");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employ√©s");
     });
 
     $scope.controlForm = function (c) {
@@ -75,7 +75,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
         $q.all(req_tab).then(function () {
             $scope.typeEmployeSelectionne = [];
             $scope.findAll();
-            SweetAlert.simpleNotification("success", "Succes", "Ajout effectuÈ avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Ajout effectu√© avec succes");
             $('.choixTypeEmploye').removeAttr("checked");
 
 
@@ -86,7 +86,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
         Syndicat.findByLibelle(nomSyndicat).success(function (data) {
             $scope.addSyndicatTypeEmploye(data);
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le syndicat n'a pas pu etre rÈcuperer");
+            SweetAlert.simpleNotification("error", "Erreur", "Le syndicat n'a pas pu etre recup√©r√©");
         });
     };
 
@@ -110,7 +110,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
             }
         },
                 function () {
-                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rÈcupÈration des types d'employe");
+                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recup√©ration des types d'employ√©s");
                 });
     };
 
@@ -165,7 +165,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
             $scope.syndicat = {id: ""};
             $scope.findAll();
             $scope.toggle();
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÈe avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectu√©e avec succes");
             $('.choixTypeEmploye').removeAttr("checked");
 
         }, function () {
@@ -179,7 +179,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
             $scope.findByLibelle(s.nomSyndicat);
             $scope.syndicat = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le syndicat n'a pas pu etre ajoutÈ");
+            SweetAlert.simpleNotification("error", "Erreur", "Le syndicat n'a pas pu etre ajout√©");
         });
     };
 
@@ -220,7 +220,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
     $scope.delete = function (item) {
         var req_tab = [];
         var promise;
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet ÈlÈment ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet √©l√©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
@@ -236,7 +236,7 @@ angular.module('ParametrageModule').controller('SyndicatController', function ($
                         $q.all(req_tab).then(function () {
                             /*Supprimer l'element de la table syndicat*/
                             Syndicat.delete(item.id).success(function () {
-                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÈe avec succes");
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectu√©e avec succes");
                                 $scope.findAll();
                             }).error(function () {
                                 SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

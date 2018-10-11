@@ -52,13 +52,13 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
     TypeEmploye.findAll().success(function (data) {
         $scope.typeemployes = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employés");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employÃ©s");
     });
 
     Avancement.findAll().success(function (data) {
         $scope.typeavancements = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'avancement !");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'avancements !");
     });
 
     Corps.findAll().success(function (data) {
@@ -76,7 +76,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
     Echelon.findAll().success(function (data) {
         $scope.echelons = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des échelons !");
+        SweetAlert.finirChargementEchec("Erreur de chargement des Ã©chelons !");
     });
 
     Niveau.findAll().success(function (data) {
@@ -89,7 +89,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
     Categorie.findAll().success(function (data) {
         $scope.categories = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des catégories !");
+        SweetAlert.finirChargementEchec("Erreur de chargement des catÃ©gories !");
     });
 
     $scope.grades = [];
@@ -195,7 +195,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
             $scope.typeEmployeSelectionne = [];
             $scope.findAll();
             $scope.initialiserGrade();
-            SweetAlert.simpleNotification("success", "Succes", "Grade ajouté avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Grade ajoutï¿½ avec succes");
             $('.choixTypeEmploye').removeAttr("checked");
 
 
@@ -221,7 +221,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
             }
             SweetAlert.finirChargementSucces("Chargement complet !");
         }, function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des types d'employe");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des types d'employÃ©s");
         });
     };
 
@@ -237,11 +237,11 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
         });
     };
 
-    $scope.findLast = function (nombreDeLignes) {   //Recupérqtion des lignes(entrées) nouvellement ajoutées dans la table grade
+    $scope.findLast = function (nombreDeLignes) {   //Recupï¿½rqtion des lignes(entrï¿½es) nouvellement ajoutï¿½es dans la table grade
         Grade.findLast(nombreDeLignes).success(function (data) {
             $scope.addGradeTypeEmploye(data);
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur lors de la récupérqtion des grades ajoutés !");
+            SweetAlert.finirChargementEchec("Erreur lors de la recupÃ©ration des grades ajoutÃ©s !");
         });
     }
 
@@ -309,7 +309,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
             $scope.findAll();
             $scope.initialiserGrade();
             $scope.toggle();
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $('.choixTypeEmploye').removeAttr("checked");
 
         }, function () {
@@ -321,7 +321,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
 
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Grade.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $scope.editGradeTypeEmploye(item);
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
@@ -356,7 +356,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
     $scope.delete = function (item) {
         var req_tab = [];
         var promise;
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
@@ -374,7 +374,7 @@ angular.module('ParametrageModule').controller('GradeController', function ($sco
                         $q.all(req_tab).then(function () {
                             /*Supprimer l'element de la table grade*/
                             Grade.delete(item.id).success(function () {
-                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                                 $scope.findAll();
                             }).error(function () {
                                 SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

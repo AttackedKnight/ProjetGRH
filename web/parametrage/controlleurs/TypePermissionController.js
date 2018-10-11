@@ -48,11 +48,11 @@ angular.module('ParametrageModule').controller('TypePermissionController', funct
     $scope.add = function (s) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Typepermission.add(s).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Type de permission ajouté avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Type de permission ajoutÃ© avec succes");
             $scope.findAll();
             $scope.typepermission = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le type de permission  n'a pas pu etre ajouté");
+            SweetAlert.simpleNotification("error", "Erreur", "Le type de permission  n'a pas pu etre ajoutÃ©");
         });
     };
 
@@ -61,7 +61,7 @@ angular.module('ParametrageModule').controller('TypePermissionController', funct
             SweetAlert.finirChargementSucces("Chargement complet !");
             $scope.typepermissions = data;
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des types de permission !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des types de permissions !");
         });
     };
 
@@ -70,7 +70,7 @@ angular.module('ParametrageModule').controller('TypePermissionController', funct
     $scope.edit = function (item) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Typepermission.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $scope.findAll();
             $scope.typepermission = {id: ""};
             $scope.toggle();
@@ -93,12 +93,12 @@ angular.module('ParametrageModule').controller('TypePermissionController', funct
     };
     $scope.delete = function (item) {
 
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Typepermission.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

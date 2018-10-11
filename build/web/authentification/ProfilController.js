@@ -90,10 +90,10 @@ $cookies, Securite, UploadFile)
     $scope.editUser = function () {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Connexion.edit($scope.utilisateur).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             Connexion.setCredentials($scope.utilisateur);
             $rootScope.avatarUtilisateur = $scope.utilisateur.avatar;
-            SweetAlert.finirChargementSucces("Photo de profil mise à jour !");
+            SweetAlert.finirChargementSucces("Photo de profil mise Ã  jour !");
             $scope.cancel();
         }).error(function () {
     SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");       

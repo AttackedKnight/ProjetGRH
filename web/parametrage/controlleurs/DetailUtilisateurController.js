@@ -23,13 +23,13 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController', fu
     Entite.findAll().success(function (data) {
         $scope.entites = data;
     }).error(function () {
-        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des entités");
+        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des entitÃ©s");
     });
 
     Groupe.getGroupes().success(function (data) {
         $scope.groupes = data;
     }).error(function () {
-        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des groupes d'utilisateur");
+        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des groupes d'utilisateurs");
     });
 
 
@@ -39,19 +39,19 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController', fu
         if ($scope.utilisateur.groupe.code != "EMP") {
             Servir.findResponsableEntite($scope.utilisateur.entite).success(function (data) {
                 if (data) {
-                    var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilté)
+                    var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civiltï¿½)
                     if(data.employe.genre.libelle != 'Masculin'){
                         situation = data.employe.situationMatrimoniale.id + '';
                     }
                     Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){
                         $scope.prenomNom = civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
                     }).error(function(){
-                        SweetAlert.finirChargementEchec("Erreur lors de la récupération de la civilité!");
+                        SweetAlert.finirChargementEchec("Erreur lors de la recupÃ©ration de la civilitÃ©!");
                     });
 //                    $scope.prenomNom = data.employe.civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
                 }
             }).error(function () {
-                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du responsable");
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration du responsable");
             });
         }
         
@@ -73,7 +73,7 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController', fu
         }
         
     }).error(function () {
-        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des informations sur le compte");
+        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des informations sur le compte");
     });
 
 
@@ -105,7 +105,7 @@ angular.module('ParametrageModule').controller('DetailUtilisateurController', fu
         
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Utilisateur.editCompte(compte).success(function (data) {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             document.location.href = '#/parametrage/utilisateur/show';
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");

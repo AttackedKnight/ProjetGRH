@@ -44,11 +44,11 @@ angular.module('ParametrageModule').controller('ClasseController', function ($sc
 
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Classe.add(s).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Classe ajoutée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Classe ajoutÃ©e avec succes");
             $scope.findAll();
             $scope.classe = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "La classe n'a pas pu etre ajoutée");
+            SweetAlert.simpleNotification("error", "Erreur", "La classe n'a pas pu etre ajoutÃ©e");
         });
     };
 
@@ -67,7 +67,7 @@ angular.module('ParametrageModule').controller('ClasseController', function ($sc
     $scope.edit = function (item) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Classe.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $scope.findAll();
             $scope.classe = {id: ""};
             $scope.toggle();
@@ -90,12 +90,12 @@ angular.module('ParametrageModule').controller('ClasseController', function ($sc
     };
     $scope.delete = function (item) {
         
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Classe.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

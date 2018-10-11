@@ -40,7 +40,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
                             window.location.href = "#/logout"
                         }
                     }).error(function () {
-                        console.log("Erreur lors de la vérification de la validité de la session");
+                        console.log("Erreur lors de la vï¿½rification de la validitï¿½ de la session");
                     });
                 };
 
@@ -80,7 +80,7 @@ angular.module('AuthentificationModule').factory('Securite', function ($rootScop
 
                         };
                     }).error(function () {
-                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la r?cup?ration des permissions");
+                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rÃ©cupÃ©ration des permissions");
                     });
                 }
 

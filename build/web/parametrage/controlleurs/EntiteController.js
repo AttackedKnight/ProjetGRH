@@ -21,7 +21,7 @@ angular.module('ParametrageModule').controller('EntiteController', function ($sc
     TypeEntite.findAll().success(function (data) {
         $scope.typeentites = data;
     }).error(function () {
-        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des types d'entité");
+        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rï¿½cupï¿½ration des types d'entitÃ©s");
     });
 
     $scope.controlForm = function (c) {
@@ -53,12 +53,12 @@ angular.module('ParametrageModule').controller('EntiteController', function ($sc
     $scope.add = function (c) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Entite.add(c).success(function () {
-            SweetAlert.notificationAvecSuggestion("success", "Succes", "Entité ajoutée avec succes",
-                    "<h5><i>Clicker <a href='#/parametrage/entite/show'>ici</a> pour voir le(s) entité(es)</i><h5>");
+            SweetAlert.notificationAvecSuggestion("success", "Succes", "EntitÃ© ajoutÃ©e avec succes",
+                    "<h5><i>Clicker <a href='#/parametrage/entite/show'>ici</a> pour voir le(s) entitÃ©(s)</i><h5>");
             $scope.findAll();
             $scope.entite = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "L'entité n'a pas pu etre créee");
+            SweetAlert.simpleNotification("error", "Erreur", "L'entitÃ© n'a pas pu etre crÃ©Ã©e");
         });
     };
 
@@ -68,7 +68,7 @@ angular.module('ParametrageModule').controller('EntiteController', function ($sc
             SweetAlert.finirChargementSucces("Chargement complet !");
             $scope.entites = data;
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des entités !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des entitÃ©s !");
         });
     };
 
@@ -79,12 +79,12 @@ angular.module('ParametrageModule').controller('EntiteController', function ($sc
 
     $scope.delete = function (item) {
 
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Entite.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

@@ -46,11 +46,11 @@ angular.module('ParametrageModule').controller('TypeEmployeController', function
     $scope.add = function (c) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         TypeEmploye.add(c).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Type d'employé ajouté avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Type d'employÃ© ajoutÃ© avec succes");
             $scope.findAll();
             $scope.typeemploye = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le type d'employé n'a pas pu etre ajouté");
+            SweetAlert.simpleNotification("error", "Erreur", "Le type d'employÃ© n'a pas pu etre ajoutÃ©");
         });
     };
 
@@ -60,7 +60,7 @@ angular.module('ParametrageModule').controller('TypeEmployeController', function
             SweetAlert.finirChargementSucces("Chargement complet !");
             $scope.typeemployes = data;
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des types d'employé !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des types d'employÃ©s !");
         });
     };
 
@@ -69,7 +69,7 @@ angular.module('ParametrageModule').controller('TypeEmployeController', function
     $scope.edit = function (item) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         TypeEmploye.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuï¿½e avec succes");
             $scope.findAll();
             $scope.typeemploye = {id: ""};
             $scope.toggle();
@@ -92,12 +92,12 @@ angular.module('ParametrageModule').controller('TypeEmployeController', function
     };
     $scope.delete = function (item) {
 
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         TypeEmploye.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

@@ -27,7 +27,7 @@ angular.module('DrhModule').controller('DrhDetailEntiteController', function ($s
         $scope.entites = data;
         $scope.VoirDetails($scope.entites[0]);
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des entités");
+        SweetAlert.finirChargementEchec("Erreur de chargement des entitÃ©s");
     });
 
 
@@ -35,7 +35,7 @@ angular.module('DrhModule').controller('DrhDetailEntiteController', function ($s
     TypeEntite.findAll().success(function (data) {
         $scope.typeentites = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'entité");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'entitÃ©s");
     });
 
     $scope.filles = [];
@@ -86,14 +86,14 @@ angular.module('DrhModule').controller('DrhDetailEntiteController', function ($s
 
             if (data) {
                 $scope.responsable = data;
-                var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilté)
+                var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civiltï¿½)
                 if(data.employe.genre.libelle != 'Masculin'){
                     situation = data.employe.situationMatrimoniale.id + '';
                 }
                 Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){
                     $scope.prenomNom = civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
                 }).error(function(){
-                    SweetAlert.finirChargementEchec("Erreur lors de la récupération de la civilité!");
+                    SweetAlert.finirChargementEchec("Erreur lors de la recupÃ©ration de la civilitÃ©!");
                 });
 //                $scope.prenomNom = $scope.responsable.employe.civilite.code + ' ' + $scope.responsable.employe.prenom + ' ' + ($scope.responsable.employe.nom).toUpperCase();
             }
@@ -103,8 +103,8 @@ angular.module('DrhModule').controller('DrhDetailEntiteController', function ($s
             }
 
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des informations du \n\
-            responsable de l'entité");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des informations du \n\
+            responsable de l'entitÃ©");
 
         });
 

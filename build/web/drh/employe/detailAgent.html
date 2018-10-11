@@ -120,10 +120,10 @@
                                     <div class="  col-md-7">
                                         <label style="font-weight: bold;"> Caisse sociale :</label>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <div class="row" >
                                             <label for="nonCaisse" class="col-md-4">
-                                                <input type="radio" id="nonCaisse" name="caissesociale" ng-model="currentCaisseSociale" value="0" ng-click="removeSelectedCaisseSociale()" /><br>
+                                                <input type="radio" id="nonCaisse" name="caissesociale" ng-model="currentCaisseSociale" value="0" ng-click="removeSelectedCaisseSociale()" />
                                                 {{ "Aucun"}}
                                             </label>
                                             <label ng-repeat="caissesociale in caissesociales" for="{{caissesociale.code}}" class="col-md-4" >
@@ -132,7 +132,7 @@
                                                        ng-model="currentCaisseSociale"
                                                        ng-value="{{caissesociale.id}}"
                                                        id="{{caissesociale.code}}" 
-                                                       onclick="angular.element(this).scope().getCaisseSociale(this)"/><br>
+                                                       onclick="angular.element(this).scope().getCaisseSociale(this)"/>
                                                 {{caissesociale.code}} 
                                             </label>
                                         </div>
@@ -140,9 +140,9 @@
                                 </div>
                                 <div class="row " ng-if="employe.caisseSociale.id"  style="margin-top: 6px; font-size: 1.2em;">
                                     <div class="  col-md-7">
-                                        <label style="font-weight: bold;"> Num�ro d'affiliation {{employe.caisseSociale.code}} :</label>
+                                        <label style="font-weight: bold;"> Numéro d'affiliation {{employe.caisseSociale.code}} :</label>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <div class="input-group">
                                             <input  type="text" ng-model="employe.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
                                         </div>
@@ -293,11 +293,11 @@
 
                                     <div class="col-md-4 row">
                                         <!--<input type="checkbox" name="incrit" ng-model="estMembreMutuelle"  ng-change="toggleMembreMutuelle()">-->
-                                        <label for="nonMutuelle" class="col-md-4">
+                                        <label for="nonMutuelle" class="col-md-5">
                                             <input type="radio" id="nonMutuelle" ng-model="currentMutuelle" value="0" name="mutuelle" ng-click="removeSelectedMutuelle()" />
                                             {{ "Aucun"}}
                                         </label>
-                                        <label ng-repeat="mutuelle in mutuelles" for="{{mutuelle.code}}" class="col-md-4" >
+                                        <label ng-repeat="mutuelle in mutuelles" for="{{mutuelle.code}}" class="col-md-5" >
                                             <input type="radio"  
                                                    name="mutuelle"
                                                    ng-value="{{mutuelle.id}}"  
@@ -312,19 +312,20 @@
                                     <div class="col-md-7">
                                         <span style="font-weight: bold;"> Syndicat :</span>
                                     </div>
-                                    <div class="col-md-4 row">
-                                        <label ng-repeat="syn in syndicats" for="{{syn.code}}" class="col-md-4" >
-                                            {{syn.code}}<br>
+                                    <div class="col-md-5 row">
+                                    
+                                        <label for="none" class="col-md-4">
+                                            Aucun
+                                            <input type="radio"  name="syndicat" value="0" ng-model="currentSyndicat" ng-click="removeSelectedSyndicat()" id="none" />                 
+                                        </label>
+                                            <label ng-repeat="syn in syndicats" for="{{syn.code}}" class="col-md-4" >
+                                            {{syn.code}}
                                             <input type="radio"  
                                                    name="syndicat" 
                                                    ng-model="currentSyndicat"
                                                    ng-value="{{syn.id}}"
                                                    id="{{syn.code}}" 
                                                    onclick="angular.element(this).scope().getSyndicat(this)"/>    
-                                        </label>
-                                        <label for="none" class="col-md-4">
-                                            Aucun
-                                            <input type="radio"  name="syndicat" value="0" ng-model="currentSyndicat" ng-click="removeSelectedSyndicat()"   id="none" />                 
                                         </label>
                                     </div>
                                 </div>                              

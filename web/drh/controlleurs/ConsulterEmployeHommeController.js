@@ -14,14 +14,14 @@ Servir, SweetAlert, HistoriqueGrade, $rootScope) {
     $scope.getEmploye = function () {
         Servir.findEmployeHomme($rootScope.typeEmployeAssocie.join("-")).success(function (data) {
 
-            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique ï¿½ afficher
                 $scope.travailleurs = data.filter(retrieveType);
             } else {
                 $scope.travailleurs = data;
             }
             $scope.getAvancement();
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des employÃ©s !");
         });
     };
     $scope.getEmploye();
@@ -33,14 +33,14 @@ Servir, SweetAlert, HistoriqueGrade, $rootScope) {
     $scope.allAvancements = [];
     $scope.getAvancement = function () {
         HistoriqueGrade.findAvancementHomme($rootScope.typeEmployeAssocie.join("-")).success(function (data) {
-            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique ï¿½ afficher
                 $scope.allAvancements = data.filter(retrieveType);
             } else {
                 $scope.allAvancements = data;
             }
             $scope.validerCritere();
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des employÃ©s !");
         });
     };
 
@@ -143,13 +143,13 @@ Servir, SweetAlert, HistoriqueGrade, $rootScope) {
 
 
     $scope.deleteAgent = function (employe) {
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Employe.delete(employe.id).success(function () {
                             UploadFile.delete(angular.toJson({chemin:"archives/" + employe.numeroCni})).success(function () {
-                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                                 if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
                                     $scope.getPats();
                                 }

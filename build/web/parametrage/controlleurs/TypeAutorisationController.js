@@ -44,11 +44,11 @@ angular.module('ParametrageModule').controller('TypeAutorisationController', fun
     $scope.add = function (s) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         TypeAutorisation.add(s).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Type d'autorisation ajouté avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Type d'autorisation ajoutÃ© avec succes");
             $scope.findAll();
             $scope.typeautorisation = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le type d'autorisation  n'a pas pu etre ajouté");
+            SweetAlert.simpleNotification("error", "Erreur", "Le type d'autorisation  n'a pas pu etre ajoutÃ©");
         });
     };
 
@@ -66,7 +66,7 @@ angular.module('ParametrageModule').controller('TypeAutorisationController', fun
     $scope.edit = function (item) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         TypeAutorisation.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $scope.findAll();
             $scope.typeautorisation = {id: ""};
             $scope.toggle();
@@ -89,12 +89,12 @@ angular.module('ParametrageModule').controller('TypeAutorisationController', fun
     };
     $scope.delete = function (item) {
         
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         TypeAutorisation.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

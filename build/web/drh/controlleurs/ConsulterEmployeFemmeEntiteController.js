@@ -27,11 +27,11 @@ Servir, Entite, Securite, SweetAlert, $rootScope, HistoriqueGrade) {
 
             $scope.getEmployeEntite();
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des entités");
+            SweetAlert.finirChargementEchec("Erreur de chargement des entitÃ©s");
         });
 
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement de l'entité ");
+        SweetAlert.finirChargementEchec("Erreur de chargement de l'entitÃ© ");
     });
 
     /*  Recuperer l'entite et chercher ses entites enfants  */
@@ -78,7 +78,7 @@ Servir, Entite, Securite, SweetAlert, $rootScope, HistoriqueGrade) {
                     cumul = cumul.concat(result[i].data);
                 }
             }
-            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique ï¿½ afficher
                 $scope.travailleurs = cumul.filter(retrieveType);
             } else {
                 $scope.travailleurs = cumul;
@@ -108,7 +108,7 @@ Servir, Entite, Securite, SweetAlert, $rootScope, HistoriqueGrade) {
                     cumul = cumul.concat(result[i].data);
                 }
             }
-            if ($routeParams.type) {    //S'il ya un type d'employe specifique à afficher
+            if ($routeParams.type) {    //S'il ya un type d'employe specifique ï¿½ afficher
                 $scope.allAvancements = cumul.filter(retrieveType);
             } else {
                 $scope.allAvancements = cumul;
@@ -223,13 +223,13 @@ Servir, Entite, Securite, SweetAlert, $rootScope, HistoriqueGrade) {
     /*Avencements*/
     
     $scope.deleteAgent = function (employe) {
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Employe.delete(employe.id).success(function () {
                             UploadFile.delete(angular.toJson({chemin:"archives/" + employe.numeroCni})).success(function () {
-                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                                 if ($rootScope.groupeUtilisateur.code == 'PATS_AD') {
                                     $scope.getPats();
                                 }

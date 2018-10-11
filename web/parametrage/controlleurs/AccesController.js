@@ -22,7 +22,7 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
     TypeEmploye.findAll().success(function (data) {
         $scope.typeemployes = data;
     }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employÈs");
+        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employ√©s");
     });
 
 
@@ -56,11 +56,11 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
             SweetAlert.finirChargementSucces("Chargement complet !");
             if ($scope.groupes.length == 0) {
                 SweetAlert.notificationAvecSuggestion("info", "Vide",
-                        "Aucun groupe cree pour le moment",
+                        "Aucun groupe cr√©√© pour le moment",
                         "<h5><i>Clicker <a href='#/parametrage/groupe/new'>ici</a> pour ajouter un groupe</i><h5>");
             }
         }, function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rÈcupÈration des types d'employe");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recup√©ration des types d'employ√©");
         });
     };
 
@@ -72,7 +72,7 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
             $scope.groupes = data;
             $scope.getTypeEmployeGroupe();
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des groupes d'utilisateur !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des groupes d'utilisateurs !");
         });
     };
     $scope.getGroupes();
@@ -93,7 +93,7 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
             $scope.typeEmployeSelectionne = [];
             $scope.getGroupes();
             $scope.groupe = {id: ""};
-            SweetAlert.notificationAvecSuggestion("success", "Succes", "Groupe d'utilisateur crÈe avec succes",
+            SweetAlert.notificationAvecSuggestion("success", "Succes", "Groupe d'utilisateur cr√©√© avec succes",
                     "<h5><i>Clicker <a href='#/parametrage/groupe/show'>ici</a> pour voir le(s) groupe(s)</i><h5>");
 
             $('.choixTypeEmploye').removeAttr("checked");
@@ -124,10 +124,10 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
                 construireListeAcces();
 
             }).error(function () {
-                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la creation des droit d'access");
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la cr√©ation des droit d'access");
             });
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le groupe d'utilisateur n'a pas pu etre crÈe");
+            SweetAlert.simpleNotification("error", "Erreur", "Le groupe d'utilisateur n'a pas pu etre cr√©√©");
         });
     };
 
@@ -142,7 +142,7 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
             $scope.tables = ($scope.tables).split("-");
             construireListeAcces();
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rÈcupÈration des tables");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recup√©ration des tables");
         });
     };
     $scope.getTables();
@@ -169,7 +169,7 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
     $scope.createAccess = function (a) {
         AccesGroupeTable.newAccess(a).success(function () {
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la creation des droit d'access");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la cr√©ation des droit d'access");
         });
     };
 
@@ -233,7 +233,7 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
     $scope.supprimerGroupe = function (groupe) {
         var req_tab = [];
         var promise;
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet ÈlÈment ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet √©l√©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
@@ -257,7 +257,7 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
 
                                 /*Supprimer l'element de la table groupe*/
                                 Groupe.deleteGroupe(groupe.id).success(function () {
-                                    SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÈe avec succes");
+                                    SweetAlert.simpleNotification("success", "Succes", "Suppression effectu√©e avec succes");
                                     $scope.getGroupes();
                                 }).error(function () {
                                     SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

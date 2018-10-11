@@ -24,18 +24,18 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
 
         Servir.findResponsableEntite($scope.entite).success(function (data) {
                 if (data) {
-                    var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilté)
+                    var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civiltï¿½)
                     if(data.employe.genre.libelle != 'Masculin'){
                         situation = data.employe.situationMatrimoniale.id + '';
                     }
                     Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){
                         $scope.responsable = civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
                     }).error(function(){
-                        SweetAlert.finirChargementEchec("Erreur lors de la récupération de la civilité!");
+                        SweetAlert.finirChargementEchec("Erreur lors de la recupÃ©ration de la civilitÃ©!");
                     });
                 }
             }).error(function () {
-                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du responsable");
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration du responsable");
             });
             
         Entite.findAll().success(function (data) {
@@ -50,7 +50,7 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
             }
 
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des entités");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rï¿½cupï¿½ration des entitï¿½s");
         });
 
         TypeEntite.findAll().success(function (data) {
@@ -63,11 +63,11 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
                 }
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des types d'entité");
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la rï¿½cupï¿½ration des types d'entitÃ©s");
         });
 
     }).error(function () {
-        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des informations sur l'entité");
+        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupÃ©ration des informations sur l'entitÃ©");
     });
 
 
@@ -105,7 +105,7 @@ angular.module('ParametrageModule').controller('DetailEntiteController', functio
 
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Entite.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuï¿½e avec succes");
             document.location.href = '#/parametrage/entite/show';
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");

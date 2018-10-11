@@ -42,11 +42,11 @@ angular.module('ParametrageModule').controller('EchelonController', function ($s
     $scope.add = function (c) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Echelon.add(c).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Echelon ajouté avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Echelon ajoutÃ© avec succes");
             $scope.findAll();
             $scope.echelon = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "L'échelon n'a pas pu etre ajouté");
+            SweetAlert.simpleNotification("error", "Erreur", "L'Ã©chelon n'a pas pu etre ajoutÃ©");
         });
     };
 
@@ -56,7 +56,7 @@ angular.module('ParametrageModule').controller('EchelonController', function ($s
             SweetAlert.finirChargementSucces("Chargement complet !");
             $scope.echelons = data;
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des échelons !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des Ã©chelons !");
         });
     };
 
@@ -65,7 +65,7 @@ angular.module('ParametrageModule').controller('EchelonController', function ($s
     $scope.edit = function (item) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Echelon.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $scope.findAll();
             $scope.echelon = {id: ""};
             $scope.toggle();
@@ -88,12 +88,12 @@ angular.module('ParametrageModule').controller('EchelonController', function ($s
     };
     $scope.delete = function (item) {
         
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Echelon.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuÃ©e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

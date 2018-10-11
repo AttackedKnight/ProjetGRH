@@ -2,7 +2,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">LES ENTITES</h3>
     </div><!-- /.box-header -->
-    <div class="box-body col-md-5">
+    <div class="box-body col-md-6">
         <div class="box-group" id="accordion">
             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
 
@@ -16,7 +16,7 @@
                 <div id="item{{typeentite.code}}" class="panel-collapse collapse" ng-class="{ 'in' : typeentite.code == 'rectorat'}">
                     <div class="box-body">
                         <ul>
-                            <li style="font-weight: bold; font-size: 1.1em;"   ng-repeat="entite in entites" ng-if="entite.typeEntite.code == typeentite.code">
+                            <li style="font-weight: bold; font-size: 1.2em;"   ng-repeat="entite in entites" ng-if="entite.typeEntite.code == typeentite.code">
                                 <button style="margin-bottom: 4px; width: 100%; border: 1px solid transparent; border-radius: 4px; text-align: justify;" ng-click="VoirDetails(entite)">{{entite.nom}}</button>
                             </li>
                         </ul>
@@ -27,7 +27,7 @@
 
         </div>
     </div><!-- /.box-body -->
-    <div class="box-body col-md-7">
+    <div class="box-body col-md-6">
         <div class="box-group">
             <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
 

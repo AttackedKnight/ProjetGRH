@@ -48,11 +48,11 @@ angular.module('ParametrageModule').controller('TypeDocumentController', functio
     $scope.add = function (s) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Typedocument.add(s).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Type de document ajouté avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Type de document ajoutÃ© avec succes");
             $scope.findAll();
             $scope.typedocument = {id: ""};
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le type de document n'a pas pu etre ajouté");
+            SweetAlert.simpleNotification("error", "Erreur", "Le type de document n'a pas pu etre ajoutÃ©");
         });
     };
 
@@ -61,7 +61,7 @@ angular.module('ParametrageModule').controller('TypeDocumentController', functio
             SweetAlert.finirChargementSucces("Chargement complet !");
             $scope.typedocuments = data;
         }).error(function () {
-            SweetAlert.finirChargementEchec("Erreur de chargement des types de document !");
+            SweetAlert.finirChargementEchec("Erreur de chargement des types de documents !");
         });
     };
 
@@ -70,7 +70,7 @@ angular.module('ParametrageModule').controller('TypeDocumentController', functio
     $scope.edit = function (item) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Typedocument.edit(item).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÃ©e avec succes");
             $scope.findAll();
             $scope.typedocument = {id: ""};
             $scope.toggle();
@@ -93,12 +93,12 @@ angular.module('ParametrageModule').controller('TypeDocumentController', functio
     };
     $scope.delete = function (item) {
         
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet Ã©lÃ©ment ?"))
                 .then(function (value) {
                     if (value == true) {
                         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
                         Typedocument.delete(item.id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuï¿½e avec succes");
                             $scope.findAll();
                         }).error(function () {
                             SweetAlert.simpleNotification("error", "Erreur", "Echec de la supression");

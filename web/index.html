@@ -262,12 +262,12 @@
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                     <img src="{{avatarUtilisateur}}" class="user-image user-avatar" alt="User Image"/>
-                                    <span class="hidden-xs">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</span>
+                                    <span class="hidden-xs" style="font-size: 1.2em;">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li class="user-header">
                                         <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
-                                        <p>
+                                        <p style="font-size: 1.2em;">
                                             {{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}
                                         </p>
                                     </li>
@@ -295,8 +295,8 @@
                         <div class="pull-left image">
                             <img src="{{avatarUtilisateur}}" class="img-circle user-avatar" alt="User Image" />
                         </div>
-                        <div class="pull-left">
-                            <p class="d-inline-block text-truncate" style="text-align: center; max-width: 150px;color: white; font-weight: bold;">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</p>
+                        <div >
+                            <p class="d-inline-block text-truncate" style="text-align: center; font-size: 1.2em;max-width: 150px;color: white; font-weight: bold;">{{prenomUtilisateur}} {{nomUtilisateur}} {{entiteUtilisateur.nom}}</p>
                             <a href="#"><i class="fa fa-circle text-success"></i> En ligne</a>
                         </div>
                     </div>
@@ -434,7 +434,7 @@
                                 </li>
                                 <li>
                                     <a href="#">
-                                        <i class="fa fa-user"></i> <span>AGENTS</span> <i class="fa fa-angle-left pull-right"></i>
+                                        <i class="fa fa-user"></i> <span>Gestion agents</span> <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
                                         <li ng-show="avoirPermission('ajouter', 'employe') == true" ng-show="typeEmploye_o" ng-repeat="typeEmploye in typeEmploye_o"> 
