@@ -306,16 +306,16 @@
                     <!-- sidebar menu: : style can be found in sidebar.less -->
                     <ul class="sidebar-menu menu-root">
                         <li class="header" style="text-align: center; font-weight: bold; color:white;font-size: 1.5em;">MENU</li>
-                        <li class="treeview "  id="admin-menu" ng-show="avoirPermission('consulter', 'menuadmin') == true">
+                        <li class="treeview" id="admin-menu" ng-show="avoirPermission('consulter', 'menuadmin') == true">
                             <a href="#">
                                 <i class="fa fa-gears"></i> <span>PARAMETRAGES</span> <i class="fa fa-angle-left pull-right"></i>
                             </a>
-                            <ul class="treeview-menu">
-                                <li class="treeview menu-subroot">
+                            <ul class="treeview-menu" >
+                                <li class="treeview">
                                     <a href="#">
                                         <i class="fa fa-key"></i> <span>Utilisateur</span> <i class="fa fa-angle-left pull-right"></i>
                                     </a>
-                                    <ul class="treeview-menu">
+                                    <ul class="treeview-menu" >
                                         <li><a ng-href="#/parametrage/utilisateur/show" ng-class="{'firstView' : avoirPermission('consulter', 'menuadmin') == true && avoirPermission('consulter', 'menuadmin') == true}"><i class="fa fa-circle-o"></i>Comptes Utilisateur</a></li>
                                         <li><a ng-href="#/parametrage/groupe/show"><i class="fa fa-circle-o"></i>Groupes d'utilisateur</a></li>
                                     </ul>
@@ -334,7 +334,7 @@
                                         <i class="fa fa-user"></i> <span>Agent</span> <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                        <li><a ng-href="#/parametrage/typeemploye"><i class="fa fa-circle-o"></i>Types D' Employe</a></li>
+                                        <li><a ng-href="#/parametrage/typeemploye"><i class="fa fa-circle-o"></i>Types d'employés</a></li>
                                         <li><a ng-href="#/parametrage/genre"><i class="fa fa-circle-o"></i>Genre</a></li>
                                         <li><a ng-href="#/parametrage/civilite"><i class="fa fa-circle-o"></i>Civilite</a></li>
                                         <li><a ng-href="#/parametrage/situationmatrimoniale"><i class="fa fa-circle-o"></i>Situation Matrimoniale</a></li>
@@ -349,7 +349,7 @@
                                     <ul class="treeview-menu">
                                         <li><a ng-href="#/parametrage/syndicat"><i class="fa fa-circle-o"></i>Syndicat</a></li>
                                         <li><a ng-href="#/parametrage/mutuelledesante"><i class="fa fa-circle-o"></i>Mutuelle de santé</a></li>
-                                        <li><a ng-href="#/parametrage/caissesociale"><i class="fa fa-circle-o"></i>Caisse Sociale</a></li>
+                                        <li><a ng-href="#/parametrage/caissesociale"><i class="fa fa-circle-o"></i>Caisse sociale</a></li>
                                     </ul>
                                 </li>
                                 <li class="treeview menu-subroot">
@@ -357,8 +357,8 @@
                                         <i class="fa fa-user-times"></i> <span>Absences</span> <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                        <li><a ng-href="#/parametrage/autorisationabsence"><i class="fa fa-circle-o"></i>Autorisation D'absence</a></li>
-                                        <li><a ng-href="#/parametrage/typepermission"><i class="fa fa-circle-o"></i>Types De Permission</a></li>
+                                        <li><a ng-href="#/parametrage/autorisationabsence"><i class="fa fa-circle-o"></i>Autorisation d'absence</a></li>
+                                        <li><a ng-href="#/parametrage/typepermission"><i class="fa fa-circle-o"></i>Types de permissions</a></li>
                                     </ul>
                                 </li>
                                 <li class="treeview menu-subroot">
@@ -366,7 +366,7 @@
                                         <i class="fa fa-folder"></i> <span>Achivage</span> <i class="fa fa-angle-left pull-right"></i>
                                     </a>
                                     <ul class="treeview-menu">
-                                        <li><a ng-href="#/parametrage/typedocument"><i class="fa fa-circle-o"></i>Types De Document</a></li>
+                                        <li><a ng-href="#/parametrage/typedocument"><i class="fa fa-circle-o"></i>Types de documents</a></li>
                                     </ul>
                                 </li>
                                 <li class="treeview menu-subroot">
@@ -380,7 +380,7 @@
                                         <li><a ng-href="#/parametrage/niveau"><i class="fa fa-circle-o"></i>Niveau</a></li>
                                         <li><a ng-href="#/parametrage/echelon"><i class="fa fa-circle-o"></i>Echelon</a></li>
                                         <li><a ng-href="#/parametrage/grade"><i class="fa fa-circle-o"></i>Grade</a></li>
-                                        <li><a ng-href="#/parametrage/typeavancement"><i class="fa fa-circle-o"></i>Types D'avancement</a></li>
+                                        <li><a ng-href="#/parametrage/typeavancement"><i class="fa fa-circle-o"></i>Types d'avancements</a></li>
                                     </ul>
                                 </li>
                             </ul>
@@ -412,17 +412,17 @@
                                         </li>
                                         <li ng-show="avoirPermission('consulter', 'statistiqueentiteglabal') == true">
                                             <a class="statistique"  ng-href="#/drh/e"><i class="fa fa-bar-chart"></i>
-                                                Entités
+                                                Par entités
                                             </a>
                                         </li>
                                         <li ng-show="avoirPermission('consulter', 'statistiqueentiteper') == true">
                                             <a class="statistique" ng-href="#/drh/per/e"><i class="fa fa-bar-chart"></i>
-                                                Entités
+                                                Par entités
                                             </a>
                                         </li>
                                         <li ng-show="avoirPermission('consulter', 'statistiqueentitepats') == true">
                                             <a class="statistique" ng-href="#/drh/pats/e"><i class="fa fa-bar-chart"></i>
-                                                Entités
+                                                Par entités
                                             </a>
                                         </li>
                                     </ul>
@@ -461,7 +461,7 @@
                                 </li>-->
                             </ul>
                         </li>
-                        <li class=" treeview" id="service-menu" ng-show="avoirPermission('consulter', 'menuservice') == true">
+                        <li class="treeview" id="service-menu" ng-show="avoirPermission('consulter', 'menuservice') == true">
                             <a href="#">
                                 <i class="fa fa-users"></i> <span>ENTITE</span> <i class="fa fa-angle-left pull-right"></i>
                             </a>
