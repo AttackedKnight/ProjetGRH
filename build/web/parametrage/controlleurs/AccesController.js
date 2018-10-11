@@ -14,8 +14,6 @@ angular.module('ParametrageModule').controller('AccesController', function ($sco
         return;
     }
 
-
-
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
 
