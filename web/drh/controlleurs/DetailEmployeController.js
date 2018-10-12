@@ -6,8 +6,8 @@
 
 
 
-angular.module('DrhModule').controller('DetailEmployeController', function ($scope,$route, Securite, SweetAlert,
-        HistoriqueGrade, SyndicatTypeEmploye, GradeTypeEmploye, CaisseSocialeTypeEmploye, MutuelleTypeEmploye, 
+angular.module('DrhModule').controller('DetailEmployeController', function ($scope, $route, Securite, SweetAlert,
+        HistoriqueGrade, SyndicatTypeEmploye, GradeTypeEmploye, CaisseSocialeTypeEmploye, MutuelleTypeEmploye,
         $routeParams, UploadFile, Typedocument, Situation, Entite, Diplome, Genre, Formation, Employe,
         Contact, Adresse, Servir, MembreMutuelle, Fonction, Typecontrat, Civilite, Document, Connexion)
 {
@@ -24,12 +24,6 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
     /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
-    $scope.monCni = "";
-    $scope.monNumeroMatricule = "";
-    $scope.monNumeroCaisseSociale = "";
-    $scope.monTel1 = "";
-    $scope.monTel2 = "";
-    $scope.monEmail = "";
 
 
     $scope.fonction = {id: ""};
@@ -105,23 +99,22 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     };
     function retrieveMutulleSante(data) {
         return data.id == $scope.currentMutuelle;
-    } ;
+    }
+    ;
 
     $scope.estMarie = false;
-    $scope.checkSituationMatrimoniale = function(){
-        if($scope.employe.situationMatrimoniale.libelle == "Marie"){
+    $scope.checkSituationMatrimoniale = function () {
+        if ($scope.employe.situationMatrimoniale.libelle == "Marie") {
             $scope.estMarie = true;
-        }
-        else{
-            $scope.estMarie = false;           
+        } else {
+            $scope.estMarie = false;
         }
     };
     $scope.homme = false;
-    $scope.checkGenre = function(){
-        if($scope.employe.genre.libelle == "Masculin"){
+    $scope.checkGenre = function () {
+        if ($scope.employe.genre.libelle == "Masculin") {
             $scope.homme = true;
-        }
-        else{
+        } else {
             $scope.homme = false;
         }
     };
@@ -130,21 +123,19 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     $scope.estPermanent = true;
     Employe.find(idEmploye).success(function (data) {
         $scope.employe = data;
-      
-        $scope.monCni = angular.copy($scope.employe.numeroCni);
-        $scope.monNumeroMatricule = angular.copy($scope.employe.matriculeInterne);
-        $scope.monNumeroCaisseSociale = angular.copy($scope.employe.matriculeCaisseSociale);
-
+        //Formatter les date pour l'affichage
         $scope.employe.dateDeNaissance = new Date($scope.employe.dateDeNaissance);
         $scope.employe.dateRecrutement = new Date($scope.employe.dateRecrutement);
-        
-        if($scope.employe.situationMatrimoniale && $scope.employe.situationMatrimoniale.libelle == "Marie"){
+
+        $scope.copieEmploye = angular.copy($scope.employe);
+
+        if ($scope.employe.situationMatrimoniale && $scope.employe.situationMatrimoniale.libelle == "Marie") {
             $scope.estMarie = true;
         }
-        if($scope.employe.genre && $scope.employe.genre.libelle == "Masculin"){
+        if ($scope.employe.genre && $scope.employe.genre.libelle == "Masculin") {
             $scope.homme = true;
         }
-        
+
         if ($scope.employe.syndicat != null) {
             $scope.currentSyndicat = $scope.employe.syndicat.id;
         } else {
@@ -172,14 +163,11 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         Contact.findByEmploye($scope.employe).success(function (data) {
             if (data) {
                 $scope.contacts = data;
-                $scope.monTel1 = angular.copy($scope.contacts.numero1);
-                $scope.monTel2 = angular.copy($scope.contacts.numero2);
-                $scope.monEmail = angular.copy($scope.contacts.email);
-                
-                if($scope.contacts.numero2){
+                $scope.copieContacts = angular.copy($scope.contacts);
+
+                if ($scope.contacts.numero2) {
                     $scope.autreNumero = true;
-                }
-                else{
+                } else {
                     $scope.autreNumero = false;
                 }
             } else {
@@ -301,11 +289,11 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
             /*Si les identifiants ont ete touche*/
 
-            if ($scope.employe.numeroCni !== $scope.monCni) {
+            if ($scope.employe.numeroCni !== $scope.copieEmploye.numeroCni) {
                 $scope.CheckCni();
-            } else if ($scope.estPermanent == true && $scope.employe.matriculeInterne !== $scope.monNumeroMatricule) {
+            } else if ($scope.estPermanent == true && $scope.employe.matriculeInterne !== $scope.copieEmploye.matriculeInterne) {
                 $scope.checkMatriculeInterne();
-            } else if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
+            } else if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.copieEmploye.matriculeCaisseSociale) {
                 $scope.checkMatriculeCaisseSociale();
             } else {
                 $scope.effectuerMajEmploye();
@@ -323,16 +311,14 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Employe.edit($scope.employe).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Modification effectu�e avec succes");
-            $scope.monCni = angular.copy($scope.employe.numeroCni);
-            $scope.monNumeroMatricule = angular.copy($scope.employe.matriculeInterne);
-            $scope.monNumeroCaisseSociale = angular.copy($scope.employe.matriculeCaisseSociale);
+            $scope.copieEmploye = angular.copy($scope.employe);
             if ($scope.membreMutuelle.id == "" && $scope.membreMutuelle.mutuelleSante != null) { //Si l'employe n'etait pas encore membre
                 $scope.addMutuelle();
             }
             if ($scope.membreMutuelle.id != "" && $scope.membreMutuelle.mutuelleSante == null) { //Si l'employe n'est  plus membre
                 $scope.deleteMutuelle();
-            } 
-            if ($scope.membreMutuelle.id != "" && $scope.membreMutuelle.mutuelleSante != null){
+            }
+            if ($scope.membreMutuelle.id != "" && $scope.membreMutuelle.mutuelleSante != null) {
                 $scope.editMutuelle();
             }
         }).error(function () {
@@ -346,9 +332,9 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             if (data.value == true) {
                 $('#cni_dup').show("slow").delay(3000).hide("slow");
             } else {
-                if ($scope.estPermanent == true && $scope.employe.matriculeInterne !== $scope.monNumeroMatricule) {
+                if ($scope.estPermanent == true && $scope.employe.matriculeInterne !== $scope.copieEmploye.matriculeInterne) {
                     $scope.checkMatriculeInterne();
-                } else if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
+                } else if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.copieEmploye.matriculeCaisseSociale) {
                     $scope.checkMatriculeCaisseSociale();
                 } else {
                     $scope.effectuerMajEmploye();
@@ -365,7 +351,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
                 $('#mat_int_dup').show("slow").delay(3000).hide("slow");
 
             } else {
-                if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.monNumeroCaisseSociale) {
+                if ($scope.estPermanent == true && $scope.employe.matriculeCaisseSociale != "" && $scope.employe.matriculeCaisseSociale !== $scope.copieEmploye.matriculeCaisseSociale) {
                     $scope.checkMatriculeCaisseSociale();
                 } else {
                     $scope.effectuerMajEmploye();
@@ -386,6 +372,11 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de vérification du matricule IPRES/FNR");
         });
+    };
+
+    $scope.cancelEmployeEdit = function () {
+        $scope.employe = angular.copy($scope.copieEmploye);
+        $scope.toggleEmployeEditForm();
     };
 
     $scope.toggleEmployeEditForm = function () {
@@ -409,7 +400,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     $scope.editAvatar = true;
 
     $scope.editProfil = false;
-    $scope.toggleButtonProfil = function(){
+    $scope.toggleButtonProfil = function () {
         $scope.editProfil = !$scope.editProfil;
     };
 
@@ -488,20 +479,19 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             }
         });
         if (validite === true) {
-             /*Le nmero de cni est l'identifiant du dossier de l'employe dans les archives.
-              * Donc avant l'ajout d'une info ayant une pi�ce jointe , le numero doit etre d�fini */
-            if($scope.employe.numeroCni && $scope.employe.numeroCni != ''){              
+            /*Le nmero de cni est l'identifiant du dossier de l'employe dans les archives.
+             * Donc avant l'ajout d'une info ayant une pi�ce jointe , le numero doit etre d�fini */
+            if ($scope.employe.numeroCni && $scope.employe.numeroCni != '') {
                 if ($scope.controlDocumentForm(formulaire)) {
                     $scope.completerDocument();
                     $scope.uploadDocument($scope.lesFichiers);
                     $scope.editEmploye();
                     $scope.toggleSituationMatriEditForm();
                 }
-            }
-            else{
+            } else {
                 SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
             }
-            
+
 
         }
     };
@@ -513,13 +503,18 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
     $scope.editContact = false;
 
+    $scope.cancelContactsEdit = function () {
+        $scope.contacts = angular.copy($scope.copieContacts);
+        $scope.toggleContactEditForm();
+    };
+
     $scope.toggleContactEditForm = function () {
         $scope.editContact = !$scope.editContact;
     };
 
-    $scope.toggleNumeroTel2 = function(){
-        $scope.autreNumero = ! $scope.autreNumero;
-        if($scope.autreNumero == false){
+    $scope.toggleNumeroTel2 = function () {
+        $scope.autreNumero = !$scope.autreNumero;
+        if ($scope.autreNumero == false) {
             $scope.contacts.numero2 = null;
         }
     };
@@ -539,11 +534,11 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
             /*Si les identifiants ont ete touche*/
 
-            if ($scope.contacts.numero1 != $scope.monTel1) {
+            if ($scope.contacts.numero1 != $scope.copieContacts.numero1) {
                 $scope.checkNumeroTel1();
-            } else if ($scope.autreNumero == true  && $scope.contacts.numero2 != $scope.monTel2) {
+            } else if ($scope.autreNumero == true && $scope.contacts.numero2 != $scope.copieContacts.numero2) {
                 $scope.checkNumeroTel2();
-            } else if ($scope.contacts.email != $scope.monEmail) {
+            } else if ($scope.contacts.email != $scope.copieContacts.email) {
                 $scope.checkEmail();
             } else {
                 $scope.effectuerMajContact();
@@ -556,9 +551,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Contact.add($scope.contacts).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Contacts ajoutés avec succes !");
-            $scope.monTel1 = angular.copy($scope.contacts.numero1);
-            $scope.monTel2 = angular.copy($scope.contacts.numero2);
-            $scope.monEmail = angular.copy($scope.contacts.email);
+            $scope.copieContacts = angular.copy($scope.contacts);
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'enregistrement des contacts");
         });
@@ -568,9 +561,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Contact.edit($scope.contacts).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Contacts mise à jour avec succes");
-            $scope.monTel1 = angular.copy($scope.contacts.numero1);
-            $scope.monTel2 = angular.copy($scope.contacts.numero2);
-            $scope.monEmail = angular.copy($scope.contacts.email);
+            $scope.copieContacts = angular.copy($scope.contacts);
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
         });
@@ -581,9 +572,9 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             if (data.value == true) {
                 $('#num_tel_1_dup').show("slow").delay(3000).hide("slow");
             } else {
-                if ($scope.autreNumero == true && $scope.contacts.numero2 !== $scope.monTel2) {
+                if ($scope.autreNumero == true && $scope.contacts.numero2 !== $scope.copieContacts.numero2) {
                     $scope.checkNumeroTel2();
-                } else if ($scope.contacts.email !== $scope.monEmail) {
+                } else if ($scope.contacts.email !== $scope.copieContacts.email) {
                     $scope.checkEmail();
                 } else {
                     $scope.effectuerMajContact();
@@ -599,7 +590,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             if (data.value == true) {
                 $('#num_tel_2_dup').show("slow").delay(3000).hide("slow");
             } else {
-                if ($scope.contacts.email !== $scope.monEmail) {
+                if ($scope.contacts.email !== $scope.copieContacts.email) {
                     $scope.checkEmail();
                 } else {
                     $scope.effectuerMajContact();
@@ -689,9 +680,9 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         /*Recuperer le parcour professionnel de l'employe*/
         Servir.findByEmploye($scope.employe).success(function (data) {
             $scope.parcours = data;
-            if($scope.parcours[0].typeContrat.code == 'cdd'){
+            if ($scope.parcours[0].typeContrat.code == 'cdd') {
                 $scope.estPermanent = false;            //Verifier si c'est un permanent ou non
-            }else{
+            } else {
                 $scope.estPermanent = true;
             }
             $scope.trouverResponsable();    /*Trouver son superieur hierarchique actuel*/
@@ -710,15 +701,15 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         Servir.findResponsableEntite(e).success(function (data) {
             if (data) {
                 var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilt�)
-                if(data.employe.genre.libelle != 'Masculin'){
+                if (data.employe.genre.libelle != 'Masculin') {
                     situation = data.employe.situationMatrimoniale.id + '';
                 }
-                Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){
+                Civilite.findByGenreAndSituation(data.employe.genre.id, situation).success(function (civilite) {
                     $scope.mon_responsable = civilite.code + ' ' + data.employe.prenom + ' ' + (data.employe.nom).toUpperCase();
-                }).error(function(){
+                }).error(function () {
                     SweetAlert.finirChargementEchec("Erreur lors de la récupération de la civilité!");
                 });
-                
+
             } else {
                 $scope.mon_responsable = "";
             }
@@ -729,10 +720,11 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
     $scope.finirService = function (serviceActuel) {
         serviceActuel.fin = new Date();
+        serviceActuel.finService = 1;
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Servir.finirService(serviceActuel).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "");
-            Servir.findByEmploye($scope.employe);
+            $scope.findServir();
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de traitement");
         });
@@ -760,7 +752,47 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         }
     };
 
+    $scope.prolongerContrat = function (leService) {
+        swal({
+            title: 'Le nombre de mois ?',
+            input: 'number',
+            showCancelButton: true,
+            inputValidator: (value) => {
+                return !value && 'Renseigner une valeur!'
+            },
+            inputAttributes: {
+                max: 99,
+                min : 1
+            }
+        }).then(function (result) {
+            if (result.value) {
+                leService.dureeDuContrat =leService.dureeDuContrat + parseInt(result.value);
+                var dateFinService = new Date(leService.debut);
+                dateFinService.setMonth(dateFinService.getMonth() + leService.dureeDuContrat);
+                leService.fin = dateFinService;
+                $scope.editServir(leService);
+            }
+        });
+    };
+
+    $scope.editServir = function(s){
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        Servir.edit(s).success(function () {
+            SweetAlert.simpleNotification("success", "Succes", "");
+            Servir.findByEmploye($scope.employe);
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de traitement");
+        });
+    };
+
     $scope.completerServir = function () {
+
+        if ($scope.servir.typeContrat.code == 'cdd') {   //Calculer la date de fin du contrat 
+            var dateFinService = new Date($scope.servir.debut);
+            dateFinService.setMonth(dateFinService.getMonth() + $scope.servir.dureeDuContrat);
+            $scope.servir.fin = dateFinService;
+        }
+
         if (($scope.fonction.libelle).toLowerCase() == "recteur" || ($scope.fonction.libelle).toLowerCase() == "rectrice" ||
                 ($scope.fonction.libelle).toLowerCase() == "directeur" || ($scope.fonction.libelle).toLowerCase() == "directrice" ||
                 ($scope.fonction.libelle).toLowerCase() == "chef des services administratifs" || ($scope.fonction.libelle).toLowerCase() == "chef de département") {
@@ -845,13 +877,12 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     $scope.toggleGradeList = function () {
         $scope.showGradeList = !$scope.showGradeList;
         if ($scope.showGradeList == true) {
-            if($scope.gradeActu.grade){
+            if ($scope.gradeActu.grade) {
                 $scope.selection = ($scope.gradeActu.grade.corps.libelle) ? $scope.gradeActu.grade.corps.libelle : $scope.gradeActu.grade.classe.libelle;
-            }
-            else{
+            } else {
                 $scope.selection = "";
             }
-            
+
         }
     };
 
@@ -940,8 +971,8 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         if (validite === true) {
             if ($scope.controlDocumentForm(formulaire)) {
                 /*Le nmero de cni est l'identifiant du dossier de l'employe dans les archives.
-                * Donc avant l'ajout d'une info ayant une pi�ce jointe , le numero doit etre d�fini */
-                if($scope.employe.numeroCni && $scope.employe.numeroCni != ''){              
+                 * Donc avant l'ajout d'une info ayant une pi�ce jointe , le numero doit etre d�fini */
+                if ($scope.employe.numeroCni && $scope.employe.numeroCni != '') {
                     if ($scope.controlDocumentForm(formulaire)) {
                         $scope.nouvelleFormation = true;
                         if ($scope.diplomante == true) {
@@ -950,11 +981,10 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
                             $scope.addFormation();
                         }
                     }
-                }
-                else{
+                } else {
                     SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                 }
-                
+
 
             }
 
@@ -1149,7 +1179,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     /*Gerer l'upload de fichier*/
 
     $scope.uploadDocument = function (fichiers) {
-        if($scope.employe.numeroCni && $scope.employe.numeroCni != ''){
+        if ($scope.employe.numeroCni && $scope.employe.numeroCni != '') {
             $scope.finUpload = false;
             for (var i = 0; i < fichiers.files.length; i++) {   //  Parcour des fichier a uploader
                 $scope.uploadedFile = fichiers.files[i];
@@ -1166,8 +1196,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             }
             $scope.finUpload = true;
             UploadFile.resetHttp();
-        }
-        else{
+        } else {
             SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
         }
 
@@ -1332,12 +1361,12 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
         });
     };
-    
-    $scope.reloadPage = function(){
+
+    $scope.reloadPage = function () {
         $route.reload();
     };
-    
-    $scope.gelerCompte = function(){
+
+    $scope.gelerCompte = function () {
         ;
     };
 });

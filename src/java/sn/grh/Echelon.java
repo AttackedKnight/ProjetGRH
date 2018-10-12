@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package sn.grh;
 
 import java.io.Serializable;
@@ -102,5 +103,5 @@ public class Echelon implements Serializable {
     public String toString() {
         return "sn.grh.Echelon[ id=" + id + " ]";
     }
-    
+
 }

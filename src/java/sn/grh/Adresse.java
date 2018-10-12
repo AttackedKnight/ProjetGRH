@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sn.grh;
 
 import java.io.Serializable;
@@ -125,5 +124,5 @@ public class Adresse implements Serializable {
     public String toString() {
         return "sn.grh.Adresse[ id=" + id + " ]";
     }
-
+    
 }

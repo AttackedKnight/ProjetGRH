@@ -11,7 +11,11 @@ import sn.grh.Groupetypeemploye;
 import sn.grh.Mutuellesantetypeemploye;
 import sn.grh.Syndicattypeemploye;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-10T09:30:39")
+<<<<<<< HEAD
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-11T18:18:40")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-11T13:52:10")
+>>>>>>> e3daec2c89da717fb7b6f858590a0117e8aee26b
 @StaticMetamodel(Typeemploye.class)
 public class Typeemploye_ { 
 

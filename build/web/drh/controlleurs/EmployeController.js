@@ -62,6 +62,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
         $scope.senegalaise = true;
         $scope.employe.nationalite = "Sénégalaise";
         $scope.selection = "";
+        $scope.setTypeEmploye();
     };
 
     /* Réinitialisation du formulaire */
@@ -132,11 +133,14 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
         SweetAlert.finirChargementEchec("Erreur de chargement des situations matrimoniales");
     });
 
-    TypeEmploye.find($routeParams.type).success(function (data) {
-        $scope.employe.typeEmploye = data;
-    }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des types d'employés");
-    });
+    $scope.setTypeEmploye = function(){
+        TypeEmploye.find($routeParams.type).success(function (data) {
+            $scope.employe.typeEmploye = data;
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement des types d'employés");
+        });
+    };
+    $scope.setTypeEmploye();
 
     Groupe.findByLibelle("employe").success(function (data) {
         $scope.groupe = data;
@@ -195,6 +199,9 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
     /*          RECCUPERATION DES ELEMENTS PARAMETRES POUR LES AFFICHER DANS LES LISTES DE SELECTION        */
     
     $scope.getTypeContrat = function(){
+        $scope.reinitialiser();
+        $scope.servir.typeContrat = $scope.typecontrats.filter(retrieveTypeContrat)[0];
+        console.log($scope.servir.typeContrat);
         if($scope.servir.typeContrat.code == 'cdi'){
             $scope.estPermanent = true;
         }
@@ -202,6 +209,10 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
         {
             $scope.estPermanent = false;
         }
+        
+    };
+    function retrieveTypeContrat(data) {
+        return data.id == $scope.currentTypeContrat;
     };
 
     $scope.estMarie = false;
@@ -372,8 +383,15 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
 
     };
 
+
     $scope.completerServir = function () {
         $scope.servir.employe = $scope.employe;
+        if(!$scope.estPermanent){   //Calculer la date de fin du contrat 
+            var dateFinService = new Date($scope.servir.debut);
+            dateFinService.setMonth(dateFinService.getMonth() + $scope.servir.dureeDuContrat);
+            $scope.servir.fin = dateFinService;
+        }
+        
         if (($scope.fonction.libelle).toLowerCase() == "recteur" || ($scope.fonction.libelle).toLowerCase() == "rectrice" ||
                 ($scope.fonction.libelle).toLowerCase() == "directeur" || ($scope.fonction.libelle).toLowerCase() == "directrice" ||
                 ($scope.fonction.libelle).toLowerCase() == "chef des services administratifs" || ($scope.fonction.libelle).toLowerCase() == "chef de département") {

@@ -32,14 +32,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Servir.findAll", query = "SELECT s FROM Servir s")
+    , @NamedQuery(name = "Servir.findById", query = "SELECT s FROM Servir s WHERE s.id = :id")
     , @NamedQuery(name = "Servir.findByResponsable", query = "SELECT s FROM Servir s WHERE s.responsable = :responsable")
     , @NamedQuery(name = "Servir.findByDebut", query = "SELECT s FROM Servir s WHERE s.debut = :debut")
     , @NamedQuery(name = "Servir.findByFin", query = "SELECT s FROM Servir s WHERE s.fin = :fin")
     , @NamedQuery(name = "Servir.findByDureeDuContrat", query = "SELECT s FROM Servir s WHERE s.dureeDuContrat = :dureeDuContrat")
-    , @NamedQuery(name = "Servir.findById", query = "SELECT s FROM Servir s WHERE s.id = :id")})
+    , @NamedQuery(name = "Servir.findByFinService", query = "SELECT s FROM Servir s WHERE s.finService = :finService")})
 public class Servir implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id")
+    private Integer id;
     @Column(name = "responsable")
     private Boolean responsable;
     @Basic(optional = false)
@@ -52,11 +58,10 @@ public class Servir implements Serializable {
     private Date fin;
     @Column(name = "dureeDuContrat")
     private Integer dureeDuContrat;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "id")
-    private Integer id;
+    @NotNull
+    @Column(name = "finService")
+    private boolean finService;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
@@ -77,9 +82,18 @@ public class Servir implements Serializable {
         this.id = id;
     }
 
-    public Servir(Integer id, Date debut) {
+    public Servir(Integer id, Date debut, boolean finService) {
         this.id = id;
         this.debut = debut;
+        this.finService = finService;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public Boolean getResponsable() {
@@ -114,12 +128,12 @@ public class Servir implements Serializable {
         this.dureeDuContrat = dureeDuContrat;
     }
 
-    public Integer getId() {
-        return id;
+    public boolean getFinService() {
+        return finService;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setFinService(boolean finService) {
+        this.finService = finService;
     }
 
     public Employe getEmploye() {

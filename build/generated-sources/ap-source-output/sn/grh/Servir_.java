@@ -9,7 +9,11 @@ import sn.grh.Entite;
 import sn.grh.Fonction;
 import sn.grh.Typecontrat;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-10T09:30:38")
+<<<<<<< HEAD
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-11T18:18:39")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-11T13:52:09")
+>>>>>>> e3daec2c89da717fb7b6f858590a0117e8aee26b
 @StaticMetamodel(Servir.class)
 public class Servir_ { 
 
@@ -18,6 +22,7 @@ public class Servir_ {
     public static volatile SingularAttribute<Servir, Boolean> responsable;
     public static volatile SingularAttribute<Servir, Employe> employe;
     public static volatile SingularAttribute<Servir, Typecontrat> typeContrat;
+    public static volatile SingularAttribute<Servir, Boolean> finService;
     public static volatile SingularAttribute<Servir, Fonction> fonction;
     public static volatile SingularAttribute<Servir, Date> fin;
     public static volatile SingularAttribute<Servir, Integer> dureeDuContrat;

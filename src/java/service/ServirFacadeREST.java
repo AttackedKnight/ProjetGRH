@@ -65,7 +65,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("enservice/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public StringBoolean enservice(@PathParam("id") Integer id) {
-        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.employe.id=:id AND s.fin = NULL", Servir.class)
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.employe.id=:id  AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         if(s.size()>0){
@@ -95,7 +95,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findEmploye(@PathParam("types") String types) {      
         types=types.replace("-", ",");
-        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.fin = NULL "
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 "
                 + "AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
                 .getResultList();
         
@@ -112,7 +112,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findEmployeFemme(@PathParam("types") String types) {
         types=types.replace("-", ",");
-        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.fin = NULL "
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 "
                 + "AND s.employe.genre.libelle='Féminin' AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
                 .getResultList(); 
         if(s.size()>0){
@@ -127,7 +127,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findEmployeHomme(@PathParam("types") String types) {
         types=types.replace("-", ",");
-        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.fin = NULL "
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 "
                 + "AND s.employe.genre.libelle='Masculin' AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
                 .getResultList(); 
         if(s.size()>0){
@@ -143,7 +143,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public List<Servir> findEmployeEntite(@PathParam("id") Integer id,@PathParam("types") String types) {
         types=types.replace("-", ",");
         List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id=:id AND"
-                + " s.fin = NULL AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
+                + " s.finService = 0 AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         
@@ -160,7 +160,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public List<Servir> findEmployeEntiteFemme(@PathParam("id") Integer id,@PathParam("types") String types) {
         types=types.replace("-", ",");
         List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id=:id AND"
-                + " s.fin = NULL AND s.employe.genre.libelle='Féminin' AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
+                + " s.finService = 0 AND s.employe.genre.libelle='Féminin' AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         
@@ -177,7 +177,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public List<Servir> findEmployeEntiteHomme(@PathParam("id") Integer id,@PathParam("types") String types) {
         types=types.replace("-", ",");
         List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id=:id AND"
-                + " s.fin = NULL AND s.employe.genre.libelle='Masculin' AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
+                + " s.finService = 0 AND s.employe.genre.libelle='Masculin' AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         
@@ -210,7 +210,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("responsable/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Servir findResponsableEntite(@PathParam("id") Integer id) {
-        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.responsable=true AND s.fin = NULL ORDER BY s.id DESC", Servir.class)
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.responsable=true AND s.finService = 0 ORDER BY s.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         
@@ -226,7 +226,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("effectif/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer countEmployeEntite(@PathParam("id") Integer id) {
-        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         if(s.size()>0)
@@ -248,7 +248,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("entite/employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Entite findEntite(@PathParam("id") Integer id) {
-        List<Servir> s=em.createQuery("SELECT e FROM Servir e WHERE e.employe.id = :id AND s.fin = NULL ORDER BY e.id DESC", Servir.class)
+        List<Servir> s=em.createQuery("SELECT e FROM Servir e WHERE e.employe.id = :id AND s.finService = 0 ORDER BY e.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         
@@ -266,7 +266,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemploye/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeEntite(@PathParam("id") Integer id){      
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -275,7 +275,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployepats/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployePATSEntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where  s.employe.typeEmploye.code='PATS' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where  s.employe.typeEmploye.code='PATS' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -284,7 +284,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployeper/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployePEREntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PER' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PER' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -294,7 +294,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployehommes/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeHommeEntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.genre.libelle='Masculin' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.genre.libelle='Masculin' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -304,7 +304,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployehommespats/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeHommePATSEntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PATS' AND s.employe.genre.libelle='Masculin' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PATS' AND s.employe.genre.libelle='Masculin' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -315,7 +315,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployehommesper/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeHommePEREntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PER' AND s.employe.genre.libelle='Masculin' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PER' AND s.employe.genre.libelle='Masculin' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -325,7 +325,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployefemmes/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeFemmeEntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.genre.libelle='Féminin' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.genre.libelle='Féminin' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -335,7 +335,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployefemmespats/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeFemmePATSEntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PATS'  AND s.employe.genre.libelle='Féminin' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PATS'  AND s.employe.genre.libelle='Féminin' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -344,7 +344,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("countemployefemmesper/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer NbreEmployeFemmePEREntite(@PathParam("id") Integer id){
-        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PER' AND s.employe.genre.libelle='Féminin' AND s.entite.id = :id AND s.fin = NULL", Servir.class)
+        List<Servir> e=em.createQuery("SELECT s FROM Servir s  where s.employe.typeEmploye.code='PER' AND s.employe.genre.libelle='Féminin' AND s.entite.id = :id AND s.finService = 0", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         return e.size();
@@ -357,7 +357,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public Integer trancheAgeGlobal(@PathParam("debut") String from,@PathParam("fin") String to, @PathParam("id") Integer id) {
         
           
-         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.fin = NULL AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"'", Servir.class)
+         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.finService = 0 AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"'", Servir.class)
                  .setParameter("id", id)
                  .getResultList();
         if(e.size()>0){
@@ -372,7 +372,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public Integer trancheAgeGlobalHomme(@PathParam("debut") String from,@PathParam("fin") String to, @PathParam("id") Integer id) {
         
           
-         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.fin = NULL AND  s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Masculin'", Servir.class)
+         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.finService = 0 AND  s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Masculin'", Servir.class)
                  .setParameter("id", id)
                  .getResultList();
         if(e.size()>0){
@@ -387,7 +387,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public Integer trancheAgeGlobalFemme(@PathParam("debut") String from,@PathParam("fin") String to, @PathParam("id") Integer id) {
         
           
-         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.fin = NULL AND  s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Féminin'", Servir.class)
+         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.finService = 0 AND  s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Féminin'", Servir.class)
                  .setParameter("id", id)
                  .getResultList();
         if(e.size()>0){
@@ -402,7 +402,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public Integer trancheAgePerHomme(@PathParam("debut") String from,@PathParam("fin") String to, @PathParam("id") Integer id) {
         
           
-         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.fin = NULL AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Masculin' AND s.employe.typeEmploye.code='PER'", Servir.class)
+         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.finService = 0 AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Masculin' AND s.employe.typeEmploye.code='PER'", Servir.class)
                  .setParameter("id", id)
                  .getResultList();
         if(e.size()>0){
@@ -417,7 +417,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public Integer trancheAgePerFemme(@PathParam("debut") String from,@PathParam("fin") String to, @PathParam("id") Integer id) {
         
           
-         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.fin = NULL AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Féminin' AND s.employe.typeEmploye.code='PER'", Servir.class)
+         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.finService = 0 AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Féminin' AND s.employe.typeEmploye.code='PER'", Servir.class)
                  .setParameter("id", id)
                  .getResultList();
         if(e.size()>0){
@@ -433,7 +433,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public Integer trancheAgePatsHomme(@PathParam("debut") String from,@PathParam("fin") String to, @PathParam("id") Integer id) {
         
           
-         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.fin = NULL AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Masculin'  AND s.employe.typeEmploye.code='PATS'", Servir.class)
+         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.finService = 0 AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Masculin'  AND s.employe.typeEmploye.code='PATS'", Servir.class)
                  .setParameter("id", id)
                  .getResultList();
         if(e.size()>0){
@@ -449,7 +449,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public Integer trancheAgePatsFemme(@PathParam("debut") String from,@PathParam("fin") String to, @PathParam("id") Integer id) {
         
           
-         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.fin = NULL AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Féminin'  AND s.employe.typeEmploye.code='PATS'", Servir.class)
+         List<Servir> e=em.createQuery("SELECT s FROM Servir s where s.entite.id=:id AND s.finService = 0 AND s.employe.dateDeNaissance<'"+from+"' AND s.employe.dateDeNaissance>'"+to+"' AND s.employe.genre.libelle='Féminin'  AND s.employe.typeEmploye.code='PATS'", Servir.class)
                  .setParameter("id", id)
                  .getResultList();
         if(e.size()>0){
@@ -551,7 +551,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("pats/classe/{libelle}/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer comptePatsParClasse(@PathParam("libelle") String libelle, @PathParam("id") Integer id){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g,Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.fin = NULL AND g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g,Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.finService = 0 AND g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
                 .setParameter("libelle", libelle)
                 .setParameter("id", id)
                 .getResultList();
@@ -565,7 +565,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("pats/homme/classe/{libelle}/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer comptePatsHommeParClasse(@PathParam("libelle") String libelle, @PathParam("id") Integer id){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.fin = NULL AND g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Masculin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.finService = 0 AND g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Masculin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
                 .setParameter("libelle", libelle)
                 .setParameter("id", id)
                 .getResultList();
@@ -579,7 +579,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("pats/femme/classe/{libelle}/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer comptePatsFemmeParClasse(@PathParam("libelle") String libelle, @PathParam("id") Integer id){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.fin = NULL AND g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Féminin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.finService = 0 AND g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Féminin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
                 .setParameter("libelle", libelle)
                 .setParameter("id", id)
                 .getResultList();
@@ -593,7 +593,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("per/corps/{libelle}/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer comptePerParCorps(@PathParam("libelle") String libelle, @PathParam("id") Integer id){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.fin = NULL AND g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.finService = 0 AND g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
                 .setParameter("libelle", libelle)
                 .setParameter("id", id)
                 .getResultList();
@@ -607,7 +607,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("per/homme/corps/{libelle}/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer comptePerHommeParCorps(@PathParam("libelle") String libelle, @PathParam("id") Integer id){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.fin = NULL AND g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Masculin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.finService = 0 AND g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Masculin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
                 .setParameter("libelle", libelle)
                 .setParameter("id", id)
                 .getResultList();
@@ -621,7 +621,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("per/femme/corps/{libelle}/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer comptePerFemmeParCorps(@PathParam("libelle") String libelle, @PathParam("id") Integer id){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.fin = NULL AND g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Féminin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
+        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g, Servir s WHERE g.employe=s.employe AND s.entite.id=:id AND s.finService = 0 AND g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Féminin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
                 .setParameter("libelle", libelle)
                 .setParameter("id", id)
                 .getResultList();

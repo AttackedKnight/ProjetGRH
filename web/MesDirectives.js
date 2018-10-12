@@ -21,3 +21,11 @@ angular.module('globalModule').directive('pwCheck', [function () {
         };
     }]);
 
+//angular.module('globalModule').directive('select', function(){
+//    return {
+//        link: function(scope, elm){
+//            console.log('eee', elm);
+//            elm.css('color', 'red');
+//        }
+//    }
+//});

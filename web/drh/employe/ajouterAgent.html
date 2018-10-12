@@ -6,14 +6,14 @@
             </label>
             <span class="col-md-3" ng-repeat="typecontrat in typecontrats">
                 <label>
-                    <input type="radio" name="typeContrat"  ng-value="{{typecontrat}}" ng-click="getTypeContrat()"  ng-model="$parent.servir.typeContrat"/>
+                    <input type="radio" name="typeContrat"  ng-value="{{typecontrat.id}}"  ng-change="getTypeContrat()"  ng-model="$parent.currentTypeContrat"/>
                     {{ (typecontrat.code == 'cdi') ? "Permanent" : "Contractuel"}}
                 </label>
             </span>
         </div>
 
         <div class="box-body row" ng-show="angular.isDefined(estPermanent)">
-            <form role="form" name="newEmployeForm" novalidate="">
+            <form role="form" name="newEmployeForm" id="newEmployeForm" novalidate="">
                 <div class="row">             
                     <div class="col-md-12">
                         <div class="box box-primary box-solid">

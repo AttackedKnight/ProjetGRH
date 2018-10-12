@@ -36,11 +36,14 @@
             <div style="width: 75%; text-align: justify;">
                 NOM : {{employe.nom| uppercase}} <hr>
             </div>
-            <div style="width: 75%; text-align: justify;">
+            <div ng-show="employe.matriculeInterne" style="width: 75%; text-align: justify;">
                 MATRICULE : {{employe.matriculeInterne}}<hr>
             </div>
             <div style="width: 75%;text-align: justify;" >
                 FONCTION : {{parcours[0].fonction.libelle| uppercase}} <hr>
+            </div>
+            <div style="width: 75%; text-align: justify;">
+                ENTITE : {{parcours[0].entite.nom}}<hr>
             </div>
 
         </div>
@@ -334,7 +337,7 @@
                             </div>
                             <div class="row "  style="margin-top: 10px;">
                                 <div class="col-md-12">
-                                    <span style="margin-right: 10px;" class="btn btn-danger pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-times"> Annuler</i></span>
+                                    <span style="margin-right: 10px;" class="btn btn-danger pull-right" ng-click="cancelEmployeEdit()"><i class="fa fa-times"> Annuler</i></span>
                                     <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editInfoGeneralesForm.$invalid"  ng-click="controlFormEditEmploye()"><i class="fa fa-check"> Enregistrer</i></span>
                                 </div>
                             </div>
@@ -680,7 +683,7 @@
                             <div class="row " style="margin-top: 5px; font-size: 1.2em;">
                                 <div class="col-md-3 ">
                                     <span class="btn btn-success" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
-                                    <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
+                                    <button ng-click="cancelContactsEdit()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
                                 </div>
                             </div>
                         </form>
@@ -889,9 +892,9 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <div class="form-group" ng-if="servir.typeContrat == typecontrats[0]">
+                                                <div class="form-group" ng-if="servir.typeContrat.code == 'cdd'">
                                                     <div class="input-group">
-                                                        <input type="number" ng-model="servir.dureeDuContrat"   ng-pattern="/^[0-9]$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
+                                                        <input type="number" ng-model="servir.dureeDuContrat"   ng-pattern="/^[1-9][0-9]?$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
                                                     </div>
                                                     <div class="alert alert-block alert-danger requis" style="display:none">
                                                         <div>Veuillez renseigner ce champs.</div>
@@ -926,10 +929,10 @@
                             <thead>
                                 <tr>
                                     <th>Date prise de service</th>
-                                    <th>Date fin de service</th>
                                     <th>Entite</th>
                                     <th>Fonction</th>
                                     <th>Type de contrat</th>
+                                    <th>Date fin de service</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -937,14 +940,30 @@
 
                                 <tr ng-repeat="unparcours in parcours">
                                     <td>{{unparcours.debut| date: 'dd MMM yyyy'}}</td>
-                                    <td>{{unparcours.fin| date: 'dd MMM yyyy'}}
-                                        <span style="color: green; font-weight: bold;" ng-if="unparcours.fin == null">En cours  </span>
-                                        <i ng-show="avoirPermission('modifier', 'servir') == true" class="btn btn-danger btn-xs" title="Fin de service" ng-if="unparcours.fin == null" ng-click="finirService(unparcours)"><span class="fa fa-warning"></span>  Fin</i>
-                                    </td>
                                     <td>{{unparcours.entite.nom}}</td>
                                     <td>{{unparcours.fonction.libelle}}</td>
                                     <td>{{unparcours.typeContrat.libelle}}</td>
-                                    <td><button class="btn btn-danger" ng-disabled="unparcours.fin == null" ng-click="deleteParcours(unparcours.id)"><i class="fa fa-trash"> Supprimer</i></button></td>
+                                    <td>{{unparcours.fin | date: 'dd MMM yyyy'}}
+<!--                                        <span style="color: green; font-weight: bold;" ng-if="unparcours.fin == null || (unparcours.fin | date: 'dd MMM yyyy' < today | date: 'dd MMM yyyy')">En cours  </span>
+                                        <i ng-show="avoirPermission('modifier', 'servir') == true" class="btn btn-danger btn-xs" title="Fin de service" ng-if="unparcours.fin == null" ng-click="finirService(unparcours)"><span class="fa fa-warning"></span>  Fin</i>-->
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary" 
+                                                ng-show="avoirPermission('modifier', 'servir') == true && unparcours.finService == 0 && unparcours.fin != null"  
+                                                title="Prolonger le contrat" 
+                                                ng-click="prolongerContrat(unparcours)">
+                                            <i class="fa fa-arrow-right"></i>
+                                        </button>
+                                        <button class="btn btn-warning" 
+                                                ng-show="avoirPermission('modifier', 'servir') == true  && unparcours.finService == 0"  
+                                                title="Fin de service" 
+                                                ng-click="finirService(unparcours)">
+                                            <i class="fa fa-circle-thin"></i>
+                                        </button>
+                                        <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1" ng-click="deleteParcours(unparcours.id)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

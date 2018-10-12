@@ -236,7 +236,7 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Historiquegrade> findAvancementEntite(@PathParam("id") Integer id,@PathParam("types") String types) {
         types=types.replace("-",",");
-        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.fin=NULL AND s.employe.typeEmploye.id IN ("+types+"))", Historiquegrade.class)
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND s.finService = 0 AND s.employe.typeEmploye.id IN ("+types+"))", Historiquegrade.class)
                 .setParameter("id", id)
                 .getResultList();
         if(h.size()>0){
@@ -253,7 +253,7 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         types=types.replace("-",",");
         List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1"
                 + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND"
-                + " s.fin=NULL AND s.employe.genre.libelle='Féminin' AND"
+                + " s.finService = 0 AND s.employe.genre.libelle='Féminin' AND"
                 + " s.employe.typeEmploye.id IN ("+types+"))", Historiquegrade.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -271,7 +271,7 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         types=types.replace("-",",");
         List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1"
                 + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND"
-                + " s.fin=NULL AND s.employe.genre.libelle='Masculin' AND"
+                + " s.finService = 0 AND s.employe.genre.libelle='Masculin' AND"
                 + " s.employe.typeEmploye.id IN ("+types+"))", Historiquegrade.class)
                 .setParameter("id", id)
                 .getResultList();
