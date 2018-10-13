@@ -675,13 +675,29 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
 
     /*                    Parcours professionel                       */
-
+    $scope.finContratApproche = false;
+    $scope.finContratDepasse = false;
+    $scope.finContratNombreJoursCritique = 15;
     $scope.findServir = function () {
         /*Recuperer le parcour professionnel de l'employe*/
         Servir.findByEmploye($scope.employe).success(function (data) {
             $scope.parcours = data;
             if ($scope.parcours[0].typeContrat.code == 'cdd') {
-                $scope.estPermanent = false;            //Verifier si c'est un permanent ou non
+                $scope.estPermanent = false;            //Verifier si c'est un permanent ou non'
+                
+                var df= new Date($scope.parcours[0].fin);                
+                var joursRestants = df - $scope.today;                
+                joursRestants = joursRestants / 1000 / 60 / 60 / 24;
+                
+                if(joursRestants < 0){  //Date fin de contrat depassé
+                    $scope.finContratDepasse = true;
+                }
+                else{
+                    if(joursRestants < $scope.finContratNombreJoursCritique){  //Date fin de contrat depassé
+                        $scope.finContratApproche = true;
+                    } 
+                }
+                               
             } else {
                 $scope.estPermanent = true;
             }
@@ -1362,9 +1378,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         });
     };
 
-    $scope.reloadPage = function () {
-        $route.reload();
-    };
+   
 
     $scope.gelerCompte = function () {
         ;
