@@ -4,18 +4,9 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('GradeController', function ($scope, $q, Securite, SweetAlert, TypeEmploye, GradeTypeEmploye,
+angular.module('ParametrageModule').controller('GradeController', function ($scope, $q, SweetAlert, TypeEmploye, GradeTypeEmploye,
         Grade, Classe, Corps, Avancement, Echelon, Niveau, Categorie) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.typeEmployeSelectionne = [];
 

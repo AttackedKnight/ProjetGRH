@@ -1,4 +1,4 @@
-angular.module('AuthentificationModule').factory('Connexion', function ($http,$rootScope,$cookies) {
+angular.module('AuthentificationModule').factory('Connexion', function ($http,$rootScope,$cookies,Base64) {
 return{
 
         findAll:function(){
@@ -34,7 +34,9 @@ return{
             return $http.get(chemin+'/webresources/sn.grh.utilisateur/checksession');
         },
         setCredentials:function(utilisateur,typeEmployeAssocie,typeEmploye_o){   //Stocke les informations de l'utilisateur connecte dans une cookie
-
+            
+            var authdata = Base64.encode(utilisateur.login + ':' + utilisateur.motDePasse);
+            
             $rootScope.globals = {
                 currentUser: {
                     user: utilisateur,
@@ -42,18 +44,26 @@ return{
                     typeEmploye_o : typeEmploye_o
                 }
             };
-
-            // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
-            var cookieExp = new Date();
-            cookieExp.setDate(cookieExp.getDate() + 7);
-            $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp });
+            $rootScope.credentials = {
+                    authdata: authdata
+            };
+            $cookies.putObject('globals', $rootScope.globals);
+            $cookies.putObject('credentials', $rootScope.credentials);           
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+            
+                // store user details in globals cookie that keeps user logged in for 1 week (or until they logout)
+//            var cookieExp = new Date();
+//            cookieExp.setDate(cookieExp.getDate() + 7);
+//            $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp });
         },
 
         clearCredentials:function(){
             $rootScope.globals = {};
+            $rootScope.credentials = {};
             $cookies.remove('globals');
+            $cookies.remove('credentials');
             $rootScope.myPermission=[];
-            $http.defaults.headers.common.Authorization = 'Basic';
+            $http.defaults.headers.common.Authorization = 'Basic ';
         }
         
 

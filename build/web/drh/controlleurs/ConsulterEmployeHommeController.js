@@ -1,15 +1,5 @@
-angular.module('DrhModule').controller('ConsulterEmployeHommeController', function ($scope, $routeParams, Securite,
+angular.module('DrhModule').controller('ConsulterEmployeHommeController', function ($scope, $routeParams,
         Servir, Employe, UploadFile, SweetAlert, HistoriqueGrade, $rootScope) {
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.getEmploye = function () {
         Servir.findEmployeHomme($rootScope.typeEmployeAssocie.join("-")).success(function (data) {

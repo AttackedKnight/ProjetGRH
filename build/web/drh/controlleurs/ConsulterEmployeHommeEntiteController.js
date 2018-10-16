@@ -1,15 +1,6 @@
 angular.module('DrhModule').controller('ConsulterEmployeHommeEntiteController', function ($scope, $q, $routeParams,
-        Securite, Employe, UploadFile, SweetAlert, Servir, Entite, HistoriqueGrade, $rootScope) {
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
+         Employe, UploadFile, SweetAlert, Servir, Entite, HistoriqueGrade, $rootScope) {
 
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     /*     RECUPPERER ENTITES FILLES    */
 

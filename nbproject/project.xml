@@ -78,10 +78,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.javax.ws.rs-api-2.0-m12.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
                     <file>${file.reference.jersey-common-2.0-m09.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

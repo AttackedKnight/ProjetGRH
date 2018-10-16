@@ -6,24 +6,11 @@
 
 
 
-angular.module('DrhModule').controller('DetailEmployeController', function ($scope, $route, Securite, SweetAlert,
+angular.module('DrhModule').controller('DetailEmployeController', function ($scope, SweetAlert,
         HistoriqueGrade, SyndicatTypeEmploye, GradeTypeEmploye, CaisseSocialeTypeEmploye, MutuelleTypeEmploye,
         $routeParams, UploadFile, Typedocument, Situation, Entite, Diplome, Genre, Formation, Employe,
         Contact, Adresse, Servir, MembreMutuelle, Fonction, Typecontrat, Civilite, Document, Connexion)
 {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-
 
 
     $scope.fonction = {id: ""};

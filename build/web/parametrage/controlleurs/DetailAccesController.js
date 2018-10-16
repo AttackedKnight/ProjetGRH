@@ -1,18 +1,10 @@
 
 //Visualiser les details d' groupe d'utilisateur
 
-angular.module('ParametrageModule').controller('DetailAccesController', function ($scope, $q, TypeEmploye, GroupeTypeEmploye, Securite, Groupe, SweetAlert, $rootScope, AccesGroupeTable, $routeParams)
+angular.module('ParametrageModule').controller('DetailAccesController', function ($scope, $q, TypeEmploye, 
+GroupeTypeEmploye, Groupe, SweetAlert, AccesGroupeTable, $routeParams)
 {
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     TypeEmploye.findAll().success(function (data) {
         $scope.typeemployes = data;

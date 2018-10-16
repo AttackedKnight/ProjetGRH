@@ -4,18 +4,10 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('MutuelleSanteController', function ($scope, Securite, SweetAlert, TypeEmploye, $q, MutuelleSante, MutuelleTypeEmploye) {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
+angular.module('ParametrageModule').controller('MutuelleSanteController', function ($scope, 
+SweetAlert, TypeEmploye, $q, MutuelleSante, MutuelleTypeEmploye) {
 
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.mutuelles = [];
     $scope.mutuelle = {id: ""};

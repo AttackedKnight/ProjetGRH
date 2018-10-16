@@ -3,18 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('TypeEmployeController', function ($scope, Securite, SweetAlert, TypeEmploye) {
+angular.module('ParametrageModule').controller('TypeEmployeController', function ($scope, SweetAlert, TypeEmploye) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.typeemployes = [];
     $scope.typeemploye = {id: ""};

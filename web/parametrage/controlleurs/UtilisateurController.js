@@ -4,19 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('UtilisateurController', function ($scope, Securite, Utilisateur, SweetAlert, Servir, Entite, Groupe)
+angular.module('ParametrageModule').controller('UtilisateurController', function ($scope, Utilisateur, SweetAlert, Servir, Entite, Groupe)
 {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.groupes = [];
     $scope.entites = [];

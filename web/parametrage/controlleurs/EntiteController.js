@@ -3,16 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('EntiteController', function ($scope, Securite, SweetAlert, Entite, TypeEntite) {
+angular.module('ParametrageModule').controller('EntiteController', function ($scope, SweetAlert,
+Entite, TypeEntite) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.entites = [];
     $scope.entite = {id: ""};

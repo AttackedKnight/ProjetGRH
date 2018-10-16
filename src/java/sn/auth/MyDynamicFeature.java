@@ -6,6 +6,7 @@
 package sn.auth;
 
 import java.lang.reflect.Method;
+import javax.inject.Inject;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,6 +16,7 @@ import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Configurable;
 import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.ext.Provider;
+import service.UtilisateurFacadeREST;
 
 /**
  *
@@ -23,6 +25,8 @@ import javax.ws.rs.ext.Provider;
 @Provider
 public class MyDynamicFeature implements DynamicFeature{
 
+    @Inject UtilisateurFacadeREST utilisateurFacadeREST ;
+    
     @Override
     public void configure(ResourceInfo resourceInfo, FeatureContext context) {
         final String resourcePackage = resourceInfo.getResourceClass()
@@ -32,10 +36,10 @@ public class MyDynamicFeature implements DynamicFeature{
         if ("service".equals(resourcePackage) && (resourceMethod.getAnnotation(GET.class) != null ||
                 resourceMethod.getAnnotation(POST.class) != null || resourceMethod.getAnnotation(DELETE.class) != null
                 || resourceMethod.getAnnotation(PUT.class) != null) &&
-                !resourceMethod.getName().equals("login") && !resourceMethod.getName().equals("logout")) {
-            context.register(SecurityFilter.class);
+                !resourceMethod.getName().equals("login") && !resourceMethod.getName().equals("logout")
+                && !resourceMethod.getName().equals("sessionExpire")) {
+            context.register(new SecurityFilter(utilisateurFacadeREST));
         }
     }
-
-    
+   
 }

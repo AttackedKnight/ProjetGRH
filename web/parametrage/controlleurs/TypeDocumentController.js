@@ -4,18 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('TypeDocumentController', function ($scope, Securite, SweetAlert, Typedocument) {
+angular.module('ParametrageModule').controller('TypeDocumentController', function ($scope, SweetAlert, Typedocument) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.typedocuments = [];
     $scope.typedocument = {id: ""};

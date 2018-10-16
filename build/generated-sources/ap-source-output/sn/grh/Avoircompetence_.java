@@ -8,7 +8,7 @@ import sn.grh.Document;
 import sn.grh.Domaine;
 import sn.grh.Employe;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-12T17:49:33")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-16T11:47:22")
 @StaticMetamodel(Avoircompetence.class)
 public class Avoircompetence_ { 
 

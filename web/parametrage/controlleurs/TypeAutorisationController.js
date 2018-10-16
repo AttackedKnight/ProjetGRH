@@ -4,19 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('TypeAutorisationController', function ($scope, Securite, SweetAlert, TypeAutorisation) {
+angular.module('ParametrageModule').controller('TypeAutorisationController', function ($scope, SweetAlert, TypeAutorisation) {
 
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.typeautorisations = [];
     $scope.typeautorisation = {id: ""};

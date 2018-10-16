@@ -5,22 +5,9 @@
  */
 
 
-angular.module('DrhModule').controller('DrhDetailEntiteController', function ($scope, $q, Securite, Entite, SweetAlert,
+angular.module('DrhModule').controller('DrhDetailEntiteController', function ($scope, $q, Entite, SweetAlert,
         TypeEntite, Servir,Civilite)
 {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-
 
 
     Entite.findAll().success(function (data) {

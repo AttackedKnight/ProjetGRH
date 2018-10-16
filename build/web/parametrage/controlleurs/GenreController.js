@@ -4,18 +4,9 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('GenreController', function ($scope, Securite, SweetAlert, Genre) {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
+angular.module('ParametrageModule').controller('GenreController', function ($scope, SweetAlert, Genre) {
 
 
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.genres = [];
     $scope.genre = {id: ""};

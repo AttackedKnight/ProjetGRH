@@ -1,5 +1,5 @@
 angular.module('AuthentificationModule').controller('ProfilController', function ($scope, Connexion, $rootScope,SweetAlert,
-$cookies, Securite, UploadFile)
+$cookies, UploadFile)
 {
 
     var cookie = JSON.parse($cookies.get('globals'));
@@ -9,14 +9,6 @@ $cookies, Securite, UploadFile)
 
     $scope.imgAffichee;
     $scope.edit = false;
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.esteditable=false;
     $scope.editable = function () {

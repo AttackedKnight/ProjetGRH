@@ -4,18 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('SyndicatController', function ($scope, Securite, SweetAlert, Syndicat, $q, SyndicatTypeEmploye, TypeEmploye) {
+angular.module('ParametrageModule').controller('SyndicatController', function ($scope, SweetAlert, Syndicat, $q, SyndicatTypeEmploye, TypeEmploye) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.syndicats = [];
     $scope.syndicat = {id: ""};

@@ -4,18 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('SituationMatrimonialeController', function ($scope, Securite, SweetAlert, Situation) {
+angular.module('ParametrageModule').controller('SituationMatrimonialeController', function ($scope, SweetAlert, Situation) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.situations = [];
     $scope.situation = {id: ""};

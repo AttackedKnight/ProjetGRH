@@ -3,52 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('AuthentificationModule').controller('ConnexionController', function ($scope,$cookies,$interval, $rootScope, Connexion, Securite, GroupeTypeEmploye)
+angular.module('AuthentificationModule').controller('ConnexionController', function ($scope,Securite, Connexion, Securite, GroupeTypeEmploye)
 {
     $scope.utilisateur = {id: ""};
 
-
-    $scope.$on('$routeChangeStart', function ($event, next, current) {
-        if ($rootScope.globals == null || $rootScope.globals.currentUser == null)
-        {
-            $event.preventDefault();
-        }
-
-    });
-
-
-    (function end() {   //Lanc?e ? la d?connexion
-        var logout = document.location.href.substring(document.location.href.lastIndexOf("/"), document.location.href.length);
-        if (logout === "/logout") {
-            Connexion.clearCredentials();
-            if(angular.isDefined($rootScope.checkSession)){
-                $interval.cancel($rootScope.checkConnected);
-                $rootScope.checkConnected = null;
-                $rootScope.checkSession = null;
-            }
-            Connexion.logout().success(function (data) {
-                if(data.value == true){
-                    console.log('Déconnecté'); 
-                }
-            }).error(function () {
-                console.log("Session non detruite");
-            });
-        }
-
-    })();
-
-
     (function init() {  //Lanc?e a chaque fois que la page est affich?e
         Securite.hide();
-        var cookie = $cookies.get('globals');
-        if (cookie != null) {
-            cookie = JSON.parse(cookie);
-            $scope.utilisateur.login = cookie.currentUser.user.login;
-        }
+        Connexion.clearCredentials();
     })();
 
     $scope.controlForm = function (c) {
-
         if (c.login == null || c.login == "") {
             $("div.requis").eq(0).show("slow").delay(3000).hide("slow");
         } else {
@@ -58,16 +22,12 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                 $scope.connecterUtilisateur(c);
             }
         }
-
     };
-
     
-//    var connected = true;
-    
-
     $scope.connecterUtilisateur = function (c) {
         Connexion.login(c).success(function (user) {
             if (user) {
+                Connexion.setCredentials(user,{},{});   //Pour authentfier la prochaine requete
                 /*Recuperer les type(s) d'employe associe*/
                 GroupeTypeEmploye.findIDListByGroupe(user.groupe.id).success(function (idType) {
                    GroupeTypeEmploye.findByGroupe(user.groupe.id).success(function (types) {
@@ -89,19 +49,8 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                             timer: 3000
                         });
                         Connexion.setCredentials(user, idType.value,types);
-                        /*Redirection et affichage interface*/
-                        if (Securite.estConnecte() == true) {
-                            $('header').removeAttr('hidden');
-                            $('aside').removeAttr('hidden');
-                            $('footer').removeAttr('hidden');
-                            $('.content-header').removeAttr('hidden');
-                            $('.content-wrapper').removeAttr('style');
-                            $rootScope.checkConnected=$interval($rootScope.checkSession,1870000);
-                            setTimeout(function() {
-                            $('.firstView')[0].click();
-                            }, 2000);
-                        }
-
+                        Securite.initAffichage();   /*Redirection et affichage interface*/
+                        
 
                     }).error(function () {
                          swal({
@@ -117,8 +66,6 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                     timer: 2000
                 });
                     });
-
-
                 }).error(function () {
                     swal({
                         position: 'top-end',

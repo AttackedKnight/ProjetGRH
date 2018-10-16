@@ -4,18 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('ClasseController', function ($scope, Securite, SweetAlert, Classe) {
+angular.module('ParametrageModule').controller('ClasseController', function ($scope, SweetAlert, Classe) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.classes = [];
     $scope.classe = {id: ""};
