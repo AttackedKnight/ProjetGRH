@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Absence;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-13T17:28:25")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-16T10:07:15")
 @StaticMetamodel(Typeautorisation.class)
 public class Typeautorisation_ { 
 

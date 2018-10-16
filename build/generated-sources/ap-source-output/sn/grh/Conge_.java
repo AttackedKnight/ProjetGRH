@@ -8,7 +8,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Document;
 import sn.grh.Employe;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-13T17:28:26")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-16T10:07:15")
 @StaticMetamodel(Conge.class)
 public class Conge_ { 
 

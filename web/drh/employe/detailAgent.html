@@ -69,7 +69,7 @@
 
         </div>
         <div class="col-md-2" style="margin-top: 10px;">
-            <span ng-click="deleteAgent(employe)" class="btn btn-danger" title="Supprimer">
+            <span ng-if="avoirPermission('supprimer', 'employe') == true" ng-click="deleteAgent(employe)" class="btn btn-danger" title="Supprimer">
                 <span class="fa fa-trash"></span>
             </span>           
         </div>

@@ -12,6 +12,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.container.DynamicFeature;
 import javax.ws.rs.container.ResourceInfo;
+import javax.ws.rs.core.Configurable;
 import javax.ws.rs.core.FeatureContext;
 import javax.ws.rs.ext.Provider;
 
@@ -31,8 +32,7 @@ public class MyDynamicFeature implements DynamicFeature{
         if ("service".equals(resourcePackage) && (resourceMethod.getAnnotation(GET.class) != null ||
                 resourceMethod.getAnnotation(POST.class) != null || resourceMethod.getAnnotation(DELETE.class) != null
                 || resourceMethod.getAnnotation(PUT.class) != null) &&
-                !resourceMethod.getName().equals("login") && !resourceMethod.getName().equals("logout")
-                && !resourceMethod.getName().equals("sessionExpire")) {
+                !resourceMethod.getName().equals("login") && !resourceMethod.getName().equals("logout")) {
             context.register(AuthentificationFilter.class);
         }
     }
