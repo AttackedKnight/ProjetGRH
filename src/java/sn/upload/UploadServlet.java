@@ -74,21 +74,21 @@ public class UploadServlet extends HttpServlet {
 
        
                 /*En local*/
-                File fichier=new File(getServletContext().getRealPath(""));
-                String racine=(new File(fichier.getParent())).getParent();
-                System.out.println("Ceci est le context "+(new File(fichier.getParent())).getParent());
-                File f=new File(racine+"\\web\\images");
-
-                factory.setRepository(f);
+//                File fichier=new File(getServletContext().getRealPath(""));
+//                String racine=(new File(fichier.getParent())).getParent();
+//                System.out.println("Ceci est le context "+(new File(fichier.getParent())).getParent());
+//                File f=new File(racine+"\\web\\images");
+//
+//                factory.setRepository(f);
 
                 /*Sur serveur*/
             
-//             File fichier=new File(getServletContext().getRealPath(""));
-//                String racine=(new File(fichier.getParent())).getParent();
-//                System.out.println("Ceci est le repertoire images "+fichier.getAbsolutePath());
-//                File f=new File(fichier.getAbsolutePath()+File.separator+"images");
-//
-//                factory.setRepository(f);
+             File fichier=new File(getServletContext().getRealPath(""));
+                String racine=(new File(fichier.getParent())).getParent();
+                System.out.println("Ceci est le repertoire images "+fichier.getAbsolutePath());
+                File f=new File(fichier.getAbsolutePath()+File.separator+"images");
+
+                factory.setRepository(f);
 
                 // Create a new file upload handler
                 ServletFileUpload upload = new ServletFileUpload(factory);

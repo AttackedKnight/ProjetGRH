@@ -62,14 +62,14 @@ public class DeleteFileServlet extends HttpServlet {
             chemin = chemin.replace("/", "\\");
 
             /*En local*/
-            File fichier = new File(getServletContext().getRealPath(""));
-            String racine = (new File(fichier.getParent())).getParent();
-            File f = new File(racine + "\\web\\" + chemin);
+//            File fichier = new File(getServletContext().getRealPath(""));
+//            String racine = (new File(fichier.getParent())).getParent();
+//            File f = new File(racine + "\\web\\" + chemin);
 
             /*Sur serveur*/
-    //        File fichier=new File(getServletContext().getRealPath(""));
-    //        String racine=(new File(fichier.getParent())).getParent();;
-    //        File f=new File(fichier.getAbsolutePath()+File.separator+""+chemin);
+            File fichier=new File(getServletContext().getRealPath(""));
+            String racine=(new File(fichier.getParent())).getParent();;
+            File f=new File(fichier.getAbsolutePath()+File.separator+""+chemin);
 
 
 

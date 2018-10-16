@@ -6,7 +6,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Genre;
 import sn.grh.Situationmatrimoniale;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-12T17:49:35")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-13T17:28:26")
 @StaticMetamodel(Civilite.class)
 public class Civilite_ { 
 
