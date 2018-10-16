@@ -113,7 +113,7 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
                 .setParameter("motDePasse", motDePasse)
                 .getResultList();       
         if(u.size()>0){
-            registerAccess(u.get(0));
+//            registerAccess(u.get(0));
             return u.get(0);
         }
         return null;
@@ -147,6 +147,7 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     public static boolean sessionExist() {
             try{
                 Utilisateur u=(Utilisateur)session.getAttribute("user");
+                System.out.println("********Utilisateur connecté : "+u.getLogin());
                 return true;
             } catch (Exception e) {
                 return false;

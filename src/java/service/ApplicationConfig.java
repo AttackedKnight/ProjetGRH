@@ -73,6 +73,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.UtilisateurFacadeREST.class);
         resources.add(sn.auth.AuthentificationFilter.class);
         resources.add(sn.auth.MyDynamicFeature.class);
+        resources.add(sn.auth.SecurityFilter.class);
     }
     
 }
