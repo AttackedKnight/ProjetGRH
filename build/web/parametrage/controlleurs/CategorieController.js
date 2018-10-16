@@ -3,17 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('CategorieController', function ($scope, Securite, SweetAlert, Categorie) {
+angular.module('ParametrageModule').controller('CategorieController', function ($scope, SweetAlert, Categorie) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.categories = [];
     $scope.categorie = {id: ""};

@@ -3,18 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('CaisseSocialeController', function ($scope, Securite, SweetAlert, $q, CaisseSociale, TypeEmploye, CaisseSocialeTypeEmploye) {
+angular.module('ParametrageModule').controller('CaisseSocialeController', function ($scope, SweetAlert, $q, 
+CaisseSociale, TypeEmploye, CaisseSocialeTypeEmploye) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.caissesociales = [];
     $scope.caissesociale = {id: ""};

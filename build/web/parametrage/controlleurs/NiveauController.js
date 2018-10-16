@@ -4,18 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('NiveauController', function ($scope, Securite, SweetAlert, Niveau) {
+angular.module('ParametrageModule').controller('NiveauController', function ($scope, SweetAlert, Niveau) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.niveaux = [];
     $scope.niveau = {id: ""};

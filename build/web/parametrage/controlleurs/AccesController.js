@@ -4,18 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('AccesController', function ($scope, $q, Securite, Groupe, SweetAlert, TypeEmploye, GroupeTypeEmploye, AccesGroupeTable)
+angular.module('ParametrageModule').controller('AccesController', function ($scope, $q, Groupe, SweetAlert, TypeEmploye, GroupeTypeEmploye, AccesGroupeTable)
 {
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
-
 
     TypeEmploye.findAll().success(function (data) {
         $scope.typeemployes = data;

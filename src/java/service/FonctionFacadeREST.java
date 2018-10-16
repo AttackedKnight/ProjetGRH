@@ -22,7 +22,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import sn.auth.Authentification;
 import sn.auth.Secured;
 import sn.grh.Fonction;
 import sn.grh.Utilisateur;

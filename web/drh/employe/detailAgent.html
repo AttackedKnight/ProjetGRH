@@ -951,7 +951,7 @@
                                     <th>Fonction</th>
                                     <th>Type de contrat</th>
                                     <th>Date fin de service</th>
-                                    <th>Actions</th>
+                                    <th ng-show="avoirPermission('supprimer', 'servir') == true">Actions</th>
                                 </tr>
                             </thead>
                             <tbody> 
@@ -977,7 +977,7 @@
                                                 ng-click="finirService(unparcours)">
                                             <i class="fa fa-times"></i>
                                         </button>
-                                        <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1" ng-click="deleteParcours(unparcours.id)">
+                                        <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="deleteParcours(unparcours.id)">
                                             <i class="fa fa-trash"></i>
                                         </button>
                                     </td>

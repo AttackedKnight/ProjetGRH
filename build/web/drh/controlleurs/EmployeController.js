@@ -5,20 +5,11 @@
  */
 
 
-angular.module('DrhModule').controller('EmployeController', function ($scope,SweetAlert, Mail, UploadFile, Securite,
+angular.module('DrhModule').controller('EmployeController', function ($scope,SweetAlert, Mail, UploadFile,
         Employe, Utilisateur, Groupe, Contact, Adresse, MembreMutuelle, HistoriqueGrade, Servir, Fonction, TypeEmploye,
         Entite, Typecontrat, Fonction, Situation, Groupe, Genre, $routeParams, CaisseSocialeTypeEmploye,
         SyndicatTypeEmploye, GradeTypeEmploye, MutuelleTypeEmploye)
 {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
 
     /*Initialisation*/

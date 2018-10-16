@@ -32,9 +32,15 @@ public class SecurityFilter implements ContainerRequestFilter{
     private static final String AUTHORIZATION_HEADER_KEY = "Authorization";
     private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
     
+    private UtilisateurFacadeREST utilisateurFacadeREST;
+    public SecurityFilter(UtilisateurFacadeREST ut){
+        this.utilisateurFacadeREST = ut;
+    }
+    
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
+        System.out.println(">>>>>>>>>>>>>SECURITY FILTER APPELLE");
         if(authHeader != null && authHeader.size() > 0){
             String authToken = authHeader.get(0);
             authToken = authToken.replaceFirst(AUTHORIZATION_HEADER_PREFIX, "");
@@ -42,9 +48,8 @@ public class SecurityFilter implements ContainerRequestFilter{
             StringTokenizer tokenizer = new StringTokenizer (decodedString,":");
             String username = tokenizer.nextToken();
             String password = tokenizer.nextToken();
-            
-            if(username.equals("fallou") && password.equals("fallou2018")){
-                System.out.println("*Vous etes admin");
+            System.out.println(">>>>>>>>>>>>>LOGIN "+username);
+            if(utilisateurFacadeREST.estUtilisateur(username, password)){
                 return;
             }
         }

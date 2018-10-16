@@ -4,18 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('TypeContratController', function ($scope, Securite, SweetAlert, Typecontrat) {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
+angular.module('ParametrageModule').controller('TypeContratController', function ($scope, SweetAlert, Typecontrat) {
 
     $scope.typecontrats = [];
     $scope.typecontrat = {id: ""};

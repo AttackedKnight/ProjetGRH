@@ -3,17 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('FonctionController', function ($scope, Securite, Fonction, SweetAlert) {
+angular.module('ParametrageModule').controller('FonctionController', function ($scope, Fonction, SweetAlert) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.fonctions = [];
     $scope.fonction = {id: ""};

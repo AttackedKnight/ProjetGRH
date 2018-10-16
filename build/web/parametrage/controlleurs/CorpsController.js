@@ -4,18 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('ParametrageModule').controller('CorpsController', function ($scope, Securite, SweetAlert, Corps) {
+angular.module('ParametrageModule').controller('CorpsController', function ($scope, SweetAlert, Corps) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.corps = [];
     $scope.unCorps = {id: ""};

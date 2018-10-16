@@ -1,16 +1,6 @@
 angular.module('DrhModule').controller('ConsulterEmployeFemmeController', function ($scope, $routeParams, Servir, SweetAlert
-        , Securite, Employe, UploadFile, $rootScope, HistoriqueGrade) {
+        , Employe, UploadFile, $rootScope, HistoriqueGrade) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
 
     $scope.getEmploye = function () {

@@ -5,20 +5,9 @@
  */
 
 
-angular.module('ServiceModule').controller('ServiceDetailEntiteController', function ($scope, $q, $routeParams, SweetAlert, Securite, Entite, Civilite, Servir, Employe)
+angular.module('ServiceModule').controller('ServiceDetailEntiteController', function ($scope, $q, $routeParams,
+SweetAlert, Entite, Civilite, Servir, Employe)
 {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     Entite.findAll().success(function (data) {
         $scope.entites = data;

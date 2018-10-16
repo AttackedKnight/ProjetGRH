@@ -6,21 +6,8 @@
 
 
 
-angular.module('EmployeModule').controller('CongeController', function ($scope, Securite)
+angular.module('EmployeModule').controller('CongeController', function ($scope)
 {
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
 
 });

@@ -3,18 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-angular.module('ParametrageModule').controller('CiviliteController', function ($scope, Securite, SweetAlert, Genre, Situation, Civilite) {
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
+angular.module('ParametrageModule').controller('CiviliteController', function ($scope, SweetAlert, 
+Genre, Situation, Civilite) {
 
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
     Situation.findAll().success(function (data) {
         $scope.situations = data;

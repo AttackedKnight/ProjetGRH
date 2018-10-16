@@ -1,18 +1,9 @@
 
 //Visualiser les details d' groupe d'utilisateur
 
-angular.module('ParametrageModule').controller('DetailUtilisateurController', function ($scope, Servir,Civilite, Securite, Utilisateur, Entite, Groupe, Utilisateur, SweetAlert, $routeParams)
+angular.module('ParametrageModule').controller('DetailUtilisateurController', function ($scope, Servir,Civilite,
+ Utilisateur, Entite, Groupe, Utilisateur, SweetAlert, $routeParams)
 {
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
-
-
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
-
-
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
 
     $scope.groupes = [];
     $scope.entites = [];

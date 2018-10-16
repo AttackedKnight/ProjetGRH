@@ -1,13 +1,8 @@
-angular.module('StatistiqueModule').controller('StatistiquePEREntiteController', function ($scope,$rootScope, $cookies, $q, Entite,GroupeTypeEmploye,SweetAlert, Securite, StatistiqueEntite) {
+angular.module('StatistiqueModule').controller('StatistiquePEREntiteController', function ($scope,$rootScope, $cookies,
+$q, Entite,GroupeTypeEmploye,SweetAlert, StatistiqueEntite) {
 
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire     */
 
-    if (Securite.estConnecte() == false) {
-        document.location.href = "#/";
-        return;
-    }
     $('#statistique-drh li').eq(0).trigger('click');
-    /*  Verifier que l'utilisateur est connecte:controles supplementaire =>fin     */
     
     GroupeTypeEmploye.findByGroupe($rootScope.groupeUtilisateur.id).success(function (data) {
           for(var i=0;i<data.length;i++){
