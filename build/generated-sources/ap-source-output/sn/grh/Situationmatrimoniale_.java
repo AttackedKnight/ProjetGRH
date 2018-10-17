@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Civilite;
 import sn.grh.Employe;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-16T18:30:10")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-17T09:35:36")
 @StaticMetamodel(Situationmatrimoniale.class)
 public class Situationmatrimoniale_ { 
 
