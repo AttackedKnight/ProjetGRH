@@ -8,7 +8,7 @@ import sn.grh.Accesgroupe;
 import sn.grh.Groupetypeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-16T18:22:01")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-16T18:30:09")
 @StaticMetamodel(Groupe.class)
 public class Groupe_ { 
 
