@@ -5,7 +5,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Groupe;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-17T09:35:36")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-10-17T17:29:14")
 @StaticMetamodel(Accesgroupe.class)
 public class Accesgroupe_ { 
 

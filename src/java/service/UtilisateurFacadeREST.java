@@ -117,7 +117,7 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
     @GET
     @Path("username/{login}/password/{motDePasse}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Boolean estUtilisateur(@PathParam("username") String login,@PathParam("password") String motDePasse) {
+    public  Boolean estUtilisateur(@PathParam("username") String login,@PathParam("password") String motDePasse) {
         List<Utilisateur> u=em.createQuery("SELECT u FROM Utilisateur u WHERE u.login = :login AND u.motDePasse = :motDePasse", Utilisateur.class)
                 .setParameter("login", login)
                 .setParameter("motDePasse", motDePasse)
