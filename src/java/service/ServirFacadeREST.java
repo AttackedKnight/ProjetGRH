@@ -260,6 +260,40 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     }
     
     
+    
+    /*Statitistique ok*/
+    @GET
+    @Path("onlyemployeenservice/typeemploye/{types}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Employe> findOnlyEmployeFromServir(@PathParam("types") String types) {      //Recupere juste la colonne employe
+        types=types.replace("-", ",");
+        List<Employe> s=em.createQuery("SELECT s.employe FROM Servir s WHERE s.finService = 0 "
+                + "AND s.employe.typeEmploye.id IN ("+types+")", Employe.class)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+    
+    @GET
+    @Path("all/onlyemployeenservice/typeemploye/{types}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findAllFromServir(@PathParam("types") String types) {      //Recupere juste la colonne employe
+        types=types.replace("-", ",");
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 "
+                + "AND s.employe.typeEmploye.id IN ("+types+")", Servir.class)
+                .getResultList();
+        
+        if(s.size()>0){
+            return s;
+        }
+        return null;
+           
+    }
+    
     /*Statistique par entite*/
     
     @GET

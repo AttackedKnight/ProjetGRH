@@ -189,6 +189,18 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
     /*ok*/
     
     /*RECUPERER LES INFORMATIONS SUR LES AVANCEMENTS DES EMPLOYES DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
+    
+    @GET
+    @Path("allavancement")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Historiquegrade> findAllAvancement(){
+        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1",Historiquegrade.class).getResultList();
+        if(h.size()>0){
+            return h;
+        }
+        return null;
+    }
+    
     @GET
     @Path("avancement/typeemploye/{types}")
     @Produces({MediaType.APPLICATION_JSON})

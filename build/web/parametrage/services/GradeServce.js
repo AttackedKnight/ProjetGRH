@@ -13,6 +13,12 @@ angular.module('ParametrageModule').factory('Grade', function ($http) {
         find: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.grade/' + id);
         },
+        getDistinctCorps: function () {
+            return $http.get(chemin + '/webresources/sn.grh.grade/distinctcorps');
+        },
+        getDistinctPatsClasse: function () {
+            return $http.get(chemin + '/webresources/sn.grh.grade/distinctpatsclasse');
+        },
         findLast: function (nombre) {
             return $http.get(chemin + '/webresources/sn.grh.grade/nombre/' + nombre);
         },

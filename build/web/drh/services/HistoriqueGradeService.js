@@ -22,6 +22,9 @@ angular.module('DrhModule').factory('HistoriqueGrade', function ($http) {
         edit: function (item) {
             return $http.put(chemin + '/webresources/sn.grh.historiquegrade/' + item.id, item);
         },
+        findAllAvancement : function(){
+            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/allavancement');
+        },
         findAvancement: function (types) {
             /*RECUPERER LES INFORMATIONS SUR LES AVANCEMENTS DES EMPLOYES DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
             return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/typeemploye/' + types); /*ok*/

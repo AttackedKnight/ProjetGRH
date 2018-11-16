@@ -15,6 +15,9 @@ angular.module('DrhModule').controller('ConsulterEmployeController', function ($
             } else {
                 $scope.travailleurs = data;
             }
+            if ($routeParams.genre) {    //S'il ya un type d'employe specifique � afficher
+                $scope.travailleurs = $scope.travailleurs.filter(retrieveGenre);
+            }
             $scope.permanents = $scope.travailleurs.filter(retrievePermanents);
             $scope.allContractuels = $scope.travailleurs.filter(retrieveContractuels);
             $scope.validerCritereDateFinContrat();
@@ -29,6 +32,9 @@ angular.module('DrhModule').controller('ConsulterEmployeController', function ($
         return data.employe.typeEmploye.id == $routeParams.type;
     }
 
+    function retrieveGenre(data){
+        return data.employe.genre.id == $routeParams.genre;
+    }
     function retrievePermanents(data) {
         return data.typeContrat.code == 'cdi';
     }

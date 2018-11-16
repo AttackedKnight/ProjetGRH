@@ -25,6 +25,7 @@ import javax.ws.rs.core.MediaType;
 import sn.grh.Corps;
 import sn.grh.Grade;
 import sn.otherclasse.GradeByGroupe;
+import sn.otherclasse.StringListString;
 
 /**
  *
@@ -66,6 +67,32 @@ public class GradeFacadeREST extends AbstractFacade<Grade> {
     @Produces({MediaType.APPLICATION_JSON})
     public Grade find(@PathParam("id") Integer id) {
         return super.find(id);
+    }
+    
+    @GET
+    @Path("distinctcorps")
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringListString getCorps() {
+        List<String> li=em.createQuery("SELECT DISTINCT g.corps.libelle FROM Grade g", String.class)
+                .getResultList();
+        if(li.size()>0){
+            StringListString sli=new StringListString(li);
+            return sli;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("distinctpatsclasse")
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringListString getClasse() {
+        List<String> li=em.createQuery("SELECT DISTINCT g.classe.libelle FROM Grade g WHERE g.corps IS NULL", String.class)
+                .getResultList();
+        if(li.size()>0){
+            StringListString sli=new StringListString(li);
+            return sli;
+        }
+        return null;
     }
     
     

@@ -1,7 +1,10 @@
 angular.module('StatistiqueModule').factory('StatistiqueEntite', function ($http) {
 
     return {
-
+        
+        getEmploye: function (typeEmploye) {
+            return $http.get(chemin + '/webresources/sn.grh.servir/all/onlyemployeenservice/typeemploye/'+typeEmploye);
+        },
         countemployeEntite: function (e) {
 
             return $http.get(chemin + '/webresources/sn.grh.servir/countemploye/' + e.id);

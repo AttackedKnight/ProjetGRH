@@ -1,0 +1,248 @@
+<!-- Small boxes (Stat box) -->
+<div class="row">
+    <div class="col-md-3 col-sm-6">
+        <div class="small-box bg-aqua">
+            <div class="inner">
+                <h4 style="font-weight: bold; font-size: 1.6em;">TOTAL EMPLOYES</h4>
+                <span style="font-size: 2.1em;" id="effectifTotalEmploye">
+                    {{allEmployes.length}}
+                </span>
+            </div>
+            <div class="icon pull-right">
+                <i class="fa fa-user"></i>
+            </div>
+            <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="row" ng-repeat="(type, servir) in allEmployes | groupBy: 'employe.typeEmploye.code'">
+            <div class="col-md-4 col-sm-6">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">EFFECTIF {{type}}</h4>
+                        <span style="font-size: 2.1em;">
+                            {{servir.length}}
+                        </span>
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/type/{{servir[0].employe.typeEmploye.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6" ng-repeat="(genre, servirParGenre) in servir | groupBy: 'employe.genre.libelle'">
+                <div class="small-box bg-yellow">
+                    <div class="inner">
+                        <h4 style="font-weight: bold; font-size: 1.6em;">{{genre + ' ' + type}}</h4>
+                        <span style="font-size: 2.1em;">
+                            {{servirParGenre.length}}
+                        </span>
+                    </div>
+                    <div class="icon pull-right">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <a ng-href="#/drh/entite/consulter/{{entiteChoisie.id}}/genre/{{servirParGenre[0].employe.genre.id}}/type/{{servirParGenre[0].employe.typeEmploye.id}}" class="small-box-footer" style="font-weight: bold;">Voir details <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!-- /.row -->
+
+<!-- Main row -->
+<div style="background: white; padding-top: 4px;">
+    <div class="selection-entite row" ng-hide="onlyOnService">
+        <div class="col-md-6 pull-right">
+            <span>
+                <span style="font-size: 1.2em; font-weight: bold;">Choisir une entité</span><br>
+                <select ng-model="entiteChoisie"  id="entite" class="form-control" ng-options="entite.nom group by entite.typeEntite.libelle for entite in entites"></select>  
+            </span>
+            <button class="btn btn-primary pull-right" style="margin-top: 4px;" ng-click="changerEntite()">
+                <i class="fa fa-check"></i> Valider
+            </button>
+        </div>
+
+    </div> 
+    <br>   
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid box-primary">
+                <div class="box-header">
+                    <i class="fa fa-pie-chart"></i>
+                    <h3 class="box-title">Proportions par type de personnel</h3>
+                </div>
+                <div class="box-body row">
+                    <div  class="col-md-12" style="height: 360px;" id="statPatsPer"></div>
+                </div>
+            </div> 
+        </div>
+
+        <div class="col-md-6">
+            <div class="box box-solid box-primary">
+                <div class="box-header">
+                    <i class="fa fa-pie-chart"></i>
+                    <h3 class="box-title">
+                        Proportions par genre                   
+                    </h3>
+                </div>
+                <div class="box-body row">
+                    <div class="col-md-offset-2 col-xs-8" ng-show="typeEmploye_o.length > 1">
+                        <span class="row">
+                            <label class="col-md-4">
+                                <input type="radio" name="typePersonnelGenre"  ng-value="{{}}"  ng-change="calculerPourcentageParGenre()"  ng-model="selectedTypeInGenre"/>
+                                Tous
+                            </label>
+                            <label class="col-md-4" ng-repeat="te in typeEmploye_o">
+                                <input type="radio" name="typePersonnelGenre"  ng-value="{{te}}"  ng-change="calculerPourcentageParGenre()"  ng-model="$parent.selectedTypeInGenre"/>
+                                {{te.code}}
+                            </label>
+                        </span>
+                    </div>
+                    <div class="col-md-12" style="height: 300px;" id="statParGenre"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-solid box-primary ">
+                <div class="box-header">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">
+                        TRANCHES D'AGES          
+                    </h3>                             
+                </div>
+                <div class="box-body row">
+                    <div class="col-md-5 row" >                        
+                        <div class="col-md-offset-1 col-md-10" ng-show="typeEmploye_o.length > 1">
+                            <span class="row">
+                                <label class="col-md-4">
+                                    <input type="radio" name="typePersonnelTrancheAge"  ng-value="{{}}"  ng-change="actualiserTrancheAge(debutTrancheAge, finTrancheAge, intervalleTrancheAge)"  ng-model="selectedTypeInTrancheAge"/>
+                                    Tous
+                                </label>
+                                <label class="col-md-4" ng-repeat="te in typeEmploye_o">
+                                    <input type="radio" name="typePersonnelTrancheAge"  ng-value="{{te}}"  ng-change="actualiserTrancheAge(debutTrancheAge, finTrancheAge, intervalleTrancheAge)"  ng-model="$parent.selectedTypeInTrancheAge"/>
+                                    {{te.code}}
+                                </label>
+                            </span>
+                        </div>                         
+                    </div>
+                    <div class="col-md-7 col-xs-12 row">
+                        <div class="col-xs-3 mb-3">
+                            <label for="debut">Début</label>
+                            <select  class="form-control" id="debut" ng-model="debutTrancheAge">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60">60</option>
+                                <option value="65">65</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 mb-3">
+                            <label for="fin">Fin</label>
+                            <select  class="form-control" id="fin" ng-model="finTrancheAge">
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="40">40</option>
+                                <option value="50">50</option>
+                                <option value="60" >60</option>
+                                <option value="65">65</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 mb-3">
+                            <label for="intervalle">Intervalle</label>
+                            <select class="form-control" id="intervalle" ng-model="intervalleTrancheAge">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 mb-3">
+                            <label>Valider</label><br>
+                            <button class="btn btn-primary" ng-click="actualiserTrancheAge(debutTrancheAge, finTrancheAge, intervalleTrancheAge)">
+                                <i class="fa fa-check"></i>
+                            </button>                 
+                        </div>
+
+                    </div>
+                    <div class="col-md-12" style="height: 400px;" id="trancheAge"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="box box-solid box-primary  ">
+                <div class="box-header">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">RECRUTEMENT PAR ANNEE</h3>
+
+
+                </div>
+                <div class="box-body row">
+                    <div class="col-md-4 row" ng-show="typeEmploye_o.length > 1">
+                        <div class="col-xs-12">
+                            <span class="row">
+                                <label class="col-md-4">
+                                    <input type="radio" name="typePersonnelRecrutement"  ng-value="{{}}" 
+                                           ng-change="changerTypeRecrutementParAnnee()" 
+                                           ng-model="selectedTypeInRecrutement"/>
+                                    Tous
+                                </label>
+                                <label class="col-md-4" ng-repeat="te in typeEmploye_o">
+                                    <input type="radio" name="typePersonnelRecrutement"  ng-value="{{te}}" 
+                                           ng-change="voirRecrutement(intervaleAnneeRecrutement)" 
+                                           ng-model="$parent.selectedTypeInRecrutement"/>
+                                    {{te.code}}
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-8 row">
+                        <div class="col-xs-8">
+                            <label for="intervalle">Intervalle</label>
+                            <input type="number" class="form-control" min="1" id="intervalle" ng-model="intervaleAnneeRecrutement"> 
+                        </div>
+                        <div class="col-xs-2">
+                            <label>Valider</label>
+                            <button title="Valider" class="btn btn-primary" ng-click="voirRecrutement(intervaleAnneeRecrutement)"><i class="fa fa-check"></i></button>   
+                        </div>    
+                    </div>
+                    <div  class="col-md-12" style="height: 300px;" id="statNbreRecrutement"></div>
+                </div> 
+            </div> 
+        </div>
+        <div class="col-md-6">
+            <div class="box box-solid box-primary  ">
+                <div class="box-header">
+                    <i class="fa fa-bar-chart-o"></i>
+                    <h3 class="box-title">CLASSIFICATION</h3>
+                </div>
+                <div class="box-body row">
+                    <div class="col-md-offset-2 col-md-8" ng-show="typeEmploye_o.length > 1">
+
+                        <span class="row">
+                            <label class="col-md-5" ng-repeat="te in typeEmploye_o">
+                                <input type="radio" name="typePersonnelRecrutement"  ng-value="{{te}}" 
+                                       ng-change="countEffectifParNiveauEtude()" 
+                                       ng-model="$parent.selectedTypeInNiveauEtude"/>
+                                {{te.code}}
+                            </label>
+                        </span>
+                    </div>
+                    <div  class="col-md-12" ng-style="hgt2"  id="niveauEtude" ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Morris.js charts:En rapport avec les statistiques -->

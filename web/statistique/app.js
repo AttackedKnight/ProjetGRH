@@ -11,13 +11,21 @@
 /*Utiliser une meme page, des routes differentes,appeler different controlleurs*/
 angular.module('StatistiqueModule', ['ngRoute', 'ngMessages'])
         .config(function ($routeProvider) {
-            $routeProvider.when('/drh', {
+            $routeProvider.when('/drh/general', {   //ok
+                templateUrl: 'statistique/statistique-generale.html',
+                controller: 'StatistiqueGeneraleController'
+                
+            }).when('/drh', {
                 templateUrl: 'statistique/statistique-drh.html',
                 controller: 'StatistiqueDRHController'
                 
             }).when('/drh/e', {
                 templateUrl: 'statistique/statistique-drh-entite.html',
                 controller: 'StatistiqueDRHEntiteController'
+                
+            }).when('/drh/entite', {    //ok
+                templateUrl: 'statistique/statistique-entite.html',
+                controller: 'StatistiqueEntiteController'
                 
             }).when('/drh/per', {
                 templateUrl: 'statistique/statistique-drh.html',
@@ -38,6 +46,10 @@ angular.module('StatistiqueModule', ['ngRoute', 'ngMessages'])
             }).when('/service/statistique/:id', {
                 templateUrl: 'statistique/statistique-service.html',
                 controller: 'StatistiqueServiceController'
+                
+            }).when('/service/entite/:entite', {  //ok
+                templateUrl: 'statistique/statistique-entite.html',
+                controller: 'StatistiqueEntiteController'
                 
             }).otherwise({
                 redirectTo: '/404'
