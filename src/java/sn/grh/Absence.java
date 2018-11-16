@@ -11,8 +11,6 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author Baba Mbengue
  */
 @Entity
 @Table(name = "absence")
@@ -47,8 +45,8 @@ public class Absence implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -81,9 +79,9 @@ public class Absence implements Serializable {
     @JoinColumn(name = "TypeAutorisation", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Typeautorisation typeAutorisation;
-    @JoinColumn(name = "TypeAbsence", referencedColumnName = "id")
+    @JoinColumn(name = "TypePermission", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Typepermission typeAbsence;
+    private Typepermission typePermission;
     @OneToMany(mappedBy = "absence")
     private List<Document> documentList;
 
@@ -174,12 +172,12 @@ public class Absence implements Serializable {
         this.typeAutorisation = typeAutorisation;
     }
 
-    public Typepermission getTypeAbsence() {
-        return typeAbsence;
+    public Typepermission getTypePermission() {
+        return typePermission;
     }
 
-    public void setTypeAbsence(Typepermission typeAbsence) {
-        this.typeAbsence = typeAbsence;
+    public void setTypePermission(Typepermission typePermission) {
+        this.typePermission = typePermission;
     }
 
     @XmlTransient

@@ -44,8 +44,12 @@ angular.module("ServiceModule", ['ngRoute', 'ngMessages']).config(function ($rou
         controller: 'DetailCongeController'
         
     }).when('/service/demandes/detailAbsence', {
-        templateUrl: 'drh/demandes/detailAbsence.html',
+        templateUrl: 'service/demandes/detailAbsence.html',
         controller: 'DetailAbsenceController'
+        
+    }).when('/service/demandes/consulterAbsence', {
+        templateUrl: 'service/demandes/consulterAbsence.html',
+        controller: 'ConsulterAbsenceController'
         
     }).otherwise('/');
 });
