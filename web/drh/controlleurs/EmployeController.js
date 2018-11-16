@@ -208,7 +208,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
 
     $scope.estMarie = false;
     $scope.checkSituationMatrimoniale = function () {
-        if ($scope.employe.situationMatrimoniale.libelle == "Marie") {
+        if ($scope.employe.situationMatrimoniale.libelle == "Marié(e)") {
             $scope.estMarie = true;
         } else {
             $scope.estMarie = false;
@@ -658,7 +658,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
 
     $scope.controlConcordance = function () {
         var validite = true;
-        if ((($scope.employe.numeroCni).charAt(0) == '1' && $scope.employe.genre.libelle == 'F�minin') || (($scope.employe.numeroCni).charAt(0) == '2' && $scope.employe.genre.libelle == 'Masculin')) {
+        if ((($scope.employe.numeroCni).charAt(0) == '1' && $scope.employe.genre.libelle == 'Féminin') || (($scope.employe.numeroCni).charAt(0) == '2' && $scope.employe.genre.libelle == 'Masculin')) {
             $('.non-concorde').show("slow").delay(3000).hide("slow");
             validite = false;
         }

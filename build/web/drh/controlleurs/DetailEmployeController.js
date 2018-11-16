@@ -91,7 +91,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
     $scope.estMarie = false;
     $scope.checkSituationMatrimoniale = function () {
-        if ($scope.employe.situationMatrimoniale.libelle == "Marie") {
+        if ($scope.employe.situationMatrimoniale.libelle == "Mari√©(e)") {
             $scope.estMarie = true;
         } else {
             $scope.estMarie = false;
@@ -116,7 +116,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
         $scope.copieEmploye = angular.copy($scope.employe);
 
-        if ($scope.employe.situationMatrimoniale && $scope.employe.situationMatrimoniale.libelle == "Marie") {
+        if ($scope.employe.situationMatrimoniale && $scope.employe.situationMatrimoniale.libelle == "Mari√©(e)") {
             $scope.estMarie = true;
         }
         if ($scope.employe.genre && $scope.employe.genre.libelle == "Masculin") {
@@ -150,7 +150,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         Contact.findByEmploye($scope.employe).success(function (data) {
             if (data) {
                 $scope.contacts = data;
-                $scope.copieContacts = angular.copy($scope.contacts);
+               
 
                 if ($scope.contacts.numero2) {
                     $scope.autreNumero = true;
@@ -160,7 +160,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             } else {
                 $scope.contacts = {id: "", employe: $scope.employe};
             }
-
+             $scope.copieContacts = angular.copy($scope.contacts);
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des contacts !");
         });
@@ -295,9 +295,10 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     };
 
     $scope.editEmploye = function () {
+        console.log("editEmploye"+ $scope.employe);
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Employe.edit($scope.employe).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuÔøΩe avec succes");
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectu√©e avec succes");
             $scope.copieEmploye = angular.copy($scope.employe);
             if ($scope.membreMutuelle.id == "" && $scope.membreMutuelle.mutuelleSante != null) { //Si l'employe n'etait pas encore membre
                 $scope.addMutuelle();
@@ -368,9 +369,9 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
     $scope.toggleEmployeEditForm = function () {
         $scope.editInfoGenerales = !$scope.editInfoGenerales;
-        if ($scope.editInfoGenerales === true) {
-            $scope.showDefaultAvatar();
-        }
+//        if ($scope.editInfoGenerales === true) {
+//            $scope.showDefaultAvatar();
+//        }
     };
 
     /*Gestion avatar employe*/
@@ -676,11 +677,11 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
                 var joursRestants = df - $scope.today;                
                 joursRestants = joursRestants / 1000 / 60 / 60 / 24;
                 
-                if(joursRestants < 0){  //Date fin de contrat depassÈ
+                if(joursRestants < 0){  //Date fin de contrat depassÔøΩ
                     $scope.finContratDepasse = true;
                 }
                 else{
-                    if(joursRestants < $scope.finContratNombreJoursCritique){  //Date fin de contrat depassÈ
+                    if(joursRestants < $scope.finContratNombreJoursCritique){  //Date fin de contrat depassÔøΩ
                         $scope.finContratApproche = true;
                     } 
                 }

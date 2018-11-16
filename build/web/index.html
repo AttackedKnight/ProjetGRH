@@ -463,15 +463,15 @@
                                     </a>
                                 </li>
 
-<!--                                <li id="service-demandes" hidden="hidden">
+                               <li ng-show="avoirPermission('consulter', 'employe') == true">
                                     <a href="#">
                                         <i class="fa fa-pencil-square-o"></i> <span>DEMANDES</span>
                                     </a>
                                     <ul class="treeview-menu">
-                                        <li><a ng-href="#/service/demandes/absence"><i class="fa fa-pencil-square"></i>Absences</a></li>
-                                        <li><a ng-href="#/service/demandes/conge"><i class="fa fa-pencil-square"></i>Congés</a></li>
+                                        <li><a ng-href="#/service/demandes/consulterAbsence"><i class="fa fa-pencil-square"></i> Absences</a></li>
+                                        <li><a ng-href="#/service/demandes/consulterConge"><i class="fa fa-pencil-square"></i> Congés</a></li>
                                     </ul>
-                                </li>-->
+                                </li>
                             </ul>
                         </li>
 
@@ -485,7 +485,7 @@
                                         <i class="fa fa-eye"></i> <span>Mon Dossier</span>
                                     </a>
                                 </li>
-<!--                                <li>
+                               <li>
                                     <a href="#">
                                         <i class="fa fa-pencil-square-o"></i> <span>MES DEMANDES</span>
                                     </a>
@@ -493,17 +493,15 @@
                                         <li>
                                             <a href="#/employe/demandes/absence">
                                                 <i class="fa fa-pencil-square"></i> <span>Absences</span>
-                                                <small class="label pull-right bg-green">new</small>
                                             </a>
                                         </li>
                                         <li>
                                             <a href="#/employe/demandes/conge">
                                                 <i class="fa fa-pencil-square"></i> <span>Congés</span>
-                                                <small class="label pull-right bg-green">new</small>
                                             </a>
                                         </li>
                                     </ul>
-                                </li>-->
+                                </li>
                             </ul>
                         </li>
 
@@ -1002,7 +1000,7 @@
 
         <script src="service/app.js" type="text/javascript"></script>
         <script src="service/controlleurs/ServiceDetailEntiteController.js" type="text/javascript"></script>
-
+        <script src="service/controlleurs/consulterAbsenceController.js" type="text/javascript"></script>
 
         <!--FIN SERVICE-->
 
