@@ -23,7 +23,7 @@ angular.module("ServiceModule", ['ngRoute', 'ngMessages']).config(function ($rou
         templateUrl: 'drh/demandes/detailConge.html',
         controller: 'DetailCongeController'
         
-    }).when('/service/demandes/detailAbsence', {
+    }).when('/service/demandes/detailAbsence/:id', {
         templateUrl: 'service/demandes/detailAbsence.html',
         controller: 'DetailAbsenceController'
         

@@ -7,10 +7,10 @@ angular.module("EmployeModule", []).config(function ($routeProvider) {
         templateUrl: 'employe/demandes/absence.html',
         controller: 'AbsenceController'
         
-    }).when('/employe/demandes/conge', {
-        templateUrl: 'employe/demandes/conge.html',
-        controller: 'CongeController'
-        
+    }).when('/employe/demandes/historique', {
+        templateUrl: 'employe/demandes/consulterAbsence.html',
+        controller: 'ConsulterAbsenceController'
+   
     }).otherwise('/');
 
 });

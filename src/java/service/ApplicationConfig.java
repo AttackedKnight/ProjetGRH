@@ -30,6 +30,7 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(service.AbsenceFacadeREST.class);
+        resources.add(service.AbsencetypeemployeFacadeREST.class);
         resources.add(service.AccesgroupeFacadeREST.class);
         resources.add(service.AdresseFacadeREST.class);
         resources.add(service.AvoircompetenceFacadeREST.class);
@@ -38,7 +39,6 @@ public class ApplicationConfig extends Application {
         resources.add(service.CategorieFacadeREST.class);
         resources.add(service.CiviliteFacadeREST.class);
         resources.add(service.ClasseFacadeREST.class);
-        resources.add(service.CongeFacadeREST.class);
         resources.add(service.ContactFacadeREST.class);
         resources.add(service.CorpsFacadeREST.class);
         resources.add(service.DiplomeFacadeREST.class);
@@ -63,6 +63,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.SituationmatrimonialeFacadeREST.class);
         resources.add(service.SyndicatFacadeREST.class);
         resources.add(service.SyndicattypeemployeFacadeREST.class);
+        resources.add(service.TypeabsenceFacadeREST.class);
         resources.add(service.TypeautorisationFacadeREST.class);
         resources.add(service.TypeavancementFacadeREST.class);
         resources.add(service.TypecontratFacadeREST.class);

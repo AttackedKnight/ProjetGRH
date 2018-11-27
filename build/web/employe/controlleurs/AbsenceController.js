@@ -6,7 +6,7 @@
 
 
 
-angular.module('EmployeModule').controller('AbsenceController', function ($scope,Typepermission,Absence,Employe,$rootScope,SweetAlert)
+angular.module('EmployeModule').controller('AbsenceController', function ($scope,Typepermission,Absence, Typeabsence ,Employe,$rootScope,SweetAlert)
 {
 
  
@@ -15,6 +15,7 @@ angular.module('EmployeModule').controller('AbsenceController', function ($scope
  var aujourdhui = new Date();
  $scope.absence.dateFin = aujourdhui;
  $scope.absence.dateEnregistrement = aujourdhui;
+ $scope.autre = null;
  
  function employe(){
      Employe.find($rootScope.idEmploye).success(function (data) {
@@ -26,6 +27,8 @@ angular.module('EmployeModule').controller('AbsenceController', function ($scope
  
     employe();
         
+ 
+
 function permission(){
     return typePermission.findAll();
 }
@@ -41,17 +44,40 @@ Typepermission.findAll().success(function (data) {
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des types de permissions !");
         });
+  
+  function typeabsence(){
+    return typeAbsence.findAll();
+}
 
+//$scope.checkTypeAbsence = function(){
+//    $scope.absence.typeAbsence = $scope.absence.typeAbsence;
+//    console.log("checkTypeAbsence");
+//};
+
+Typeabsence.findAll().success(function (data) {
+            SweetAlert.finirChargementSucces("Chargement complet !");
+            $scope.typeAbsences = data;
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement des types de permissions !");
+        });
+        
   $scope.setAutre = function () {
-        console.log("$scope.autre");
-        $scope.absence.typePermission = {};
-        $scope.absence.duree = 0;
+        console.log($scope.autre);
+        var tmp1 = $scope.absence.typeAbsence;
+        var tmp2 = $scope.absence.dateDebut;
+         $scope.absence = {id:""};
+         employe();
+         $scope.absence.typeAbsence = tmp1;
+         $scope.absence.dateDebut = tmp2;
+         $scope.absence.dateFin = aujourdhui;
+         $scope.absence.dateEnregistrement = aujourdhui;
     };
   $scope.reinitialiser = function(){
       $scope.absence = {id:""};
       $scope.absence.dateEnregistrement = "";
       $scope.absence.dateFin = "";
       $scope.absence.duree = "";
+      $scope.autre = false;
       employe();
       
   };
@@ -65,9 +91,17 @@ Typepermission.findAll().success(function (data) {
                 validite = false;
             }
         });
-         if ($scope.absence.typePermission == null) {
+        if ($scope.absence.typeAbsence == null) {
+            $('#type').parent().next().show("slow").delay(3000).hide("slow");
+            validite = false;
+        }
+         if ($scope.autre == null && $scope.absence.typePermission == null) {
             $('#motif').parent().next().show("slow").delay(3000).hide("slow");
             validite = false;
+        }
+        if ($scope.absence.motif == null) {
+            console.log($scope.absence.typePermission.libelle);
+           $scope.absence.motif = $scope.absence.typePermission.libelle;
         }
         if (validite === true) {
             SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");

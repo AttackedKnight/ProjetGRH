@@ -7,16 +7,22 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Document;
 import sn.grh.Employe;
+import sn.grh.Typeabsence;
 import sn.grh.Typeautorisation;
 import sn.grh.Typepermission;
 
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-23T11:28:27")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-26T11:50:30")
+>>>>>>> c1ba63b68a8f89a6a6dbfd47a5cda47a6f727cfb
 @StaticMetamodel(Absence.class)
 public class Absence_ { 
 
     public static volatile SingularAttribute<Absence, Integer> etatTraitement;
-    public static volatile SingularAttribute<Absence, Date> dateDebut;
+    public static volatile SingularAttribute<Absence, Typeabsence> typeAbsence;
     public static volatile SingularAttribute<Absence, Employe> employe;
+    public static volatile SingularAttribute<Absence, Date> dateDebut;
     public static volatile ListAttribute<Absence, Document> documentList;
     public static volatile SingularAttribute<Absence, Typeautorisation> typeAutorisation;
     public static volatile SingularAttribute<Absence, Integer> duree;

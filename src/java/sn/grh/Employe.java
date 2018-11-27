@@ -105,8 +105,6 @@ public class Employe implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Absence> absenceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
-    private List<Conge> congeList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Document> documentList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Historiquegrade> historiquegradeList;
@@ -274,15 +272,6 @@ public class Employe implements Serializable {
 
     public void setAbsenceList(List<Absence> absenceList) {
         this.absenceList = absenceList;
-    }
-
-    @XmlTransient
-    public List<Conge> getCongeList() {
-        return congeList;
-    }
-
-    public void setCongeList(List<Conge> congeList) {
-        this.congeList = congeList;
     }
 
     @XmlTransient

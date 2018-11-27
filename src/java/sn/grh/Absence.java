@@ -82,6 +82,9 @@ public class Absence implements Serializable {
     @JoinColumn(name = "TypePermission", referencedColumnName = "id")
     @ManyToOne
     private Typepermission typePermission;
+    @JoinColumn(name = "typeAbsence", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Typeabsence typeAbsence;
     @OneToMany(mappedBy = "absence")
     private List<Document> documentList;
 
@@ -177,6 +180,14 @@ public class Absence implements Serializable {
 
     public void setTypePermission(Typepermission typePermission) {
         this.typePermission = typePermission;
+    }
+
+    public Typeabsence getTypeAbsence() {
+        return typeAbsence;
+    }
+
+    public void setTypeAbsence(Typeabsence typeAbsence) {
+        this.typeAbsence = typeAbsence;
     }
 
     @XmlTransient

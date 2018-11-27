@@ -77,9 +77,6 @@ public class Document implements Serializable {
     @JoinColumn(name = "AvoirCompetence", referencedColumnName = "id")
     @ManyToOne
     private Avoircompetence avoirCompetence;
-    @JoinColumn(name = "Conge", referencedColumnName = "id")
-    @ManyToOne
-    private Conge conge;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
@@ -174,14 +171,6 @@ public class Document implements Serializable {
 
     public void setAvoirCompetence(Avoircompetence avoirCompetence) {
         this.avoirCompetence = avoirCompetence;
-    }
-
-    public Conge getConge() {
-        return conge;
-    }
-
-    public void setConge(Conge conge) {
-        this.conge = conge;
     }
 
     public Employe getEmploye() {
