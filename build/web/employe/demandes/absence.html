@@ -3,9 +3,21 @@
     <div class="col-md-8" style="background-color: white" >
         <h2 style="text-align: center;">Autorisation d'absence</h2>
         <div class="row">
-            {{absence}}
+           <!-- {{absence}}-->
             
             <form role="form" name="absenceForm" id="absenceForm" novalidate="" >
+                <div class="form-group">
+                        <label for="typeAbsence" style="font-size: 1.1em;"> Type d'absence :</label>
+                        <div class="input-group" ng-if="!type">
+                            <div class="input-group-addon">
+                                <i class="fa fa-edit"></i>
+                            </div>
+                            <select ng-model="absence.typeAbsence" id="type" class="form-control" ng-change="checkTypeAbsence()" ng-options="typeAbsence.libelle for typeAbsence in typeAbsences"></select>
+                        </div>
+                        <div class="alert alert-block alert-danger requis" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
+                    </div>
                 <div class="form-group">
                     <label for="dateDebut" style="font-size: 1.1em;"> Date début :</label>
                     <div class="input-group">

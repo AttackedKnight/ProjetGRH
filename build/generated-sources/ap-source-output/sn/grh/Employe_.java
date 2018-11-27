@@ -9,7 +9,6 @@ import sn.grh.Absence;
 import sn.grh.Adresse;
 import sn.grh.Avoircompetence;
 import sn.grh.Caissesociale;
-import sn.grh.Conge;
 import sn.grh.Contact;
 import sn.grh.Document;
 import sn.grh.Formation;
@@ -22,7 +21,7 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-16T15:31:57")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-26T11:50:29")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 
@@ -43,7 +42,6 @@ public class Employe_ {
     public static volatile ListAttribute<Employe, Utilisateur> utilisateurList;
     public static volatile SingularAttribute<Employe, String> nationalite;
     public static volatile SingularAttribute<Employe, Boolean> geler;
-    public static volatile ListAttribute<Employe, Conge> congeList;
     public static volatile SingularAttribute<Employe, String> matriculeInterne;
     public static volatile ListAttribute<Employe, Adresse> adresseList;
     public static volatile SingularAttribute<Employe, String> lieuDeNaissance;

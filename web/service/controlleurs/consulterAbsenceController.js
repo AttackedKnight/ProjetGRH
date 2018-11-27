@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module('DrhModule').controller('ConsulterAbsenceController', function ($scope, $rootScope,
-         SweetAlert, Employe, Absence, $routeParams)
+angular.module('ServiceModule').controller('ConsulterAbsenceController', function ($scope, $rootScope,
+         SweetAlert, Employe, Absence,Typeabsence , $routeParams)
 {
     //$scope.getEmploye = function () {
         Absence.findAll().success(function (data) {

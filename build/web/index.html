@@ -1,4 +1,4 @@
-
+    
 <!DOCTYPE html>
 <html>
     <head>
@@ -358,6 +358,7 @@
                                         <i class="fa fa-user-times"></i> <span>Absences</span>
                                     </a>
                                     <ul class="treeview-menu">
+                                         <li><a ng-href="#/parametrage/typeAbsence"><i class="fa fa-circle-o"></i> Types d'absences</a></li>
                                         <li><a ng-href="#/parametrage/autorisationabsence"><i class="fa fa-circle-o"></i> Autorisation d'absence</a></li>
                                         <li><a ng-href="#/parametrage/typepermission"><i class="fa fa-circle-o"></i> Types de permissions</a></li>
                                     </ul>
@@ -464,13 +465,10 @@
                                 </li>
 
                                <li ng-show="avoirPermission('consulter', 'employe') == true">
-                                    <a href="#">
+                                    <a ng-href="#/service/demandes/consulterAbsence">
                                         <i class="fa fa-pencil-square-o"></i> <span>DEMANDES</span>
                                     </a>
-                                    <ul class="treeview-menu">
-                                        <li><a ng-href="#/service/demandes/consulterAbsence"><i class="fa fa-pencil-square"></i> Absences</a></li>
-                                        <li><a ng-href="#/service/demandes/consulterConge"><i class="fa fa-pencil-square"></i> Congés</a></li>
-                                    </ul>
+                                    
                                 </li>
                             </ul>
                         </li>
@@ -496,8 +494,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#/employe/demandes/conge">
-                                                <i class="fa fa-pencil-square"></i> <span>Congés</span>
+                                            <a href="#/employe/demandes/historique">
+                                                <i class="fa fa-pencil-square"></i> <span>Historique</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -683,8 +681,10 @@
         <script src="parametrage/services/SyndicatTypeEmployeService.js" type="text/javascript"></script>
         <script src="parametrage/services/MutuelleTypeEmployeService.js" type="text/javascript"></script>
         <script src="parametrage/services/GenreService.js" type="text/javascript"></script>
-
-
+        <script src="parametrage/services/AbsenceTypeEmployeService.js" type="text/javascript"></script>
+        <script src="parametrage/services/TypeAbsenceService.js" type="text/javascript"></script>
+        
+        
         <script src="parametrage/controlleurs/UtilisateurController.js" type="text/javascript"></script>
         <script src="parametrage/controlleurs/DetailUtilisateurController.js" type="text/javascript"></script>
         <script src="parametrage/controlleurs/AccesController.js" type="text/javascript"></script>
@@ -711,7 +711,7 @@
         <script src="parametrage/controlleurs/MutuelleSanteController.js" type="text/javascript"></script>
         <script src="parametrage/controlleurs/CaisseSocialeController.js" type="text/javascript"></script>
         <script src="parametrage/controlleurs/GenreController.js" type="text/javascript"></script>
-
+        <script src="parametrage/controlleurs/TypeAbsenceController.js" type="text/javascript"></script>
 
         <!--                  FIN      PARAMETRAGE-->
 
@@ -781,7 +781,7 @@
         <script src="service/app.js" type="text/javascript"></script>
         <script src="service/controlleurs/ServiceDetailEntiteController.js" type="text/javascript"></script>
         <script src="service/controlleurs/consulterAbsenceController.js" type="text/javascript"></script>
-
+        <script src="service/controlleurs/DetailAbsenceController.js" type="text/javascript"></script>
         <!--FIN SERVICE-->
 
         <!--EMPLOYE-->

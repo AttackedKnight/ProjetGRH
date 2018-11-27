@@ -93,6 +93,9 @@ angular.module('ParametrageModule', ['ngRoute', 'ngMessages'])
             }).when('/parametrage/autorisationabsence', {
                 templateUrl: 'parametrage/autorisationAbsence/typeAutorisation.html',
                 controller: 'TypeAutorisationController'
+            }).when('/parametrage/typeAbsence', {
+                templateUrl: 'parametrage/autorisationAbsence/typeAbsence.html',
+                controller: 'TypeAbsenceController'
 
             }).when('/parametrage/typeavancement', {
                 templateUrl: 'parametrage/typeAvancement/typeAvancement.html',

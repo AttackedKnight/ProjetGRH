@@ -52,6 +52,8 @@ public class Typeemploye implements Serializable {
     @Column(name = "libelle")
     private String libelle;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
+    private List<Absencetypeemploye> absencetypeemployeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
     private List<Groupetypeemploye> groupetypeemployeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeEmploye")
     private List<Gradetypeemploye> gradetypeemployeList;
@@ -99,6 +101,15 @@ public class Typeemploye implements Serializable {
 
     public void setLibelle(String libelle) {
         this.libelle = libelle;
+    }
+
+    @XmlTransient
+    public List<Absencetypeemploye> getAbsencetypeemployeList() {
+        return absencetypeemployeList;
+    }
+
+    public void setAbsencetypeemployeList(List<Absencetypeemploye> absencetypeemployeList) {
+        this.absencetypeemployeList = absencetypeemployeList;
     }
 
     @XmlTransient

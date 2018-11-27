@@ -5,7 +5,7 @@
  */
 
 
-angular.module('DrhModule').factory('Absence', function ($http) {
+angular.module('ServiceModule').factory('Absence', function ($http) {
     return{
 
         findAll: function () {
@@ -15,11 +15,11 @@ angular.module('DrhModule').factory('Absence', function ($http) {
             return $http.put(chemin + '/webresources/sn.grh.servir/' + item.id, item);
         },
         find: function (id) {
-            return $http.get(chemin + '/webresources/sn.grh.servir/' + id);
+            return $http.get(chemin + '/webresources/sn.grh.absence/' + id);
         },
-        findEmploye: function (typeEmploye) {
+        findById: function (id) {
             /*RECUPERER LES EMPLOYES DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
-            return $http.get(chemin + '/webresources/sn.grh.servir/employeenservice/typeemploye/'+typeEmploye); //ok
+            return $http.get(chemin + '/webresources/sn.grh.absence/'+id); //ok
         },
         findEmployeFemme: function (typeEmploye) {
             /*RECUPERER LES EMPLOYES DE SEXE FEMININ DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
@@ -41,10 +41,10 @@ angular.module('DrhModule').factory('Absence', function ($http) {
             /*RECUPERER LES EMPLOYES DE SEXE MASCULIN D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
             return $http.get(chemin + '/webresources/sn.grh.servir/homme/entite/' + id+'/typeemploye/'+typeEmploye); //ok
         }, 
-        findByEmploye: function (e) {   
-            /*Recuperer le parcours d'un employe : les entittes ou il a travaille*/
-            return $http.get(chemin + '/webresources/sn.grh.servir/employe/' + e.id);
-        },
+//        findFonctionEmploye: function (e) {   
+//            /*Recuperer le parcours d'un employe : les entittes ou il a travaille*/
+//            return $http.get(chemin + '/webresources/sn.grh.servir/fonction/employe/' + e.id);
+//        },
         findResponsableEntite: function (entite) {
             /*Connaitre l'actuel responsable d'une entite*/
             return $http.get(chemin + '/webresources/sn.grh.servir/responsable/' + entite.id);

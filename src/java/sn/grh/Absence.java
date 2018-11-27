@@ -58,8 +58,6 @@ public class Absence implements Serializable {
     @NotNull
     @Column(name = "duree")
     private int duree;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dateFin")
     @Temporal(TemporalType.DATE)
     private Date dateFin;
@@ -77,11 +75,14 @@ public class Absence implements Serializable {
     @ManyToOne(optional = false)
     private Employe employe;
     @JoinColumn(name = "TypeAutorisation", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Typeautorisation typeAutorisation;
     @JoinColumn(name = "TypePermission", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Typepermission typePermission;
+    @JoinColumn(name = "typeAbsence", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Typeabsence typeAbsence;
     @OneToMany(mappedBy = "absence")
     private List<Document> documentList;
 
@@ -92,11 +93,10 @@ public class Absence implements Serializable {
         this.id = id;
     }
 
-    public Absence(Integer id, Date dateDebut, int duree, Date dateFin, int etatTraitement) {
+    public Absence(Integer id, Date dateDebut, int duree, int etatTraitement) {
         this.id = id;
         this.dateDebut = dateDebut;
         this.duree = duree;
-        this.dateFin = dateFin;
         this.etatTraitement = etatTraitement;
     }
 
@@ -178,6 +178,14 @@ public class Absence implements Serializable {
 
     public void setTypePermission(Typepermission typePermission) {
         this.typePermission = typePermission;
+    }
+
+    public Typeabsence getTypeAbsence() {
+        return typeAbsence;
+    }
+
+    public void setTypeAbsence(Typeabsence typeAbsence) {
+        this.typeAbsence = typeAbsence;
     }
 
     @XmlTransient

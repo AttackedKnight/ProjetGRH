@@ -1,16 +1,92 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<div class="box box-solid">
+    <div class="box-body col-md-offset-2 col-md-8">
+        <div class="box-group">
+            <!-- we are adding the .panel class so bootstrap.js collapse plugin detects it -->
+
+            <div class="panel box box-primary box-solid">
+                <div class="box-header with-border">
+                    <h2 class="box-title">
+                        <span  style="font-weight: bold;">DETAILS</span>
+                    </h2>
+                </div>
+                <div>
+                    <div class="box-body" style="min-height:300px;">
+                        <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">PRENOM :
+                                <span style="font-weight: bold;color:black;">{{absence.employe.prenom | uppercase}}</span>
+                            </h4>
+
+                        </div> 
+                        <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">NOM : 
+                                <span style="font-weight: bold;color:black;">{{absence.employe.nom | uppercase}}</span>
+                            </h4>
+
+                        </div> 
+                         <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">FONCTION :
+                                <span style="font-weight: bold;color:black;"> {{fonction}}</span>
+                            </h4>
+
+                        </div> 
+                        <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">TYPE D'ABSENCE :
+                                <span style="font-weight: bold;color:black;">{{absence.typeAbsence.libelle | uppercase}}</span>
+                            </h4>
+
+                        </div> 
+                         <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">MOTIF : 
+                                <span style="font-weight: bold;color:black;">{{absence.motif | capitalize}}</span>
+                            </h4>
+
+                        </div> 
+                        <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">DATE DE PRISE : 
+                                <span style="font-weight: bold;color:black;">{{absence.dateDebut | date: 'dd MMM yyyy'}}</span>
+                            </h4>
+
+                        </div> 
+                         <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">DUREE : 
+                                <span style="font-weight: bold;color:black;">{{absence.duree}}</span>
+                            <a class="pull-right" style="font-weight: bold;font-size: 0.5em;" ng-click="modifDate()" title="Modifier">
+                                <i class="btn btn-warning" >Modifier <span class="glyphicon glyphicon-edit"></span></i>
+                            </a>
+                            </h4>
+                             
+
+                        </div> 
+                        <div style="border-bottom:1px solid #DCDCDC; padding:4px; margin-top:5px;">
+                            <h4 style="font-weight: bold;color:black;">DEDUCTIBLE : 
+                                <span style="font-weight: bold;color:black;">{{absence.typeAutorisation.libelle}}</span>
+                            </h4>
+
+                        </div> 
+                        <div  class="row" style="border-bottom:1px solid #DCDCDC;">
+                            <div class="col-md-3 ">
+                                 <a style="font-weight: bold;" ng-click="validerAbsence()" title="Valider">
+                                <i class="btn btn-success btn-lg" >Valider <span class="glyphicon glyphicon-ok-circle"></span></i>
+                            </a>
+                            </div>
+                            
+                            <div class="col-md-3">
+                                <a style="font-weight: bold;font-size: 0.5em;" ng-click="sansSuite()" title="Sans suite">
+                                <i class="btn btn-danger btn-lg" >Sans suite <span class="glyphicon glyphicon-remove-circle"></span></i>
+                            </a>
+                            </div>
+                           
+                            
+                            
+                            
+                        </div> 
+
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div><!-- /.box-body -->
+</div><!-- /.box -->
+

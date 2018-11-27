@@ -204,7 +204,18 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
         return null;
     }
     
-    
+    @GET
+    @Path("fonction/employe/{id}")
+    @Produces({MediaType.TEXT_PLAIN})
+    public String findFonctionEmploye(@PathParam("id") Integer id) {
+        List<Servir> s=em.createQuery("SELECT s FROM Servir s WHERE s.employe.id = :id ORDER BY s.id DESC", Servir.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(s.size()>0){
+            return s.get(0).getFonction().getLibelle();
+        }
+        return null;
+    }
     /*Connaitre l'actuel responsable d'une entite*/
     @GET
     @Path("responsable/{id}")

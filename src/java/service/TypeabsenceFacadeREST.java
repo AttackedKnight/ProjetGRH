@@ -18,34 +18,34 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import sn.grh.Conge;
+import sn.grh.Typeabsence;
 
 /**
  *
- * @author fallougalass
+ * @author Baba Mbengue
  */
 @Stateless
-@Path("sn.grh.conge")
-public class CongeFacadeREST extends AbstractFacade<Conge> {
+@Path("sn.grh.typeabsence")
+public class TypeabsenceFacadeREST extends AbstractFacade<Typeabsence> {
 
     @PersistenceContext(unitName = "ProjetGRHPU")
     private EntityManager em;
 
-    public CongeFacadeREST() {
-        super(Conge.class);
+    public TypeabsenceFacadeREST() {
+        super(Typeabsence.class);
     }
 
     @POST
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
-    public void create(Conge entity) {
+    public void create(Typeabsence entity) {
         super.create(entity);
     }
 
     @PUT
     @Path("{id}")
     @Consumes({MediaType.APPLICATION_JSON})
-    public void edit(@PathParam("id") Integer id, Conge entity) {
+    public void edit(@PathParam("id") Integer id, Typeabsence entity) {
         super.edit(entity);
     }
 
@@ -58,24 +58,35 @@ public class CongeFacadeREST extends AbstractFacade<Conge> {
     @GET
     @Path("{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Conge find(@PathParam("id") Integer id) {
+    public Typeabsence find(@PathParam("id") Integer id) {
         return super.find(id);
     }
 
     @GET
     @Override
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Conge> findAll() {
+    public List<Typeabsence> findAll() {
         return super.findAll();
     }
 
     @GET
     @Path("{from}/{to}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Conge> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+    public List<Typeabsence> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
         return super.findRange(new int[]{from, to});
     }
-
+@GET
+    @Path("libelle/{lib}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Typeabsence findByLibelle(@PathParam("lib") String lib) {
+        List<Typeabsence> li=em.createQuery("SELECT ta FROM Typeabsence ta WHERE ta.libelle =:libelle", Typeabsence.class)
+                .setParameter("libelle", lib)
+                .getResultList();
+        if(li.size()>0){
+            return li.get(0);
+        }
+        return null;
+    }
     @GET
     @Path("count")
     @Produces(MediaType.TEXT_PLAIN)

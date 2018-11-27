@@ -8,7 +8,6 @@ package sn.grh;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -45,7 +44,7 @@ public class Typeautorisation implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeAutorisation")
+    @OneToMany(mappedBy = "typeAutorisation")
     private List<Absence> absenceList;
 
     public Typeautorisation() {

@@ -3,14 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/web/drh/controlleurs/ConsulterEmployeController.js</file>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/src/java/service/AbsenceFacadeREST.java</file>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/web/service/app.js</file>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/web/drh/demandes/detailAbsence.html</file>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/web/employe/app.js</file>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/web/service/controlleurs/consulterAbsenceController.js</file>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/web/index.html</file>
-            <file>file:/D:/ProjetGrh_Git/ProjetGRH/web/service/demandes/consulterAbsence.html</file>
+            <file>file:/D:/ProjetGrh_Git/ProjetGRH/src/java/sn/grh/Absence.java</file>
+            <file>file:/D:/ProjetGrh_Git/ProjetGRH/src/java/sn/otherclasse/StringListString.java</file>
+            <file>file:/D:/ProjetGrh_Git/ProjetGRH/src/java/service/ServirFacadeREST.java</file>
         </group>
     </open-files>
 </project-private>
