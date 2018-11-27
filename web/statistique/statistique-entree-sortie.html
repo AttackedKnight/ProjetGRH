@@ -1,0 +1,104 @@
+<!-- Main row -->
+<div style="background: white; padding-top: 4px;">
+    <div class="row" >
+        <div class="col-md-offset-1 col-md-10 row selection-entite" ng-hide="onlyOneService">
+            <div class="col-md-offset-2 col-md-2">
+                <label style="font-size: 1.2em; font-weight: bold;">Vue generale</label><br>
+                <input type="checkbox" class="focus" name="typeDeVue" ng-model="allEntities" ng-change="changeTypeView()">
+            </div>
+            <div class="col-md-6 row">
+                <span class="col-md-10">
+                    <span style="font-size: 1.2em; font-weight: bold;">Choisir une entitÃ©</span><br>
+                    <select ng-disabled="allEntities" ng-model="entiteSelectionnee" id="entite" class="form-control" ng-options="entite.nom group by entite.typeEntite.libelle for entite in entites"></select>  
+                </span>
+                <span class="col-md-2"><br>
+                    <button ng-disabled="allEntities" class=" btn btn-primary" style="margin-top: 4px;" ng-click="changerEntite()">
+                        <i class="fa fa-check"></i> Valider
+                    </button>
+                </span>
+            </div>
+        </div> 
+    </div>
+    <hr style="display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;"/>
+    <div class="row">
+        <div class="col-md-4" style="border-right: 1px solid gray;">
+            <div style="font-weight: bold; text-align: center;">Filtrer par le type de personnel : </div>
+            <span class="row">
+                <label class="col-md-4">
+                    <input type="radio" name="typePersonnel"  ng-value="{{}}" 
+                           ng-change="countEntreeSortie(intervaleAnnee)" 
+                           ng-model="selectedTypePersonnel"/>
+                    Tous
+                </label>
+                <label class="col-md-4" ng-repeat="te in typeEmploye_o">
+                    <input type="radio" name="typePersonnel"  ng-value="{{te}}" 
+                           ng-change="countEntreeSortie(intervaleAnnee)" 
+                           ng-model="$parent.selectedTypePersonnel"/>
+                    {{te.code}}
+                </label>
+            </span>           
+        </div>
+        <div class="col-md-4" style="border-right: 1px solid gray;">
+            <div style="font-weight: bold; text-align: center;">Filtrer par genre : </div>
+            <span class="row">
+                <label class="col-md-4">
+                    <input type="radio" name="genre"  ng-value="{{}}" 
+                           ng-change="countEntreeSortie(intervaleAnnee)" 
+                           ng-model="selectedGenre"/>
+                    Tous
+                </label>
+                <label class="col-md-4" ng-repeat="genre in genres">
+                    <input type="radio" name="genre"  ng-value="{{genre}}" 
+                           ng-change="countEntreeSortie(intervaleAnnee)" 
+                           ng-model="$parent.selectedGenre"/>
+                    {{genre.libelle}}
+                </label>
+            </span>
+        </div>
+        <div class="col-md-4">
+            <div class="col-xs-8">
+                <label for="intervalle">Intervalle d'année</label>
+                <input type="number" class="form-control" min="1" id="intervalle" ng-model="intervaleAnnee"> 
+            </div>
+            <div class="col-xs-2">
+                <label>Valider</label>
+                <button title="Valider" class="btn btn-primary" ng-click="countEntreeSortie(intervaleAnnee)"><i class="fa fa-check"></i></button>   
+            </div>
+        </div>    
+    </div><br>
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <td></td>
+                    <td ng-repeat="annee in annees" style="font-weight: bold; font-size: 1.3em;">
+                        {{annee}}
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="es in entreesSorties">
+                    <td style="font-weight: bold; font-size: 1.1em;">{{es.entite.nom}}</td>
+                    <td ng-repeat="entreeSortie in es.entreesSorties">
+                        <div style="background-color: rgba(60,118,61,0.4); font-weight: bold; font-size: 1.3em;">
+                            {{entreeSortie.entrees}}
+                        </div>
+                        <div style="background-color: rgba(250,0,0,0.4); font-weight: bold; font-size: 1.3em;">
+                            {{entreeSortie.sorties}}
+                        </div>
+
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Morris.js charts:En rapport avec les statistiques -->

@@ -10,11 +10,11 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
     $scope.IdFilles = [];
     $scope.corpsPer = [];
     $scope.classePats = [];
-    
-    if($routeParams.entite){   //C'est un chef de service qui s'est connecte : Il ne voit que les stats de son service
-        $scope.onlyOnService = true;
+
+    if ($routeParams.entite) {   //C'est un chef de service qui s'est connecte : Il ne voit que les stats de son service
+        $scope.onlyOneService = true;
     }
-    
+
     /*Recuperer la liste de tous les employe(Une seule fois, puis filtrer en fonction de besoins)*/
     StatistiqueEntite.getEmploye($rootScope.typeEmployeAssocie.join("-")).success(function (data) {
         $scope.totalEmployes = data;
@@ -26,13 +26,13 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
     $scope.getGenres = function () {
         Genre.findAll().success(function (data) {
             $scope.genres = data;
-            $scope.getGrade();           
+            $scope.getGrade();
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des genres");
         });
     };
-    
-    $scope.getGrade = function (){
+
+    $scope.getGrade = function () {
         HistoriqueGrade.findAllAvancement().success(function (data) {
             $scope.allGrades = data;
 
@@ -43,7 +43,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
             $q.all(req_tab).then(function (result) {
                 $scope.corpsPer = result[0].data.value;
                 $scope.classePats = result[1].data.value;
-                
+
                 $scope.getEntites();
             });
 
@@ -51,19 +51,18 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
             SweetAlert.finirChargementEchec("Erreur de chargement des grades !");
         });
     };
-    
+
     $scope.getEntites = function () {
         Entite.findAll().success(function (data) {
             $scope.entites = data;
             if (!$cookies.get('entiteChoisie'))
             {
-                if($routeParams.entite){   //C'est un chef de service qui s'est connecte : Il ne voit que les stats de son service
+                if ($routeParams.entite) {   //C'est un chef de service qui s'est connecte : Il ne voit que les stats de son service
                     $scope.idEntite = $routeParams.entite;
                     $scope.entiteChoisie = data.filter(retrieveEntity)[0];
-                }
-                else{
+                } else {
                     $scope.entiteChoisie = data[1]; //Selectionner une entite par defaut
-                }               
+                }
                 /*Garder entite selectionne dans un cookie*/
                 $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
 
@@ -86,7 +85,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
             }
         }
     };
-    
+
     /*Le principe consisite a remonte les parent de l'entite en question
      * 
      * pour voir si on vas tomber sur l'entite parent indique en second parametre */
@@ -102,7 +101,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         }
         return b;
     };
-    
+
     /*Changer l'entite sur laquelle les statistiques sont effectuees*/
     $scope.changerEntite = function () {
         $scope.filles = [];
@@ -133,7 +132,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
     function retrieveEntity(data) {
         return data.id == $scope.idEntite;
     }
-    
+
     function retrieveByCorps(data) {
         return data.grade.corps.libelle == libelleCorps;
     }
@@ -146,15 +145,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         var dateNaiss = new Date(data.employe.dateDeNaissance);
         dateNaiss = new Date(dateNaiss.getFullYear() + '-' + (dateNaiss.getMonth() + 1) + '-' + dateNaiss.getDate());
 
-        return (dateNaiss.toDateString() == dateNaissMin.toDateString() || dateNaiss > dateNaissMin)
-                && (dateNaiss.toDateString() == dateNaissMax.toDateString() || dateNaiss < dateNaissMax);
-    }
-    function retrieveAnneeRecrutementBetween(data) {
-        var dateRecru = new Date(data.employe.dateRecrutement);
-        dateRecru = new Date(dateRecru.getFullYear() + '-' + (dateRecru.getMonth() + 1) + '-' + dateRecru.getDate());
-
-        return (dateRecru.toDateString() == dateRecruMin.toDateString() || dateRecru > dateRecruMin)
-                && (dateRecru.toDateString() == dateRecruMax.toDateString() || dateRecru < dateRecruMax);
+        return dateNaiss >= dateNaissMin && dateNaiss <= dateNaissMax;       
     }
 
     $scope.idType;
@@ -180,27 +171,42 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         $scope.calculerPourcentageParTypeEmploye();
         $scope.calculerPourcentageParGenre();
         $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge, $scope.intervalleTrancheAge);
-        $scope.countRecrutement($scope.intervaleAnneeRecrutement);
-
         $scope.countEffectifParNiveauEtude();
-        
+
 
     };
 
     /*Pourcentage par type de personnel*/
     $scope.calculerPourcentageParTypeEmploye = function () {
+        $scope.totalEmployeEntite = 0;
+        var req_tab = [];
         var pourcentageParType = [];
         var effectifType;
-        for (var i = 0; i < $rootScope.typeEmploye_o.length; i++) {
-            $scope.idType = $rootScope.typeEmploye_o[i].id;
-            effectifType = $scope.allEmployes.filter(retrieveType).length;
-            pourcentageParType.push({
-                "categorie": $rootScope.typeEmploye_o[i].code,
-                "pourcentage": ((effectifType / $scope.allEmployes.length) * 100).toFixed(2)
-
-            });
+        for (var i = 0; i < $scope.IdFilles.length; i++) {
+            req_tab.push(StatistiqueEntite.countEmploye($scope.IdFilles[i]));
         }
-        $scope.voirPourcentagePerEtPats(pourcentageParType);
+        $q.all(req_tab).then(function (result) {
+            for (var i = 0; i < $scope.IdFilles.length; i++) {
+                $scope.totalEmployeEntite += parseInt(result[i].data);
+            }
+            for (var i = 0; i < $rootScope.typeEmploye_o.length; i++) {
+                $scope.idType = $rootScope.typeEmploye_o[i].id;
+                effectifType = $scope.allEmployes.filter(retrieveType).length;
+                pourcentageParType.push({
+                    "categorie": $rootScope.typeEmploye_o[i].code,
+                    "pourcentage": ((effectifType / $scope.totalEmployeEntite) * 100).toFixed(2)
+
+                });
+            }
+            if ($scope.totalEmployeEntite > $scope.allEmployes.length) { //La personne connecte ne gere qu'une partie(Type de personnel) des employes
+                pourcentageParType.push({
+                    "categorie": "AUTRE(s)",
+                    "pourcentage": (100 - (($scope.allEmployes.length / $scope.totalEmployeEntite) * 100)).toFixed(2)
+
+                });
+            }
+            $scope.voirPourcentagePerEtPats(pourcentageParType);
+        });        
     };
 
     $scope.voirPourcentagePerEtPats = function (data) {
@@ -254,7 +260,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
     /*Pourcentage par type de personnel*/
 
     /*Pourcentage par genre*/
-
+    
     $scope.calculerPourcentageParGenre = function () {
         var datas = [];
         if (angular.isDefined($scope.selectedTypeInGenre) && angular.isDefined($scope.selectedTypeInGenre.id)) {  //S'il y a un type de personnel cible, on filtre selon ce type d'abord
@@ -340,7 +346,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         to.setFullYear(to.getFullYear() - fin);
         dates.push(from);
         dates.push(to);
-
+        
         return dates;
     };
 
@@ -423,15 +429,14 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
 
     };
 
-
     $scope.debutTrancheAge = 20;
     $scope.finTrancheAge = 65;
     $scope.intervalleTrancheAge = 5;
 
     $scope.actualiserTrancheAge = function (d, f, i) {
-        if (parseInt(d) > 0 && parseInt(f) > 0 && parseInt(i) > 0) {
-            if (parseInt(d) > parseInt(f)) {
-                alert('La valeur de début doit etre inférieure à celle de fin');
+        if (parseInt(d) > 0 && parseInt(f) > 0 && parseInt(i) > 0 && parseInt(i) <= (parseInt(f) - parseInt(d))) {
+            if (parseInt(d) >= parseInt(f)) {
+                SweetAlert.simpleNotification("error", "Erreur", "La valeur de début doit etre inférieure à celle de fin");
             } else {
                 $scope.construireGrapheTranche(parseInt(d), parseInt(f), parseInt(i));
             }
@@ -440,8 +445,6 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
 
 
     /*Trache age*/
-
-    /*Debut RECRUTEMENT*/
 
     $scope.intervaleAnneeRecrutement = 5;
     function getRandomInt(max) {
@@ -458,103 +461,18 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
                 j++;
             }
         }
-
         return  tab;
     }
 
-    var dateRecruMin;
-    var dateRecruMax;
-    $scope.countRecrutement = function (nombreAnnees) {
-        $scope.recrutements = [];
-        var colors = ["#000000", "#A52A2A", "#DC143C", "#006400", "#1E90FF", "#2F4F4F",
-            "#FFD700", "#FF69B4", "#ADFF2F", "#0000CD", "#FF4500", "#046380"];
-        var une_barre;
-        var d = new Date();
-        var n = d.getFullYear();
-
-        var i = 0;
-
-        var datas = [];
-        if (angular.isDefined($scope.selectedTypeInRecrutement) && angular.isDefined($scope.selectedTypeInRecrutement.id)) {  //S'il y a un type de personnel cible, on filtre selon ce type d'abord
-            $scope.idType = $scope.selectedTypeInRecrutement.id;
-            datas = $scope.allEmployes.filter(retrieveType);
-        } else {       //Sinon on travaille sur l'effectif total
-            datas = angular.copy($scope.allEmployes);
-        }
-        /*Creation de l'objet a afficher sur le graphe*/
-        while (nombreAnnees > 0) {
-            //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
-            dateRecruMin = new Date(n + '-01-01');
-            dateRecruMax = new Date(n + '-12-31');
-
-            une_barre = {};
-            une_barre.annee = parseInt(n);
-            i = getRandomInt(colors.length);
-            une_barre.color = colors[i];
-            une_barre.pourcentage = datas.filter(retrieveAnneeRecrutementBetween).length;
-            $scope.recrutements.push(une_barre);
-
-            n -= 1;
-            nombreAnnees--;
-            colors = supprimerCouleur(colors, i); //Supprimer la couleur de la liste des couleurs:éviter répétition
-        }
-        $scope.recrutements.reverse();
-        $scope.tracerDiagrammeRecrutementParAnnee($scope.recrutements);
-    };
-
-    $scope.tracerDiagrammeRecrutementParAnnee = function (recrutements) {
-        var chartnbreRecrutement = AmCharts.makeChart("statNbreRecrutement", {
-            "theme": "light",
-            "type": "serial",
-            "startDuration": 2,
-            "dataProvider": recrutements,
-            "valueAxes": [{
-                    "position": "left"
-                }],
-            "graphs": [{
-                    "balloonText": "[[category]]: <b>[[value]]</b><br/>",
-                    "fillColorsField": "color",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "valueField": "pourcentage"
-                }],
-            "depth3D": 20,
-            "angle": 30,
-            "chartCursor": {
-                "categoryBalloonEnabled": true,
-                "cursorAlpha": 0,
-                "zoomable": false
-            },
-            "categoryField": "annee",
-            "categoryAxis": {
-                "gridPosition": "start",
-                "labelRotation": 0
-            },
-            "export": {
-                "enabled": true
-            }
-
-        });
-    };
-
-    $scope.voirRecrutement = function (n) {
-        if (parseInt(n) > 0) {
-            $scope.countRecrutement(parseInt(n));
-        }
-    };
-
-    /*- Fin RECRUTEMENT*/
-
     /*Debut Niveau etude*/
-    
+
     function retrieveGradeInEntite(data) {
         return data.employe.id == idEmploye;    //Parmi les grades(des employes), recuperer ceux dont les employes sont dans l'entite selectionnee
     }
     var idEmploye;
-    $scope.getGradeInEntite = function(grades){
+    $scope.getGradeInEntite = function (grades) {
         var datas = [];
-        for(var  i = 0; i< $scope.allEmployes.length ; i++){
+        for (var i = 0; i < $scope.allEmployes.length; i++) {
             idEmploye = $scope.allEmployes[i].employe.id;
             datas = datas.concat(grades.filter(retrieveGradeInEntite));
         }
@@ -564,15 +482,12 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
     $scope.countEffectifParNiveauEtude = function () {
         var datas = [];
         if (angular.isUndefined($scope.selectedTypeInNiveauEtude)) {  //Pour le premier appel
-
             $scope.idType = $scope.typeEmploye_o[0].id;
         } else {
             $scope.idType = $scope.selectedTypeInNiveauEtude.id;
         }
-        console.log($scope.allGrades)
         datas = $scope.allGrades.filter(retrieveTypeInGrade);
-        datas = $scope.getGradeInEntite (datas);
-        console.log("Apres filtre "+datas)
+        datas = $scope.getGradeInEntite(datas);
         if (datas.length > 0) {
             if (angular.isDefined(datas[0].grade.corps)) {  //Si corps est definie dans grade , alors c'est un per
                 $scope.calculerEffectifPerParCorps(datas);
@@ -589,7 +504,6 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         var colors = ["#000000", "#A52A2A", "#DC143C", "#006400", "#1E90FF", "#2F4F4F", "#FFD700", "#FF69B4", "#ADFF2F", "#0000CD", "#FF4500", "#046380"];
         for (var i = 0; i <= $scope.corpsPer.length - 1; i++) {
             libelleCorps = $scope.corpsPer[i];
-
             j = getRandomInt(colors.length);
             var une_barre = {};
             une_barre.annee = $scope.corpsPer[i];
@@ -608,7 +522,6 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         var colors = ["#000000", "#A52A2A", "#DC143C", "#006400", "#1E90FF", "#2F4F4F", "#FFD700", "#FF69B4", "#ADFF2F", "#0000CD", "#FF4500", "#046380"];
         for (var i = 0; i <= $scope.classePats.length - 1; i++) {
             libelleClasse = $scope.classePats[i];
-
             j = getRandomInt(colors.length);
             var une_barre = {};
             une_barre.annee = $scope.classePats[i];

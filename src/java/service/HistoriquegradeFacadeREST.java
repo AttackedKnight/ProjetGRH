@@ -102,90 +102,6 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         return em;
     }
     
-    /* STATTISTIQUE NIVEAU D'ETUDE*/
-    
-    
-    @GET
-    @Path("pats/classe/{libelle}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Integer comptePatsParClasse(@PathParam("libelle") String libelle){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
-                .setParameter("libelle", libelle)
-                .getResultList();
-        if(e.size()>0){
-            return e.size();
-        }
-        return 0;
-    }
-    
-    @GET
-    @Path("pats/homme/classe/{libelle}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Integer comptePatsHommeParClasse(@PathParam("libelle") String libelle){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Masculin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
-                .setParameter("libelle", libelle)
-                .getResultList();
-        if(e.size()>0){
-            return e.size();
-        }
-        return 0;
-    }
-    
-    @GET
-    @Path("pats/femme/classe/{libelle}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Integer comptePatsFemmeParClasse(@PathParam("libelle") String libelle){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.classe.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Féminin' AND g.employe.typeEmploye.code='PATS' ORDER BY g.id DESC", Employe.class)
-                .setParameter("libelle", libelle)
-                .getResultList();
-        if(e.size()>0){
-            return e.size();
-        }
-        return 0;
-    }
-    
-    @GET
-    @Path("per/corps/{libelle}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Integer comptePerParCorps(@PathParam("libelle") String libelle){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
-                .setParameter("libelle", libelle)
-                .getResultList();
-        if(e.size()>0){
-            return e.size();
-        }
-        return 0;
-    }
-
-    @GET
-    @Path("per/homme/corps/{libelle}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Integer comptePerHommeParCorps(@PathParam("libelle") String libelle){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Masculin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
-                .setParameter("libelle", libelle)
-                .getResultList();
-        if(e.size()>0){
-            return e.size();
-        }
-        return 0;
-    }
-    
-    @GET
-    @Path("per/femme/corps/{libelle}")
-    @Produces({MediaType.TEXT_PLAIN})
-    public Integer comptePerFemmeParCorps(@PathParam("libelle") String libelle){
-        List<Employe> e=em.createQuery("SELECT DISTINCT g.employe FROM Historiquegrade g WHERE g.grade.corps.libelle=:libelle AND g.encours=1 AND g.employe.genre.libelle='Féminin' AND g.employe.typeEmploye.code='PER' ORDER BY g.id DESC", Employe.class)
-                .setParameter("libelle", libelle)
-                .getResultList();
-        if(e.size()>0){
-            return e.size();
-        }
-        return 0;
-    }
-    
-    /* FIN STATISTIQUE NIVEAU ETUDE*/
-
-     
     /*ok*/
     
     /*RECUPERER LES INFORMATIONS SUR LES AVANCEMENTS DES EMPLOYES DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
@@ -214,33 +130,20 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         return null;
     }
     
-    /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE FEMININ DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
+    /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE DONNE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
     @GET
-    @Path("avancement/femme/typeemploye/{types}")
+    @Path("avancement/genre{genre}/typeemploye/{types}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Historiquegrade> findAvancementFemme(@PathParam("types") String types){
+    public List<Historiquegrade> findAvancementFemme(@PathParam("types") String types,@PathParam("genre") Integer genre){
         types=types.replace("-",",");
         List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 "
-                + " AND h.employe.genre.libelle='Féminin' AND h.employe.typeEmploye.id IN ("+types+")",Historiquegrade.class).getResultList();
+                + " AND h.employe.genre.id="+genre+" AND h.employe.typeEmploye.id IN ("+types+")",Historiquegrade.class).getResultList();
         if(h.size()>0){
             return h;
         }
         return null;
     }
-    
-    /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE MASCULIN DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
-    @GET
-    @Path("avancement/homme/typeemploye/{types}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Historiquegrade> findAvancementHomme(@PathParam("types") String types){
-        types=types.replace("-",",");
-        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1 "
-                + " AND h.employe.genre.libelle='Masculin' AND h.employe.typeEmploye.id IN ("+types+")",Historiquegrade.class).getResultList();
-        if(h.size()>0){
-            return h;
-        }
-        return null;
-    }
+
     
     /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
     @GET
@@ -257,15 +160,16 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         return null;
     }
     
-    /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE FEMININ D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
+    /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE DONNEE D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
     @GET
-    @Path("avancement/femme/entite/{id}/typeemploye/{types}")
+    @Path("avancement/entite/{id}/genre{genre}/typeemploye/{types}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Historiquegrade> findAvancementEntiteFemme(@PathParam("id") Integer id,@PathParam("types") String types) {
+    public List<Historiquegrade> findAvancementEntiteFemme(@PathParam("id") Integer id,
+            @PathParam("types") String types,@PathParam("genre") Integer genre) {
         types=types.replace("-",",");
         List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1"
                 + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND"
-                + " s.finService = 0 AND s.employe.genre.libelle='Féminin' AND"
+                + " s.finService = 0 AND s.employe.genre.id="+genre+" AND"
                 + " s.employe.typeEmploye.id IN ("+types+"))", Historiquegrade.class)
                 .setParameter("id", id)
                 .getResultList();
@@ -274,26 +178,7 @@ public class HistoriquegradeFacadeREST extends AbstractFacade<Historiquegrade> {
         }
         return null;
     }
-    
-    /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE MASCULIN D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
-    @GET
-    @Path("avancement/homme/entite/{id}/typeemploye/{types}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Historiquegrade> findAvancementEntiteHomme(@PathParam("id") Integer id,@PathParam("types") String types) {
-        types=types.replace("-",",");
-        List<Historiquegrade> h=em.createQuery("SELECT h FROM Historiquegrade h WHERE h.encours=1"
-                + " AND h.employe.id IN (SELECT s.employe.id FROM Servir s WHERE s.entite.id=:id AND"
-                + " s.finService = 0 AND s.employe.genre.libelle='Masculin' AND"
-                + " s.employe.typeEmploye.id IN ("+types+"))", Historiquegrade.class)
-                .setParameter("id", id)
-                .getResultList();
-        if(h.size()>0){
-            return h;
-        }
-        return null;
-    }
-    
-    
+
     /*ok*/
     
     

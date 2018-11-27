@@ -11,10 +11,19 @@ angular.module('StatistiqueModule').controller('StatistiqueGeneraleController', 
 
     Genre.findAll().success(function (data) {
         $scope.genres = data;
-        $scope.startRepporting();
+        $scope.countTotalEmploye();
     }).error(function () {
         SweetAlert.finirChargementEchec("Erreur de chargement des genres");
     });
+
+    $scope.countTotalEmploye = function () {
+        Statistique.countEmploye().success(function (totalEmployes) {    //effectif total des employes, pour calculer la proportion d'un type de personnel donne
+            $scope.totalEmployes = totalEmployes;
+            $scope.startRepporting();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement des genres");
+        });
+    };
 
 
     $scope.startRepporting = function () {
@@ -24,7 +33,6 @@ angular.module('StatistiqueModule').controller('StatistiqueGeneraleController', 
             $scope.calculerPourcentageParTypeEmploye();
             $scope.calculerPourcentageParGenre();
             $scope.construireGrapheTranche($scope.debutTrancheAge, $scope.finTrancheAge, $scope.intervalleTrancheAge);
-            $scope.countRecrutement($scope.intervaleAnneeRecrutement);
 
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des employés !");
@@ -61,15 +69,7 @@ angular.module('StatistiqueModule').controller('StatistiqueGeneraleController', 
         var dateNaiss = new Date(data.dateDeNaissance);
         dateNaiss = new Date(dateNaiss.getFullYear() + '-' + (dateNaiss.getMonth() + 1) + '-' + dateNaiss.getDate());
 
-        return (dateNaiss.toDateString() == dateNaissMin.toDateString() || dateNaiss > dateNaissMin)
-                && (dateNaiss.toDateString() == dateNaissMax.toDateString() || dateNaiss < dateNaissMax);
-    }
-    function retrieveAnneeRecrutementBetween(data) {
-        var dateRecru = new Date(data.dateRecrutement);
-        dateRecru = new Date(dateRecru.getFullYear() + '-' + (dateRecru.getMonth() + 1) + '-' + dateRecru.getDate());
-
-        return (dateRecru.toDateString() == dateRecruMin.toDateString() || dateRecru > dateRecruMin)
-                && (dateRecru.toDateString() == dateRecruMax.toDateString() || dateRecru < dateRecruMax);
+        return   dateNaiss >= dateNaissMin &&  dateNaiss <= dateNaissMax;
     }
 
     $scope.idType;
@@ -94,7 +94,14 @@ angular.module('StatistiqueModule').controller('StatistiqueGeneraleController', 
             effectifType = $scope.allEmployes.filter(retrieveType).length;
             pourcentageParType.push({
                 "categorie": $rootScope.typeEmploye_o[i].code,
-                "pourcentage": ((effectifType / $scope.allEmployes.length) * 100).toFixed(2)
+                "pourcentage": ((effectifType / $scope.totalEmployes) * 100).toFixed(2)
+
+            });
+        }
+        if ($scope.totalEmployes > $scope.allEmployes.length) { //La personne connecte ne gere qu'une partie(Type de personnel) des employe
+            pourcentageParType.push({
+                "categorie": "AUTRE(s)",
+                "pourcentage": (100 - (($scope.allEmployes.length / $scope.totalEmployes) * 100)).toFixed(2)
 
             });
         }
@@ -245,6 +252,7 @@ angular.module('StatistiqueModule').controller('StatistiqueGeneraleController', 
     var dateNaissMin;
     var dateNaissMax;
     $scope.construireGrapheTranche = function (debut, fin, intervalle) {
+        
         var donnees = [];
         var end = debut + intervalle;
         var intervalle_date = [];
@@ -327,19 +335,16 @@ angular.module('StatistiqueModule').controller('StatistiqueGeneraleController', 
     $scope.intervalleTrancheAge = 5;
 
     $scope.actualiserTrancheAge = function (d, f, i) {
-        if (parseInt(d) > 0 && parseInt(f) > 0 && parseInt(i) > 0) {
-            if (parseInt(d) > parseInt(f)) {
-                alert('La valeur de début doit etre inférieure à celle de fin');
+        if (parseInt(d) > 0 && parseInt(f) > 0 && parseInt(i) > 0 && parseInt(i) <= (parseInt(f) - parseInt(d))) {
+            if (parseInt(d) >= parseInt(f)) {
+                SweetAlert.simpleNotification("error", "Erreur", "La valeur de début doit etre inférieure à celle de fin");
             } else {
                 $scope.construireGrapheTranche(parseInt(d), parseInt(f), parseInt(i));
             }
         }
     };
 
-
     /*Trache age*/
-
-    /*Debut RECRUTEMENT*/
 
     $scope.intervaleAnneeRecrutement = 5;
     function getRandomInt(max) {
@@ -359,90 +364,6 @@ angular.module('StatistiqueModule').controller('StatistiqueGeneraleController', 
 
         return  tab;
     }
-
-    var dateRecruMin;
-    var dateRecruMax;
-    $scope.countRecrutement = function (nombreAnnees) {
-        $scope.recrutements = [];
-        var colors = ["#000000", "#A52A2A", "#DC143C", "#006400", "#1E90FF", "#2F4F4F",
-            "#FFD700", "#FF69B4", "#ADFF2F", "#0000CD", "#FF4500", "#046380"];
-        var une_barre;
-        var d = new Date();
-        var n = d.getFullYear();
-
-        var i = 0;
-
-        var datas = [];
-        if (angular.isDefined($scope.selectedTypeInRecrutement) && angular.isDefined($scope.selectedTypeInRecrutement.id)) {  //S'il y a un type de personnel cible, on filtre selon ce type d'abord
-            $scope.idType = $scope.selectedTypeInRecrutement.id;
-            datas = $scope.allEmployes.filter(retrieveType);
-        } else {       //Sinon on travaille sur l'effectif total
-            datas = angular.copy($scope.allEmployes);
-        }
-        /*Creation de l'objet a afficher sur le graphe*/
-        while (nombreAnnees > 0) {
-            //Recrutements effectues entre le 1 janvier et le 31 decembre de l'annee
-            dateRecruMin = new Date(n + '-01-01');
-            dateRecruMax = new Date(n + '-12-31');
-
-            une_barre = {};
-            une_barre.annee = parseInt(n);
-            i = getRandomInt(colors.length);
-            une_barre.color = colors[i];
-            une_barre.pourcentage = datas.filter(retrieveAnneeRecrutementBetween).length;
-            $scope.recrutements.push(une_barre);
-
-            n -= 1;
-            nombreAnnees--;
-            colors = supprimerCouleur(colors, i); //Supprimer la couleur de la liste des couleurs:éviter répétition
-        }
-        $scope.recrutements.reverse();
-        $scope.tracerDiagrammeRecrutementParAnnee($scope.recrutements);
-    };
-
-    $scope.tracerDiagrammeRecrutementParAnnee = function (recrutements) {
-        var chartnbreRecrutement = AmCharts.makeChart("statNbreRecrutement", {
-            "theme": "light",
-            "type": "serial",
-            "startDuration": 2,
-            "dataProvider": recrutements,
-            "valueAxes": [{
-                    "position": "left"
-                }],
-            "graphs": [{
-                    "balloonText": "[[category]]: <b>[[value]]</b><br/>",
-                    "fillColorsField": "color",
-                    "fillAlphas": 1,
-                    "lineAlpha": 0.1,
-                    "type": "column",
-                    "valueField": "pourcentage"
-                }],
-            "depth3D": 20,
-            "angle": 30,
-            "chartCursor": {
-                "categoryBalloonEnabled": true,
-                "cursorAlpha": 0,
-                "zoomable": false
-            },
-            "categoryField": "annee",
-            "categoryAxis": {
-                "gridPosition": "start",
-                "labelRotation": 0
-            },
-            "export": {
-                "enabled": true
-            }
-
-        });
-    };
-
-    $scope.voirRecrutement = function (n) {
-        if (parseInt(n) > 0) {
-            $scope.countRecrutement(parseInt(n));
-        }
-    };
-
-    /*- Fin RECRUTEMENT*/
 
     /*Debut Niveau etude*/
 

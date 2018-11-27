@@ -11,6 +11,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -27,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Baba Mbengue
+ * @author fallougalass
  */
 @Entity
 @Table(name = "absence")
@@ -45,8 +47,8 @@ public class Absence implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -58,8 +60,6 @@ public class Absence implements Serializable {
     @NotNull
     @Column(name = "duree")
     private int duree;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "dateFin")
     @Temporal(TemporalType.DATE)
     private Date dateFin;
@@ -77,10 +77,10 @@ public class Absence implements Serializable {
     @ManyToOne(optional = false)
     private Employe employe;
     @JoinColumn(name = "TypeAutorisation", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Typeautorisation typeAutorisation;
     @JoinColumn(name = "TypePermission", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Typepermission typePermission;
     @OneToMany(mappedBy = "absence")
     private List<Document> documentList;
@@ -92,11 +92,10 @@ public class Absence implements Serializable {
         this.id = id;
     }
 
-    public Absence(Integer id, Date dateDebut, int duree, Date dateFin, int etatTraitement) {
+    public Absence(Integer id, Date dateDebut, int duree, int etatTraitement) {
         this.id = id;
         this.dateDebut = dateDebut;
         this.duree = duree;
-        this.dateFin = dateFin;
         this.etatTraitement = etatTraitement;
     }
 

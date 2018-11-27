@@ -11,26 +11,6 @@ angular.module("ServiceModule", ['ngRoute', 'ngMessages']).config(function ($rou
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeEntiteController'
 
-    }).when('/service/consulter/:id/type/:type', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeEntiteController'
-
-    }).when('/service/consulter/:id/homme/type/:type', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeHommeEntiteController'
-
-    }).when('/service/consulter/:id/homme', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeHommeEntiteController'
-
-    }).when('/service/consulter/:id/femme/type/:type', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeFemmeEntiteController'
-
-    }).when('/service/consulter/:id/femme', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeFemmeEntiteController'
-
     }).when('/service/demandes/absence', {
         templateUrl: 'drh/demandes/listeAbsence.html',
         controller: 'ListeAbsenceController'

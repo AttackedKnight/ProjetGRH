@@ -22,11 +22,7 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-<<<<<<< HEAD
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-14T13:13:09")
-=======
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-07T09:33:46")
->>>>>>> 914210634b157a047aaedfb519063e5ac491cf8c
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-23T11:28:29")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 

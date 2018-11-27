@@ -99,7 +99,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     };
     $scope.homme = false;
     $scope.checkGenre = function () {
-        if ($scope.employe.genre.libelle == "Masculin") {
+        if ($scope.employe.genre.libelle == "Homme") {
             $scope.homme = true;
         } else {
             $scope.homme = false;
@@ -119,7 +119,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         if ($scope.employe.situationMatrimoniale && $scope.employe.situationMatrimoniale.libelle == "Marié(e)") {
             $scope.estMarie = true;
         }
-        if ($scope.employe.genre && $scope.employe.genre.libelle == "Masculin") {
+        if ($scope.employe.genre && $scope.employe.genre.libelle == "Homme") {
             $scope.homme = true;
         }
 
@@ -672,7 +672,6 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             $scope.parcours = data;
             if ($scope.parcours[0].typeContrat.code == 'cdd') {
                 $scope.estPermanent = false;            //Verifier si c'est un permanent ou non'
-                
                 var df= new Date($scope.parcours[0].fin);                
                 var joursRestants = df - $scope.today;                
                 joursRestants = joursRestants / 1000 / 60 / 60 / 24;
@@ -705,7 +704,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         Servir.findResponsableEntite(e).success(function (data) {
             if (data) {
                 var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilt�)
-                if (data.employe.genre.libelle != 'Masculin') {
+                if (data.employe.genre.libelle != 'Homme') {
                     situation = data.employe.situationMatrimoniale.id + '';
                 }
                 Civilite.findByGenreAndSituation(data.employe.genre.id, situation).success(function (civilite) {

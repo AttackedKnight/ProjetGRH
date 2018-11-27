@@ -23,22 +23,6 @@ angular.module("DrhModule", ['ngRoute', 'ngMessages']).config(function ($routePr
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeController'
 
-    }).when('/drh/employe/consulter/homme', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeHommeController'
-
-    }).when('/drh/employe/consulter/homme/type/:type', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeHommeController'
-
-    }).when('/drh/employe/consulter/femme', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeFemmeController'
-
-    }).when('/drh/employe/consulter/femme/type/:type', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeFemmeController'
-
     }).when('/drh/entite/consulter/:id', {
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeEntiteController'
@@ -50,22 +34,6 @@ angular.module("DrhModule", ['ngRoute', 'ngMessages']).config(function ($routePr
     }).when('/drh/entite/consulter/:id/genre/:genre/type/:type', {  //ok
         templateUrl: 'drh/employe/consulterAgent.html',
         controller: 'ConsulterEmployeEntiteController'
-
-    }).when('/drh/entite/consulter/:id/homme/type/:type', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeHommeEntiteController'
-
-    }).when('/drh/entite/consulter/:id/homme', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeHommeEntiteController'
-
-    }).when('/drh/entite/consulter/:id/femme/type/:type', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeFemmeEntiteController'
-
-    }).when('/drh/entite/consulter/:id/femme', {
-        templateUrl: 'drh/employe/consulterAgent.html',
-        controller: 'ConsulterEmployeFemmeEntiteController'
 
     }).when('/drh/employe/detailAgent/:id', {
         templateUrl: 'drh/employe/detailAgent.html',

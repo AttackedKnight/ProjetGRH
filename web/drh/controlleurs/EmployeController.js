@@ -216,7 +216,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
     };
     $scope.homme = false;
     $scope.checkGenre = function () {
-        if ($scope.employe.genre.libelle == "Masculin") {
+        if ($scope.employe.genre.libelle == "Homme") {
             $scope.homme = true;
         } else {
             $scope.homme = false;
@@ -658,7 +658,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope,Swe
 
     $scope.controlConcordance = function () {
         var validite = true;
-        if ((($scope.employe.numeroCni).charAt(0) == '1' && $scope.employe.genre.libelle == 'Féminin') || (($scope.employe.numeroCni).charAt(0) == '2' && $scope.employe.genre.libelle == 'Masculin')) {
+        if ((($scope.employe.numeroCni).charAt(0) == '1' && $scope.employe.genre.libelle == 'Femme') || (($scope.employe.numeroCni).charAt(0) == '2' && $scope.employe.genre.libelle == 'Homme')) {
             $('.non-concorde').show("slow").delay(3000).hide("slow");
             validite = false;
         }

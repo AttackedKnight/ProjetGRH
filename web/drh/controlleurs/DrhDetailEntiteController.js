@@ -74,7 +74,7 @@ angular.module('DrhModule').controller('DrhDetailEntiteController', function ($s
             if (data) {
                 $scope.responsable = data;
                 var situation = '';     //Requise si seulement l'employe est feminin . Pour les hommes c'est toujour Mr(la civilt�)
-                if(data.employe.genre.libelle != 'Masculin'){
+                if(data.employe.genre.libelle != 'Homme'){
                     situation = data.employe.situationMatrimoniale.id + '';
                 }
                 Civilite.findByGenreAndSituation(data.employe.genre.id,situation).success(function(civilite){

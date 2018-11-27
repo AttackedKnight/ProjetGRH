@@ -8,9 +8,10 @@ package sn.grh;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Baba Mbengue
+ * @author fallougalass
  */
 @Entity
 @Table(name = "typeautorisation")
@@ -36,8 +37,8 @@ public class Typeautorisation implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -45,7 +46,7 @@ public class Typeautorisation implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "typeAutorisation")
+    @OneToMany(mappedBy = "typeAutorisation")
     private List<Absence> absenceList;
 
     public Typeautorisation() {

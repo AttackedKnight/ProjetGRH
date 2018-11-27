@@ -29,26 +29,26 @@ angular.module('DrhModule').factory('HistoriqueGrade', function ($http) {
             /*RECUPERER LES INFORMATIONS SUR LES AVANCEMENTS DES EMPLOYES DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
             return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/typeemploye/' + types); /*ok*/
         },
-        findAvancementFemme: function (types) {
-            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE FEMININ DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
-            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/femme/typeemploye/' + types); /*ok*/
-        },
-        findAvancementHomme: function (types) {
-            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE MASCULIN DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
-            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/homme/typeemploye/' + types); /*ok*/
-        },
+//        findAvancementFemme: function (types) {
+//            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE FEMININ DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
+//            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/femme/typeemploye/' + types); /*ok*/
+//        },
+//        findAvancementHomme: function (types) {
+//            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE MASCULIN DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
+//            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/homme/typeemploye/' + types); /*ok*/
+//        },
         findAvancementEntite: function (typeEmploye, idEntite) {
             /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
             return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/entite/'+idEntite+'/typeemploye/' + typeEmploye);  //ok
         },
-        findAvancementEntiteFemme: function (typeEmploye, idEntite) {
-            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE FEMININ D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
-            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/femme/entite/'+idEntite+'/typeemploye/' + typeEmploye);  //ok
-        },
-        findAvancementEntiteHomme: function (typeEmploye, idEntite) {
-            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE MASCULIN D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
-            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/homme/entite/'+idEntite+'/typeemploye/' + typeEmploye);  //ok
-        },
+//        findAvancementEntiteFemme: function (typeEmploye, idEntite) {
+//            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE FEMININ D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
+//            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/femme/entite/'+idEntite+'/typeemploye/' + typeEmploye);  //ok
+//        },
+//        findAvancementEntiteHomme: function (typeEmploye, idEntite) {
+//            /*RECUPERER LES INFORMATIONS SUR LE AVANCEMENTS DES EMPLOYES DE SEXE MASCULIN D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES*/
+//            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/avancement/homme/entite/'+idEntite+'/typeemploye/' + typeEmploye);  //ok
+//        },
         findByEmploye: function (e) {
             /*RECUPERER L'HISTORIAUE DES AVANCEMENTS D'UN EMPLOYE*/
             return $http.get(chemin + '/webresources/sn.grh.historiquegrade/employe/' + e.id);

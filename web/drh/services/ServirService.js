@@ -10,6 +10,9 @@ angular.module('DrhModule').factory('Servir', function ($http) {
         findAll: function () {
             return $http.get(chemin + '/webresources/sn.grh.servir');
         },
+        findAllEmploye: function (typeEmploye) {
+            return $http.get(chemin + '/webresources/sn.grh.servir/typeemploye/'+typeEmploye);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.servir', item);
         },
@@ -27,25 +30,9 @@ angular.module('DrhModule').factory('Servir', function ($http) {
             /*RECUPERER LES EMPLOYES DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
             return $http.get(chemin + '/webresources/sn.grh.servir/employeenservice/typeemploye/'+typeEmploye); //ok
         },
-        findEmployeFemme: function (typeEmploye) {
-            /*RECUPERER LES EMPLOYES DE SEXE FEMININ DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
-            return $http.get(chemin + '/webresources/sn.grh.servir/employeenservice/femme/typeemploye/'+typeEmploye); //ok
-        },
-        findEmployeHomme: function (typeEmploye) {
-            /*RECUPERER LES EMPLOYES DE SEXE MASCULIN DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
-            return $http.get(chemin + '/webresources/sn.grh.servir/employeenservice/homme/typeemploye/'+typeEmploye); //ok
-        },
         findEmployeEntite: function (typeEmploye,id) {
             /*RECUPERER LES EMPLOYES D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
             return $http.get(chemin + '/webresources/sn.grh.servir/entite/' + id+'/typeemploye/'+typeEmploye); //ok
-        },
-        findEmployeFemmeEntite: function (typeEmploye,id) {
-            /*RECUPERER LES EMPLOYES DE SEXE FEMININ D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
-            return $http.get(chemin + '/webresources/sn.grh.servir/femme/entite/' + id+'/typeemploye/'+typeEmploye); //ok
-        },
-        findEmployeHommeEntite: function (typeEmploye,id) {
-            /*RECUPERER LES EMPLOYES DE SEXE MASCULIN D'UNE ENTITE DONT LE TYPE SE TROUVE DANS CEUX INDIQUES */
-            return $http.get(chemin + '/webresources/sn.grh.servir/homme/entite/' + id+'/typeemploye/'+typeEmploye); //ok
         }, 
         findByEmploye: function (e) {   
             /*Recuperer le parcours d'un employe : les entittes ou il a travaille*/

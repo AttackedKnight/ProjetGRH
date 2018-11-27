@@ -11,45 +11,25 @@
 /*Utiliser une meme page, des routes differentes,appeler different controlleurs*/
 angular.module('StatistiqueModule', ['ngRoute', 'ngMessages'])
         .config(function ($routeProvider) {
-            $routeProvider.when('/drh/general', {   //ok
+            $routeProvider.when('/drh/statistique/general', {   //ok
                 templateUrl: 'statistique/statistique-generale.html',
                 controller: 'StatistiqueGeneraleController'
                 
-            }).when('/drh', {
-                templateUrl: 'statistique/statistique-drh.html',
-                controller: 'StatistiqueDRHController'
-                
-            }).when('/drh/e', {
-                templateUrl: 'statistique/statistique-drh-entite.html',
-                controller: 'StatistiqueDRHEntiteController'
-                
-            }).when('/drh/entite', {    //ok
+            }).when('/drh/statistique/entite', {    //ok
                 templateUrl: 'statistique/statistique-entite.html',
                 controller: 'StatistiqueEntiteController'
                 
-            }).when('/drh/per', {
-                templateUrl: 'statistique/statistique-drh.html',
-                controller: 'StatistiquePERController'
+            }).when('/drh/statistique/entreeSortie', {    //ok
+                templateUrl: 'statistique/statistique-entree-sortie.html',
+                controller: 'EntreeSortieController'
                 
-            }).when('/drh/per/e', {
-                templateUrl: 'statistique/statistique-drh-entite.html',
-                controller: 'StatistiquePEREntiteController'
-                
-            }).when('/drh/pats', {
-                templateUrl: 'statistique/statistique-drh.html',
-                controller: 'StatistiquePATSController'
-                
-            }).when('/drh/pats/e', {
-                templateUrl: 'statistique/statistique-drh-entite.html',
-                controller: 'StatistiquePATSEntiteController'
-                
-            }).when('/service/statistique/:id', {
-                templateUrl: 'statistique/statistique-service.html',
-                controller: 'StatistiqueServiceController'
-                
-            }).when('/service/entite/:entite', {  //ok
+            }).when('/service/statistique/:entite', {  //ok
                 templateUrl: 'statistique/statistique-entite.html',
                 controller: 'StatistiqueEntiteController'
+                
+            }).when('/service/statistique/entreeSortie/:entite', {    //ok
+                templateUrl: 'statistique/statistique-entree-sortie.html',
+                controller: 'EntreeSortieController'
                 
             }).otherwise({
                 redirectTo: '/404'
