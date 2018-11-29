@@ -80,19 +80,49 @@
                     <td ng-repeat="annee in annees" style="font-weight: bold; font-size: 1.3em;">
                         {{annee}}
                     </td>
+                    <td style="font-weight: bold; font-size: 1.3em;">
+                        Total
+                    </td>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="es in entreesSorties">
                     <td style="font-weight: bold; font-size: 1.1em;">{{es.entite.nom}}</td>
-                    <td ng-repeat="entreeSortie in es.entreesSorties">
-                        <div style="background-color: rgba(60,118,61,0.4); font-weight: bold; font-size: 1.3em;">
-                            {{entreeSortie.entrees}}
+                    <td ng-repeat="entreeSortie in es.io_data" style="font-weight: bold; font-size: 1.3em;">
+                        <div style="background-color: rgba(60,118,61,0.4);">
+                            {{entreeSortie.entrees}}                            
                         </div>
-                        <div style="background-color: rgba(250,0,0,0.4); font-weight: bold; font-size: 1.3em;">
+                        <div style="background-color: rgba(250,0,0,0.4);">
                             {{entreeSortie.sorties}}
+                        </div>                  
+                    </td>
+                    <td style="font-weight: bold; font-size: 1.3em;">
+                        <div style="background-color: rgba(60,118,61,0.4);">
+                            {{es.totalEntreesSurIntervalAnnee}}
+                        </div>
+                        <div style="background-color: rgba(250,0,0,0.4);">
+                            {{es.totalSortiesSurIntervalAnnee}}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="font-weight: bold; font-size: 1.1em;">Total</td>
+                    <td ng-repeat="total_es in totalEntreesSortiesParAnnee" style="font-weight: bold; font-size: 1.3em;">
+                        <div style="background-color: rgba(60,118,61,0.4);">
+                            {{total_es.totalEntrees}}
+                        </div>
+                        <div style="background-color: rgba(250,0,0,0.4);">
+                            {{total_es.totalSorties}}
                         </div>
 
+                    </td>
+                    <td style="font-weight: bold; font-size: 1.3em;">
+                        <div style="background-color: rgba(60,118,61,0.4);">
+                            {{totalEntrees}}
+                        </div>
+                        <div style="background-color: rgba(250,0,0,0.4);">
+                            {{totalSorties}}
+                        </div>
                     </td>
                 </tr>
             </tbody>

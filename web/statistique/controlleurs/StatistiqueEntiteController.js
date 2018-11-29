@@ -1,5 +1,5 @@
 angular.module('StatistiqueModule').controller('StatistiqueEntiteController', function ($scope, $rootScope, $routeParams,
-        SweetAlert, Grade, Genre, HistoriqueGrade, $cookies, $q, Entite, StatistiqueEntite) {
+        SweetAlert, Grade, Genre, HistoriqueGrade, $q, Entite, StatistiqueEntite) {
 
     $scope.hgt = {height: 300 + 'px'};
     $scope.hgt2 = {height: 300 + 'px'};
@@ -55,20 +55,20 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
     $scope.getEntites = function () {
         Entite.findAll().success(function (data) {
             $scope.entites = data;
-            if (!$cookies.get('entiteChoisie'))
-            {
+//            if (!$cookies.get('entiteChoisie'))
+//            {
                 if ($routeParams.entite) {   //C'est un chef de service qui s'est connecte : Il ne voit que les stats de son service
                     $scope.idEntite = $routeParams.entite;
                     $scope.entiteChoisie = data.filter(retrieveEntity)[0];
                 } else {
-                    $scope.entiteChoisie = data[1]; //Selectionner une entite par defaut
+                    $scope.entiteChoisie = data[0]; //Selectionner une entite par defaut
                 }
                 /*Garder entite selectionne dans un cookie*/
-                $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
-
-            } else {
-                $scope.entiteChoisie = JSON.parse($cookies.get('entiteChoisie'));
-            }
+//                $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
+//
+//            } else {
+//                $scope.entiteChoisie = JSON.parse($cookies.get('entiteChoisie'));
+//            }
             $scope.montrerStatistique();
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des entites !");
@@ -107,7 +107,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         $scope.filles = [];
         $scope.allEmployes = [];
         /*Garder entite selectionne dans un cookie*/
-        $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
+//        $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
         $scope.montrerStatistique();
     };
 
@@ -486,6 +486,7 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
         } else {
             $scope.idType = $scope.selectedTypeInNiveauEtude.id;
         }
+        
         datas = $scope.allGrades.filter(retrieveTypeInGrade);
         datas = $scope.getGradeInEntite(datas);
         if (datas.length > 0) {
