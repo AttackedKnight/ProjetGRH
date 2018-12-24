@@ -60,8 +60,8 @@ angular.module('DrhModule').factory('Servir', function ($http) {
         },
         findFonctionEmploye: function (id) {   
             /*Recuperer le parcours d'un employe : les entittes ou il a travaille*/
-            console.log(id);
             return $http.get(chemin + '/webresources/sn.grh.servir/fonction/employe/' + id);
         }
+        
     };
 });
