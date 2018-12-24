@@ -19,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Absencetypeemploye;
+import sn.grh.Typeabsence;
 import sn.grh.Typeemploye;
 
 /**
@@ -40,7 +41,6 @@ public class AbsencetypeemployeFacadeREST extends AbstractFacade<Absencetypeempl
     @Override
     @Consumes({MediaType.APPLICATION_JSON})
     public void create(Absencetypeemploye entity) {
-        System.out.println("create absence typeEmploye");
         super.create(entity);
     }
 
@@ -56,24 +56,51 @@ public class AbsencetypeemployeFacadeREST extends AbstractFacade<Absencetypeempl
     public void remove(@PathParam("id") Integer id) {
         super.remove(super.find(id));
     }
-     @DELETE
+
+    @DELETE
     @Path("typeabsence/{typeabsence}/typeemploye/{typeemploye}")
     public void remove(@PathParam("typeabsence") Integer typeabsence, @PathParam("typeemploye") Integer typeemploye) {
-        super.remove(findByAbsenceAndTypeEmploye(typeabsence,typeemploye));
+        super.remove(findByAbsenceAndTypeEmploye(typeabsence, typeemploye));
     }
-    
-     @GET
+
+    @GET
     @Path("typeabsence/{typeabsence}/typeemploye/{typeemploye}")
     @Produces({MediaType.APPLICATION_JSON})
     public Absencetypeemploye findByAbsenceAndTypeEmploye(@PathParam("typeabsence") Integer typeabsence,
             @PathParam("typeemploye") Integer typeemploye) {
-        List<Absencetypeemploye> li=em.createQuery("SELECT sy FROM Absencetypeemploye sy WHERE"
+        List<Absencetypeemploye> li = em.createQuery("SELECT sy FROM Absencetypeemploye sy WHERE"
                 + " sy.typeAbsence.id=:typeabsence AND sy.typeEmploye.id=:typeemploye", Absencetypeemploye.class)
                 .setParameter("typeabsence", typeabsence)
                 .setParameter("typeemploye", typeemploye)
                 .getResultList();
-        if(li.size()>0){
+        if (li.size() > 0) {
             return li.get(0);
+        }
+        return null;
+    }
+
+    @GET
+    @Path("absence/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Typeemploye> findByAbsence(@PathParam(value = "id") Integer id) {
+        List<Typeemploye> li = em.createQuery("SELECT ty.typeEmploye FROM Absencetypeemploye ty WHERE ty.typeAbsence.id =:id", Typeemploye.class)
+                .setParameter("id", id)
+                .getResultList();
+        if (li.size() > 0) {
+            return li;
+        }
+        return null;
+    }
+
+    @GET
+    @Path("type/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Typeabsence> findByType(@PathParam("id") Integer id) {
+        List<Typeabsence> li = em.createQuery("SELECT ty.typeAbsence FROM Absencetypeemploye ty WHERE ty.typeEmploye.id =:id", Typeabsence.class)
+                .setParameter("id", id)
+                .getResultList();
+        if (li.size() > 0) {
+            return li;
         }
         return null;
     }
@@ -105,22 +132,10 @@ public class AbsencetypeemployeFacadeREST extends AbstractFacade<Absencetypeempl
     public String countREST() {
         return String.valueOf(super.count());
     }
- @GET
-    @Path("absence/{id}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Typeemploye> findByAbsence(@PathParam(value = "id")
-            Integer id, Integer typeemploye) {
-        List<Typeemploye> li=em.createQuery("SELECT mu.typeEmploye FROM Absencetypeemploye mu WHERE mu.typeAbsence.id =:id", Typeemploye.class)
-                .setParameter("id", id)
-                .getResultList();
-        if(li.size()>0){
-            return li;
-        }
-        return null;
-    }
+
     @Override
     protected EntityManager getEntityManager() {
         return em;
     }
-    
+
 }

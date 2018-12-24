@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Caissesocialetypeemploye;
 import sn.grh.Employe;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-28T11:01:02")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-30T12:14:08")
 @StaticMetamodel(Caissesociale.class)
 public class Caissesociale_ { 
 

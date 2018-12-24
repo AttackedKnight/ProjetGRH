@@ -55,20 +55,13 @@ angular.module('StatistiqueModule').controller('StatistiqueEntiteController', fu
     $scope.getEntites = function () {
         Entite.findAll().success(function (data) {
             $scope.entites = data;
-//            if (!$cookies.get('entiteChoisie'))
-//            {
                 if ($routeParams.entite) {   //C'est un chef de service qui s'est connecte : Il ne voit que les stats de son service
                     $scope.idEntite = $routeParams.entite;
                     $scope.entiteChoisie = data.filter(retrieveEntity)[0];
                 } else {
                     $scope.entiteChoisie = data[0]; //Selectionner une entite par defaut
                 }
-                /*Garder entite selectionne dans un cookie*/
-//                $cookies.putObject('entiteChoisie', $scope.entiteChoisie);
-//
-//            } else {
-//                $scope.entiteChoisie = JSON.parse($cookies.get('entiteChoisie'));
-//            }
+
             $scope.montrerStatistique();
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des entites !");

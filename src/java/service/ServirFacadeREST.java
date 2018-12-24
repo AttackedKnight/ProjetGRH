@@ -260,7 +260,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("entite/employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Entite findEntite(@PathParam("id") Integer id) {
-        List<Servir> s=em.createQuery("SELECT e FROM Servir e WHERE e.employe.id = :id AND s.finService = 0 ORDER BY e.id DESC", Servir.class)
+        List<Servir> s=em.createQuery("SELECT e FROM Servir e WHERE e.employe.id = :id AND e.finService = 0 ORDER BY e.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         

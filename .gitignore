@@ -1,5 +1,5 @@
-/dist/
-/web/WEB-INF/
-/web/archives/
-/src/java/sn/grh/
 /baseDeDonnees/
+/dist/
+/src/java/sn/grh/
+/web/archives/
+/web/WEB-INF/
