@@ -2,13 +2,16 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ProjetGRHPU" transaction-type="JTA">
     <jta-data-source>grhConnexion</jta-data-source>
+    <class>sn.grh.Absence</class>
+    <class>sn.grh.Absencetypeemploye</class>
     <class>sn.grh.Accesgroupe</class>
     <class>sn.grh.Adresse</class>
     <class>sn.grh.Avoircompetence</class>
+    <class>sn.grh.Caissesociale</class>
+    <class>sn.grh.Caissesocialetypeemploye</class>
     <class>sn.grh.Categorie</class>
     <class>sn.grh.Civilite</class>
     <class>sn.grh.Classe</class>
-    <class>sn.grh.Conge</class>
     <class>sn.grh.Contact</class>
     <class>sn.grh.Corps</class>
     <class>sn.grh.Diplome</class>
@@ -19,23 +22,30 @@
     <class>sn.grh.Entite</class>
     <class>sn.grh.Fonction</class>
     <class>sn.grh.Formation</class>
+    <class>sn.grh.Genre</class>
     <class>sn.grh.Grade</class>
+    <class>sn.grh.Gradetypeemploye</class>
     <class>sn.grh.Groupe</class>
+    <class>sn.grh.Groupetypeemploye</class>
     <class>sn.grh.Historiquegrade</class>
     <class>sn.grh.Membremutuelle</class>
     <class>sn.grh.Mutuellesante</class>
+    <class>sn.grh.Mutuellesantetypeemploye</class>
     <class>sn.grh.Niveau</class>
     <class>sn.grh.Servir</class>
     <class>sn.grh.Situationmatrimoniale</class>
     <class>sn.grh.Syndicat</class>
+    <class>sn.grh.Syndicattypeemploye</class>
+    <class>sn.grh.Typeabsence</class>
     <class>sn.grh.Typeautorisation</class>
     <class>sn.grh.Typeavancement</class>
     <class>sn.grh.Typecontrat</class>
     <class>sn.grh.Typedocument</class>
+    <class>sn.grh.Typeemploye</class>
     <class>sn.grh.Typeentite</class>
     <class>sn.grh.Typepermission</class>
     <class>sn.grh.Utilisateur</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>
   </persistence-unit>
 </persistence>
