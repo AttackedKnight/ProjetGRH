@@ -80,6 +80,12 @@ public class Document implements Serializable {
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
+    @JoinColumn(name = "Enfant", referencedColumnName = "id")
+    @ManyToOne
+    private Enfant enfant;
+    @JoinColumn(name = "Conjoint", referencedColumnName = "id")
+    @ManyToOne
+    private Conjoint conjoint;
     @JoinColumn(name = "Formation", referencedColumnName = "id")
     @ManyToOne
     private Formation formation;
@@ -179,6 +185,22 @@ public class Document implements Serializable {
 
     public void setEmploye(Employe employe) {
         this.employe = employe;
+    }
+
+    public Enfant getEnfant() {
+        return enfant;
+    }
+
+    public void setEnfant(Enfant enfant) {
+        this.enfant = enfant;
+    }
+
+    public Conjoint getConjoint() {
+        return conjoint;
+    }
+
+    public void setConjoint(Conjoint conjoint) {
+        this.conjoint = conjoint;
     }
 
     public Formation getFormation() {

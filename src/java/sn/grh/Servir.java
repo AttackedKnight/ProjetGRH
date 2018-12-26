@@ -69,8 +69,11 @@ public class Servir implements Serializable {
     @ManyToOne(optional = false)
     private Entite entite;
     @JoinColumn(name = "Fonction", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Fonction fonction;
+    @JoinColumn(name = "FonctionAnnexe", referencedColumnName = "id")
+    @ManyToOne
+    private Fonctionannexe fonctionAnnexe;
     @JoinColumn(name = "TypeContrat", referencedColumnName = "id")
     @ManyToOne
     private Typecontrat typeContrat;
@@ -158,6 +161,14 @@ public class Servir implements Serializable {
 
     public void setFonction(Fonction fonction) {
         this.fonction = fonction;
+    }
+
+    public Fonctionannexe getFonctionAnnexe() {
+        return fonctionAnnexe;
+    }
+
+    public void setFonctionAnnexe(Fonctionannexe fonctionAnnexe) {
+        this.fonctionAnnexe = fonctionAnnexe;
     }
 
     public Typecontrat getTypeContrat() {

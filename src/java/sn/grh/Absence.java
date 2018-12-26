@@ -42,7 +42,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Absence.findByDateFin", query = "SELECT a FROM Absence a WHERE a.dateFin = :dateFin")
     , @NamedQuery(name = "Absence.findByEtatTraitement", query = "SELECT a FROM Absence a WHERE a.etatTraitement = :etatTraitement")
     , @NamedQuery(name = "Absence.findByDateEnregistrement", query = "SELECT a FROM Absence a WHERE a.dateEnregistrement = :dateEnregistrement")
-    , @NamedQuery(name = "Absence.findByMotif", query = "SELECT a FROM Absence a WHERE a.motif = :motif")})
+    , @NamedQuery(name = "Absence.findByMotif", query = "SELECT a FROM Absence a WHERE a.motif = :motif")
+    , @NamedQuery(name = "Absence.findByJourRestant", query = "SELECT a FROM Absence a WHERE a.jourRestant = :jourRestant")})
 public class Absence implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -73,6 +74,8 @@ public class Absence implements Serializable {
     @Size(max = 255)
     @Column(name = "motif")
     private String motif;
+    @Column(name = "jourRestant")
+    private Integer jourRestant;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
@@ -156,6 +159,14 @@ public class Absence implements Serializable {
 
     public void setMotif(String motif) {
         this.motif = motif;
+    }
+
+    public Integer getJourRestant() {
+        return jourRestant;
+    }
+
+    public void setJourRestant(Integer jourRestant) {
+        this.jourRestant = jourRestant;
     }
 
     public Employe getEmploye() {

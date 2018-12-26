@@ -13,7 +13,7 @@
        
           <form role="form" name="connexionForm" style="padding: 4px;margin-top: 10px;">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" style="width: 80%;margin: auto;" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" name="login"/>
+                <input type="text" class="form-control" style="width: 80%;margin: auto; border-color: black;" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" name="login"/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 <div ng-messages="connexionForm.login.$error" role="alert" ng-show="connexionForm.login.$touched && connexionForm.login.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 6 caractères au minimum.</div>
@@ -24,7 +24,7 @@
                 </div>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" style="width: 80%;margin: auto;" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" name="motDePasse"/>
+                <input type="password" class="form-control" style="width: 80%;margin: auto; border-color: black;" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" name="motDePasse"/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 <div ng-messages="connexionForm.motDePasse.$error" role="alert" ng-show="connexionForm.motDePasse.$touched && connexionForm.motDePasse.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 8 caractères au minimum.</div>

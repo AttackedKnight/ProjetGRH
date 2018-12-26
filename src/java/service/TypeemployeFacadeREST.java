@@ -22,7 +22,7 @@ import sn.grh.Typeemploye;
 
 /**
  *
- * @author Baba Mbengue
+ * @author hp
  */
 @Stateless
 @Path("sn.grh.typeemploye")

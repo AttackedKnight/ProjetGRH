@@ -39,6 +39,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.CategorieFacadeREST.class);
         resources.add(service.CiviliteFacadeREST.class);
         resources.add(service.ClasseFacadeREST.class);
+        resources.add(service.ConjointFacadeREST.class);
         resources.add(service.ContactFacadeREST.class);
         resources.add(service.CorpsFacadeREST.class);
         resources.add(service.DiplomeFacadeREST.class);
@@ -46,8 +47,10 @@ public class ApplicationConfig extends Application {
         resources.add(service.DomaineFacadeREST.class);
         resources.add(service.EchelonFacadeREST.class);
         resources.add(service.EmployeFacadeREST.class);
+        resources.add(service.EnfantFacadeREST.class);
         resources.add(service.EntiteFacadeREST.class);
         resources.add(service.FonctionFacadeREST.class);
+        resources.add(service.FonctionannexeFacadeREST.class);
         resources.add(service.FormationFacadeREST.class);
         resources.add(service.GenreFacadeREST.class);
         resources.add(service.GradeFacadeREST.class);

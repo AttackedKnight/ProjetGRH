@@ -154,11 +154,11 @@ angular.module('EmployeModule').controller('AbsenceController', function ($scope
                 }
                 
                 /*Recuperer la liste des absences deductibles apres le dernier conges et faire la somme des durees*/
-                Absence.getAbsenceDeductible($scope.employe.id,data.dateRetour).success(function (absenceDeduc) {
-                    console.log("Absence deductibles "+absenceDeduc);
-                }).error(function () {
-                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des absences déductibles");
-                });
+//                Absence.getAbsenceDeductible($scope.employe.id,data.dateRetour).success(function (absenceDeduc) {
+//                    console.log("Absence deductibles "+absenceDeduc);
+//                }).error(function () {
+//                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des absences déductibles");
+//                });
             }
             else{
                 console.log("Vous ne pouvez pas prendre de conge");

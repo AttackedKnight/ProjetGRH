@@ -9,8 +9,10 @@ import sn.grh.Absence;
 import sn.grh.Adresse;
 import sn.grh.Avoircompetence;
 import sn.grh.Caissesociale;
+import sn.grh.Conjoint;
 import sn.grh.Contact;
 import sn.grh.Document;
+import sn.grh.Enfant;
 import sn.grh.Formation;
 import sn.grh.Genre;
 import sn.grh.Historiquegrade;
@@ -21,11 +23,7 @@ import sn.grh.Syndicat;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-<<<<<<< HEAD
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-02T12:59:19")
-=======
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-30T12:14:09")
->>>>>>> b25d4eb239b8d427ca95fe33e414e7c2254ea3a6
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-26T12:25:19")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 
@@ -34,6 +32,7 @@ public class Employe_ {
     public static volatile SingularAttribute<Employe, String> numeroCni;
     public static volatile SingularAttribute<Employe, Syndicat> syndicat;
     public static volatile SingularAttribute<Employe, Boolean> retraite;
+    public static volatile ListAttribute<Employe, Conjoint> conjointList;
     public static volatile SingularAttribute<Employe, String> nom;
     public static volatile SingularAttribute<Employe, Date> dateRecrutement;
     public static volatile SingularAttribute<Employe, Caissesociale> caisseSociale;
@@ -42,7 +41,6 @@ public class Employe_ {
     public static volatile SingularAttribute<Employe, Integer> id;
     public static volatile SingularAttribute<Employe, String> prenom;
     public static volatile ListAttribute<Employe, Historiquegrade> historiquegradeList;
-    public static volatile SingularAttribute<Employe, Integer> nombreEnfant;
     public static volatile ListAttribute<Employe, Utilisateur> utilisateurList;
     public static volatile SingularAttribute<Employe, String> nationalite;
     public static volatile SingularAttribute<Employe, Boolean> geler;
@@ -51,12 +49,12 @@ public class Employe_ {
     public static volatile SingularAttribute<Employe, String> lieuDeNaissance;
     public static volatile ListAttribute<Employe, Avoircompetence> avoircompetenceList;
     public static volatile SingularAttribute<Employe, Date> dateDeNaissance;
-    public static volatile SingularAttribute<Employe, Integer> nombreDeFemme;
     public static volatile ListAttribute<Employe, Contact> contactList;
     public static volatile SingularAttribute<Employe, Typeemploye> typeEmploye;
     public static volatile ListAttribute<Employe, Document> documentList;
     public static volatile SingularAttribute<Employe, String> matriculeCaisseSociale;
     public static volatile ListAttribute<Employe, Formation> formationList;
     public static volatile ListAttribute<Employe, Membremutuelle> membremutuelleList;
+    public static volatile ListAttribute<Employe, Enfant> enfantList;
 
 }
