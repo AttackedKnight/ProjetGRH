@@ -7,7 +7,7 @@
 
 
 angular.module('DrhModule').controller('DetailEmployeController', function ($scope, SweetAlert, $routeParams,
-        UploadFile, Employe, Connexion, Servir)
+        UploadFile, Employe, Connexion, Servir,Document,Typedocument)
 {
 
     /*C'est le controlleur global de la page . Les sections(pages) 
@@ -25,8 +25,17 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
 
     var idEmploye = $routeParams.id;
     $scope.estPermanent = true;
+    $scope.homme = false;
+    $scope.today = new Date();
+    
     Employe.find(idEmploye).success(function (data) {
         $scope.employe = data;
+        
+        if ($scope.employe.genre.libelle == "Homme") {
+            $scope.homme = true;
+        } else {
+            $scope.homme = false;
+        }
         
         Servir.findFonctionEmploye($scope.employe.id).success(function (data) {
             $scope.libelleFonction = data;
@@ -55,6 +64,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
             SweetAlert.finirChargementEchec("Erreur de chargement des informations de l'utilisateur !");
         });
         
+        $scope.listerMesDocuments();
         $(function () {
             $('a').tooltip();
         });
@@ -62,6 +72,27 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         SweetAlert.finirChargementEchec("Erreur de chargement des informations de l'employé");
     });
 
+
+    /*LISTE DES DOCUMENTS DE L'EMPLOYE*/
+    $scope.listerMesDocuments = function () {
+        Document.findByEmploye($scope.employe).success(function (data) {
+            $scope.documents = data;
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement des documents de l'employé !");
+        });
+    };
+    /*LISTE DES TYPES DE DOCUMENTS */
+    Typedocument.findAll().success(function (data) {
+        $scope.typedocuments = data;
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des types de document !");
+    });
+    
+    /*VISUALISER UN DOCUMENT A PARTIR DU NAVIGATEUR*/
+    $scope.visualiserDocument = function (lien) {
+        window.open(lien);
+    };
+    
     /*Gestion avatar employe*/
 
     $scope.showDefaultAvatar = function () {
