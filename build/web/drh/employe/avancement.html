@@ -1,458 +1,231 @@
-<div ng-controller="InfosGeneralesController">
-    <div class="panel box box-primary box-solid">
-        <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#informationPersonnelle" class="box-header with-border">
+<div ng-controller="AvancementController">
+    <div class="panel box box-primary box-solid" ng-if="estPermanent && avoirPermission('consulter', 'grade') == true">
+        <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#grade" class="box-header with-border">
             <div >
-                <i class="fa fa-user"></i>
-                <h1 class="box-title ">Informations générales</h1>
-            </div>
+                <i class="fa fa-male"></i>
+                <h1 class="box-title ">Grade</h1>
+            </div>            
         </a>
-        <div id="informationPersonnelle" class="panel-collapse collapse">
-            <div class="panel-body row" ng-if="editInfoGenerales == true" id="editInfoGenerales">
-                <form role="form" name="editInfoGeneralesForm" novalidate="">
-                    <div class="col-md-9">
-                        <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="numeroCni"> Numero identification nationale :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <input type="text" placeholder="Numero d'identification nationale"  ng-pattern="/^[1-2][0-9]{12,}$/"  ng-minlength="13" ng-maxlength="14" class="form-control" name="numeroCni" id="numeroCni" ng-model="$parent.employe.numeroCni">
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div class="alert alert-block alert-danger requis" id="cni_dup" style="display:none">
-                                    <div>Ce numéro de CNI existe dèja.</div>
-                                </div>
-                                <div class="alert alert-block alert-danger requis non-concorde" style="display:none">
-                                    <div>Le numéro de CNI ne concorde pas avec le genre.</div>
-                                </div>
-                                <div ng-messages="editInfoGeneralesForm.numeroCni.$error" role="alert" ng-show="editInfoGeneralesForm.numeroCni.$touched && editInfoGeneralesForm.numeroCni.$invalid" class="alert alert-block alert-danger has-error">
-                                    <div ng-message="minlength">Ce champs doit contenir  au minimum 13 chiffres.</div>
-                                    <div ng-message="maxlength">Ce champs doit contenir au maximum 14 chiffres.</div>
-                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row"  style="margin-top: 6px; font-size: 1.2em;" ng-if="$parent.estPermanent">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="matriculeInterne"> Matricule de solde :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <input type="text" placeholder="Matricule"  class="form-control" ng-pattern="/^[0-9]{6}\/[a-z]{1}$/i" ng-maxlength="8" ng-minlength="8" id="matriculeInterne" name="matriculeInterne" ng-model="$parent.employe.matriculeInterne">
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div class="alert alert-block alert-danger requis" id="mat_int_dup" style="display:none">
-                                    <div>Ce numéro de matricule existe dèja.</div>
-                                </div>
-                                <div ng-messages="editInfoGeneralesForm.matriculeInterne.$error" role="alert" ng-show="editInfoGeneralesForm.matriculeInterne.$touched && editInfoGeneralesForm.matriculeInterne.$invalid" class="alert alert-block alert-danger has-error">
-                                    <div ng-message="maxlength">Ce champs doit contenir 8 caractères.</div>
-                                    <div ng-message="minlength">Ce champs doit contenir 8 caractères.</div>
-                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="prenom"> Prénom :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <input type="text" placeholder="Prénom" name="prenom" id="prenom" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="$parent.employe.prenom">    
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div ng-messages="editInfoGeneralesForm.prenom.$error" role="alert" ng-show="editInfoGeneralesForm.prenom.$touched && editInfoGeneralesForm.prenom.$invalid" class="alert alert-block alert-danger has-error">
-                                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                </div>
-                            </div>                                    
-                        </div>
-                        <div class="row "  style="margin-top: 6px; font-size: 1.2em;">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="nom"> Nom :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <input type="text" placeholder="Nom"  name="nom" id="nom" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="$parent.employe.nom">
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div ng-messages="editInfoGeneralesForm.nom.$error" role="alert" ng-show="editInfoGeneralesForm.nom.$touched && editInfoGeneralesForm.nom.$invalid" class="alert alert-block alert-danger has-error">
-                                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                </div>
-                            </div>                                    
-                        </div>
-                        <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="dateDeNaissance"> Date de naissance :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <input type="date"  placeholder="Date de naissance" name="dateDeNaissance" id="dateDeNaissance"  max="{{today}}" class="form-control" ng-model="$parent.employe.dateDeNaissance">
-                                </div>
-                                <div ng-messages="editInfoGeneralesForm.dateDeNaissance.$error" role="alert" ng-show="editInfoGeneralesForm.dateDeNaissance.$invalid"  class="alert alert-block alert-danger has-error">
-                                    <div ng-message="max">Cette date doit etre inférieur à la date actuelle</div>
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="lieuDeNaissance" > Lieu de naissance :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <input type="text" placeholder="Lieu de naissance" name="lieuDeNaissance" id="lieuDeNaissance" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="$parent.employe.lieuDeNaissance">
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div ng-messages="editInfoGeneralesForm.lieuDeNaissance.$error" role="alert" ng-show="editInfoGeneralesForm.lieuDeNaissance.$touched && editInfoGeneralesForm.lieuDeNaissance.$invalid" class="alert alert-block alert-danger has-error">
-                                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;"> Nationnalite :</label>
-                            </div>
-                            <div class="col-md-4">                                   
-                                <div>
-                                    <div>
-                                        <input type="text"  name="nationalite" id="nationalite" placeholder="Nationalite" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" class="form-control" ng-model="$parent.employe.nationalite">
-                                    </div>
-                                    <div class="alert alert-block alert-danger requis" style="display:none">
-                                        <div>Veuillez renseigner ce champs.</div>
-                                    </div>
-                                    <div ng-messages="editInfoGeneralesForm.nationalite.$error" role="alert" ng-show="editInfoGeneralesForm.nationalite.$touched && editInfoGeneralesForm.nationalite.$invalid" class="alert alert-block alert-danger has-error">
-                                        <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                        <div ng-message="pattern">Vérifier votre saisie.</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row " style="margin-top: 6px; font-size: 1.2em;" >
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;"> Genre :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <select ng-model="$parent.employe.genre" name="genre" ng-change="checkGenre()" id="genre" class="form-control" ng-options="genre.libelle for genre in genres"></select>
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div class="alert alert-block alert-danger requis non-concorde" style="display:none">
-                                    <div>Le genre ne concorde pas avec le numéro de CNI.</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                            <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="dateRecrutement"> Date de recrutement :</label>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    <input type="date"  ng-model="$parent.employe.dateRecrutement" min="{{$parent.employe.dateDeNaissance}}" name="dateRecrutement" id="dateRecrutement"   class="form-control">
-                                </div>
-                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                    <div>Veuillez renseigner ce champs.</div>
-                                </div>
-                                <div ng-messages="editInfoGeneralesForm.dateRecrutement.$error" role="alert" ng-show="editInfoGeneralesForm.dateRecrutement.$invalid"  class="alert alert-block alert-danger has-error">
-                                    <div ng-message="min">Cette date doit etre inférieur à la date de naissance</div>
-                                </div>
-                            </div>
-
-                        </div>                             
-                    </div>
-                    <div class="col-md-3">
-                    </div>
-                    <div class="row "  style="margin-top: 10px;">
-                        <div class="col-md-12">
-                            <span style="margin-right: 10px;" class="btn btn-danger pull-right" ng-click="cancelEmployeEdit()"><i class="fa fa-times"> Annuler</i></span>
-                            <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editInfoGeneralesForm.$invalid"  ng-click="controlFormEditEmploye()"><i class="fa fa-check"> Enregistrer</i></span>
-                        </div>
-                    </div>
-                </form>
+        <div id="grade" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="pull-right" style="padding: 5px 0px 5px 0px;" ng-if="gradeActu">
+                <span style="font-weight: bold">
+                    Date du prochain avancement : <span style="color: blue;">{{gradeActu.dateProchainAvancement| date: 'dd MMM yyyy'}}</span><br>
+                    Type d'avancement : <span style="color: blue;">{{gradeActu.grade.typeAvancement.libelle}}</span>
+                </span>
             </div>
-
-            <!--                        fin edit form-->
-            <div class="panel-body row" ng-if="editInfoGenerales == false">
-
-                <div class="col-md-9">
-                    <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <span style="font-weight: bold;"> Numero identification nationale :</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span> {{$parent.employe.numeroCni}}</span>
-                        </div>
+            <form role="form" name="newGradeForm" novalidate="" ng-if="avoirPermission('ajouter', 'grade') == true">
+                <div>
+                    <button class="btn btn-primary btn-block" id="nouvel-grade" ng-click="toggleGradeList()">
+                        <span style="font-weight: bold; font-size: 1.2em;" ng-show="showGradeList == false">Ajouter un grade <i class="fa fa-eye"></i></span>
+                        <span style="font-weight: bold; font-size: 1.2em;" ng-show="showGradeList == true">Fermer <i class="fa fa-eye-slash"></i></span>
+                    </button>
+                </div>
+                <div ng-if="avoirPermission('consulter', 'grade') == true && showGradeList == true">
+                    <div class="row">
+                        <label class="col-md-2">
+                            <input type="radio" name="selection"  value=""  ng-model="selection"/>
+                            {{ "Aucun"}}
+                        </label>
+                        <span class="col-md-3" ng-show="grades[0].corps != null" ng-repeat="(corps, value) in grades | groupBy: 'corps.libelle'">
+                            <label>
+                                <input type="radio" name="selection"  value="{{corps}}"  ng-model="$parent.selection"/>
+                                {{ corps}}
+                            </label>
+                        </span>
+                        <span class="col-md-2" ng-show="grades[0].corps == null" ng-repeat="(classe, value) in grades | groupBy: 'classe.libelle'">
+                            <label>
+                                <input type="radio" name="selection"  value="{{classe}}"  ng-model="$parent.selection"/>
+                                Classe {{ classe}}
+                            </label>
+                        </span>
                     </div>
-                    <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <span style="font-weight: bold;"> Date de naissance :</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span>  {{$parent.employe.dateDeNaissance| date: 'dd MMM yyyy'}}</span>
-                        </div>
+                    <table class="table table-bordered table-striped" ng-show="selection != ''">
+                        <thead class="thead-dark">
+                            <tr ng-show="grades[0].corps != null">
+                                <th style="text-align:center;">Classe</th>
+                                <th ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
+                                    <span style="font-weight: bold;">{{ classe}}</span>                                
+                                </th>
+                            </tr>
+                            <tr ng-show="grades[0].corps == null">
+                                <th style="text-align:center;">Categorie / <br> Niveau</th>
+                                <th ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
+                                    <span style="font-weight: bold;">{{ categorie}}</span>                                
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-show="grades[0].corps != null">
+                                <td style="text-align:center; font-weight: bold;"></td>
+                                <td ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
+                                    <span ng-repeat="grade in value| orderBy : 'echelon.libelle'">
+                                        <label for="{{grade.id}}" title="{{grade.indice}}">
+                                            <input type="radio" id="{{grade.id}}" name="grade" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
+                                            Echelon {{ grade.echelon.libelle}}
+                                        </label><br>
+                                    </span>
+                                </td>
+                            </tr> 
+                            <tr ng-show="grades[0].corps == null" ng-repeat="(niveau, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'niveau.libelle'">
+                                <td style="text-align:center; font-weight: bold;">{{niveau}}</td>
+                                <td ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
+                                    <span ng-repeat="grade in value|  filterBy : ['niveau.libelle'] : niveau | orderBy : 'echelon.libelle'">
+                                        <label for="{{grade.id}}" title="{{grade.indice}}">
+                                            <input type="radio" id="{{grade.id}}" name="grade" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
+                                            Echelon {{ grade.echelon.libelle}}
+                                        </label><br>
+                                    </span>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                    <div class="alert alert-block alert-danger requis grade-not-selected" style="display:none">
+                        <div>Veuillez selectionner un grade.</div>
                     </div>
-                    <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <span style="font-weight: bold;"> Lieu de naissance :</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span> {{$parent.employe.lieuDeNaissance}}</span>
-                        </div>
-                    </div>
-                    <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <span style="font-weight: bold;"> Nationnalite :</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span> {{$parent.employe.nationalite}}</span>
-                        </div>
-                    </div>
-                    <div class="row " style="margin-top: 6px; font-size: 1.2em;" >
-                        <div class="  col-md-7">
-                            <span style="font-weight: bold;"> Genre :</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span> {{$parent.employe.genre.libelle}}</span>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <span style="font-weight: bold;"> Date de recrutement :</span>
-                        </div>
-                        <div class="col-md-4">
-                            <span> {{$parent.employe.dateRecrutement| date: 'dd MMM yyyy'}}</span>
-                        </div>
+                    
+                    <table class="table">                    
+                        <thead>
+                            <tr>
+                                <th>Type de document</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>                                            
+                                <td>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in typedocuments"></select>  
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>                                      
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="detailUpload">
+                                            </div>
+                                            <div>                                     
+                                                <div class="alert alert-block alert-danger requis missing-file" style="display:none">
+                                                    <div>Veuillez sélectionner un fichier.</div>
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis error-format" style="display:none">
+                                                    <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'editAvancement')" name="fichiers" accept="application/pdf" id="fichiersAvancement">
+                                            <label for="fichiersAvancement">
+                                                <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
+                                            </label>
+                                            <i class="fa fa-times btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()"></i>
+                                        </div>                                       
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-md-3 pull-right" ng-show="selection != ''">
+                        <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
+                        <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
                     </div>
                 </div>
-                <div class="col-md-12" style="padding: 4px;" ng-if="avoirPermission('modifier', 'employe') == true">
-                    <span class="btn btn-warning pull-right" ng-click="toggleEmployeEditForm()"><i class="fa fa-edit"> Modifier</i></span>
-                </div>
-            </div>
+            </form>
+                <hr/>
+            <div class="table-responsive no-padding col-md-12" style="margin-top: 6px; font-size: 1.2em;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Type d'avancement</th>
+                            <th>Corps</th>
+                            <th>Classe</th>
+                            <th>Niveau</th>
+                            <th>Catégorie</th>
+                            <th>Echelon</th>                      
+                            <th>Date de passation</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+                        <tr ng-repeat="ungrade in mesgrades" >
+                            <td>{{ungrade.grade.typeAvancement.libelle}}</td>
+                            <td>{{ungrade.grade.corps.libelle}}</td>
+                            <td>{{ungrade.grade.classe.libelle}}</td>
+                            <td>{{ungrade.grade.niveau.libelle}}</td>
+                            <td>{{ungrade.grade.categorie.libelle}}</td>
+                            <td>{{ungrade.grade.echelon.libelle}}</td>
+                            <td>{{ungrade.datePassation| date: 'dd MMM yyyy'}}</td>
+                            <td><button class="btn btn-danger"  ng-if="avoirPermission('supprimer', 'grade') == true" ng-click="deleteGrade(ungrade.id)"><i class="fa fa-trash"></i></button>
+                            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#documentsAssociés" aria-expanded="false" aria-controls="documentsAssociés" ng-if="avoirPermission('lister', 'grade') == true"><i class="fa fa-book"></i></button>
+                            </td>
+                            
+                           <div class="collapse" id="documentsAssociés">
+                            Documents Associés
+                             <ul class="list-group col-md-offset-2 ">
+                               <li class="list-group-item d-flex justify-content-between align-items-center active">
+                                   <div class="row">
+                                       <span class="col-md-3">
+                                       Type
+                                   </span>
+                                    <span class="col-md-3">
+                                       Description
+                                   </span>
+                                    <span class="col-md-3">
+                                       Date d'enregistrement
+                                   </span>
+                                    <span class="col-md-3">
+                                       Actions
+                                   </span>
+                                   </div>
+                               </li>
+                               
+                               <li ng-repeat="doc in $parent.documents filterBy: ['Avancement']: 1" class="list-group-item d-flex justify-content-between align-items-center">
+                                   <div class="row">
+                                       <span class="col-md-3">
+                                      {{doc.typeDocument.code}}
+                                   </span>
+                                    <span class="col-md-3">
+                                        {{doc.description}}
+                                   </span>
+                                    <span class="col-md-3">
+                                      {{doc.dateEnregistrement| date:'dd MMM yyyy'}}
+                                   </span>
+                                    <span class="col-md-3">
+                                      <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                            <button class="btn btn-danger" ng-if="avoirPermission('supprimer', 'document') == true"
+                                                    ng-click="deleteArchiveAvancement(doc)"><i class="fa fa-trash"></i></button>
 
-        </div>
-    </div>
-    <!-- Contact -->
-    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'contact') == true">
-        <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#contact" class="box-header with-border">
-            <div >
-                <i class="fa fa-address-book"></i>
-                <h1 class="box-title ">Contacts</h1>
+                                   </span>
+                                   </div>
+                               </li>
+                              
+                              
+                                  
+                             </ul>
+                            </div>
+                        </tr>
+                     </tbody>
+                </table>
             </div>
-        </a>
-
-        <div id="contact" class="panel-collapse collapse">
-            <div class="panel-body" ng-if="editContact == true">
-                <form role="form" name="editContactForm" class="editContactForm" novalidate="">
-                    <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="col-md-7">
-                            <label style="font-weight: bold;"> Téléphone 1 : </label>
-                        </div>
-                        <div class="col-md-4">
-                            <div>
-                                <input type="text"  ng-model="contacts.numero1"  placeholder="Téléphone 1" class="form-control" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone1" name="telephone1">
-                            </div>
-                            <div class="alert alert-block alert-danger requis" style="display:none">
-                                <div>Veuillez renseigner ce champs.</div>
-                            </div>
-                            <div class="alert alert-block alert-danger requis" id="num_tel_1_dup" style="display:none">
-                                <div>Ce numéro de téléphone existe dèja.</div>
-                            </div>
-                            <div ng-messages="editContactForm.telephone1.$error" role="alert" ng-show="editContactForm.telephone1.$touched && editContactForm.telephone1.$invalid" class="alert alert-block alert-danger has-error">
-                                <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
-                                <div ng-message="pattern">Vérifier votre saisie.</div>
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        <label for="autreNumero" > Ajouter un autre numéro :</label>
-                        <input type="checkbox"  ng-model="autreNumero"  ng-click="toggleNumeroTel2()" id="autreNumero">                                              
-                    </div>
-                    <div class="row" ng-if="contacts.numero2 || autreNumero == true" style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="col-md-7">
-                            <label style="font-weight: bold;"> Téléphone 2 :</label>
-                        </div>
-                        <div class="col-md-4">
-                            <div> 
-                                <input type="text"  ng-model="contacts.numero2" placeholder="Téléphone 2" ng-pattern="/^(77|76|78|70|33){1}[0-9]{7}$/" ng-minlength="9" id="telephone2" name="telephone2" class="form-control">
-                            </div>
-                            <div class="alert alert-block alert-danger requis" style="display:none">
-                                <div>Veuillez renseigner ce champs.</div>
-                            </div>
-                            <div class="alert alert-block alert-danger requis" id="num_tel_2_dup" style="display:none">
-                                <div>Ce numéro de téléphone existe dèja.</div>
-                            </div>
-                            <div ng-messages="editContactForm.telephone2.$error" role="alert" ng-show="editContactForm.telephone2.$touched && editContactForm.telephone2.$invalid" class="alert alert-block alert-danger has-error">
-                                <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
-                                <div ng-message="pattern">Vérifier votre saisie.</div>
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <label style="font-weight: bold;"> Email:</label>
-                        </div>
-                        <div class="col-md-4">
-                            <div>
-                                <input type="text" ng-model="contacts.email" ng-pattern="/^[a-z]+[a-z0-9._-]+[a-z]+@[a-z]+[a-z.-]+\.[a-z.]{2,3}$/i" ng-minlength="9" class="form-control" name="email" id="email" placeholder="Email" >
-                            </div>
-                            <div class="alert alert-block alert-danger requis" style="display:none">
-                                <div>Veuillez renseigner ce champs.</div>
-                            </div>
-                            <div class="alert alert-block alert-danger requis" id="email_dup" style="display:none">
-                                <div>Cet adresse e-mail existe dèja.</div>
-                            </div>
-                            <div ng-messages="editContactForm.email.$error" role="alert" ng-show="editContactForm.email.$touched && editContactForm.email.$invalid" class="alert alert-block alert-danger has-error">
-                                <div ng-message="minlength">Ce champs doit contenir 9 caractères.</div>
-                                <div ng-message="pattern">Vérifier votre saisie.</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row " style="margin-top: 5px; font-size: 1.2em;">
-                        <div class="col-md-3 ">
-                            <span class="btn btn-success" type="submit" ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
-                            <button ng-click="cancelContactsEdit()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-            <div class="panel-body"  ng-if="editContact == false">
-
-                <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Téléphone 1 :</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span> {{contacts.numero1}}</span>
-                    </div>
-                </div>  
-                <div class="row " ng-if="contacts.numero2 != null" style="margin-top: 6px; font-size: 1.2em;">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Téléphone 2 :</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span> {{contacts.numero2}}</span>
-                    </div>
-                </div>  
-                <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Email:</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span> {{contacts.email}}</span>
-                    </div>
-                </div>  
-                <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'contact') == true">
-                    <div class="col-md-offset-9 col-md-3 ">
-                        <button ng-click="toggleContactEditForm()" class="btn btn-warning"><i class="fa fa-edit" style="font-weight: bold"> Modifier</i></button>
-                        <button class="btn btn-danger" ng-disabled="angular.isUndefined(contacts.numero1)" ng-click="deleteContact(contacts.id)"><i class="fa fa-trash"> Supprimer</i></button>
-                    </div>
-                </div> 
-            </div>
-        </div>
-    </div>
-    <!-- Adresse -->
-    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'adresse') == true">
-        <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#adresse" class="box-header with-border">
-            <div >
-                <i class="fa fa-home"></i>
-                <h1 class="box-title ">Adresse</h1>
-            </div>
-        </a>
-
-        <div id="adresse" class="panel-collapse collapse">
-
-            <div class="panel-body" ng-if="editAdresse == true">
-                <form role="form" name="editAdresseForm" class="editAdresseForm" novalidate="">
-                    <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <label style="font-weight: bold;"> Ville actuelle :</label>
-                        </div>
-                        <div class="col-md-4">
-                            <div>
-                                <input type="text" name="ville" id="ville" ng-model="adresse.ville"  placeholder="Ville actuelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
-                            </div>
-                            <div class="alert alert-block alert-danger requis" style="display:none">
-                                <div>Veuillez renseigner ce champs.</div>
-                            </div>
-                            <div ng-messages="editAdresseForm.ville.$error" role="alert" ng-show="editAdresseForm.ville.$touched && editAdresseForm.ville.$invalid" class="alert alert-block alert-danger has-error">
-                                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                <div ng-message="pattern">Vérifier votre saisie.</div>
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                        <div class="  col-md-7">
-                            <label style="font-weight: bold;"> Quartier :</label>
-                        </div>
-                        <div class="col-md-4">
-                            <div>
-                                <input type="text" name="quartier" id="quartier" ng-model="adresse.quartier"   placeholder="Quartier"  ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[0-9a-zâäàéèùêëîïôöçñ .\-]*[0-9a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
-                            </div>
-                            <div class="alert alert-block alert-danger requis" style="display:none">
-                                <div>Veuillez renseigner ce champs.</div>
-                            </div>
-                            <div ng-messages="editAdresseForm.quartier.$error" role="alert" ng-show="editAdresseForm.quartier.$touched && editAdresseForm.quartier.$invalid" class="alert alert-block alert-danger has-error">
-                                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                <div ng-message="pattern">Vérifier votre saisie.</div>
-                            </div>
-                        </div>
-                    </div>  
-                    <div class="row " style="margin-top: 5px; font-size: 1.2em;">
-                        <div class="col-md-offset-9 col-md-3 ">
-                            <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editAdresseForm.$invalid"  ng-click="controlAdresseFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
-                            <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
-                        </div>
-                    </div> 
-                </form>
-            </div>
-            <div class="panel-body" ng-if="editAdresse == false">
-                <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Ville actuelle :</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span> {{adresse.ville}}</span>
-                    </div>
-                </div>  
-                <div class="row " style="margin-top: 6px; font-size: 1.2em;">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Quartier :</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span> {{adresse.quartier}}</span>
-                    </div>
-                </div>  
-                <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'adresse') == true">
-                    <div class="col-md-offset-9 col-md-3 ">
-                        <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-edit" style="font-weight: bold"> Modifier</i></button>
-                        <button class="btn btn-danger" ng-disabled="angular.isUndefined(adresse.ville)" ng-click="deleteAdresse(adresse.id)"><i class="fa fa-trash"> Supprimer</i></button>
-
-                    </div>
-                </div> 
-            </div>
+           </div>
+            
         </div>
     </div>
 </div>

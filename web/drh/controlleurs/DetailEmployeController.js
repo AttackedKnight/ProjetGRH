@@ -15,8 +15,12 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
      * chacune un controlleurs qui est un enfant de ce controlleur global
      * */
 
-    $scope.templates = [{name: "Informations generales", url: "drh/employe/infosGenerales.html"},
-        {name: "Situation Matrimoniale", url: "drh/employe/sMatrimoniale.html"}]
+    $scope.templates = [
+        {name: "Informations generales", url: "drh/employe/infosGenerales.html"},
+        {name: "Situation Matrimoniale", url: "drh/employe/sMatrimoniale.html"},
+        {name: "Sociales", url: "drh/employe/sociales.html"},
+        {name: "Avancement", url: "drh/employe/avancement.html"}
+    ]
 
 
     var idEmploye = $routeParams.id;
