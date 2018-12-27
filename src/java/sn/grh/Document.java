@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author hp
+ * @author fallougalass
  */
 @Entity
 @Table(name = "document")
@@ -39,7 +39,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Document.findByDateSignature", query = "SELECT d FROM Document d WHERE d.dateSignature = :dateSignature")
     , @NamedQuery(name = "Document.findByEcheance", query = "SELECT d FROM Document d WHERE d.echeance = :echeance")
     , @NamedQuery(name = "Document.findByEmplacement", query = "SELECT d FROM Document d WHERE d.emplacement = :emplacement")
-    , @NamedQuery(name = "Document.findBySituationMatrimoniale", query = "SELECT d FROM Document d WHERE d.situationMatrimoniale = :situationMatrimoniale")})
+    , @NamedQuery(name = "Document.findBySituationMatrimoniale", query = "SELECT d FROM Document d WHERE d.situationMatrimoniale = :situationMatrimoniale")
+    , @NamedQuery(name = "Document.findBySyndicat", query = "SELECT d FROM Document d WHERE d.syndicat = :syndicat")})
 public class Document implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -71,18 +72,35 @@ public class Document implements Serializable {
     private String emplacement;
     @Column(name = "situationMatrimoniale")
     private Boolean situationMatrimoniale;
+    @Column(name = "syndicat")
+    private Boolean syndicat;
     @JoinColumn(name = "Absence", referencedColumnName = "id")
     @ManyToOne
     private Absence absence;
     @JoinColumn(name = "AvoirCompetence", referencedColumnName = "id")
     @ManyToOne
     private Avoircompetence avoirCompetence;
+    @JoinColumn(name = "Conjoint", referencedColumnName = "id")
+    @ManyToOne
+    private Conjoint conjoint;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
+    @JoinColumn(name = "Enfant", referencedColumnName = "id")
+    @ManyToOne
+    private Enfant enfant;
     @JoinColumn(name = "Formation", referencedColumnName = "id")
     @ManyToOne
     private Formation formation;
+    @JoinColumn(name = "HistoriqueGrade", referencedColumnName = "id")
+    @ManyToOne
+    private Historiquegrade historiqueGrade;
+    @JoinColumn(name = "MembreMutuelle", referencedColumnName = "id")
+    @ManyToOne
+    private Membremutuelle membreMutuelle;
+    @JoinColumn(name = "Servir", referencedColumnName = "id")
+    @ManyToOne
+    private Servir servir;
     @JoinColumn(name = "TypeDocument", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Typedocument typeDocument;
@@ -157,6 +175,14 @@ public class Document implements Serializable {
         this.situationMatrimoniale = situationMatrimoniale;
     }
 
+    public Boolean getSyndicat() {
+        return syndicat;
+    }
+
+    public void setSyndicat(Boolean syndicat) {
+        this.syndicat = syndicat;
+    }
+
     public Absence getAbsence() {
         return absence;
     }
@@ -173,6 +199,14 @@ public class Document implements Serializable {
         this.avoirCompetence = avoirCompetence;
     }
 
+    public Conjoint getConjoint() {
+        return conjoint;
+    }
+
+    public void setConjoint(Conjoint conjoint) {
+        this.conjoint = conjoint;
+    }
+
     public Employe getEmploye() {
         return employe;
     }
@@ -181,12 +215,44 @@ public class Document implements Serializable {
         this.employe = employe;
     }
 
+    public Enfant getEnfant() {
+        return enfant;
+    }
+
+    public void setEnfant(Enfant enfant) {
+        this.enfant = enfant;
+    }
+
     public Formation getFormation() {
         return formation;
     }
 
     public void setFormation(Formation formation) {
         this.formation = formation;
+    }
+
+    public Historiquegrade getHistoriqueGrade() {
+        return historiqueGrade;
+    }
+
+    public void setHistoriqueGrade(Historiquegrade historiqueGrade) {
+        this.historiqueGrade = historiqueGrade;
+    }
+
+    public Membremutuelle getMembreMutuelle() {
+        return membreMutuelle;
+    }
+
+    public void setMembreMutuelle(Membremutuelle membreMutuelle) {
+        this.membreMutuelle = membreMutuelle;
+    }
+
+    public Servir getServir() {
+        return servir;
+    }
+
+    public void setServir(Servir servir) {
+        this.servir = servir;
     }
 
     public Typedocument getTypeDocument() {

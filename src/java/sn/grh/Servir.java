@@ -7,6 +7,7 @@ package sn.grh;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,15 +18,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hp
+ * @author fallougalass
  */
 @Entity
 @Table(name = "servir")
@@ -62,6 +65,8 @@ public class Servir implements Serializable {
     @NotNull
     @Column(name = "finService")
     private boolean finService;
+    @OneToMany(mappedBy = "servir")
+    private List<Document> documentList;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
@@ -69,8 +74,11 @@ public class Servir implements Serializable {
     @ManyToOne(optional = false)
     private Entite entite;
     @JoinColumn(name = "Fonction", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Fonction fonction;
+    @JoinColumn(name = "FonctionAnnexe", referencedColumnName = "id")
+    @ManyToOne
+    private Fonctionannexe fonctionAnnexe;
     @JoinColumn(name = "TypeContrat", referencedColumnName = "id")
     @ManyToOne
     private Typecontrat typeContrat;
@@ -136,6 +144,15 @@ public class Servir implements Serializable {
         this.finService = finService;
     }
 
+    @XmlTransient
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
+    }
+
     public Employe getEmploye() {
         return employe;
     }
@@ -158,6 +175,14 @@ public class Servir implements Serializable {
 
     public void setFonction(Fonction fonction) {
         this.fonction = fonction;
+    }
+
+    public Fonctionannexe getFonctionAnnexe() {
+        return fonctionAnnexe;
+    }
+
+    public void setFonctionAnnexe(Fonctionannexe fonctionAnnexe) {
+        this.fonctionAnnexe = fonctionAnnexe;
     }
 
     public Typecontrat getTypeContrat() {

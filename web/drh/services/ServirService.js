@@ -61,7 +61,12 @@ angular.module('DrhModule').factory('Servir', function ($http) {
         findFonctionEmploye: function (id) {   
             /*Recuperer le parcours d'un employe : les entittes ou il a travaille*/
             return $http.get(chemin + '/webresources/sn.grh.servir/fonction/employe/' + id);
+        },
+        estPermanent: function (id) {   
+            /*Verifier si l'employe est Permenant ou contractuel*/
+            return $http.get(chemin + '/webresources/sn.grh.servir/statut/employe/' + id);
         }
+        
         
     };
 });

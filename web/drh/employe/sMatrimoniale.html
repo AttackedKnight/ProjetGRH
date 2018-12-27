@@ -1,0 +1,109 @@
+<div ng-controller="SMatrimonialeController">
+    <div class="panel box box-primary box-solid" ng-if="estPermanent == true && avoirPermission('consulter', 'situationmatrimoniale') == true">
+        <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#situationMatrimorniale" class="box-header with-border">
+            <div >
+                <i class="fa fa-users"></i>
+                <h1 class="box-title ">Situation matrimorniale</h1>
+            </div>
+        </a>
+        <div id="situationMatrimorniale" class="panel-collapse collapse">
+<!--            <div class="panel-body" ng-if="editSituationMatri == true">
+                <form role="form" name="editSituationMatriForm" enctype="multipart/form-data" class="editSituationMatriForm" id="editSituationMatriForm" novalidate="">
+                    <div class="row" style="margin-top: 50px; font-size: 1.2em;">
+                        <div class="  col-md-7">
+                            <span style="font-weight: bold;"> Statut matrimorniale :</span>
+                        </div>
+                        <div class="col-md-4">
+                            <div>
+                                <select ng-model="employe.situationMatrimoniale" ng-change="checkSituationMatrimoniale()"  class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
+                            </div>
+                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                <div>Veuillez renseigner ce champs.</div>
+                            </div>
+                        </div>
+                    </div>  
+                    <table class="table">                    
+                        <thead>
+                            <tr>
+                                <th>Type de document</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>                                            
+                                <td>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in typedocuments"></select>  
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
+                                        </div>
+                                        <div class="alert alert-block alert-danger requis" style="display:none">
+                                            <div>Veuillez renseigner ce champs.</div>
+                                        </div>                                      
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="detailUpload">
+                                            </div>
+                                            <div>                                     
+                                                <div class="alert alert-block alert-danger requis missing-file" style="display:none">
+                                                    <div>Veuillez sélectionner un fichier.</div>
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis error-format" style="display:none">
+                                                    <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'editSituationMatriForm')" name="fichiers" accept="application/pdf" id="fichiersSituationMatri">
+                                            <label for="fichiersSituationMatri">
+                                                <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
+                                            </label>
+                                            <i class="fa fa-times btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()"></i>
+                                        </div>                                       
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="row " style="margin-top: 5px; font-size: 1.2em;">
+                        <div class="col-md-offset-9 col-md-3 ">
+                            <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editSituationMatriForm.$invalid"  ng-click="controlSituationMatriFormEdit('editSituationMatriForm')"><i class="fa fa-check"> Enregistrer</i></span>
+                            <button ng-click="toggleSituationMatriEditForm()" class="btn btn-danger"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
+                        </div>
+                    </div>                    
+                </form>
+            </div>-->
+            <div class="panel-body" ng-if="editSituationMatri == false">
+
+                <div class="row" style="font-size: 1.2em;">
+                    <div class="  col-md-7">
+                        <span style="font-weight: bold;"> Statut matrimorniale :</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span> {{employe.situationMatrimoniale.libelle}}</span>
+                    </div>
+                </div>  
+                <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'situationmatrimoniale') == true">
+                    <div class="col-md-offset-9 col-md-3 ">
+                        <button ng-click="toggleSituationMatriEditForm()" class="btn btn-warning"><i class="fa fa-edit" style="font-weight: bold"> Modifier</i></button>
+                    </div>
+                </div> 
+
+
+            </div>
+        </div>
+    </div>
+</div>

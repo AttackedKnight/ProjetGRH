@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hp
+ * @author fallougalass
  */
 @Entity
 @Table(name = "employe")
@@ -47,8 +47,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employe.findByLieuDeNaissance", query = "SELECT e FROM Employe e WHERE e.lieuDeNaissance = :lieuDeNaissance")
     , @NamedQuery(name = "Employe.findByDateRecrutement", query = "SELECT e FROM Employe e WHERE e.dateRecrutement = :dateRecrutement")
     , @NamedQuery(name = "Employe.findByNationalite", query = "SELECT e FROM Employe e WHERE e.nationalite = :nationalite")
-    , @NamedQuery(name = "Employe.findByNombreEnfant", query = "SELECT e FROM Employe e WHERE e.nombreEnfant = :nombreEnfant")
-    , @NamedQuery(name = "Employe.findByNombreDeFemme", query = "SELECT e FROM Employe e WHERE e.nombreDeFemme = :nombreDeFemme")
     , @NamedQuery(name = "Employe.findByRetraite", query = "SELECT e FROM Employe e WHERE e.retraite = :retraite")
     , @NamedQuery(name = "Employe.findByGeler", query = "SELECT e FROM Employe e WHERE e.geler = :geler")})
 public class Employe implements Serializable {
@@ -90,10 +88,6 @@ public class Employe implements Serializable {
     @Size(max = 255)
     @Column(name = "nationalite")
     private String nationalite;
-    @Column(name = "nombreEnfant")
-    private Integer nombreEnfant;
-    @Column(name = "nombreDeFemme")
-    private Integer nombreDeFemme;
     @Basic(optional = false)
     @NotNull
     @Column(name = "retraite")
@@ -132,9 +126,13 @@ public class Employe implements Serializable {
     @ManyToOne(optional = false)
     private Typeemploye typeEmploye;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
+    private List<Conjoint> conjointList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Avoircompetence> avoircompetenceList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Adresse> adresseList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
+    private List<Enfant> enfantList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Servir> servirList;
 
@@ -231,22 +229,6 @@ public class Employe implements Serializable {
 
     public void setNationalite(String nationalite) {
         this.nationalite = nationalite;
-    }
-
-    public Integer getNombreEnfant() {
-        return nombreEnfant;
-    }
-
-    public void setNombreEnfant(Integer nombreEnfant) {
-        this.nombreEnfant = nombreEnfant;
-    }
-
-    public Integer getNombreDeFemme() {
-        return nombreDeFemme;
-    }
-
-    public void setNombreDeFemme(Integer nombreDeFemme) {
-        this.nombreDeFemme = nombreDeFemme;
     }
 
     public boolean getRetraite() {
@@ -369,6 +351,15 @@ public class Employe implements Serializable {
     }
 
     @XmlTransient
+    public List<Conjoint> getConjointList() {
+        return conjointList;
+    }
+
+    public void setConjointList(List<Conjoint> conjointList) {
+        this.conjointList = conjointList;
+    }
+
+    @XmlTransient
     public List<Avoircompetence> getAvoircompetenceList() {
         return avoircompetenceList;
     }
@@ -384,6 +375,15 @@ public class Employe implements Serializable {
 
     public void setAdresseList(List<Adresse> adresseList) {
         this.adresseList = adresseList;
+    }
+
+    @XmlTransient
+    public List<Enfant> getEnfantList() {
+        return enfantList;
+    }
+
+    public void setEnfantList(List<Enfant> enfantList) {
+        this.enfantList = enfantList;
     }
 
     @XmlTransient

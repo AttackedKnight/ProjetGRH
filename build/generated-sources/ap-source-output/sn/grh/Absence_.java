@@ -11,17 +11,15 @@ import sn.grh.Typeabsence;
 import sn.grh.Typeautorisation;
 import sn.grh.Typepermission;
 
-<<<<<<< HEAD
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-02T12:59:19")
-=======
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-11-30T12:14:09")
->>>>>>> b25d4eb239b8d427ca95fe33e414e7c2254ea3a6
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-26T15:22:15")
 @StaticMetamodel(Absence.class)
 public class Absence_ { 
 
     public static volatile SingularAttribute<Absence, Integer> etatTraitement;
-    public static volatile SingularAttribute<Absence, Typeabsence> typeAbsence;
     public static volatile SingularAttribute<Absence, Employe> employe;
+    public static volatile SingularAttribute<Absence, Integer> jourRestant;
+    public static volatile SingularAttribute<Absence, Date> dateEnregistrement;
+    public static volatile SingularAttribute<Absence, Typeabsence> typeAbsence;
     public static volatile SingularAttribute<Absence, Date> dateDebut;
     public static volatile ListAttribute<Absence, Document> documentList;
     public static volatile SingularAttribute<Absence, Typeautorisation> typeAutorisation;
@@ -29,7 +27,6 @@ public class Absence_ {
     public static volatile SingularAttribute<Absence, Integer> id;
     public static volatile SingularAttribute<Absence, Date> dateFin;
     public static volatile SingularAttribute<Absence, String> motif;
-    public static volatile SingularAttribute<Absence, Date> dateEnregistrement;
     public static volatile SingularAttribute<Absence, Typepermission> typePermission;
 
 }

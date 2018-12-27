@@ -8,7 +8,6 @@ package sn.grh;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hp
+ * @author fallougalass
  */
 @Entity
 @Table(name = "fonction")
@@ -47,7 +46,7 @@ public class Fonction implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fonction")
+    @OneToMany(mappedBy = "fonction")
     private List<Servir> servirList;
 
     public Fonction() {

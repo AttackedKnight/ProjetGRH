@@ -12,6 +12,7 @@
     <class>sn.grh.Categorie</class>
     <class>sn.grh.Civilite</class>
     <class>sn.grh.Classe</class>
+    <class>sn.grh.Conjoint</class>
     <class>sn.grh.Contact</class>
     <class>sn.grh.Corps</class>
     <class>sn.grh.Diplome</class>
@@ -19,8 +20,10 @@
     <class>sn.grh.Domaine</class>
     <class>sn.grh.Echelon</class>
     <class>sn.grh.Employe</class>
+    <class>sn.grh.Enfant</class>
     <class>sn.grh.Entite</class>
     <class>sn.grh.Fonction</class>
+    <class>sn.grh.Fonctionannexe</class>
     <class>sn.grh.Formation</class>
     <class>sn.grh.Genre</class>
     <class>sn.grh.Grade</class>
