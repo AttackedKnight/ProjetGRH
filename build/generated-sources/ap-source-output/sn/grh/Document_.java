@@ -15,7 +15,11 @@ import sn.grh.Membremutuelle;
 import sn.grh.Servir;
 import sn.grh.Typedocument;
 
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-26T15:22:14")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-26T12:25:19")
+>>>>>>> 62cdb53c7f0e59cfec7a9d342c957cf83cffbdfe
 @StaticMetamodel(Document.class)
 public class Document_ { 
 
@@ -28,14 +32,20 @@ public class Document_ {
     public static volatile SingularAttribute<Document, Employe> employe;
     public static volatile SingularAttribute<Document, Absence> absence;
     public static volatile SingularAttribute<Document, String> description;
+<<<<<<< HEAD
     public static volatile SingularAttribute<Document, Boolean> syndicat;
+=======
+>>>>>>> 62cdb53c7f0e59cfec7a9d342c957cf83cffbdfe
     public static volatile SingularAttribute<Document, Formation> formation;
     public static volatile SingularAttribute<Document, Date> dateEnregistrement;
     public static volatile SingularAttribute<Document, Conjoint> conjoint;
     public static volatile SingularAttribute<Document, Typedocument> typeDocument;
     public static volatile SingularAttribute<Document, Integer> id;
     public static volatile SingularAttribute<Document, Enfant> enfant;
+<<<<<<< HEAD
     public static volatile SingularAttribute<Document, Servir> servir;
+=======
+>>>>>>> 62cdb53c7f0e59cfec7a9d342c957cf83cffbdfe
     public static volatile SingularAttribute<Document, Date> echeance;
 
 }

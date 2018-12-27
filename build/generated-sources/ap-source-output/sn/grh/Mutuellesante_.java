@@ -7,7 +7,11 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Membremutuelle;
 import sn.grh.Mutuellesantetypeemploye;
 
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-26T15:22:15")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-26T12:25:19")
+>>>>>>> 62cdb53c7f0e59cfec7a9d342c957cf83cffbdfe
 @StaticMetamodel(Mutuellesante.class)
 public class Mutuellesante_ { 
 

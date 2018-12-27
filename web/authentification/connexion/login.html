@@ -1,19 +1,26 @@
 <div class="row">
     <div class="col-md-offset-2 col-md-6">
-       <div class="card" style="background-color: white;height: 525px;">
-        <div class="card-header bg-primary text-white text-center" style="height: 60px;">
-            <span style="font-size: 2em; font-weight: bold">Gestion Ressources Humaines</span>
-             <img src="authentification/connexion/c.png" alt="" class="xs-hidden pull-right" style="max-height: 100%;max-width: 100%;">
+       <div class="card" style="background-color: white;min-height: 300px;">
+        <div class="card-header bg-primary text-white text-center">
+            <div class="row">
+                <div class="col-md-10">
+                 <span style="font-size: 2em; font-weight: bold">Gestion Ressources Humaines</span>
+            </div>
+                <div class="col-md-2 visible-md visible-lg">
+                   <img src="authentification/connexion/c.png" alt="" style="max-height: 100%;max-width: 100%;">
+            </div>
+            </div>
+           
         </div>
         <div class="card-body">
             <p class="login-box-msg" style="padding: 4px; font-size: 1.3em; font-weight: bold; height: 50px;">
             <span style="text-align: center; font-size: 1.8em; font-weight: bold">Authentification</span>
         </p>
-        <img src="authentification/connexion/th.png" alt="" style="margin-left: 30%; max-height: 40%;max-width: 40%;">
+        <img src="authentification/connexion/th.png"  alt="" style="margin-left: 32.5%; max-height: 35%;max-width: 35%;">
        
           <form role="form" name="connexionForm" style="padding: 4px;margin-top: 10px;">
             <div class="form-group has-feedback">
-                <input type="text" class="form-control" style="width: 80%;margin: auto;" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" name="login"/>
+                <input type="text" class="form-control" style="width: 80%;margin: auto; border-color: black;" ng-pattern="/^[a-z]+[0-9.\-]*[a-z0-9]+$/i" ng-minlength="6"  ng-model="utilisateur.login" placeholder="Login" name="login"/>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 <div ng-messages="connexionForm.login.$error" role="alert" ng-show="connexionForm.login.$touched && connexionForm.login.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 6 caractères au minimum.</div>
@@ -24,7 +31,7 @@
                 </div>
             </div>
             <div class="form-group has-feedback">
-                <input type="password" class="form-control" style="width: 80%;margin: auto;" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" name="motDePasse"/>
+                <input type="password" class="form-control" style="width: 80%;margin: auto; border-color: black;" ng-pattern="/^[a-z0-9]+$/i" ng-model="utilisateur.motDePasse" ng-minlength="8"  placeholder="Mot De Passe" name="motDePasse"/>
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 <div ng-messages="connexionForm.motDePasse.$error" role="alert" ng-show="connexionForm.motDePasse.$touched && connexionForm.motDePasse.$invalid" class="alert alert-block alert-danger has-error">
                     <div ng-message="minlength">Ce champs doit contenir 8 caractères au minimum.</div>
@@ -41,7 +48,7 @@
             </div>
               
             <div class="row"style="margin-top: 15px;margin-bottom: 25px;">
-                <div class="col-md-offset-3 col-md-6">
+                <div class="col-md-offset-3 col-md-6 col-sm-6">
                     <button type="submit" ng-disabled="connexionForm.$invalid"  ng-click="controlForm(utilisateur)"  class="btn btn-primary btn-block btn-flat">Connexion</button>
                 </div><!-- /.col -->
 <!--                <div class="col-xs-12" style="color:white; font-weight: bold;">
@@ -57,8 +64,7 @@
 <!--        <a href="#">Mot de passe oublié</a><br>-->
 
          </div>
-           <div class="card-footer bg-primary" style="height: 25px;">
-           </div>
+           <div class="card-footer bg-primary" style="min-height: 30px;"></div>
       </div>
     
     </div>  

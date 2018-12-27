@@ -46,8 +46,12 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                             <div class="cssload-cssload-loader-line-wrap-wrap">\n\
                             <div class="cssload-loader-line-wrap"></div></div></div>',
                             showConfirmButton: false,
-                            timer: 3000
+                            timer: 3000,
+                            backdrop: `
+                            rgb(255,255,255)`
                         });
+                          
+                        
                         Connexion.setCredentials(user, idType.value,types);
                         Securite.initAffichage();   /*Redirection et affichage interface*/
                         
@@ -59,11 +63,10 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                             title: 'Login et(ou) mot de passe incorrect(s)',
                             showConfirmButton: false,
                             backdrop: `
-                        rgba(255,0,0,0.4)
-                        center left
-                        no-repeat
-  `,
-                    timer: 2000
+                                rgba(255,0,0,0.4)
+                                center left
+                                no-repeat`,
+                            timer: 2000
                 });
                     });
                 }).error(function () {
@@ -73,10 +76,9 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                         title: 'Login et(ou) mot de passe incorrect(s)',
                         showConfirmButton: false,
                         backdrop: `
-                    rgba(255,0,0,0.4)
-                    center left
-                    no-repeat
-  `,
+                            rgba(255,0,0,0.4)
+                            center left
+                            no-repeat`,
                         timer: 2000
                     });
                 });
@@ -88,10 +90,9 @@ angular.module('AuthentificationModule').controller('ConnexionController', funct
                     title: 'Login et(ou) mot de passe incorrect(s)',
                     showConfirmButton: false,
                     backdrop: `
-                rgba(255,0,0,0.4)
-                center left
-                no-repeat
-  `,
+                        rgba(255,0,0,0.4)
+                        center left
+                        no-repeat`,
                     timer: 2000
                 });
             }

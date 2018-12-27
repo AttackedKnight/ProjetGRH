@@ -50,6 +50,10 @@ angular.module('ParametrageModule', ['ngRoute', 'ngMessages'])
                 templateUrl: 'parametrage/fonction/fonction.html',
                 controller: 'FonctionController'
 
+            }).when('/parametrage/fonctionAnnexe', {
+                templateUrl: 'parametrage/fonctionAnnexe/fonctionAnnexe.html',
+                controller: 'FonctionAnnexeController'
+
             }).when('/parametrage/entite/new', {
                 templateUrl: 'parametrage/entite/new.html',
                 controller: 'EntiteController'
