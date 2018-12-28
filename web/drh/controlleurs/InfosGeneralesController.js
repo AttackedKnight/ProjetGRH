@@ -15,13 +15,7 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
     }).error(function () {
         SweetAlert.finirChargementEchec("Erreur de chargement des genres");
     });
-
-    //Formatter les date pour l'affichage
-    $scope.$parent.employe.dateDeNaissance = new Date($scope.$parent.employe.dateDeNaissance);
-    $scope.$parent.employe.dateRecrutement = new Date($scope.$parent.employe.dateRecrutement);
-
-    $scope.copieEmploye = angular.copy($scope.$parent.employe);
-
+    
     Contact.findByEmploye($scope.$parent.employe).success(function (data) {
         if (data) {
             $scope.contacts = data;
@@ -76,9 +70,9 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
 
             /*Si les identifiants ont ete touche*/
 
-            if ($scope.$parent.employe.numeroCni !== $scope.copieEmploye.numeroCni) {
+            if ($scope.$parent.employe.numeroCni !== $scope.$parent.copieEmploye.numeroCni) {
                 $scope.CheckCni();
-            } else if ($scope.$parent.estPermanent == true && $scope.$parent.employe.matriculeInterne !== $scope.copieEmploye.matriculeInterne) {
+            } else if ($scope.$parent.estPermanent == true && $scope.$parent.employe.matriculeInterne !== $scope.$parent.copieEmploye.matriculeInterne) {
                 $scope.checkMatriculeInterne();
             } else {
                 $scope.effectuerMajEmploye();
@@ -96,7 +90,7 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Employe.edit($scope.$parent.employe).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
-            $scope.copieEmploye = angular.copy($scope.$parent.employe);
+            $scope.$parent.copieEmploye = angular.copy($scope.$parent.employe);
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
         });
@@ -108,7 +102,7 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
             if (data.value == true) {
                 $('#cni_dup').show("slow").delay(3000).hide("slow");
             } else {
-                if ($scope.$parent.estPermanent == true && $scope.$parent.employe.matriculeInterne !== $scope.copieEmploye.matriculeInterne) {
+                if ($scope.$parent.estPermanent == true && $scope.$parent.employe.matriculeInterne !== $scope.$parent.copieEmploye.matriculeInterne) {
                     $scope.checkMatriculeInterne();
                 }
                 {
@@ -134,7 +128,7 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
     };
 
     $scope.cancelEmployeEdit = function () {
-        $scope.$parent.employe = angular.copy($scope.copieEmploye);
+        $scope.$parent.employe = angular.copy($scope.$parent.copieEmploye);
         $scope.toggleEmployeEditForm();
     };
 

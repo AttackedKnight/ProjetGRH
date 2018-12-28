@@ -61,6 +61,32 @@ public class EnfantFacadeREST extends AbstractFacade<Enfant> {
     public Enfant find(@PathParam("id") Integer id) {
         return super.find(id);
     }
+    
+    @GET
+    @Path("employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Enfant> findByEmploye(@PathParam("id") Integer id) {
+        List<Enfant> s = em.createQuery("SELECT e FROM Enfant e WHERE e.employe.id = :id ORDER BY e.id DESC", Enfant.class)
+                .setParameter("id", id)
+                .getResultList();
+        if (s.size() > 0) {
+            return s;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("last/employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Enfant findLastByEmploye(@PathParam("id") Integer id) {
+        List<Enfant> s = em.createQuery("SELECT e FROM Enfant e WHERE e.employe.id = :id ORDER BY e.id DESC", Enfant.class)
+                .setParameter("id", id)
+                .getResultList();
+        if (s.size() > 0) {
+            return s.get(0);
+        }
+        return null;
+    }
 
     @GET
     @Override

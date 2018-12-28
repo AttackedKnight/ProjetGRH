@@ -31,6 +31,12 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     Employe.find(idEmploye).success(function (data) {
         $scope.employe = data;
         
+        //Formatter les date pour l'affichage
+        $scope.employe.dateDeNaissance = new Date($scope.employe.dateDeNaissance);
+        $scope.employe.dateRecrutement = new Date($scope.employe.dateRecrutement);
+
+        $scope.copieEmploye = angular.copy($scope.employe);
+        
         if ($scope.employe.genre.libelle == "Homme") {
             $scope.homme = true;
         } else {

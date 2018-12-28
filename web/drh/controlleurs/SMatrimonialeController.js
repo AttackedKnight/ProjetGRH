@@ -6,18 +6,9 @@
 
 
 
-angular.module('DrhModule').controller('SMatrimonialeController', function ($scope, SweetAlert, $q,$controller,
-        HistoriqueGrade, SyndicatTypeEmploye, GradeTypeEmploye, CaisseSocialeTypeEmploye, MutuelleTypeEmploye,
-        $routeParams, UploadFile, Typedocument, Situation, Entite, Diplome, Genre, Formation, Employe,
-        Contact, Adresse, Servir, MembreMutuelle, Fonction, Typecontrat, Civilite, Document, Connexion)
+angular.module('DrhModule').controller('SMatrimonialeController', function ($scope, SweetAlert, $q, Conjoint, Enfant, Situation,
+        UploadFile, Employe, Document)
 {
-    $controller('InfosGeneralesController', {$scope: $scope})
-    
-    Situation.findAll().success(function (data) {
-        $scope.situations = data;
-    }).error(function () {
-        SweetAlert.finirChargementEchec("Erreur de chargement des situations matrimoniales");
-    });
 
     $scope.editSituationMatri = false;
 
@@ -25,24 +16,42 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         $scope.editSituationMatri = !$scope.editSituationMatri;
     };
 
+    $scope.cancelSituationMatriEdit = function () {
+        $scope.$parent.employe = angular.copy($scope.$parent.copieEmploye);
+        $scope.toggleSituationMatriEditForm();
+        $scope.checkSituationMatrimoniale();
+        $scope.initDocument();
+        if ($scope.lesFichiers != null) {
+            $scope.lesFichiers = null
+        }
+    };
+
     $scope.estMarie = false;
+    $scope.estCelibataire = false;
     $scope.checkSituationMatrimoniale = function () {
         if ($scope.$parent.employe.situationMatrimoniale.libelle == "Marié(e)") {
             $scope.estMarie = true;
         } else {
             $scope.estMarie = false;
         }
+        if ($scope.$parent.employe.situationMatrimoniale.libelle == "Célibataire") {
+            $scope.estCelibataire = true;
+        } else {
+            $scope.estCelibataire = false;
+        }
     };
+    $scope.checkSituationMatrimoniale();
+    /*SITUATION MATRIMONIALE*/
+
+    Situation.findAll().success(function (data) {
+        $scope.situations = data;
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des situations matrimoniales");
+    });
 
     //le parametre <<formulaire>> est la valeur de l'attr id du formulaire a controller
     $scope.controlSituationMatriFormEdit = function (formulaire) {
         var validite = true;
-        $('.editSituationMatriForm input[type=number]').each(function (e) {
-            if ($(this).val() === "") {
-                $(this).parent().next().show("slow").delay(3000).hide("slow");
-                validite = false;
-            }
-        });
         $('.editSituationMatriForm select').each(function (e) {
             if ($(this).val() === "") {
                 $(this).parent().next().show("slow").delay(3000).hide("slow");
@@ -52,24 +61,391 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         if (validite === true) {
             /*Le nmero de cni est l'identifiant du dossier de l'employe dans les archives.
              * Donc avant l'ajout d'une info ayant une pi�ce jointe , le numero doit etre d�fini */
-            if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
-                $scope.document.situationMatrimoniale = 1;  //Preciser aue c'est lien a la situation matrimoniale
-                if ($scope.controlDocumentForm(formulaire)) {
-                    $scope.completerDocument();
-                    $scope.uploadDocument($scope.lesFichiers);            
-                    $scope.toggleSituationMatriEditForm();
+            if ($scope.estCelibataire == false) {
+                if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                    if ($scope.controlDocumentForm(formulaire)) {
+                        $scope.completerDocument();
+                        $scope.document.situationMatrimoniale = 1;  //Preciser aue c'est lien a la situation matrimoniale
+                        $scope.traitementSMatrimoniale = true;
+                        $scope.uploadDocument($scope.lesFichiers);
+                    }
+                } else {
+                    SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                 }
             } else {
-                SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                $scope.editEmploye();
             }
+        }
+    };
+
+    /*SITUATION MATRIMONIALE*/
+
+    /*CONJOINT*/
+
+    $scope.editConjoint = false;
+    $scope.toggleConjointForm = function () {
+        $scope.editConjoint = !$scope.editConjoint;
+    };
+
+    $scope.cancelConjointForm = function () {
+        $scope.toggleConjointForm();
+        $scope.initConjoint();
+        $scope.initDocument();
+        if ($scope.lesFichiers != null) {
+            $scope.lesFichiers = null
+        }
+    };
+
+    $scope.editConjointOperation = false;
+    $scope.setConjoint = function (conj) {
+        $scope.conjoint = angular.copy(conj);
+        $scope.estSalarieFormerValue = $scope.conjoint.estSalarie;
+        $scope.toggleConjointForm();
+        $scope.editConjointOperation = true;
+    };
+
+
+    $scope.initConjoint = function () {
+        $scope.conjoint = {id: "", employe: $scope.$parent.employe, estSalarie: false};
+    };
+    $scope.initConjoint();
+
+    $scope.conjoints = [];
+
+    $scope.controlConjointForm = function (formulaire) {
+        var validite = true;
+        $('#' + formulaire + ' input[type=text]').each(function () {
+            if ($(this).val() === "") {
+                $(this).parent().next().show("slow").delay(3000).hide("slow");
+                validite = false;
+            }
+        });
+        if (validite == true) {
+            /*Si c'est une operation de modification et 
+             * Si estSalarie est passe de false -> true ,des pieces justificatifs doivent etre jointes
+             *  */
+            if ($scope.editConjointOperation == true &&
+                    ($scope.estSalarieFormerValue == false && $scope.conjoint.estSalarie == true)) {
+
+                if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                    if ($scope.controlDocumentForm(formulaire)) {
+                        $scope.completerDocument();
+                        $scope.document.conjoint = $scope.conjoint;
+                        $scope.uploadDocument($scope.lesFichiers);
+                        $scope.updateConjoint();
+                    }
+                } else {
+                    SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                }
+            }
+            /*Si c'est une operation de modification et 
+             * Si estSalarie n'a pas change ,les pieces justificatifs sont facultatives
+             *  */
+            if ($scope.editConjointOperation == true &&
+                    ($scope.estSalarieFormerValue == $scope.conjoint.estSalarie)) {
+                if ($scope.lesFichiers != null) { //S'il y a des fichiers(nouveaux fichiers) , on l'ajoute
+                    if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                        if ($scope.controlDocumentForm(formulaire)) {
+                            $scope.completerDocument();
+                            $scope.document.conjoint = $scope.conjoint;
+                            $scope.uploadDocument($scope.lesFichiers);
+                            $scope.updateConjoint();
+                        }
+                    } else {
+                        SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                    }
+                } else {
+                    $scope.updateConjoint();
+                }
+
+            }
+            /*Si c'est une operation d'ajout*/
+            if ($scope.editConjointOperation == false) {
+                if ($scope.conjoint.estSalarie == true) {   //Des pieces justificatifs doivent etre jointes
+                    if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                        if ($scope.controlDocumentForm(formulaire)) {
+                            $scope.completerDocument();
+                            $scope.addConjoint();
+                        }
+                    } else {
+                        SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                    }
+                } else {
+                    $scope.addConjoint();
+                }
+            }
+
 
 
         }
     };
 
+    $scope.getConjoint = function () {
+        Conjoint.findByEmploye($scope.$parent.employe.id).success(function (data) {
+            $scope.conjoints = data;
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement conjoint(s)");
+        });
+    };
+    $scope.getConjoint();
+
+    $scope.getLastConjointAdded = function () {
+        Conjoint.getLastConjointAdded($scope.$parent.employe.id).success(function (data) {
+            $scope.document.conjoint = data;
+            //Uploader les documents lies a conjoint
+            $scope.uploadDocument($scope.lesFichiers);
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de la récupérqtion du conjoint");
+        });
+    };
+    $scope.addConjoint = function () {
+        $scope.toggleConjointForm();
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        Conjoint.add($scope.conjoint).success(function () {
+            if ($scope.conjoint.estSalarie == true) {   //Continue avec l'upload de fichier
+                $scope.getLastConjointAdded();  //Recuperer l'entree qui vient d'etre ajoute pour complete les documents a uploader
+            }
+            SweetAlert.simpleNotification("success", "Succes", "Ajout effectuée avec succes");
+            $scope.getConjoint();
+            $scope.initConjoint();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de l'ajout de conjoint");
+        });
+    };
+
+    $scope.updateConjoint = function () {
+        $scope.toggleConjointForm();
+        Conjoint.edit($scope.conjoint).success(function () {
+            $scope.editConjointOperation == false;
+            $scope.getConjoint();
+            $scope.initConjoint();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de la modification de conjoint");
+        });
+    };
+
+    $scope.confirmDeleteConjoint = function (idConj) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        $scope.idDeletedConjoint = idConj;    //Garder l'id de l'element a supprimer pour pouvoir recuperer les documents lies a cet element
+                        $scope.deleteConjointRelatedDocument();
+
+                    }
+                });
+    };
+
+    function retrieveDocumentConjoint(data) {
+        return angular.isDefined(data.conjoint) && (data.conjoint.id == $scope.idDeletedConjoint);
+    }
+
+    $scope.deleteConjoint = function () {
+        Conjoint.delete($scope.idDeletedConjoint).success(function () {
+            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+            $scope.getConjoint();
+            $scope.$parent.listerMesDocuments();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de la suppression de conjoint");
+        });
+    };
+    $scope.deleteConjointRelatedDocument = function () {
+        var reqTab1 = [];
+        var reqTab2 = [];
+        var relatedDoc = $scope.$parent.documents.filter(retrieveDocumentConjoint);
+        if (relatedDoc.length > 0) {
+            for (var i = 0; i < relatedDoc.length; i++) {
+                reqTab1.push(UploadFile.delete(angular.toJson({chemin: relatedDoc[i].emplacement}))); //fichier physique
+                reqTab2.push(Document.delete(relatedDoc[i].id)); //sur BD
+            }
+            $q.all(reqTab1).then(function () {  //Suppression dans le dossier physique
+                $q.all(reqTab2).then(function () {  //Suppression dans la base de donnees
+                    $scope.deleteConjoint();
+                });
+            });
+        } else {
+            $scope.deleteConjoint();
+        }
+    };
+    /*CONJOINT*/
+
+    /*ENFANT*/
+
+    $scope.editEnfant = false;
+    $scope.toggleEnfantForm = function () {
+        $scope.editEnfant = !$scope.editEnfant;
+    };
+
+    $scope.cancelEnfantForm = function () {
+        $scope.toggleEnfantForm();
+        $scope.initEnfant();
+        $scope.initDocument();
+        if ($scope.lesFichiers != null) {
+            $scope.lesFichiers = null
+        }
+    };
+
+    $scope.editEnfantOperation = false;
+    $scope.setEnfant = function (enfant) {
+        $scope.enfant = angular.copy(enfant);
+        $scope.toggleEnfantForm();
+        $scope.editEnfantOperation = true;
+    };
+
+
+    $scope.initEnfant = function () {
+        $scope.enfant = {id: "",nom:$scope.$parent.employe.nom, employe: $scope.$parent.employe};
+    };
+    $scope.initEnfant();
+
+    $scope.enfants = [];
+
+    $scope.getEnfant = function () {
+        Enfant.findByEmploye($scope.$parent.employe.id).success(function (data) {
+            $scope.enfants = data;
+            for(var i = 0; i<$scope.enfants.length; i++){   //Formater les dates
+                $scope.enfants[i].dateNaissance = new Date($scope.enfants[i].dateNaissance);
+            }
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement enfant(s)");
+        });
+    };
+    $scope.getEnfant();
+
+    $scope.controlEnfantForm = function (formulaire) {
+        var validite = true;
+        $('#' + formulaire + ' input[type=text]').each(function () {
+            if ($(this).val() === "") {
+                $(this).parent().next().show("slow").delay(3000).hide("slow");
+                validite = false;
+            }
+        });
+        if (angular.isUndefined($scope.enfant.dateNaissance)) {
+            $('#' + formulaire + ' #dateDeNaissance').parent().next().show("slow").delay(3000).hide("slow");
+            validite = false;
+        }
+        if (validite == true) {
+            /*Si c'est une operation de modification 
+             *  */
+            if ($scope.editEnfantOperation == true) {
+
+                if ($scope.lesFichiers != null) {   /*S'il ya des fichier,les controlle avant de continuer*/
+                    if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                        if ($scope.controlDocumentForm(formulaire)) {
+                            $scope.completerDocument();
+                            $scope.document.enfant = $scope.enfant;
+                            $scope.uploadDocument($scope.lesFichiers);
+                            $scope.updateEnfant();
+                        }
+                    } else {
+                        SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                    }
+                } else {
+                    $scope.updateEnfant();
+                }
+            }
+            /*Si c'est une operation d'ajout*/
+            if ($scope.editEnfantOperation == false) {
+                if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                    if ($scope.controlDocumentForm(formulaire)) {   //Des pieces justificatifs doivent etre jointes
+                        $scope.completerDocument();
+                        $scope.addEnfant();
+                    }
+                } else {
+                    SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                }
+            }
+
+
+
+        }
+    };
+
+    $scope.getLastEnfantAdded = function () {
+        Enfant.getLastEnfantAdded($scope.$parent.employe.id).success(function (data) {
+            $scope.document.enfant = data;
+            //Uploader les documents lies a enfant
+            $scope.uploadDocument($scope.lesFichiers);
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de la récupérqtion du enfant");
+        });
+    };
+    $scope.addEnfant = function () {
+        $scope.toggleEnfantForm();
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        Enfant.add($scope.enfant).success(function () {
+            $scope.getLastEnfantAdded();  //Recuperer l'entree qui vient d'etre ajoute pour complete les documents a uploader
+            SweetAlert.simpleNotification("success", "Succes", "Ajout effectuée avec succes");
+            $scope.getEnfant();
+            $scope.initEnfant();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de l'ajout de enfant");
+        });
+    };
+
+    $scope.updateEnfant = function () {
+        $scope.toggleEnfantForm();
+        Enfant.edit($scope.enfant).success(function () {
+            $scope.editEnfantOperation == false;
+            $scope.getEnfant();
+            $scope.initEnfant();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de la modification de enfant");
+        });
+    };
+
+    $scope.confirmDeleteEnfant = function (idEnfant) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        $scope.idDeletedEnfant = idEnfant;    //Garder l'id de l'element a supprimer pour pouvoir recuperer les documents lies a cet element
+                        $scope.deleteEnfantRelatedDocument();
+
+                    }
+                });
+    };
+
+    function retrieveDocumentEnfant(data) {
+        return angular.isDefined(data.enfant) && (data.enfant.id == $scope.idDeletedEnfant);
+    }
+
+    $scope.deleteEnfant = function () {
+        Enfant.delete($scope.idDeletedEnfant).success(function () {
+            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+            $scope.getEnfant();
+            $scope.$parent.listerMesDocuments();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de la suppression de enfant");
+        });
+    };
+    $scope.deleteEnfantRelatedDocument = function () {
+        var reqTab1 = [];
+        var reqTab2 = [];
+        var relatedDoc = $scope.$parent.documents.filter(retrieveDocumentEnfant);
+        if (relatedDoc.length > 0) {
+            for (var i = 0; i < relatedDoc.length; i++) {
+                reqTab1.push(UploadFile.delete(angular.toJson({chemin: relatedDoc[i].emplacement}))); //fichier physique
+                reqTab2.push(Document.delete(relatedDoc[i].id)); //sur BD
+            }
+            $q.all(reqTab1).then(function () {  //Suppression dans le dossier physique
+                $q.all(reqTab2).then(function () {  //Suppression dans la base de donnees
+                    $scope.deleteEnfant();
+                });
+            });
+        } else {
+            $scope.deleteEnfant();
+        }
+    };
+
+    /*ENFANT*/
+
     /*Gestion des documents electroniques*/
     $scope.lesFichiers = null;
-    $scope.document = {id: "", dateEnregistrement: $scope.$parent.today};
+    $scope.initDocument = function () {
+        $scope.document = {id: "", dateEnregistrement: $scope.$parent.today};
+    };
+    $scope.initDocument();
 
     $scope.controlDocumentForm = function (formulaire) {
         var validite = true;
@@ -97,7 +473,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         $scope.document.employe = $scope.$parent.employe;
         var e = new Date();
         e.setFullYear(e.getFullYear() + $scope.document.typeDocument.dureeArchivage);
-        $scope.document.echeance = e;      
+        $scope.document.echeance = e;
     };
 
     $scope.cancelFileUpload = function () {
@@ -123,8 +499,6 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         var imgType = file.name.split('.');
         imgType = imgType[imgType.length - 1].toLowerCase(); //Recuperer l'extension du fichier
         if (imgType === allowedTypes) {
-
-            var talle = Math.ceil(file.size / 1024);
             $('#' + $scope.formProvenanceFichier + ' .detailUpload').append('<div><span clas>' + file.name + '</span><div class="progress progress-striped active"><div id="barreProgression_' + indice + '" class="progress-bar"></div></div><div id="pourcentage_' + indice + '" class="pull-right"></div> </div>');
 
             return true;
@@ -136,25 +510,29 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
     };
 
     $scope.addDocument = function (emplacementFichiers) {
-        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
-        var req_tab = [];       
-        var instanceDoc ;
+        var req_tab = [];
+        var instanceDoc;
         for (var i = 0; i < emplacementFichiers.length; i++) {   //  Parcour des emplacements des fichier uploades
             instanceDoc = angular.copy($scope.document);
-            instanceDoc.emplacement= emplacementFichiers[i];     
+            instanceDoc.emplacement = emplacementFichiers[i];
             req_tab.push(Document.add(instanceDoc));    //Ajout dans la base de donnees
         }
         $q.all(req_tab).then(function () { //Si l'upload dans le dossier physique a reussi
-            $scope.editEmploye();  //Appel de la methode edit employe de InfosGeneralesController
-            $scope.document = {id: "", dateEnregistrement: $scope.today};           
+            if ($scope.traitementSMatrimoniale == true) {
+                $scope.editEmploye();
+                $scope.traitementSMatrimoniale = false;
+            }
+            //Reinitialisation et raffraichissement liste document
+            $scope.initDocument();
+            $scope.cancelFileUpload();
+            $scope.$parent.listerMesDocuments();
         });
     };
 
     $scope.editEmploye = function () {
+        $scope.toggleSituationMatriEditForm();
         Employe.edit($scope.$parent.employe).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
-            $scope.cancelFileUpload();
-            $scope.$parent.listerMesDocuments();
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
         });
@@ -186,18 +564,18 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         }
 
     };
-    /*Gestion des documents electroniques*/
+
 
     $scope.deleteArchiveSituationMatrimoniale = function (doc) {
         var dateEcheanceDoc = new Date(doc.echeance);
         var dateEcheanceAtteinte = ($scope.today > dateEcheanceDoc);    //Si la date d'�cheance du document est atteinte ?
         if (dateEcheanceAtteinte) {
-            Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
-                    .then(function (value) {
-                        if (value == true) {
-                            $scope.deleteDocumentSituationMatrimoniale(doc);
-                        }
-                    });
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        $scope.deleteDocumentSituationMatrimoniale(doc);
+                    }
+                });
         } else {
             SweetAlert.simpleNotification("warning", "Attention", "Vous ne pouvez pas supprimer ce document \n\
                                             car la date d'écheance n'est pas encore atteinte");
@@ -217,4 +595,6 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression du fichier");
         });
     };
+
+    /*Gestion des documents electroniques*/
 });

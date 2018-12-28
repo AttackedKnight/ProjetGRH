@@ -63,6 +63,32 @@ public class ConjointFacadeREST extends AbstractFacade<Conjoint> {
     }
 
     @GET
+    @Path("employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Conjoint> findByEmploye(@PathParam("id") Integer id) {
+        List<Conjoint> s = em.createQuery("SELECT f FROM Conjoint f WHERE f.employe.id = :id ORDER BY f.id DESC", Conjoint.class)
+                .setParameter("id", id)
+                .getResultList();
+        if (s.size() > 0) {
+            return s;
+        }
+        return null;
+    }
+    
+    
+    @GET
+    @Path("last/employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Conjoint findLastByEmploye(@PathParam("id") Integer id) {
+        List<Conjoint> s = em.createQuery("SELECT f FROM Conjoint f WHERE f.employe.id = :id ORDER BY f.id DESC", Conjoint.class)
+                .setParameter("id", id)
+                .getResultList();
+        if (s.size() > 0) {
+            return s.get(0);
+        }
+        return null;
+    }
+    @GET
     @Override
     @Produces({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
     public List<Conjoint> findAll() {
