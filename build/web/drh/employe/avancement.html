@@ -14,7 +14,7 @@
                     Type d'avancement : <span style="color: blue;">{{gradeActu.grade.typeAvancement.libelle}}</span>
                 </span>
             </div>
-            <form role="form" name="newGradeForm" novalidate="" ng-if="avoirPermission('ajouter', 'grade') == true">
+            <form role="form" name="newGradeForm" id="newGradeForm" enctype="multipart/form-data"  novalidate="" ng-if="avoirPermission('ajouter', 'grade') == true">
                 <div>
                     <button class="btn btn-primary btn-block" id="nouvel-grade" ng-click="toggleGradeList()">
                         <span style="font-weight: bold; font-size: 1.2em;" ng-show="showGradeList == false">Ajouter un grade <i class="fa fa-eye"></i></span>
@@ -83,7 +83,6 @@
                     <div class="alert alert-block alert-danger requis grade-not-selected" style="display:none">
                         <div>Veuillez selectionner un grade.</div>
                     </div>
-                    
                     <table class="table">                    
                         <thead>
                             <tr>
@@ -97,7 +96,7 @@
                                 <td>
                                     <div class="form-group">
                                         <div class="input-group">
-                                            <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in typedocuments"></select>  
+                                            <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in $parent.typedocuments"></select>  
                                         </div>
                                         <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
                                             <div>Veuillez renseigner ce champs.</div>
@@ -129,7 +128,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'editAvancement')" name="fichiers" accept="application/pdf" id="fichiersAvancement">
+                                            <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'newGradeForm')" name="fichiers" accept="application/pdf" id="fichiersAvancement">
                                             <label for="fichiersAvancement">
                                                 <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
                                             </label>
@@ -141,14 +140,14 @@
                         </tbody>
                     </table>
                     <div class="col-md-3 pull-right" ng-show="selection != ''">
-                        <span ng-click="controlGradeForm()" class="btn btn-success" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
+                        <span ng-click="controlGradeForm('newGradeForm')" class="btn btn-success" ng-disabled="newGradeForm.$invalid" title="Ajouter" ><i class="fa fa-plus"></i> Ajouter</span>
                         <span ng-click="reinitialiserFormulaireAvancement()" class="btn  btn-danger" title="Annuler" ><i class="fa fa-times"></i> Annuler</span>
                     </div>
                 </div>
             </form>
                 <hr/>
             <div class="table-responsive no-padding col-md-12" style="margin-top: 6px; font-size: 1.2em;">
-                <table class="table table-striped">
+              <!--  <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Type d'avancement</th>
@@ -175,7 +174,7 @@
                             </td>
                             
                            <div class="collapse" id="documentsAssociés">
-                            Documents Associés
+                            Documents Associés ungrade.id:{{ungrade.id}} 
                              <ul class="list-group col-md-offset-2 ">
                                <li class="list-group-item d-flex justify-content-between align-items-center active">
                                    <div class="row">
@@ -194,7 +193,7 @@
                                    </div>
                                </li>
                                
-                               <li ng-repeat="doc in $parent.documents filterBy: ['Avancement']: 1" class="list-group-item d-flex justify-content-between align-items-center">
+                               <li ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.historiqueGrade)" class="list-group-item d-flex justify-content-between align-items-center">
                                    <div class="row">
                                        <span class="col-md-3">
                                       {{doc.typeDocument.code}}
@@ -222,7 +221,79 @@
                             </div>
                         </tr>
                      </tbody>
-                </table>
+                </table> -->
+              
+              <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Type d'avancement</th>
+                                    <th>Corps</th>
+                                    <th>Classe</th>           
+                                    <th>Niveau</th>
+                                    <th>Categorie</th>
+                                    <th>Date de passation</th>           
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="ungrade in mesgrades" > 
+                                <tr>
+                                    <td>{{ungrade.grade.typeAvancement.libelle}}</td>
+                                        <td>{{ungrade.grade.corps.libelle}}</td>
+                                        <td>{{ungrade.grade.classe.libelle}}</td>
+                                        <td>{{ungrade.grade.niveau.libelle}}</td>
+                                        <td>{{ungrade.grade.categorie.libelle}}</td>
+                                        <td>{{ungrade.grade.echelon.libelle}}</td>
+                                        <td>{{ungrade.datePassation| date: 'dd MMM yyyy'}}</td>
+                                    <td>
+                                        <button class="btn btn-danger"  ng-if="avoirPermission('supprimer', 'grade') == true" ng-click="deleteGrade(ungrade.id)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                        <button class="btn btn-primary" type="button" data-toggle="collapse"
+                                                data-target="#documentsAssociésAvancement{{$index}}" aria-expanded="false" aria-controls="documentsAssociésAvancement{{$index}}"
+                                                ng-if="avoirPermission('lister', 'document') == true">
+                                            <i class="fa fa-book"></i>
+                                        </button>
+                                    </td>                                   
+                                </tr>
+                                <tr >
+                                    <td colspan=100>
+                                        <table id="documentsAssociésAvancement{{$index}}" class="table table-striped table-bordered tableau-document collapse" style="display: table;" >
+                                            <thead >
+                                                <tr>
+                                                    <th>Type </th>
+                                                    <th>Description </th>
+                                                    <th>Date d'enregistrement</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody  > 
+                                                <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.historiqueGrade) && ungrade.id == doc.historiqueGrade.id" >
+                                                    <td>
+                                                        {{doc.typeDocument.code}}
+                                                    </td >
+                                                    <td>
+                                                        {{doc.description}}
+                                                    </td >
+                                                    <td>
+                                                        <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
+                                                    </td >
+                                                    <td>
+                                                        <div>
+                                                            <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
+                                                <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-danger" ng-if="avoirPermission('supprimer', 'document') == true"
+                                                            ng-click="deleteArchiveAvancement(doc)"><i class="fa fa-trash"></i></button>
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
             </div>
            </div>
             

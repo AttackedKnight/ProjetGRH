@@ -7,12 +7,14 @@
 
 
 angular.module('DrhModule').controller('AvancementController', function ($scope, SweetAlert,
-        HistoriqueGrade,GradeTypeEmploye, UploadFile, Typedocument,Document)
+        HistoriqueGrade,GradeTypeEmploye, UploadFile, Typedocument,Document,$q)
 {
 
 
     $scope.fonction = {id: ""};
     $scope.formProvenanceFichier = "";
+     $scope.lesFichiers = null;
+    $scope.document = {id: "", dateEnregistrement: $scope.$parent.today};
     
     $scope.message = "Bonjour , inf pro ctrl message";
 //
@@ -20,7 +22,6 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
 //        {name:"Informations professionelles",url:"infosPro.html"}]
 
         /*Donnees qui varient selon le type de l'employe*/
-        console.log("baba")
         console.log($scope.$parent.employe.typeEmploye.id);
         GradeTypeEmploye.findByType($scope.$parent.employe.typeEmploye.id).success(function (data) {
             $scope.grades = data;
@@ -72,19 +73,8 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
     };
     
      $scope.listerHistoriqueAvancement();
-
-    $scope.controlGradeForm = function () {
-        var validite = true;
-        if (!$scope.historiqueGrade.grade || $scope.historiqueGrade.grade == null) {
-            $('.grade-not-selected').show("slow").delay(3000).hide("slow");
-            validite = false;
-        }
-        if (validite === true) {
-            $scope.ajouterGrade();
-        }
-    };
-
-    $scope.ajouterGrade = function () {
+     
+      $scope.ajouterGrade = function () {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         if ($scope.gradeActu.grade) {
             $scope.gradeActu.encours = false;
@@ -98,7 +88,16 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
         }
 
     };
-
+    $scope.lastGrade= function (){
+        HistoriqueGrade.findLast($scope.$parent.employe.id).success(function (data) {
+        $scope.document.historiqueGrade = data;
+        $scope.uploadDocument($scope.lesFichiers);
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement du dernier grade !");
+        });
+    };
+     
+    
     $scope.addGrade = function () {
         var datePassation = new Date();
         var dateProchainAvancement = new Date();
@@ -109,30 +108,102 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
 
         HistoriqueGrade.add($scope.historiqueGrade).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Grade enregistré avec succes");
-            $scope.listerHistoriqueAvancement();
-            $scope.reinitialiserFormulaireAvancement();
+//            $scope.listerHistoriqueAvancement();
+//            $scope.reinitialiserFormulaireAvancement();
+               $scope.lastGrade();
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Le grade n'a pas pu etre ajouté");
         });
     };
+    
+    
+
+    $scope.controlGradeForm = function (formulaire) {
+        var validite = true;
+        if (!$scope.historiqueGrade.grade || $scope.historiqueGrade.grade == null) {
+            $('.grade-not-selected').show("slow").delay(3000).hide("slow");
+            validite = false;
+        }
+        if (validite === true) {
+             if ($scope.controlDocumentForm(formulaire)) {
+                 $scope.completerDocument();
+                 $scope.ajouterGrade();
+           }
+    };
+
+   };
+
+    
 
     $scope.reinitialiserFormulaireAvancement = function () {
         $scope.selection = "";
         $scope.historiqueGrade = {id: "", employe: $scope.$parent.employe, encours: 1};
+         $scope.document = {id: "", dateEnregistrement: $scope.today};
+          $scope.lesFichiers = null;
     };
 
     /*                     AVANCEMENT                                 */
 
 /*Gestion des documents electroniques*/
     $scope.lesFichiers = null;
-    $scope.typedocuments = [];
-    $scope.documents = [];
     $scope.document = {id: "", dateEnregistrement: $scope.today};
-    $scope.detailUploadContent = "";
 
- 
-    
+
    
+
+   
+    /*Gestion des documents electroniques*/
+
+    $scope.deleteGrade = function (id) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        HistoriqueGrade.delete(id).success(function () {
+                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                            $scope.listerHistoriqueAvancement();
+                        }).error(function () {
+                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
+                        });
+                    }
+                });
+    };
+
+    /*last*/
+    
+    /*Gestion des documents electroniques*/
+   
+
+    $scope.controlDocumentForm = function (formulaire) {
+        var validite = true;
+        $('#' + formulaire + ' textarea').each(function (e) {
+            if ($(this).val() === "") {
+                $(this).parent().next().show("slow").delay(3000).hide("slow");
+                validite = false;
+            }
+        });
+        if ($scope.document.typeDocument == null) {
+            $('#' + formulaire + ' .type-doc-missing').show("slow").delay(3000).hide("slow");
+            validite = false;
+        }
+
+        if ($scope.lesFichiers == null) {
+            $('#' + formulaire + ' .missing-file').show("slow").delay(3000).hide("slow");
+            validite = false;
+        }
+        
+        return validite;
+
+    };
+
+    /*Complete les autres informations sur le document : l'employe, la date d'echeance, ...*/
+    $scope.completerDocument = function () {
+        $scope.document.employe = $scope.$parent.employe;
+        var e = new Date();
+        e.setFullYear(e.getFullYear() + $scope.document.typeDocument.dureeArchivage);
+        $scope.document.echeance = e;      
+    };
+
     $scope.cancelFileUpload = function () {
         $('#' + $scope.formProvenanceFichier + ' .detailUpload').html('');
         $scope.lesFichiers = null;
@@ -168,127 +239,55 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
         }
     };
 
-    $scope.ajouterNouveauDocument = function (formulaire) {
-        $scope.formProvenanceFichier = formulaire;
-        if ($scope.controlDocumentForm(formulaire)) {
-            $scope.completerDocument();
-            $scope.uploadDocument($scope.lesFichiers);
+    $scope.addDocument = function (emplacementFichiers) {
+        var req_tab = [];       
+        var instanceDoc ;
+        for (var i = 0; i < emplacementFichiers.length; i++) {   //  Parcour des emplacements des fichier uploades
+            instanceDoc = angular.copy($scope.document);
+            instanceDoc.emplacement= emplacementFichiers[i];     
+            req_tab.push(Document.add(instanceDoc));    //Ajout dans la base de donnees
         }
-    };
-
-    $scope.controlDocumentForm = function (formulaire) {
-        var validite = true;
-        $('#' + formulaire + ' textarea').each(function (e) {
-            if ($(this).val() === "") {
-                $(this).parent().next().show("slow").delay(3000).hide("slow");
-                validite = false;
-            }
+        $q.all(req_tab).then(function () { //Si l'upload dans le dossier physique a reussi
+            $scope.document = {id: "", dateEnregistrement: $scope.today};    
+             $scope.listerHistoriqueAvancement();
+            $scope.reinitialiserFormulaireAvancement();
+            $scope.$parent.listerMesDocuments();
         });
-        if ($scope.document.typeDocument == null) {
-            $('#' + formulaire + ' .type-doc-missing').show("slow").delay(3000).hide("slow");
-            validite = false;
-        }
-
-        if ($scope.lesFichiers == null) {
-            $('#' + formulaire + ' .missing-file').show("slow").delay(3000).hide("slow");
-            validite = false;
-        }
-        return validite;
-
     };
 
-    /*Complete les autres informations sur le document : l'employe, la date d'echeance, ...*/
-    $scope.completerDocument = function () {
-        $scope.document.employe = $scope.$parent.employe;
-        var e = new Date();
-        e.setFullYear(e.getFullYear() + $scope.document.typeDocument.dureeArchivage);
-        $scope.document.echeance = e;
-    };
-
-    $scope.addDocument = function () {
-        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
-        Document.add($scope.document).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Document ajoutée avec succes");
-            if ($scope.finUpload == true) {
-                //Utile lorsqu'il y a plusieurs documents a enregistrer pour une seule table(formation,situation matri ...)
-                $scope.document = {id: "", dateEnregistrement: $scope.today};
-                $scope.cancelFileUpload();
-               
-            }
-        }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le document n'a pas pu etre ajouté");
-        });
-
-    };
-
+   
     /*Gerer l'upload de fichier*/
 
     $scope.uploadDocument = function (fichiers) {
         if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
-            $scope.finUpload = false;
+            var req_tab = [];
             for (var i = 0; i < fichiers.files.length; i++) {   //  Parcour des fichier a uploader
-                $scope.uploadedFile = fichiers.files[i];
-                var format = $scope.uploadedFile.name.split("."); //Recuperation du format
+                $scope.fileToUpload = fichiers.files[i];
+                var format = $scope.fileToUpload.name.split("."); //Recuperation du format
                 format = format[format.length - 1];
                 var fd = new FormData();                //Creation d'un objet FormData
-                fd.append($scope.$parent.employe.numeroCni, $scope.uploadedFile);   //Ajout du fichier et de son emplacement au FormData
-                UploadFile.uploadDocument(fd).success(function (data) {   //Appel du service(Objet java) charger d'uploader le fichier : la requete retourne le nom du fichier
-                    $scope.document.emplacement = data;
-                    $scope.addDocument();               //Ajout dans la base de donnees
-                }).error(function () {
-                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'enregistrement du document");
-                });
+                fd.append($scope.$parent.employe.numeroCni, $scope.fileToUpload);   //Ajout du fichier et de son emplacement au FormData
+                req_tab.push(UploadFile.uploadDocument(fd));    //Upload dans le dossier physique
             }
-            $scope.finUpload = true;
-            UploadFile.resetHttp();
+            $q.all(req_tab).then(function (results) { //Si l'upload dans le dossier physique a reussi
+                var emplacement = [];
+                for (var i = 0; i < results.length; i++) { //Recuperer les emplacement de chaque fichier uploader dans le dossier physique
+                    emplacement.push(results[i].data);
+                }
+                $scope.addDocument(emplacement);               //Ajout dans la base de donnees     
+                UploadFile.resetHttp();
+            });
+
         } else {
             SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
         }
 
     };
-
-   
     /*Gestion des documents electroniques*/
 
-    $scope.deleteGrade = function (id) {
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
-                .then(function (value) {
-                    if (value == true) {
-                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
-                        HistoriqueGrade.delete(id).success(function () {
-                            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
-                            $scope.listerHistoriqueAvancement();
-                        }).error(function () {
-                            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression");
-                        });
-                    }
-                });
-    };
-
-    $scope.deleteDocument = function (document) {
-
-        UploadFile.delete(angular.toJson({chemin: document.emplacement})).success(function () {
-            Document.delete(document.id).success(function () {
-                if ($scope.delArchive == true) {
-                    $scope.delArchive = false;
-                    SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
-                    $scope.listerMesDocuments();
-                }
-                if ($scope.delFormation == true) {
-                    /*Supprimer la formation a la quelle est rattachee le document supprimer*/
-                    $scope.deleteFormation(document.formation.id);
-                }
-            }).error(function () {
-                SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression du document");
-            });
-        }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression du fichier");
-        });
-    };
-
-   $scope.deleteArchiveAvancement = function (doc) {
+    $scope.deleteArchiveAvancement = function (doc) {
         var dateEcheanceDoc = new Date(doc.echeance);
-        var dateEcheanceAtteinte = ($scope.today > dateEcheanceDoc);    //Si la date d'?cheance du document est atteinte ?
+        var dateEcheanceAtteinte = ($scope.today > dateEcheanceDoc);    //Si la date d'�cheance du document est atteinte ?
         if (dateEcheanceAtteinte) {
             Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
                     .then(function (value) {
@@ -306,8 +305,8 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
     $scope.deleteDocumentAvancement = function (document) {
         UploadFile.delete(angular.toJson({chemin: document.emplacement})).success(function () {
             Document.delete(document.id).success(function () {
-                    SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
-                    $scope.$parent.listerMesDocuments();
+                SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+                $scope.$parent.listerMesDocuments();
             }).error(function () {
                 SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression du document");
             });
