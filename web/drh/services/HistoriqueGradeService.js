@@ -52,6 +52,9 @@ angular.module('DrhModule').factory('HistoriqueGrade', function ($http) {
         findByEmploye: function (e) {
             /*RECUPERER L'HISTORIAUE DES AVANCEMENTS D'UN EMPLOYE*/
             return $http.get(chemin + '/webresources/sn.grh.historiquegrade/employe/' + e.id);
+        }, 
+        findLast: function (e) {
+            return $http.get(chemin + '/webresources/sn.grh.historiquegrade/last/'+e);
         }
        
     };
