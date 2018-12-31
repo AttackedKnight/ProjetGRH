@@ -124,9 +124,13 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
         }
         if (validite === true) {
             if ($scope.editHistoriqueGradeOperation == false) { //S'il s'agit d'un ajout
-                if ($scope.controlDocumentForm(formulaire)) {
-                    $scope.completerDocument();
-                    $scope.ajouterGrade();
+                if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                    if ($scope.controlDocumentForm(formulaire)) {
+                        $scope.completerDocument();
+                        $scope.ajouterGrade();
+                    }
+                } else {
+                    SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                 }
             }
             if ($scope.editHistoriqueGradeOperation == true) { //S'il s'agit d'un ajout
@@ -143,22 +147,22 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
                     }
                 } else {
                     $scope.updateHistoriqueGrade();
-                }               
+                }
             }
         }
         ;
 
     };
 
-    $scope.updateHistoriqueGrade = function(){        
+    $scope.updateHistoriqueGrade = function () {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         HistoriqueGrade.edit($scope.historiqueGrade).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuéé  avec succes");    
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuéé  avec succes");
             $scope.editHistoriqueGradeOperation = false;
-            if($scope.lesFichiers == null){
+            if ($scope.lesFichiers == null) {
                 $scope.historiqueGrade = {id: "", employe: $scope.$parent.employe, encours: 1};
                 $scope.listerHistoriqueAvancement();
-                $scope.toggleGradeList();              
+                $scope.toggleGradeList();
             }
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Le grade n'a pas pu etre modifié");

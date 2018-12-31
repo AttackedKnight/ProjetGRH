@@ -74,6 +74,19 @@ public class FormationFacadeREST extends AbstractFacade<Formation> {
         }
         return null;
     }
+    @GET
+    @Path("last/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Formation findLast(@PathParam("id") Integer id){
+        List<Formation> h=em.createQuery("SELECT h FROM Formation h WHERE h.employe.id = :id ORDER BY h.id DESC",Formation.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h.get(0);
+        }
+        return null;
+    }
+    
 
     @GET
     @Override
