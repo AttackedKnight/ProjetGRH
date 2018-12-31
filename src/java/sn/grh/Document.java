@@ -40,7 +40,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Document.findByEcheance", query = "SELECT d FROM Document d WHERE d.echeance = :echeance")
     , @NamedQuery(name = "Document.findByEmplacement", query = "SELECT d FROM Document d WHERE d.emplacement = :emplacement")
     , @NamedQuery(name = "Document.findBySituationMatrimoniale", query = "SELECT d FROM Document d WHERE d.situationMatrimoniale = :situationMatrimoniale")
-    , @NamedQuery(name = "Document.findBySyndicat", query = "SELECT d FROM Document d WHERE d.syndicat = :syndicat")})
+    , @NamedQuery(name = "Document.findBySyndicat", query = "SELECT d FROM Document d WHERE d.syndicat = :syndicat")
+    , @NamedQuery(name = "Document.findByCaisseSociale", query = "SELECT d FROM Document d WHERE d.caisseSociale = :caisseSociale")})
 public class Document implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -74,6 +75,8 @@ public class Document implements Serializable {
     private Boolean situationMatrimoniale;
     @Column(name = "syndicat")
     private Boolean syndicat;
+    @Column(name = "caisseSociale")
+    private Boolean caisseSociale;
     @JoinColumn(name = "Absence", referencedColumnName = "id")
     @ManyToOne
     private Absence absence;
@@ -181,6 +184,14 @@ public class Document implements Serializable {
 
     public void setSyndicat(Boolean syndicat) {
         this.syndicat = syndicat;
+    }
+
+    public Boolean getCaisseSociale() {
+        return caisseSociale;
+    }
+
+    public void setCaisseSociale(Boolean caisseSociale) {
+        this.caisseSociale = caisseSociale;
     }
 
     public Absence getAbsence() {

@@ -1,9 +1,227 @@
-<div class="panel box box-primary box-solid" ng-controller="InfosProController">
-
-    <span>{{message}}
-        wfwfjiwfjwfiwjfifjwifjwifjwifiwf
-        fwfwfwffwfw
-        fwfwfffwfwffwfwwwfwfwfwfwfwffwfw
-        fwfwffffwfwfwfwfwfwfwfwfwfwfwfwf
-    </span>
+<div class="panel box box-primary box-solid" ng-controller="InfosProfessionellesController">
+    <!-- Informations professionnelles -->
+    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'servir') == true">
+        <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#informationProfessionnelle" class="box-header with-border">
+            <div >
+                <i class="fa fa-edit"></i>
+                <h1 class="box-title ">Parcours professionnel</h1>
             </div>
+        </a>
+        <div id="informationProfessionnelle" class="panel-collapse collapse">
+            <div class="col-md-12" ng-if="avoirPermission('ajouter', 'servir') == true">
+                {{servir.fonctionAnnexe}}
+                <form role="form" class="newEmploiForm" name="newEmploiForm" id="newEmploiForm"  enctype="multipart/form-data" novalidate="">        
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Fonction Annexe</th>
+                                    <th>Fonction</th>
+                                    <th>Entite</th>
+                                    <th>Date prise de service</th>
+                                    <th>
+                                        <span ng-show="!$parent.estPermanent">Type de contrat</span>
+                                    </th>
+                                    <th>
+                                        <span ng-show="!$parent.estPermanent">Durée contrat(mois)</span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr> 
+                                    <td>
+                                        <input type="checkbox" name="fannexe" id="fannexe" ng-model="fannexe"/>
+                                    </td>
+                                    <td>
+                                        <div class="form-group" ng-if="!fannexe">
+                                            <div class="input-group">
+                                                <input type="text" list="lesfonctions" ng-model="fonction.libelle" 
+                                                       name="fonction" id="fonction" 
+                                                       ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" 
+                                                       ng-minlength="2" placeholder="Fonction"   class="form-control">
+                                                <datalist id="lesfonctions">
+                                                    <option   ng-repeat="f in fonctions" value="{{f.libelle}}">
+                                                </datalist>
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                            <div class="alert alert-block alert-danger conflit-poste" style="display:none">
+                                                <div>Ce poste est dèja occupé par quelqun d'autre.</div>
+                                            </div>
+                                            <div ng-messages="newEmploiForm.fonction.$error" role="alert" ng-show="newEmploiForm.fonction.$touched && newEmploiForm.fonction.$invalid" class="alert alert-block alert-danger has-error">
+                                                <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                                <div ng-message="pattern">Vérifier votre saisie.</div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="fannexe">
+                                            <select ng-model="servir.fonctionAnnexe" class="form-control" 
+                                                    id="fannexe" 
+                                                    ng-options="fa.libelle  for fa in fonctionsAnnexes"></select>
+                                            <div class="alert alert-block alert-danger requis" id="fannexeManquante" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select ng-model="servir.entite" class="form-control" id="entite" ng-options="entite.nom group by entite.typeEntite.libelle for entite in entites"></select>  
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="date" ng-model="servir.debut" name="debut" min="{{employe.dateRecrutement}}" id="debut"    class="form-control">
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                            <div ng-messages="newEmploiForm.debut.$error" role="alert" ng-show="newEmploiForm.debut.$invalid"  class="alert alert-block alert-danger has-error">
+                                                <div ng-message="min">Cette date doit etre supérieur à la date de recrutement</div>
+                                            </div>
+
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group" ng-show="!$parent.estPermanent">
+                                            <div class="input-group">
+                                                <select ng-model="servir.typeContrat" style="min-width: 110px;" ng-change="getTypeContrat()"
+                                                        class="form-control" id="contrat" 
+                                                        ng-options="typecontrat.code for typecontrat in typecontrats"></select>
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group" ng-if="!$parent.estPermanent && cddContrat">
+                                            <div class="input-group">
+                                                <input type="number" ng-model="servir.dureeDuContrat"   ng-pattern="/^[1-9][0-9]?$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                            <div ng-messages="newEmploiForm.dureeDuContrat.$error" role="alert" ng-show="newEmploiForm.dureeDuContrat.$touched && newEmploiForm.dureeDuContrat.$invalid" class="alert alert-block alert-danger has-error">
+                                                <div ng-message="pattern">Vérifier votre saisie.</div>
+                                            </div>                                  
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table">                    
+                            <thead>
+                                <tr>
+                                    <th>Type de document</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>                                            
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in $parent.typedocuments"></select>  
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>                                      
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <div class="detailUpload">
+                                                </div>
+                                                <div>                                     
+                                                    <div class="alert alert-block alert-danger requis missing-file" style="display:none">
+                                                        <div>Veuillez sélectionner un fichier.</div>
+                                                    </div>
+                                                    <div class="alert alert-block alert-danger requis error-format" style="display:none">
+                                                        <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'newEmploiForm')" name="fichiers" accept="application/pdf" id="fichiersJob">
+                                                <label for="fichiersJob">
+                                                    <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
+                                                </label>
+                                                <i class="fa fa-times btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()"></i>
+                                            </div>                                       
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                        <input type="submit" ng-disabled="newEmploiForm.$invalid" class="btn btn-success" ng-click="controlJobForm('newEmploiForm')" value="AJOUTER">
+                        <input type="reset" ng-click="reinitialiserFormulaireParcours()"  class="btn btn-times btn-danger"  value="ANNULER">
+                    </div>
+                </form>
+            </div>
+            <div class="panel-body table-responsive" style="margin-top: 6px; font-size: 1.2em;">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date prise de service</th>
+                            <th>Entite</th>
+                            <th>Fonction</th>
+                            <th>Type de contrat</th>
+                            <th>Date fin de service</th>
+                            <th ng-show="avoirPermission('supprimer', 'servir') == true">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody> 
+
+                        <tr ng-repeat="unparcours in parcours" 
+                            ng-class="{'finApproche' : finContratApproche == true && unparcours.finService == 0 ,
+                                                'finContrat' : finContratDepasse == true && unparcours.finService == 0}">
+                            <td>{{unparcours.debut| date: 'dd MMM yyyy'}}</td>
+                            <td>{{unparcours.entite.nom}}</td>
+                            <td>{{unparcours.fonction.libelle}}</td>
+                            <td>{{unparcours.typeContrat.libelle}}</td>
+                            <td>{{unparcours.fin| date: 'dd MMM yyyy'}}</td>
+                            <td>
+                                <button class="btn btn-primary" 
+                                        ng-show="avoirPermission('modifier', 'servir') == true && unparcours.finService == 0 && unparcours.fin != null"  
+                                        title="Prolonger le contrat" 
+                                        ng-click="prolongerContrat(unparcours)">
+                                    <i class="fa fa-arrow-right"></i>
+                                </button>
+                                <button class="btn btn-danger" 
+                                        ng-show="avoirPermission('modifier', 'servir') == true && unparcours.finService == 0"  
+                                        title="Fin de service" 
+                                        ng-click="finirService(unparcours)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                                <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="deleteParcours(unparcours.id)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

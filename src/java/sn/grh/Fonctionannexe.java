@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Fonctionannexe.findAll", query = "SELECT f FROM Fonctionannexe f")
     , @NamedQuery(name = "Fonctionannexe.findById", query = "SELECT f FROM Fonctionannexe f WHERE f.id = :id")
     , @NamedQuery(name = "Fonctionannexe.findByLibelle", query = "SELECT f FROM Fonctionannexe f WHERE f.libelle = :libelle")
-    , @NamedQuery(name = "Fonctionannexe.findByDuree", query = "SELECT f FROM Fonctionannexe f WHERE f.duree = :duree")})
+    , @NamedQuery(name = "Fonctionannexe.findByDuree", query = "SELECT f FROM Fonctionannexe f WHERE f.duree = :duree")
+    , @NamedQuery(name = "Fonctionannexe.findByResponsabilite", query = "SELECT f FROM Fonctionannexe f WHERE f.responsabilite = :responsabilite")})
 public class Fonctionannexe implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,6 +52,8 @@ public class Fonctionannexe implements Serializable {
     @NotNull
     @Column(name = "duree")
     private int duree;
+    @Column(name = "responsabilite")
+    private Boolean responsabilite;
     @OneToMany(mappedBy = "fonctionAnnexe")
     private List<Servir> servirList;
 
@@ -89,6 +92,14 @@ public class Fonctionannexe implements Serializable {
 
     public void setDuree(int duree) {
         this.duree = duree;
+    }
+
+    public Boolean getResponsabilite() {
+        return responsabilite;
+    }
+
+    public void setResponsabilite(Boolean responsabilite) {
+        this.responsabilite = responsabilite;
     }
 
     @XmlTransient

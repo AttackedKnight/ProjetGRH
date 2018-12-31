@@ -19,6 +19,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         {name: "Informations generales", url: "drh/employe/infosGenerales.html"},
         {name: "Situation Matrimoniale", url: "drh/employe/sMatrimoniale.html"},
         {name: "Sociales", url: "drh/employe/sociales.html"},
+        {name: "Parcours", url: "drh/employe/infosProfessionelles.html"},
         {name: "Avancement", url: "drh/employe/avancement.html"},
         {name: "Formation", url: "drh/employe/formation.html"}
     ]

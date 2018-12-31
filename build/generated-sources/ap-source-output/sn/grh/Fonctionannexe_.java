@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Servir;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-29T15:25:42")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-31T12:42:44")
 @StaticMetamodel(Fonctionannexe.class)
 public class Fonctionannexe_ { 
 
@@ -14,5 +14,6 @@ public class Fonctionannexe_ {
     public static volatile ListAttribute<Fonctionannexe, Servir> servirList;
     public static volatile SingularAttribute<Fonctionannexe, Integer> duree;
     public static volatile SingularAttribute<Fonctionannexe, Integer> id;
+    public static volatile SingularAttribute<Fonctionannexe, Boolean> responsabilite;
 
 }
