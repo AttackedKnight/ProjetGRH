@@ -95,7 +95,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
             $scope.lesFichiers = null
         }
     };
-
+ 
     $scope.editConjointOperation = false;
     $scope.setConjoint = function (conj) {
         $scope.conjoint = angular.copy(conj);

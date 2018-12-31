@@ -6,17 +6,17 @@
 
 
 
-angular.module('DrhModule').controller('FormationController', function ($scope, SweetAlert,UploadFile, Typedocument,Diplome, Formation, Employe,
-         Servir, Document,$q)
+angular.module('DrhModule').controller('FormationController', function ($scope, SweetAlert, UploadFile, Typedocument, Diplome, Formation, Employe,
+        Servir, Document, $q)
 {
 
 
     $scope.fonction = {id: ""};
     $scope.formProvenanceFichier = "";
-     $scope.lesFichiers = null;
+    $scope.lesFichiers = null;
     $scope.document = {id: "", dateEnregistrement: $scope.today};
 
-    
+
     $scope.message = "Bonjour , inf pro ctrl message";
 //
 //    $scope.templates=[{name:"Informations generales",url:"infosGenerales.html"},
@@ -24,17 +24,16 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
 
 
     /*        formation              */
-    
+
     $scope.formations = [];
     $scope.today = new Date();
-    $scope.diplomante = false;
+    $scope.diplomante = true;
     $scope.diplome = {id: ""};
     $scope.formation = {id: "", employe: $scope.$parent.employe};
+    $scope.editFormationOperation = false;
 
-    $scope.toggleDiplomante = function () {
-        $scope.diplomante = !$scope.diplomante;
-    };
-    $scope.controlFormationFormation = function (formulaire) {
+
+    $scope.controlFormationForm = function (formulaire) {
         var validite = true;
         $('.formationForm input:not([type="file"])').each(function (e) {
             if ($(this).val() === "") {
@@ -43,7 +42,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
             }
         });
         if (validite === true) {
-            if ($scope.controlDocumentForm(formulaire)) {
+            if ($scope.editFormationOperation == false) {
                 /*Le nmero de cni est l'identifiant du dossier de l'employe dans les archives.
                  * Donc avant l'ajout d'une info ayant une pi�ce jointe , le numero doit etre d�fini */
                 if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
@@ -58,12 +57,85 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
                 } else {
                     SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                 }
-
-
             }
+            if ($scope.editFormationOperation == true) { //S'il s'agit d'un ajout
+                if ($scope.formation) {    //Operation de modification
+                    if ($scope.formerFormationId == $scope.currentFormation) {
+                        if ($scope.lesFichiers != null) {   /*S'il ya des fichier,les controlle avant de continuer*/
+                            if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                                if ($scope.controlDocumentForm(formulaire)) {
+                                    $scope.completerDocument();
+                                    $scope.document.formation = $scope.formation;
+                                    $scope.uploadDocument($scope.lesFichiers);
+                                    $scope.updateFormation();
+                                }
+                            } else {
+                                SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                            }
+                        } else {
+                            $scope.updateFormation();
+                        }
+                    }
+                }
+            }
+//            else {//Operation de suppression (l'employe n'est plus membre)
+//                $scope.deleteFormationRelatedDocument();
+//            }
+
 
         }
 
+    };
+    
+     $scope.confirmDeleteFormation = function (id) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        $scope.idDeletedFormation = id;    //Garder l'id de l'element a supprimer pour pouvoir recuperer les documents lies a cet element
+                        $scope.deleteFormationRelatedDocument();
+
+                    }
+                });
+    };
+    
+     function retrieveDocumentFormation(data) {
+        return angular.isDefined(data.formation) && (data.formation.id == $scope.idDeletedFormation);
+    }
+    
+    $scope.deleteFormationRelatedDocument = function () {
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        var reqTab1 = [];
+        var reqTab2 = [];
+        var relatedDoc = $scope.$parent.documents.filter(retrieveDocumentFormation);
+        if (relatedDoc.length > 0) {
+            for (var i = 0; i < relatedDoc.length; i++) {
+                reqTab1.push(UploadFile.delete(angular.toJson({chemin: relatedDoc[i].emplacement}))); //fichier physique
+                reqTab2.push(Document.delete(relatedDoc[i].id)); //sur BD
+            }
+            $q.all(reqTab1).then(function () {  //Suppression dans le dossier physique
+                $q.all(reqTab2).then(function () {  //Suppression dans la base de donnees
+                    $scope.deleteFormation();
+                });
+            });
+        } else {
+            $scope.deleteFormation();
+        }
+    };
+
+
+    $scope.updateFormation = function () {
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        Formation.edit($scope.formation).success(function () {
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuéé  avec succes");
+            $scope.editFormationOperation = false;
+            if ($scope.lesFichiers == null) {
+                $scope.formation = {id: "", employe: $scope.$parent.employe};
+                $scope.findAllFormations();
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Le grade n'a pas pu etre modifié");
+        });
     };
 
     $scope.visualiserDocumentformation = function (idFormation) {
@@ -84,6 +156,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
     };
     $scope.completeFormation = function () {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        console.log("diplome");
         Diplome.findByLibelle($scope.diplome.nom).success(function (data) {
             if (!data) {
                 Diplome.add($scope.diplome).success(function () {
@@ -109,6 +182,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
     $scope.addFormation = function () {
         Formation.add($scope.formation).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Formation ajoutée avec succes");
+            $scope.lastFormationAdd();
             $scope.findAllFormations();
             $scope.reinitialiserFormulaireFormation();
         }).error(function () {
@@ -116,13 +190,21 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
         });
 
     };
+    $scope.lastFormationAdd = function () {
+        Formation.findLast($scope.$parent.employe.id).success(function (data) {
+            $scope.document.formation = data;
+            $scope.uploadDocument($scope.lesFichiers);
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement du dernier grade !");
+        });
+    };
 
     $scope.findAllFormations = function () {
         Formation.findAllEmployeFormation($scope.$parent.employe).success(function (data) {
             $scope.formations = data;
             $scope.lastFormation = $scope.formations[0];
             SweetAlert.finirChargementSucces("Chargement complet !");
-             console.log($scope.formations);
+            console.log($scope.formations);
             if ($scope.nouvelleFormation == true) {
                 //S'il s'agit d'une nouvelle formation, il y a upload
                 $scope.completerDocumentFormation();
@@ -133,7 +215,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
 
     };
     $scope.findAllFormations();
-   console.log($scope.$parent.documents);
+    console.log($scope.$parent.documents);
 
     $scope.reinitialiserFormulaireFormation = function () {
         $scope.formation = {id: "", employe: $scope.$parent.employe};
@@ -146,7 +228,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
 
 
     /*Gestion des documents electroniques*/
-   
+
 
     Typedocument.findAll().success(function (data) {
         $scope.typedocuments = data;
@@ -154,7 +236,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
         SweetAlert.finirChargementEchec("Erreur de chargement des types de document !");
     });
 
-    
+
     $scope.cancelFileUpload = function () {
         $('#' + $scope.formProvenanceFichier + ' .detailUpload').html('');
         $scope.lesFichiers = null;
@@ -234,13 +316,32 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
             if ($scope.finUpload == true) {
                 //Utile lorsqu'il y a plusieurs documents a enregistrer pour une seule table(formation,situation matri ...)
                 $scope.document = {id: "", dateEnregistrement: $scope.today};
+               
                 $scope.cancelFileUpload();
-                $scope.$parent.listerMesDocuments();
+//                $scope.$parent.listerMesDocuments();
+                 $scope.reinitialiserFormulaireFormation();
             }
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Le document n'a pas pu etre ajouté");
         });
 
+    };
+    
+    $scope.setFormation = function (fmt) {
+
+        $scope.currentFormation = $scope.formation.id;
+        $scope.formerFormationId = angular.copy($scope.currentFormation);
+
+        $scope.editFormationOperation = true;
+        $scope.formation = angular.copy(fmt);
+        $scope.formation.dateDebut = new Date($scope.formation.dateDebut);
+        $scope.formation.dateFin = new Date($scope.formation.dateFin);
+        $scope.diplome = $scope.formation.diplome;
+//        if (angular.isDefined($scope.formation.diplome)) {
+//            $scope.diplomante = !$scope.diplomante;
+//        }
+//        $scope.toggleDiplomante();
+        $scope.editFormationOperation = true;
     };
 
     /*Gerer l'upload de fichier*/
@@ -295,7 +396,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
                 });
     };
 
-   
+
 
 
     $scope.getDocumentformation = function (idFormation) {
@@ -330,6 +431,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
 
         UploadFile.delete(angular.toJson({chemin: document.emplacement})).success(function () {
             Document.delete(document.id).success(function () {
+                console.log(document.id);
                 if ($scope.delArchive == true) {
                     $scope.delArchive = false;
                     SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
@@ -372,6 +474,6 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
         });
     };
 
-   
+
 
 });

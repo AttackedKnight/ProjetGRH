@@ -19,7 +19,10 @@ angular.module('DrhModule').factory('Formation', function ($http) {
         findByEmploye: function (e) {
             return $http.get(chemin + '/webresources/sn.grh.formation/employe/' + e.id);
         },
-        add: function (item) {
+        findLast: function (e) {
+            return $http.get(chemin + '/webresources/sn.grh.formation/last/'+e);
+        }
+       ,add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.formation', item);
         },
         delete: function (id) {
