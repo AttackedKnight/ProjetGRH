@@ -65,7 +65,11 @@ angular.module('DrhModule').factory('Servir', function ($http) {
         estPermanent: function (id) {   
             /*Verifier si l'employe est Permenant ou contractuel*/
             return $http.get(chemin + '/webresources/sn.grh.servir/statut/employe/' + id);
-        }
+        },
+        findLastByEmploye: function (id) {   
+            /*Verifier si l'employe est Permenant ou contractuel*/
+            return $http.get(chemin + '/webresources/sn.grh.servir/last/employe/' + id);
+        },
         
         
     };

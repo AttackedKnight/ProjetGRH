@@ -1,5 +1,5 @@
 <div ng-controller="SocialesController">
-    <div class="panel box box-primary box-solid">
+    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'employe') == true">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#caisseSociale" class="box-header with-border">
             <div >
                 <i class="fa fa-user"></i>
@@ -112,11 +112,11 @@
                     <div class="row "  style="margin-top: 10px;">
                         <div class="col-md-12">
                             <span style="margin-right: 10px;" class="btn btn-danger pull-right"
-                                  ng-click="toggleCaisseSocialeEditForm()">
+                                  ng-click="cancelCaisseSocialeEdit()">
                                 <i class="fa fa-times"> Annuler</i>
                             </span>
                             <span style="margin-right: 10px;" class="btn btn-success pull-right" 
-                                  type="submit" ng-disabled="editCaisseSocialeForm.$invalid"  ng-click="">
+                                  type="submit" ng-disabled="editCaisseSocialeForm.$invalid"  ng-click="controlCaisseSocialeFormEdit('editCaisseSocialeForm')">
                                 <i class="fa fa-check"> Enregistrer</i>
                             </span>
                         </div>
@@ -132,6 +132,14 @@
                     <div class="col-md-4">
                         <span ng-if="$parent.employe.caisseSociale"> {{$parent.employe.caisseSociale.code}}</span>
                         <span ng-if="!$parent.employe.caisseSociale" style="margin:auto;">L'employé n'est pas membre d'une caisse sociale</span>
+                    </div>
+                </div> 
+                <div class="row" style="font-size: 1.2em;" ng-if="$parent.employe.caisseSociale">
+                    <div class="  col-md-7">
+                        <span style="font-weight: bold;"> Numéro d'affiliation {{$parent.employe.caisseSociale.code}} :</span>
+                    </div>
+                    <div class="col-md-4">
+                        <span> {{$parent.employe.matriculeCaisseSociale}}</span>
                     </div>
                 </div>  
                 <div class="row" ng-if="$parent.employe.caisseSociale" style="font-size: 1.2em;">
@@ -178,8 +186,8 @@
                      ng-if="avoirPermission('modifier', 'employe') == true">
                     <div class="col-md-offset-9 col-md-3 ">
                         <button
-                                ng-click="toggleCaisseSocialeEditForm()" 
-                                class="btn btn-warning">
+                            ng-click="toggleCaisseSocialeEditForm()" 
+                            class="btn btn-warning">
                             <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
                         </button>
                     </div>
@@ -188,7 +196,7 @@
         </div>
     </div>
     <!-- Mutuelle Sante -->
-    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'employe') == true">
+    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'employe') == true">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#mutuelleSante" class="box-header with-border">
             <div >
                 <i class="fa fa-address-book"></i>
@@ -358,7 +366,7 @@
         </div>
     </div>
     <!-- Syndicat -->
-    <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'employe') == true">
+    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'employe') == true">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#syndicat" class="box-header with-border">
             <div >
                 <i class="fa fa-home"></i>
@@ -434,7 +442,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'editSyndicatForm')" name="fichiers" accept="application/pdf" id="fichiersEditSyndicat">
+                                            <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'editSyndicatForm')" name="fichiers" accept="application/pdf" id="fichiersSyndicat">
                                             <label for="fichiersSyndicat">
                                                 <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
                                             </label>
@@ -448,11 +456,11 @@
                     <div class="row "  style="margin-top: 10px;">
                         <div class="col-md-12">
                             <span style="margin-right: 10px;" class="btn btn-danger pull-right"
-                                  ng-click="toggleSyndicatEditForm()">
+                                  ng-click="cancelSyndicatEdit()">
                                 <i class="fa fa-times"> Annuler</i>
                             </span>
                             <span style="margin-right: 10px;" class="btn btn-success pull-right"
-                                  type="submit" ng-disabled="editSyndicatForm.$invalid"  ng-click="">
+                                  type="submit" ng-disabled="editSyndicatForm.$invalid"  ng-click="controlSyndicatFormEdit('editSyndicatForm')">
                                 <i class="fa fa-check"> Enregistrer</i>
                             </span>
                         </div>
@@ -465,8 +473,8 @@
                         <span style="font-weight: bold;"> Syndicat :</span>
                     </div>
                     <div class="col-md-4">
-                        <span ng-if="$parent.employe.syndicat != null"> {{$parent.employe.syndicat.code}}</span>
-                        <span ng-if="$parent.employe.syndicat != null">
+                        <span ng-if="$parent.employe.syndicat"> {{$parent.employe.syndicat.code}}</span>
+                        <span ng-if="!$parent.employe.syndicat">
                             L'employé n'est pas membre d'un syndicat
                         </span>
                     </div>
@@ -486,7 +494,7 @@
                                 </tr>
                             </thead>
                             <tbody> 
-                                <tr ng-repeat="doc in $parent.documents| filterBy: ['syndicat']: true">
+                                <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.syndicat)">
                                     <td>
                                         {{doc.typeDocument.code}}
                                     </td >
@@ -509,14 +517,14 @@
                                 </tr>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'employe') == true">
-                        <div class="col-md-offset-9 col-md-3 ">
-                            <button
-                                    ng-click="toggleSyndicatEditForm()" class="btn btn-warning">
-                                <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                            </button>
-                        </div>
+                    </div>                  
+                </div>
+                <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'employe') == true">
+                    <div class="col-md-offset-9 col-md-3 ">
+                        <button
+                            ng-click="toggleSyndicatEditForm()" class="btn btn-warning">
+                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                        </button>
                     </div>
                 </div>
             </div>

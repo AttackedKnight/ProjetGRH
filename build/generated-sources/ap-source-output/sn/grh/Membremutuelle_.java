@@ -8,7 +8,7 @@ import sn.grh.Document;
 import sn.grh.Employe;
 import sn.grh.Mutuellesante;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-31T12:42:44")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-04T21:49:02")
 @StaticMetamodel(Membremutuelle.class)
 public class Membremutuelle_ { 
 

@@ -1,12 +1,4 @@
 <style>
-    /*    .finApproche{
-            background-color: rgba(224,142,11,0.3);
-        }
-        .finContrat
-        {
-            background-color: rgba(128,0,0,0.3);
-        }*/
-
     .finApproche td{
         background-color: rgb(224,142,11);
         font-weight:  bold;
@@ -19,9 +11,7 @@
         color: white;
     }
 </style>
-<!--<div class="container" style="font-size: 1.2em;">-->
 <div class="box box-solid" ng-if="avoirPermission('consulter', 'employe') == true">
-
     <div class="box box-header box-primary" style="font-weight: bold;font-size: 1.4em;">
         <div class="col-md-3 ng-cloak" ng-show="estPermanent">
             <div>
@@ -71,9 +61,6 @@
             <span ng-if="avoirPermission('supprimer', 'employe') == true" ng-click="deleteAgent(employe)" class="btn btn-danger" title="Supprimer">
                 <span class="fa fa-trash"></span>
             </span>           
-        </div>
-        <div>
-
         </div>
     </div>
 

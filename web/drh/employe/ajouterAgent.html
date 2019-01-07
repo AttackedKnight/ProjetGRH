@@ -11,22 +11,21 @@
                 </label>
             </span>
         </div>
-
         <div class="box-body row" ng-show="angular.isDefined(estPermanent)">
             <form role="form" name="newEmployeForm" id="newEmployeForm" novalidate="">
                 <div class="row">             
                     <div class="col-md-12">
                         <div class="box box-primary box-solid">
-                            <div class="box box-header ">
-                                <h3 ng-if="estPermanent"> INFORMATIONS PERSONNELLES</h3>
-                                <h3 ng-if="!estPermanent"> INFORMATIONS</h3>
+                            <div class="box box-header">
+                                <h3>INFORMATIONS PERSONNELLES</h3>
+                                <!--<h3 ng-if="estPermanent"> INFORMATIONS PERSONNELLES</h3>-->
+                                <!--<h3 ng-if="!estPermanent"> INFORMATIONS</h3>-->
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="box box-primary box-solid" id="bloc-identifiant">
                                         <div class="box-header">
                                             <h3 class="box-title">IDENTIFIANT </h3>
-
                                         </div>
                                         <div class="box-body">
                                             <div class="form-group">
@@ -74,95 +73,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="form-group" ng-if="estPermanent">
-                                                <label style="font-size: 1.1em;">Caisse sociale
-                                                </label>
-                                                <div class="box-body">
-                                                    <div class="form-group row">
-                                                        <label for="nonCaisse">
-                                                            <input type="radio" id="nonCaisse" name="caissesociale" ng-click="removeSelectedCaisseSociale()" />
-                                                            {{ "Aucun"}}
-                                                        </label>
-                                                        <label ng-repeat="caissesociale in caissesociales" for="{{caissesociale.code}}" class="col-md-4" style="font-size: 1.1em;">
-                                                            <input type="radio"  name="caissesociale"  ng-value="{{caissesociale}}"  ng-model="$parent.employe.caisseSociale" id="{{caissesociale.code}}" />
-                                                            {{caissesociale.code}} 
-                                                        </label>
-                                                    </div>
-
-                                                </div>  
-                                                <div class="input-group" ng-if="angular.isDefined(employe.caisseSociale.id)">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-user"></i>
-                                                    </div>
-                                                    <input  type="text" ng-model="employe.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" id="mat_cs_dup" style="display:none">
-                                                    <div>Ce numéro de matricule existe dèja.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.caisseSociale.$error" role="alert" ng-show="newEmployeForm.caisseSociale.$touched && newEmployeForm.caisseSociale.$invalid" class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="maxlength">Ce champs doit contenir 11 caractères.</div>
-                                                    <div ng-message="minlength">Ce champs doit contenir 11 caractères.</div>
-                                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
-
-                                    <div class="box box-primary box-solid" id="bloc-situation" ng-if="estPermanent">
-                                        <div class="box-header">
-                                            <h3 class="box-title">SITUATION MATRIMONIALE</h3>
-                                        </div>
-                                        <div class="box-body">
-                                            <div class="form-group">
-                                                <label for="situationMatri" style="font-size: 1.1em;">Statut matrimoniale:</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-user"></i>
-                                                    </div>
-                                                    <select ng-model="employe.situationMatrimoniale" ng-change="checkSituationMatrimoniale()" class="form-control" id="situationMatri" ng-options="situation.libelle for situation in situations"></select>  
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group" ng-if="estMarie && homme">
-                                                <label for="nombreDeFemme" style="font-size: 1.1em;"> Nombre de femme(s) : </label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-female"></i>
-                                                    </div>
-                                                    <input type="number" ng-model="employe.nombreDeFemme" name="nombreDeFemme" id="nombreDeFemme" ng-pattern="/^[0-9]{1}$/"  class="form-control">
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.nombreDeFemme.$error" role="alert" ng-show="newEmployeForm.nombreDeFemme.$touched && newEmployeForm.nombreDeFemme.$invalid" class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="nombreEnfant" style="font-size: 1.1em;"> Nombre d'enfant(s) :</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-users"></i>
-                                                    </div>
-                                                    <input type="number"  ng-model="employe.nombreEnfant" name="nombreEnfant" id="nombreEnfant" ng-pattern="/^[0-9]{1,2}$/"  class="form-control">
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.nombreEnfant.$error" role="alert" ng-show="newEmployeForm.nombreEnfant.$touched && newEmployeForm.nombreEnfant.$invalid" class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="box box-primary box-solid" id="bloc-contact">
                                         <div class="box-header">
                                             <h3 class="box-title">CONTACT</h3>
@@ -234,99 +146,48 @@
                                             </div>
                                         </div>
                                     </div>
-                                                                     
-                                    <div class="box box-primary box-solid" id="bloc-poste" ng-if="!estPermanent">
+                                    <div class="box box-primary box-solid" id="bloc-adresse">
                                         <div class="box-header">
-                                            <h3 class="box-title">POSTE</h3>
+                                            <h3 class="box-title">ADRESSE</h3>
                                         </div>
                                         <div class="box-body">
-
                                             <div class="form-group">
-                                                <label for="dateRecrutement" style="font-size: 1.1em;"> Date de recrutement :</label>
+                                                <label for="ville" style="font-size: 1.1em;"> Ville actuelle :</label>
                                                 <div class="input-group">
                                                     <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
+                                                        <i class="fa fa-map-marker"></i>
                                                     </div>
-                                                    <input type="date"  ng-model="employe.dateRecrutement" min="{{employe.dateDeNaissance}}" name="dateRecrutement" id="dateRecrutement"   class="form-control">
+                                                    <input type="text" name="ville" id="ville" ng-model="adresse.ville"  placeholder="Ville actuelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
                                                 </div>
                                                 <div class="alert alert-block alert-danger requis" style="display:none">
                                                     <div>Veuillez renseigner ce champs.</div>
                                                 </div>
-                                                <div ng-messages="newEmployeForm.dateRecrutement.$error" role="alert" ng-show="newEmployeForm.dateRecrutement.$invalid"  class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="min">Cette date doit etre superieur à la date de naissance</div>
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="fonction" style="font-size: 1.1em;"> Fonction :</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-user"></i>
-                                                    </div>
-                                                    <input type="text" list="lesfonctions" ng-model="fonction.libelle" name="fonction" id="fonction" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" placeholder="Fonction"   class="form-control">
-                                                    <datalist id="lesfonctions">
-                                                        <option   ng-repeat="f in fonctions" value="{{f.libelle}}">
-                                                    </datalist>
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div class="alert alert-block alert-danger conflit-poste" style="display:none">
-                                                    <div>Ce poste est dèja occupé par quelqun d'autre.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.fonction.$error" role="alert" ng-show="newEmployeForm.fonction.$touched && newEmployeForm.fonction.$invalid" class="alert alert-block alert-danger has-error">
+                                                <div ng-messages="newEmployeForm.ville.$error" role="alert" ng-show="newEmployeForm.ville.$touched && newEmployeForm.ville.$invalid" class="alert alert-block alert-danger has-error">
                                                     <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
                                                     <div ng-message="pattern">Vérifier votre saisie.</div>
                                                 </div>
 
                                             </div>
+                                            <div class="form-group">
+                                                <label for="quartier" style="font-size: 1.1em;"> Quartier :</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-home"></i>
+                                                    </div>
+                                                    <input type="text" name="quartier" id="quartier" ng-model="adresse.quartier"   placeholder="Quartier"  ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[0-9a-zâäàéèùêëîïôöçñ .\-]*[0-9a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                                <div ng-messages="newEmployeForm.quartier.$error" role="alert" ng-show="newEmployeForm.quartier.$touched && newEmployeForm.quartier.$invalid" class="alert alert-block alert-danger has-error">
+                                                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                </div>
 
-                                            <div class="form-group">
-                                                <label for="entite" style="font-size: 1.1em;"> Entite : </label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-user"></i>
-                                                    </div>
-                                                    <select ng-model="servir.entite" class="form-control" id="entite" ng-options="entite.nom group by entite.typeEntite.libelle for entite in entites"></select>  
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="debut" style="font-size: 1.1em;"> Date de prise de service :</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
-                                                    </div>
-                                                    <input type="date" ng-model="servir.debut" name="debut" min="{{employe.dateRecrutement}}" id="debut"    class="form-control">
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.debut.$error" role="alert" ng-show="newEmployeForm.debut.$invalid"  class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="min">Cette date doit etre supérieur à la date de recrutement</div>
-                                                </div>                                                    
-                                            </div>
-                                            <div class="form-group" ng-if="!estPermanent">
-                                                <label for="dureeDuContrat" style="font-size: 1.1em;">Durée(en mois) : </label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-clock-o"></i>
-                                                    </div>
-                                                    <input type="number" ng-model="servir.dureeDuContrat" ng-pattern="/^[1-9][0-9]?$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.dureeDuContrat.$error" role="alert" ng-show="newEmployeForm.dureeDuContrat.$touched && newEmployeForm.dureeDuContrat.$invalid" class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="pattern" style="font-size: 1.1em;">Vérifier votre saisie.</div>
-                                                </div>                                  
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>                                                                                                     
                                 </div>
-
                                 <div class="col-md-6 ">
                                     <div class="box box-primary box-solid" id="bloc-etatCivil">
                                         <div class="box-header">
@@ -349,7 +210,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="prenom" style="font-size: 1.1em;"> Prénom(s) :</label>
                                                 <div class="input-group">
@@ -413,7 +273,7 @@
                                                 <div ng-messages="newEmployeForm.dateDeNaissance.$error" role="alert" ng-show="newEmployeForm.dateDeNaissance.$invalid"  class="alert alert-block alert-danger has-error">
                                                     <div ng-message="max">Cette date doit etre inférieur à la date actuelle</div>
                                                 </div>
-                                                
+
                                             </div>
                                             <div class="form-group">
                                                 <label for="lieuDeNaissance" style="font-size: 1.1em;"> Lieu de naissance :</label>
@@ -464,69 +324,91 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="box box-primary box-solid" id="bloc-adresse">
-                                        <div class="box-header">
-                                            <h3 class="box-title">ADRESSE</h3>
-
-                                        </div>
-                                        <div class="box-body">
-                                            <div class="form-group">
-                                                <label for="ville" style="font-size: 1.1em;"> Ville actuelle :</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-map-marker"></i>
-                                                    </div>
-                                                    <input type="text" name="ville" id="ville" ng-model="adresse.ville"  placeholder="Ville actuelle" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.ville.$error" role="alert" ng-show="newEmployeForm.ville.$touched && newEmployeForm.ville.$invalid" class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                                </div>
-
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="quartier" style="font-size: 1.1em;"> Quartier :</label>
-                                                <div class="input-group">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-home"></i>
-                                                    </div>
-                                                    <input type="text" name="quartier" id="quartier" ng-model="adresse.quartier"   placeholder="Quartier"  ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[0-9a-zâäàéèùêëîïôöçñ .\-]*[0-9a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2"  class="form-control">
-                                                </div>
-                                                <div class="alert alert-block alert-danger requis" style="display:none">
-                                                    <div>Veuillez renseigner ce champs.</div>
-                                                </div>
-                                                <div ng-messages="newEmployeForm.quartier.$error" role="alert" ng-show="newEmployeForm.quartier.$touched && newEmployeForm.quartier.$invalid" class="alert alert-block alert-danger has-error">
-                                                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
-                                                    <div ng-message="pattern">Vérifier votre saisie.</div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>  
                         </div>
                     </div>
                 </div>
-
-                <div class="row" ng-if="estPermanent">
+                <div class="row">
                     <div class="col-md-12">
                         <div class="box box-primary box-solid">
                             <div class="box box-header">
                                 <h3> INFORMATIONS PROFESSIONELLES</h3>
                             </div>
-                            <div class="row ">
-                                <div class="col-md-4">
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="box box-primary box-solid" id="bloc-poste">
                                         <div class="box-header">
                                             <h3 class="box-title">POSTE</h3>
                                         </div>
-                                        <div class="box-body">
+                                        <div class="box-body" ng-if="estPermanent">
+                                            <div class="form-group">
+                                                <label for="dateRecrutement" style="font-size: 1.1em;"> Date de recrutement :</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="date"  ng-model="employe.dateRecrutement" min="{{employe.dateDeNaissance}}" name="dateRecrutement" id="dateRecrutement"   class="form-control">
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                                <div ng-messages="newEmployeForm.dateRecrutement.$error" role="alert" ng-show="newEmployeForm.dateRecrutement.$invalid"  class="alert alert-block alert-danger has-error">
+                                                    <div ng-message="min">Cette date doit etre superieur à la date de naissance</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="fonction" style="font-size: 1.1em;"> Fonction :</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                    <input type="text" list="lesfonctions" ng-model="fonction.libelle" name="fonction" id="fonction" ng-pattern="/^[a-zâäàéèùêëîïôöçñ]+[a-zâäàéèùêëîïôöçñ .\-]*[a-zâäàéèùêëîïôöçñ]+$/i" ng-minlength="2" placeholder="Fonction"   class="form-control">
+                                                    <datalist id="lesfonctions">
+                                                        <option   ng-repeat="f in fonctions" value="{{f.libelle}}">
+                                                    </datalist>
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                                <div class="alert alert-block alert-danger conflit-poste" style="display:none">
+                                                    <div>Ce poste est dèja occupé par quelqun d'autre.</div>
+                                                </div>
+                                                <div ng-messages="newEmployeForm.fonction.$error" role="alert" ng-show="newEmployeForm.fonction.$touched && newEmployeForm.fonction.$invalid" class="alert alert-block alert-danger has-error">
+                                                    <div ng-message="minlength">Ce champs doit contenir 2 caractères au minimum.</div>
+                                                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                                                </div>
 
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="entite" style="font-size: 1.1em;"> Entite : </label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                    <select ng-model="servir.entite" class="form-control" id="entite" ng-options="entite.nom group by entite.typeEntite.libelle for entite in entites"></select>  
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="debut" style="font-size: 1.1em;"> Date de prise de service :</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="date" ng-model="servir.debut" name="debut" min="{{employe.dateRecrutement}}" id="debut"    class="form-control">
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                                <div ng-messages="newEmployeForm.debut.$error" role="alert" ng-show="newEmployeForm.debut.$invalid"  class="alert alert-block alert-danger has-error">
+                                                    <div ng-message="min">Cette date doit etre supérieur à la date de recrutement</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="box-body" ng-if="!estPermanent">
                                             <div class="form-group">
                                                 <label for="dateRecrutement" style="font-size: 1.1em;"> Date de recrutement :</label>
                                                 <div class="input-group">
@@ -566,7 +448,6 @@
                                                 </div>
 
                                             </div>
-
                                             <div class="form-group">
                                                 <label for="entite" style="font-size: 1.1em;"> Entite : </label>
                                                 <div class="input-group">
@@ -592,127 +473,74 @@
                                                 </div>
                                                 <div ng-messages="newEmployeForm.debut.$error" role="alert" ng-show="newEmployeForm.debut.$invalid"  class="alert alert-block alert-danger has-error">
                                                     <div ng-message="min">Cette date doit etre supérieur à la date de recrutement</div>
+                                                </div>                                                    
+                                            </div>
+                                            <div class="form-group" ng-if="!estPermanent">
+                                                <label for="dureeDuContrat" style="font-size: 1.1em;">Durée(en mois) : </label>
+                                                <div class="input-group">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-clock-o"></i>
+                                                    </div>
+                                                    <input type="number" ng-model="servir.dureeDuContrat" ng-pattern="/^[1-9][0-9]?$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
                                                 </div>
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                                <div ng-messages="newEmployeForm.dureeDuContrat.$error" role="alert" ng-show="newEmployeForm.dureeDuContrat.$touched && newEmployeForm.dureeDuContrat.$invalid" class="alert alert-block alert-danger has-error">
+                                                    <div ng-message="pattern" style="font-size: 1.1em;">Vérifier votre saisie.</div>
+                                                </div>                                  
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="box box-primary box-solid">
-                                        <div class="box-header">
-                                            <h3 class="box-title">SYNDICAT</h3>
-                                        </div>
-                                        <div class="box-body">
-                                            <div class="form-group row">
-                                                <label for="nonSyndicat" style="font-size: 1.1em;">
-                                                    <input type="radio" id="nonSyndicat" name="syndicat" ng-click="removeSelectedSyndicat()" />
-                                                    {{ "Aucun"}}
-                                                </label>
-                                                <label ng-repeat="syndicat in syndicats" for="{{syndicat.code}}" class="col-md-4" >
-                                                    <input type="radio"  name="syndicat"  ng-value="{{syndicat}}"  ng-model="$parent.employe.syndicat" id="{{syndicat.code}}" />
-                                                    {{syndicat.code}}
-                                                </label>
-                                            </div>
-
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-8">
-                                    <div class="box box-primary box-solid" id="bloc-grade">
+                                <div class="col-md-6">
+                                    <div class="box box-primary box-solid" id="bloc-document">
                                         <div class="box-header">
-                                            <h3 class="box-title">GRADE</h3>
+                                            <h3 class="box-title">DOCUMENT</h3>
                                         </div>
                                         <div class="box-body">
-                                            <div ng-if="avoirPermission('consulter', 'grade') == true">
-                                                
-                                                <div class="row">
-                                                    <label class="col-md-2">
-                                                        <input type="radio" name="selection"  value=""  ng-model="selection"/>
-                                                        {{ "Aucun"}}
-                                                    </label>
-
-                                                    <span class="col-md-3" ng-show="grades[0].corps != null" ng-repeat="(corps, value) in grades | groupBy: 'corps.libelle'">
-                                                        <label>
-                                                            <input type="radio" name="selection"  value="{{corps}}"  ng-model="$parent.selection"/>
-                                                            {{ corps}}
-                                                        </label>
-                                                    </span>
-
-                                                    <span class="col-md-2" ng-show="grades[0].corps == null" ng-repeat="(classe, value) in grades | groupBy: 'classe.libelle'">
-                                                        <label>
-                                                            <input type="radio" name="selection"  value="{{classe}}"  ng-model="$parent.selection"/>
-                                                            Classe {{ classe}}
-                                                        </label>
-                                                    </span>
-
+                                            <div class="form-group">
+                                                <label>Type de document :</label>   
+                                                <div class="input-group">
+                                                    <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in typedocuments"></select>  
                                                 </div>
+                                                <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Description :</label>   
+                                                <div class="input-group">
+                                                    <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
+                                                </div>
+                                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                                    <div>Veuillez renseigner ce champs.</div>
+                                                </div>  
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Pièce jointe :</label>   
                                                 <div>
-                                                    <table class="table table-bordered table-striped" ng-show="selection != ''">
-                                                        <thead class="thead-dark">
-                                                            <tr ng-show="grades[0].corps != null">
-                                                                <th style="text-align:center;">Classe</th>
-                                                                <th ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
-                                                                    <span style="font-weight: bold;">{{ classe}}</span>                                
-                                                                </th>
-                                                            </tr>
-                                                            <tr ng-show="grades[0].corps == null">
-                                                                <th style="text-align:center;">Categorie / <br> Niveau</th>
-                                                                <th ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
-                                                                    <span style="font-weight: bold;">{{ categorie}}</span>                                
-                                                                </th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr ng-show="grades[0].corps != null">
-                                                                <td style="text-align:center; font-weight: bold;"></td>
-                                                                <td ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
-                                                                    <span ng-repeat="grade in value| orderBy : 'echelon.libelle'">
-                                                                        <label for="{{grade.id}}" title="{{grade.indice}}">
-                                                                            <input type="radio" id="{{grade.id}}" name="grade" ng-click="afficherSelection()" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
-                                                                            Echelon {{ grade.echelon.libelle}}
-                                                                        </label><br>
-                                                                    </span>
-                                                                </td>
-                                                            </tr> 
-                                                            <tr ng-show="grades[0].corps == null" ng-repeat="(niveau, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'niveau.libelle'">
-                                                                <td style="text-align:center; font-weight: bold;">{{niveau}}</td>
-                                                                <td ng-repeat="(categorie, value) in grades | filterBy: ['classe.libelle']: selection | groupBy: 'categorie.libelle'">
-                                                                    <span ng-repeat="grade in value|  filterBy : ['niveau.libelle'] : niveau | orderBy : 'echelon.libelle'">
-                                                                        <label for="{{grade.id}}" title="{{grade.indice}}">
-                                                                            <input type="radio" id="{{grade.id}}" name="grade" ng-click="afficherSelection()" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
-                                                                            Echelon {{ grade.echelon.libelle}}
-                                                                        </label><br>
-                                                                    </span>
-                                                                </td>
-                                                            </tr> 
-                                                        </tbody>
-                                                    </table>
-                                                    <div class="alert alert-block alert-danger requis grade-not-selected" style="display:none">
-                                                        <div>Veuillez selectionner un grade.</div>
+                                                    <div class="detailUpload">
+                                                    </div>
+                                                    <div>                                     
+                                                        <div class="alert alert-block alert-danger requis missing-file" style="display:none">
+                                                            <div>Veuillez sélectionner un fichier.</div>
+                                                        </div>
+                                                        <div class="alert alert-block alert-danger requis error-format" style="display:none">
+                                                            <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div>
+                                                    <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'newEmployeForm')" name="fichiers" accept="application/pdf" id="fichiersJob">
+                                                    <label for="fichiersJob">
+                                                        <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
+                                                    </label>
+                                                    <i class="fa fa-times btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()"></i>
+                                                </div> 
                                             </div>
                                         </div>
-
                                     </div>
-
-                                    <div class="box box-primary box-solid">
-                                        <div class="box-header">
-                                            <h3 class="box-title">MUTUELLE</h3>
-                                        </div>
-                                        <div class="box-body">
-                                            <div class="form-group row">
-                                                <label for="nonMutuelle" style="font-size: 1.1em;">
-                                                    <input type="radio" id="nonMutuelle" name="mutuelle" ng-click="removeSelectedMutuelle()" />
-                                                    {{ "Aucun"}}
-                                                </label>
-                                                <label ng-repeat="mutuelle in mutuelles" for="{{mutuelle.code}}" class="col-md-4" >
-                                                    <input type="radio"  name="mutuelle"  ng-value="{{mutuelle}}"  ng-model="$parent.membreMutuelle.mutuelleSante" id="{{mutuelle.code}}" />
-                                                    {{mutuelle.code}}
-                                                </label>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>               

@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Absence;
 import sn.grh.Absencetypeemploye;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2018-12-31T12:42:43")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-04T21:49:01")
 @StaticMetamodel(Typeabsence.class)
 public class Typeabsence_ { 
 
