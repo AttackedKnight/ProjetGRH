@@ -102,27 +102,168 @@ angular.module('DrhModule').controller('SocialesController', function ($scope, S
 
     /* toggle edit form */
 
-    $scope.editCaisseSociale = false;
-    $scope.editMutuelleSante = false;
+    /*SYNDICAT*/
+    $scope.currentSyndicat = 0;
     $scope.editSyndicat = false;
+    $scope.toggleSyndicatEditForm = function () {
+        $scope.editSyndicat = !$scope.editSyndicat;
+        if ($scope.editSyndicat == true) {
+            $scope.setSyndicat();
+        }
+    };
+
+    $scope.cancelSyndicatEdit = function () {
+        $scope.$parent.employe = angular.copy($scope.$parent.copieEmploye);
+        if (angular.isDefined($scope.$parent.employe.syndicat)) {
+            $scope.currentSyndicat = $scope.$parent.employe.syndicat.id;
+        } else {
+            $scope.currentSyndicat = 0;
+        }
+        $scope.toggleSyndicatEditForm();
+        $scope.initDocument();
+        if ($scope.lesFichiers != null) {
+            $scope.lesFichiers = null
+        }
+    };
+
+    $scope.setSyndicat = function () {
+        if (angular.isDefined($scope.$parent.employe.syndicat)) {
+            $scope.currentSyndicat = $scope.$parent.employe.syndicat.id;
+        }
+        $scope.$parent.copieEmploye = angular.copy($scope.$parent.employe);
+    };
+
+    $scope.controlSyndicatFormEdit = function (formulaire) {
+        if (angular.isDefined($scope.$parent.employe.syndicat) && $scope.$parent.employe.syndicat != null) {
+            if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                if ($scope.controlDocumentForm(formulaire)) {
+                    $scope.completerDocument();
+                    $scope.document.syndicat = true;
+                    $scope.uploadDocument($scope.lesFichiers);
+                    $scope.updateEmploye();
+                }
+            } else {
+                SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+            }
+        } else {
+            $scope.updateEmploye();
+        }
+    };
+
+    /*SYNDICAT*/
+
+
+
+
+    /*CAISSE SOCIALE*/
+    $scope.currentCaisseSociale = 0;
+    $scope.editCaisseSociale = false;
 
     $scope.toggleCaisseSocialeEditForm = function () {
         $scope.editCaisseSociale = !$scope.editCaisseSociale;
+        if ($scope.editCaisseSociale == true) {
+            $scope.setCaisseSociale();
+        }
     };
+
+    $scope.cancelCaisseSocialeEdit = function () {
+        $scope.$parent.employe = angular.copy($scope.$parent.copieEmploye);
+        if (angular.isDefined($scope.$parent.employe.caisseSociale) && $scope.$parent.employe.caisseSociale != null) {
+            $scope.currentCaisseSociale = $scope.$parent.employe.caisseSociale.id;
+        } else {
+            $scope.currentCaisseSociale = 0;
+        }
+        $scope.toggleCaisseSocialeEditForm();
+        $scope.initDocument();
+        if ($scope.lesFichiers != null) {
+            $scope.lesFichiers = null
+        }
+    };
+
+    $scope.setCaisseSociale = function () {
+        if (angular.isDefined($scope.$parent.employe.caisseSociale)) {
+            $scope.currentCaisseSociale = $scope.$parent.employe.caisseSociale.id;
+        }
+        $scope.$parent.copieEmploye = angular.copy($scope.$parent.employe);
+    };
+
+    $scope.controlCaisseSocialeFormEdit = function (formulaire) {
+        var validite = true;
+        $('.editCaisseSocialeForm input:not([type="file"])').each(function (e) {
+            if ($(this).val() === "") {
+                $(this).parent().next().show("slow").delay(3000).hide("slow");
+                validite = false;
+            }
+        });
+        if (validite == true) {
+            if (angular.isDefined($scope.$parent.employe.caisseSociale) && $scope.$parent.employe.caisseSociale != null) {
+                if ($scope.$parent.employe.matriculeCaisseSociale != $scope.$parent.copieEmploye.matriculeCaisseSociale) {    //Si le numero de matricule de caisse sociale a change, verifier que c'est unique
+                    Employe.checkmatriculecs($scope.$parent.employe.matriculeCaisseSociale).success(function (data) {
+                        if (data.value == true) {
+                            $('#mat_cs_dup').show("slow").delay(3000).hide("slow");
+                        } else {
+                            if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                                if ($scope.controlDocumentForm(formulaire)) {
+                                    $scope.completerDocument();
+                                    $scope.document.caisseSociale = true;
+                                    $scope.uploadDocument($scope.lesFichiers);
+                                    $scope.updateEmploye();
+                                }
+                            } else {
+                                SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                            }
+                        }
+                    }).error(function () {
+                        SweetAlert.simpleNotification("error", "Erreur", "Echec de vérification du matricule IPRES/FNR");
+                    });
+
+                } else {
+                    if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                        if ($scope.controlDocumentForm(formulaire)) {
+                            $scope.completerDocument();
+                            $scope.document.caisseSociale = true;
+                            $scope.uploadDocument($scope.lesFichiers);
+                            $scope.updateEmploye();
+                        }
+                    } else {
+                        SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                    }
+                }
+
+            } else {
+                $scope.updateEmploye();
+            }
+        }
+
+
+
+    };
+
+    /*CAISSE SOCIALE*/
+
+    $scope.updateEmploye = function () {
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        Employe.edit($scope.$parent.employe).success(function () {
+            $scope.$parent.copieEmploye = angular.copy($scope.$parent.employe);
+            if ($scope.editCaisseSociale == true) {
+                $scope.toggleCaisseSocialeEditForm();
+            }
+            if ($scope.editSyndicat == true) {
+                $scope.toggleSyndicatEditForm()
+            }
+            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
+        });
+    };
+
+    /*MUTUELLE DE SANTE*/
+    $scope.editMutuelleSante = false;
+    $scope.currentMutuelle = 0;
 
     $scope.toggleMutuelleSanteEditForm = function () {
         $scope.editMutuelleSante = !$scope.editMutuelleSante;
     };
-
-    $scope.toggleSyndicatEditForm = function () {
-        $scope.editSyndicat = !$scope.editSyndicat;
-    };
-
-    $scope.currentSyndicat = 0;
-    $scope.currentMutuelle = 0;
-    $scope.currentCaisseSociale = 0;
-
-    /*MUTUELLE DE SANTE*/
 
     $scope.setMutuelleSante = function (membreMutualle) {
         $scope.membreMutuelle = angular.copy(membreMutualle);
@@ -148,7 +289,6 @@ angular.module('DrhModule').controller('SocialesController', function ($scope, S
         }
 
         if ($scope.editMutuelleOperation == true) { //S'il s'agit d'une modification ou d'un suppression(si la valeur repasse a nulle)
-            console.log("Edit mutuelle");
             if ($scope.membreMutuelle.mutuelleSante) {    //Operation de modification
                 if ($scope.formerMutuelleId == $scope.currentMutuelle) { //Si le mutuelle n'a pas change
                     if ($scope.lesFichiers != null) {//S'il s'a des fichiers a ajouter au mutuelle existant
@@ -211,6 +351,7 @@ angular.module('DrhModule').controller('SocialesController', function ($scope, S
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la suppression du mutuelle de santé");
         });
     };
+
     $scope.deleteMutuelleRelatedDocument = function () {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         var reqTab1 = [];
@@ -231,7 +372,6 @@ angular.module('DrhModule').controller('SocialesController', function ($scope, S
         }
     };
 
-
     $scope.updateMutuelle = function () {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         MembreMutuelle.edit($scope.membreMutuelle).success(function () {
@@ -242,6 +382,7 @@ angular.module('DrhModule').controller('SocialesController', function ($scope, S
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la modification du mutuelle de santé");
         });
     };
+
     /*MUTUELLE DE SANTE*/
 
 

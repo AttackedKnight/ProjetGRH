@@ -16,14 +16,16 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
      * */
 
     $scope.templates = [
-        {name: "Informations generales", url: "drh/employe/infosGenerales.html"},
+        {name: "Informations Générales", url: "drh/employe/infosGenerales.html"},
         {name: "Situation Matrimoniale", url: "drh/employe/sMatrimoniale.html"},
         {name: "Sociales", url: "drh/employe/sociales.html"},
-        {name: "Parcours", url: "drh/employe/infosProfessionelles.html"},
+        {name: "Parcours Professionelle", url: "drh/employe/infosProfessionelles.html"},
         {name: "Avancement", url: "drh/employe/avancement.html"},
-        {name: "Formation", url: "drh/employe/formation.html"}
-    ]
+        {name: "Formation", url: "drh/employe/formation.html"},
+        {name: "Archives", url: "drh/employe/archives.html"}
+    ];
 
+$scope.template = $scope.templates[0];
 
     var idEmploye = $routeParams.id;
     $scope.estPermanent = true;

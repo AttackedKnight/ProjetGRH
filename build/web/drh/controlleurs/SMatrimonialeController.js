@@ -29,12 +29,12 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
     $scope.estMarie = false;
     $scope.estCelibataire = false;
     $scope.checkSituationMatrimoniale = function () {
-        if ($scope.$parent.employe.situationMatrimoniale.libelle == "Marié(e)") {
+        if (angular.isDefined($scope.$parent.employe.situationMatrimoniale) && $scope.$parent.employe.situationMatrimoniale.libelle == "Marié(e)") {
             $scope.estMarie = true;
         } else {
             $scope.estMarie = false;
         }
-        if ($scope.$parent.employe.situationMatrimoniale.libelle == "Célibataire") {
+        if (angular.isDefined($scope.$parent.employe.situationMatrimoniale) && $scope.$parent.employe.situationMatrimoniale.libelle == "Célibataire") {
             $scope.estCelibataire = true;
         } else {
             $scope.estCelibataire = false;
@@ -95,7 +95,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
             $scope.lesFichiers = null
         }
     };
- 
+
     $scope.editConjointOperation = false;
     $scope.setConjoint = function (conj) {
         $scope.conjoint = angular.copy(conj);
@@ -121,29 +121,10 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
             }
         });
         if (validite == true) {
-            /*Si c'est une operation de modification et 
-             * Si estSalarie est passe de false -> true ,des pieces justificatifs doivent etre jointes
-             *  */
-            if ($scope.editConjointOperation == true &&
-                    ($scope.estSalarieFormerValue == false && $scope.conjoint.estSalarie == true)) {
-
-                if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
-                    if ($scope.controlDocumentForm(formulaire)) {
-                        $scope.completerDocument();
-                        $scope.document.conjoint = $scope.conjoint;
-                        $scope.uploadDocument($scope.lesFichiers);
-                        $scope.updateConjoint();
-                    }
-                } else {
-                    SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
-                }
-            }
-            /*Si c'est une operation de modification et 
-             * Si estSalarie n'a pas change ,les pieces justificatifs sont facultatives
-             *  */
-            if ($scope.editConjointOperation == true &&
-                    ($scope.estSalarieFormerValue == $scope.conjoint.estSalarie)) {
-                if ($scope.lesFichiers != null) { //S'il y a des fichiers(nouveaux fichiers) , on l'ajoute
+            /*Si c'est une operation de modification*/
+            if ($scope.editConjointOperation == true) {
+                /*Si estSalarie est passe de false -> true ,des pieces justificatifs doivent etre jointes*/
+                if ($scope.estSalarieFormerValue == false && false$scope.conjoint.estSalarie == true) {
                     if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
                         if ($scope.controlDocumentForm(formulaire)) {
                             $scope.completerDocument();
@@ -154,8 +135,23 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
                     } else {
                         SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                     }
-                } else {
-                    $scope.updateConjoint();
+                } else {   //sinon
+                    /* true les pieces justificatifs sont facultatives
+                     *  */
+                    if ($scope.lesFichiers != null) { //S'il y a des fichiers(nouveaux fichiers) , on l'ajoute
+                        if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
+                            if ($scope.controlDocumentForm(formulaire)) {
+                                $scope.completerDocument();
+                                $scope.document.conjoint = $scope.conjoint;
+                                $scope.uploadDocument($scope.lesFichiers);
+                                $scope.updateConjoint();
+                            }
+                        } else {
+                            SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
+                        }
+                    } else {
+                        $scope.updateConjoint();
+                    }
                 }
 
             }
@@ -294,7 +290,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
 
 
     $scope.initEnfant = function () {
-        $scope.enfant = {id: "",nom:$scope.$parent.employe.nom, employe: $scope.$parent.employe};
+        $scope.enfant = {id: "", nom: $scope.$parent.employe.nom, employe: $scope.$parent.employe};
     };
     $scope.initEnfant();
 
@@ -303,7 +299,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
     $scope.getEnfant = function () {
         Enfant.findByEmploye($scope.$parent.employe.id).success(function (data) {
             $scope.enfants = data;
-            for(var i = 0; i<$scope.enfants.length; i++){   //Formater les dates
+            for (var i = 0; i < $scope.enfants.length; i++) {   //Formater les dates
                 $scope.enfants[i].dateNaissance = new Date($scope.enfants[i].dateNaissance);
             }
         }).error(function () {
@@ -570,12 +566,12 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         var dateEcheanceDoc = new Date(doc.echeance);
         var dateEcheanceAtteinte = ($scope.today > dateEcheanceDoc);    //Si la date d'�cheance du document est atteinte ?
         if (dateEcheanceAtteinte) {
-        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
-                .then(function (value) {
-                    if (value == true) {
-                        $scope.deleteDocumentSituationMatrimoniale(doc);
-                    }
-                });
+            Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                    .then(function (value) {
+                        if (value == true) {
+                            $scope.deleteDocumentSituationMatrimoniale(doc);
+                        }
+                    });
         } else {
             SweetAlert.simpleNotification("warning", "Attention", "Vous ne pouvez pas supprimer ce document \n\
                                             car la date d'écheance n'est pas encore atteinte");

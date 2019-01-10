@@ -1,4 +1,4 @@
-<div ng-controller="InfosGeneralesController">
+<div ng-controller="InfosGeneralesController" >
     <div class="panel box box-primary box-solid">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#informationPersonnelle" class="box-header with-border">
             <div >
@@ -6,8 +6,8 @@
                 <h1 class="box-title ">Informations générales</h1>
             </div>
         </a>
-        <div id="informationPersonnelle" class="panel-collapse collapse">
-            <div class="panel-body row" ng-if="editInfoGenerales == true" id="editInfoGenerales">
+        <div id="informationPersonnelle" class="collapse">
+            <div class="panel-body row " ng-if="editInfoGenerales == true" id="editInfoGenerales">
                 <form role="form" name="editInfoGeneralesForm" novalidate="">
                     <div class="col-md-9">
                         <div class="row" style="margin-top: 6px; font-size: 1.2em;">

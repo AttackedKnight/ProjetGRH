@@ -1,5 +1,5 @@
 <div ng-controller="SMatrimonialeController">
-    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'situationmatrimoniale') == true">
+    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'employe') == true">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#situationMatrimorniale" class="box-header with-border">
             <div >
                 <i class="fa fa-users"></i>
@@ -154,7 +154,7 @@
             </div>
         </div>
     </div>
-    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'situationmatrimoniale') == true">
+    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'conjoint') == true">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#conjoint" class="box-header with-border">
             <div >
                 <i class="fa fa-users"></i>
@@ -356,7 +356,7 @@
             </div>
         </div>
     </div>
-    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'situationmatrimoniale') == true">
+    <div class="panel box box-primary box-solid" ng-if="$parent.estPermanent == true && avoirPermission('consulter', 'enfant') == true">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#enfant" class="box-header with-border">
             <div>
                 <i class="fa fa-users"></i>

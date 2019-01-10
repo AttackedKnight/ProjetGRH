@@ -1,12 +1,4 @@
 <style>
-    /*    .finApproche{
-            background-color: rgba(224,142,11,0.3);
-        }
-        .finContrat
-        {
-            background-color: rgba(128,0,0,0.3);
-        }*/
-
     .finApproche td{
         background-color: rgb(224,142,11);
         font-weight:  bold;
@@ -19,9 +11,7 @@
         color: white;
     }
 </style>
-<!--<div class="container" style="font-size: 1.2em;">-->
 <div class="box box-solid" ng-if="avoirPermission('consulter', 'employe') == true">
-
     <div class="box box-header box-primary" style="font-weight: bold;font-size: 1.4em;">
         <div class="col-md-3 ng-cloak" ng-show="estPermanent">
             <div>
@@ -63,22 +53,25 @@
             <div style="width: 75%; text-align: justify;">
                 ENTITE : {{entiteEmploye.nom}}<hr>
             </div>
-            <select ng-model="template" ng-options="t.name for t in templates">
-                <option value="">(blank)</option>
+            
+            <select ng-model="template" ng-options="t.name for t in templates" class="form-control">
+                <option value="">Selectionner</option>
             </select>
+            
         </div>
+        
+        
         <div class="col-md-2" style="margin-top: 10px;">
             <span ng-if="avoirPermission('supprimer', 'employe') == true" ng-click="deleteAgent(employe)" class="btn btn-danger" title="Supprimer">
                 <span class="fa fa-trash"></span>
             </span>           
         </div>
-        <div>
-
-        </div>
+        
+       
     </div>
-
+     
     <div class="box-body">
-        <div class="box-group" id="accordion" ng-include="template.url">
+        <div class="box-group accordion" id="accordion" ng-include="template.url">
 
         </div>
     </div>

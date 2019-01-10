@@ -7,7 +7,7 @@
 
 
 angular.module('DrhModule').controller('InfosProfessionellesController', function ($scope, SweetAlert, $q, Entite,
-        Servir, Fonction, Typecontrat, Civilite, FonctionAnnexe, Document)
+        Servir, Fonction, Typecontrat, UploadFile, FonctionAnnexe, Document)
 {
 
     Entite.findAll().success(function (data) {
@@ -35,7 +35,6 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         $('a').tooltip();
     });
 
-    $scope.fannexe = false;
     $scope.cddContrat = false;
     $scope.getTypeContrat = function () {
         if ($scope.servir.typeContrat.code == 'cdd') {
@@ -43,6 +42,8 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         } else {
             $scope.cddContrat = false;
         }
+        $scope.servir.dureeDuContrat=null;
+        $scope.servir.fin = null;
     };
 
     /*                    Parcours professionel                       */
@@ -54,27 +55,66 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         $scope.servir = {id: "", employe: $scope.employe, debut: new Date()};
     };
     $scope.initServir();
-
+    
     $scope.finContratApproche = false;
     $scope.finContratDepasse = false;
     $scope.finContratNombreJoursCritique = 15;
 
+    function getFonctionPrincipaleEnCours(data) {
+        return data.fonction && (data.finService == false);
+    }
+    function getFonctionAnnexeEnCours(data) {
+        return data.fonctionAnnexe && (data.finService == false);
+    }
+    function getCdiContrat(data) {
+        return data.code == "cdi";
+    }
+    $scope.fannexe = false;
+    $scope.autoriseFonctionAnnexe = false;
+    $scope.occupeFonctionAnnexe = false;
+    $scope.occupeFonctionPrincipale = false;
     $scope.findServir = function () {
+        
         /*Recuperer le parcour professionnel de l'employe*/
         Servir.findByEmploye($scope.employe).success(function (data) {
             $scope.parcours = data;
-            if (!$scope.$parent.estPermanent) {
-                var df = new Date($scope.parcours[0].fin);
-                var joursRestants = df - $scope.today;
-                joursRestants = joursRestants / 1000 / 60 / 60 / 24;
+            var fp = [];
+            var fa = [];
+            if ($scope.parcours != null) {
+                fp = $scope.parcours.filter(getFonctionPrincipaleEnCours);
+                fa = $scope.parcours.filter(getFonctionAnnexeEnCours);
+                $scope.occupeFonctionPrincipale = (fp.length > 0) ? true : false;
+                $scope.occupeFonctionAnnexe = (fa.length > 0) ? true : false;
+                if ($scope.occupeFonctionPrincipale == true) {
+                    $scope.$parent.estPermanent = fp[0].typeContrat.code = 'cdi' ? true : false;    //si fonction principale et cdi , permanent sinon contactuelle
+                    if ($scope.$parent.estPermanent == true)    //Si permanent, predefinir le type de contrat pour un eventuel ajout de fonction a venir(affectation ou changement de fonction)
+                        $scope.servir.typeContrat = $scope.typecontrats.filter(getCdiContrat)[0];
+                }
+                else{
+                    $scope.$parent.estPermanent=false;
+                }
+                if ($scope.$parent.estPermanent && $scope.occupeFonctionPrincipale == true
+                        && !$scope.occupeFonctionAnnexe) {    //Si permanent avec fonction principale sans foncion annexe en cours
+                    $scope.autoriseFonctionAnnexe = true;
+                }
+                if (!$scope.$parent.estPermanent && $scope.occupeFonctionPrincipale == true) {
+                    var df = new Date($scope.parcours[0].fin);
+                    var joursRestants = df - $scope.today;
+                    joursRestants = joursRestants / 1000 / 60 / 60 / 24;
 
-                if (joursRestants < 0) {  //Date fin de contrat depass�
-                    $scope.finContratDepasse = true;
-                } else {
-                    if (joursRestants < $scope.finContratNombreJoursCritique) {  //Date fin de contrat depass�
-                        $scope.finContratApproche = true;
+                    if (joursRestants < 0) {  //Date fin de contrat depass�
+                        $scope.finContratDepasse = true;
+                    } else {
+                        if (joursRestants < $scope.finContratNombreJoursCritique) {  //Date fin de contrat depass�
+                            $scope.finContratApproche = true;
+                        }
                     }
                 }
+            }
+            else{
+                $scope.autoriseFonctionAnnexe = false;
+                $scope.occupeFonctionAnnexe = false;
+                $scope.occupeFonctionPrincipale = false;
             }
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement des informations sur le poste !");
@@ -95,10 +135,21 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         });
 
     };
+    
+     $scope.voirDoc = function (index) {
+       $("#documentsAssociésParcours"+index).toggle();
 
+    };
+//     $(".documentsAssociésParcours").hide();
+    
     $scope.editJobOperation = false;
-    $scope.setJob = function (servir) {
-        $scope.editJobOperation = true;
+//    $scope.setJob = function (servir) {
+//        $scope.editJobOperation = true;
+//    };
+    $scope.toggleFAnnexe = function (el) {
+        $scope.typeFonction = $(el).val();
+        $scope.fannexe = (parseInt($scope.typeFonction) == 0) ? false : true;
+        $scope.initServir();
     };
     $scope.controlJobForm = function (formulaire) {
         var validite = true;
@@ -109,9 +160,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
                 validite = false;
             }
         });
-        console.log($scope.servir.fonctionAnnexe)
-        if ($scope.fannexe == true && (angular.isUndefined($scope.servir.fonctionAnnexe) || $scope.servir.fonctionAnnexe ==null)) {
-            console.log("Entre")
+        if ($scope.fannexe == true && (angular.isUndefined($scope.servir.fonctionAnnexe) || $scope.servir.fonctionAnnexe == null)) {
             $('#fannexeManquante').show("slow").delay(3000).hide("slow");
             validite = false;
         }
@@ -119,56 +168,41 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
             $('#entite').parent().next().show("slow").delay(3000).hide("slow");
             validite = false;
         }
-//        if (!$scope.$parent.estPermanent && $scope.cddContrat) {
-//            if ($scope.servir.typeContrat == null) {
-//                $('#contrat').parent().next().show("slow").delay(3000).hide("slow");
-//                validite = false;
-//            }
-//        }
-
+        if ($scope.fannexe == false) {
+            if (angular.isUndefined($scope.servir.typeContrat) || $scope.servir.typeContrat == null) {
+                $('#contrat').parent().next().show("slow").delay(3000).hide("slow");
+                validite = false;
+            }
+        }
         if (validite === true) {
-            
             /*Si c'est une operation d'ajout*/
             if ($scope.editJobOperation == false) {
                 if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
                     if ($scope.controlDocumentForm(formulaire)) {
                         $scope.completerDocument();
-                        if ($scope.fannexe == false) {
-                            if(angular.isUndefined($scope.servir.fonctionAnnexe))
-                                $scope.servir.fonctionAnnexe =null;
-                            $scope.addFonctionServir();
-                        } else {
-                            $scope.completerServir();
-                        }
+                        if ($scope.fannexe === true) {
+                            if ($scope.occupeFonctionAnnexe == true) {
+                                SweetAlert.notificationAvecSuggestion("info", "Information", "Cet employé est en service actuellement",
+                                        "<h5>Clicker sur le boutton <b>fin</b> d'abord</h5>");
+                            } else {
+                                $scope.completerServir();
+                            }
 
+                        } 
+                        else {
+                            if ($scope.occupeFonctionPrincipale == true) {
+                                SweetAlert.notificationAvecSuggestion("info", "Information", "Cet employé est en service actuellement",
+                                        "<h5>Clicker sur le boutton <b>fin</b> d'abord</h5>");
+                            } else {
+                                $scope.addFonctionServir();
+                            }
+                        }
                     }
                 } else {
                     SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                 }
 
             }
-            
-            /*Si c'est une operation de modification 
-             *  */
-//            if ($scope.editJobOperation == true) {
-//                if ($scope.lesFichiers != null) { //S'il y a des fichiers(nouveaux fichiers) , on l'ajoute
-//                    if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
-//                        if ($scope.controlDocumentForm(formulaire)) {
-//                            $scope.completerDocument();
-//                            $scope.document.servir = $scope.servir;
-//                            $scope.uploadDocument($scope.lesFichiers);
-//                            $scope.updateServir();
-//                        }
-//                    } else {
-//                        SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
-//                    }
-//                } else {
-//                    $scope.updateServir();
-//                }
-//
-//            }
-            
-
         }
     };
 
@@ -195,11 +229,20 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         });
     };
 
+    $scope.getLastServir = function () {
+        Servir.findLastByEmploye($scope.employe.id).success(function (data) {
+            $scope.document.servir = data;
+            //Uploader les documents lies a enfant
+            $scope.uploadDocument($scope.lesFichiers);
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement des informations sur le poste !");
+        });
+    };
     $scope.editServir = function (s) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Servir.edit(s).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "");
-            Servir.findByEmploye($scope.employe);
+            $scope.findServir();
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de traitement");
         });
@@ -209,32 +252,30 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         var req_tab = [];
         req_tab.push(Fonction.findByLibelle($scope.fonction.libelle));
         $q.all(req_tab).then(function (results) { //Si la fonction existe deja(parametre)
-            console.log(results[0].data)
             if (results[0].data) {    //Si oui
                 $scope.servir.fonction = results[0].data;
                 if ($scope.servir.fonction.responsabilite == true) {//Verifier si c'est un poste de responsabilite
                     $scope.servir.responsable = 1;
-                    console.log("Fonction principale Poste de responsabilite");
                 } else {
                     $scope.servir.responsable = 0;
                 }
                 $scope.completerServir();
             } else {   //On ajoute ca dans la base
                 $scope.servir.responsable = 0;
-                $q.all(Fonction.add($scope.fonction)).then(function () {
-                    var req_tab = [];
+                req_tab = [];
+                req_tab.push(Fonction.add($scope.fonction));
+                $q.all(req_tab).then(function (data) {
+                    req_tab = [];
                     req_tab.push(Fonction.findByLibelle($scope.fonction.libelle));
                     $q.all(req_tab).then(function (results) { //On le recuppere
                         $scope.servir.fonction = results[0].data;
                         $scope.completerServir();
                     });
-                });                
+                });
             }
         });
     };
     $scope.completerServir = function () {
-        console.log("Completer servir");
-
         if ($scope.cddContrat) {   //Calculer la date de fin du contrat 
             var dateFinService = new Date($scope.servir.debut);
             dateFinService.setMonth(dateFinService.getMonth() + $scope.servir.dureeDuContrat);
@@ -247,57 +288,87 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
 
             if ($scope.servir.fonctionAnnexe.responsabilite == true) {
                 $scope.servir.responsable = 1;
-                console.log("Fonction annexe Poste de responsabilite");
             } else {
                 $scope.servir.responsable = 0;
             }
         }
-
-        console.log($scope.servir);
-
-//        /* Verifier d'abord que l'employe n'occupe pas un autre poste*/
-//        Servir.enService($scope.employe).success(function (data) {
-//            SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
-//            if (data.value == true) {
-//                SweetAlert.notificationAvecSuggestion("info", "Information", "Cet employé est en service actuellement",
-//                        "<h5>Clicker sur le boutton <b>fin</b> d'abord</h5>");
-//            } else {
-//                /*Si c'est un poste poste de responsabilité, vérifier que ce n'est pas occupe pas quelqu'un autre*/
-//                if ($scope.servir.responsable === 1) {
-//                    Servir.findResponsableEntite($scope.servir.entite).success(function (data) {
-//                        if (!data) {
-//                            $scope.ajouterNouvelPoste();
-//                        } else {
-//                            $('.conflit-poste').show("slow").delay(3000).hide("slow");
-//                        }
-//                    }).error(function () {
-//                        SweetAlert.simpleNotification("error", "Erreur", "Erreur de vérification du responsable");
-//                    });
-//                } else {
-//                    $scope.ajouterNouvelPoste();
-//                }
-//            }
-//        }).error(function () {
-//            SweetAlert.simpleNotification("error", "Erreur", "Erreur de vérification");
-//        });
+        /*Si c'est un poste poste de responsabilité, vérifier que ce n'est pas occupe pas quelqu'un autre*/
+        if ($scope.servir.responsable === 1) {
+            Servir.findResponsableEntite($scope.servir.entite).success(function (data) {
+                if (!data) {
+                    $scope.addServir();
+                } else {
+                    $('.conflit-poste').show("slow").delay(3000).hide("slow");
+                }
+            }).error(function () {
+                SweetAlert.simpleNotification("error", "Erreur", "Erreur de vérification du responsable");
+            });
+        } else {
+            $scope.addServir();
+        }
 
     };
 
-//    $scope.addServir = function () {
-//        Servir.add($scope.servir).success(function () {
-//            SweetAlert.simpleNotification("success", "Succes", "Nouveau poste enregistré avec succes");
-//            $scope.reinitialiserFormulaireParcours();
-//            $scope.findServir();
-//        }).error(function () {
-//            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'enregistrement\n\
-//                des informations sur le nouveau poste");
-//        });
-//    };
+    $scope.addServir = function () {
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        Servir.add($scope.servir).success(function () {
+            $scope.getLastServir();
+            SweetAlert.simpleNotification("success", "Succes", "Nouveau poste enregistré avec succes");
+            $scope.reinitialiserFormulaireParcours();
+            $scope.findServir();
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'enregistrement\n\
+                des informations sur le nouveau poste");
+        });
+    };
 
     $scope.reinitialiserFormulaireParcours = function () {
         $scope.fonction = {id: ""};
         $scope.servir = {id: "", employe: $scope.employe, debut: new Date()};
-        $scope.document = {id: "", dateEnregistrement: $scope.$parent.today};
+    };
+    
+    $scope.confirmDeleteServir = function (idParcours) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+                        $scope.idDeletedParcours = idParcours;    //Garder l'id de l'element a supprimer pour pouvoir recuperer les documents lies a cet element
+                        $scope.deleteParcoursRelatedDocument();
+
+                    }
+                });
+    };
+
+    function retrieveDocumentEnfant(data) {
+        return angular.isDefined(data.servir) && (data.servir.id == $scope.idDeletedParcours);
+    }
+
+    $scope.deleteParcours = function () {
+        Servir.delete($scope.idDeletedParcours).success(function () {
+            SweetAlert.simpleNotification("success", "Succes", "Suppression effectuée avec succes");
+            $scope.findServir();
+            $scope.$parent.listerMesDocuments();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur lors de la suppression de enfant");
+        });
+    };
+    $scope.deleteParcoursRelatedDocument = function () {
+        var reqTab1 = [];
+        var reqTab2 = [];
+        var relatedDoc = $scope.$parent.documents.filter(retrieveDocumentEnfant);
+        if (relatedDoc.length > 0) {
+            for (var i = 0; i < relatedDoc.length; i++) {
+                reqTab1.push(UploadFile.delete(angular.toJson({chemin: relatedDoc[i].emplacement}))); //fichier physique
+                reqTab2.push(Document.delete(relatedDoc[i].id)); //sur BD
+            }
+            $q.all(reqTab1).then(function () {  //Suppression dans le dossier physique
+                $q.all(reqTab2).then(function () {  //Suppression dans la base de donnees
+                    $scope.deleteParcours();
+                });
+            });
+        } else {
+            $scope.deleteParcours();
+        }
     };
 
     /*                    Parcours professionel                       */
@@ -380,10 +451,6 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
             req_tab.push(Document.add(instanceDoc));    //Ajout dans la base de donnees
         }
         $q.all(req_tab).then(function () { //Si l'upload dans le dossier physique a reussi
-            if ($scope.traitementSMatrimoniale == true) {
-                $scope.editEmploye();
-                $scope.traitementSMatrimoniale = false;
-            }
             //Reinitialisation et raffraichissement liste document
             $scope.initDocument();
             $scope.cancelFileUpload();
@@ -391,14 +458,6 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         });
     };
 
-    $scope.editEmploye = function () {
-        $scope.toggleSituationMatriEditForm();
-        Employe.edit($scope.$parent.employe).success(function () {
-            SweetAlert.simpleNotification("success", "Succes", "Modification effectuée avec succes");
-        }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Echec de la modification");
-        });
-    };
     /*Gerer l'upload de fichier*/
 
     $scope.uploadDocument = function (fichiers) {

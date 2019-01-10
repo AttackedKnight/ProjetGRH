@@ -14,23 +14,59 @@
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
-                                <tr>
-                                    <th>Fonction Annexe</th>
+                                <tr>                                   
+                                    <th ng-show="autoriseFonctionAnnexe == true">Type de fonction</th>
+                                    <th>
+                                        <span ng-show="!fannexe">Type de contrat</span>
+                                    </th>
                                     <th>Fonction</th>
                                     <th>Entite</th>
-                                    <th>Date prise de service</th>
+                                    <th>Date prise de service</th>                                    
                                     <th>
-                                        <span ng-show="!$parent.estPermanent">Type de contrat</span>
-                                    </th>
-                                    <th>
-                                        <span ng-show="!$parent.estPermanent">Durée contrat(mois)</span>
+                                        <span ng-show="!fannexe && cddContrat">Durée contrat(mois)</span>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr> 
+                                    <td ng-show="autoriseFonctionAnnexe == true">
+                                        <div>
+                                            <label title="Fonction principale" for="fprincipale" 
+                                                   class="col-md-4" >
+                                                <input type="radio"  
+                                                       name="typeFonction"
+                                                       ng-model="typeFonction"
+                                                       ng-value="0"
+                                                       id="fprincipale" 
+                                                       onclick="angular.element(this).scope().toggleFAnnexe(this)"/>
+                                                FP 
+                                            </label>
+                                        </div>
+                                        <div>
+                                            <label title="Fonction annexe" for="fannexe" 
+                                                   class="col-md-4" >
+                                                <input type="radio"  
+                                                       name="typeFonction"
+                                                       ng-model="typeFonction"
+                                                       ng-value="1"
+                                                       id="fannexe" 
+                                                       onclick="angular.element(this).scope().toggleFAnnexe(this)"/>
+                                                FA 
+                                            </label>
+                                        </div>
+
+                                    </td>
                                     <td>
-                                        <input type="checkbox" name="fannexe" id="fannexe" ng-model="fannexe"/>
+                                        <div class="form-group" ng-show="!fannexe">
+                                            <div class="input-group">
+                                                <select ng-model="servir.typeContrat" style="min-width: 110px;" ng-change="getTypeContrat()"
+                                                        class="form-control" id="contrat" 
+                                                        ng-options="typecontrat.code for typecontrat in typecontrats"></select>
+                                            </div>
+                                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                                <div>Veuillez renseigner ce champs.</div>
+                                            </div>
+                                        </div>
                                     </td>
                                     <td>
                                         <div class="form-group" ng-if="!fannexe">
@@ -56,7 +92,6 @@
                                         </div>
                                         <div class="form-group" ng-if="fannexe">
                                             <select ng-model="servir.fonctionAnnexe" class="form-control" 
-                                                    id="fannexe" 
                                                     ng-options="fa.libelle  for fa in fonctionsAnnexes"></select>
                                             <div class="alert alert-block alert-danger requis" id="fannexeManquante" style="display:none">
                                                 <div>Veuillez renseigner ce champs.</div>
@@ -86,21 +121,9 @@
                                             </div>
 
                                         </div>
-                                    </td>
+                                    </td>                                   
                                     <td>
-                                        <div class="form-group" ng-show="!$parent.estPermanent">
-                                            <div class="input-group">
-                                                <select ng-model="servir.typeContrat" style="min-width: 110px;" ng-change="getTypeContrat()"
-                                                        class="form-control" id="contrat" 
-                                                        ng-options="typecontrat.code for typecontrat in typecontrats"></select>
-                                            </div>
-                                            <div class="alert alert-block alert-danger requis" style="display:none">
-                                                <div>Veuillez renseigner ce champs.</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="form-group" ng-if="!$parent.estPermanent && cddContrat">
+                                        <div class="form-group" ng-if="!fannexe && cddContrat">
                                             <div class="input-group">
                                                 <input type="number" ng-model="servir.dureeDuContrat"   ng-pattern="/^[1-9][0-9]?$/"  name="dureeDuContrat" id="dureeDuContrat" class="form-control">
                                             </div>
@@ -182,6 +205,7 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
+                            <th>Type</th>
                             <th>Date prise de service</th>
                             <th>Entite</th>
                             <th>Fonction</th>
@@ -190,38 +214,109 @@
                             <th ng-show="avoirPermission('supprimer', 'servir') == true">Actions</th>
                         </tr>
                     </thead>
-                    <tbody> 
-
-                        <tr ng-repeat="unparcours in parcours" 
-                            ng-class="{'finApproche' : finContratApproche == true && unparcours.finService == 0 ,
+                    <tbody ng-repeat="unparcours in parcours"> 
+                        <tr class="bg-blue-gradient" ng-class="{'finApproche' : finContratApproche == true && unparcours.finService == 0 ,
                                                 'finContrat' : finContratDepasse == true && unparcours.finService == 0}">
+                            <td>
+                                <span ng-show="angular.isDefined(unparcours.fonction)">Principale</span>
+                                <span ng-show="angular.isDefined(unparcours.fonctionAnnexe)">Annexe</span>    
+                            </td>
                             <td>{{unparcours.debut| date: 'dd MMM yyyy'}}</td>
                             <td>{{unparcours.entite.nom}}</td>
-                            <td>{{unparcours.fonction.libelle}}</td>
+                            <td>
+                                <span ng-show="angular.isDefined(unparcours.fonction)">{{unparcours.fonction.libelle}}</span>
+                                <span ng-show="angular.isDefined(unparcours.fonctionAnnexe)">{{unparcours.fonctionAnnexe.libelle}}</span>                                  
+                            </td>
                             <td>{{unparcours.typeContrat.libelle}}</td>
                             <td>{{unparcours.fin| date: 'dd MMM yyyy'}}</td>
                             <td>
-                                <button class="btn btn-primary" 
-                                        ng-show="avoirPermission('modifier', 'servir') == true && unparcours.finService == 0 && unparcours.fin != null"  
+                                <button class="btn btn-success" 
+                                        ng-show="avoirPermission('modifier', 'servir') == true
+                                                                    && angular.isUndefined(unparcours.fonctionAnnexe)
+                                                                    && unparcours.finService == 0 && unparcours.fin != null"  
                                         title="Prolonger le contrat" 
                                         ng-click="prolongerContrat(unparcours)">
                                     <i class="fa fa-arrow-right"></i>
                                 </button>
+                                
                                 <button class="btn btn-danger" 
                                         ng-show="avoirPermission('modifier', 'servir') == true && unparcours.finService == 0"  
                                         title="Fin de service" 
                                         ng-click="finirService(unparcours)">
                                     <i class="fa fa-times"></i>
                                 </button>
-                                <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="deleteParcours(unparcours.id)">
+                                <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="confirmDeleteServir(unparcours.id)">
                                     <i class="fa fa-trash"></i>
                                 </button>
+                              <!-- <button title="Voir document(s)" class="btn btn-primary" type="button"  data-toggle="collapse" data-target="#documentsAssociésParcours{{$index}}" aria-expanded="false"
+                                        ng-if="avoirPermission('lister', 'document') == true">
+                                    <i class="fa fa-book"></i>
+                                </button>--> 
                             </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7" >
+                              <table class="table table-striped table-bordered tableau-document">
+                                    <thead>
+                                        <tr>
+                                            <th>Type </th>
+                                            <th>Description </th>
+                                            <th>Date d'enregistrement</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.servir) && (doc.servir.id == unparcours.id)">
+                                            <td>
+                                                {{doc.typeDocument.code}}
+                                            </td>
+                                            <td>
+                                                {{doc.description}}
+                                            </td>
+                                            <td>
+                                                <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-danger" ng-if="avoirPermission('supprimer', 'document') == true" ng-click="deleteArchiveSituationMatrimoniale(doc)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </td> 
                         </tr>
                     </tbody>
                 </table>
             </div>
-
+            <!-- modal 
+            
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        bbbbbbbbb
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+           <!-- fin modal -->
         </div>
     </div>
 </div>

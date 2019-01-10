@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "formation")
