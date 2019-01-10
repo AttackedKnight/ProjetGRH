@@ -8,6 +8,8 @@ angular.module('ServiceModule').controller('DetailAbsenceController', function (
 {
 
     $scope.isAbsence = false;
+    $scope.isConge = false;
+    
     TypeAutorisation.findAll().success(function (data) {
         $scope.typesAutorisation = data;
     }).error(function () {
@@ -15,9 +17,18 @@ angular.module('ServiceModule').controller('DetailAbsenceController', function (
     });
     Absence.find($routeParams.id).success(function (data) {
         $scope.absence = data;
+         console.log($scope.absence);
         if ($scope.absence.typeAbsence.code == 'abs') {
             $scope.isAbsence = true;
         }
+        if ($scope.absence.typeAbsence.code == 'cong') {
+            $scope.isConge = true;
+            $scope.dureeIni = angular.copy($scope.absence.duree); //Gardder la duree initiale demande par l'employe(au cas ou ca change, le nombre de jours restant doit etre calcule a nouveau)
+            console.log($scope.dureeIni);
+        console.log($scope.isConge);
+        }
+       
+        
         
         $scope.findFonctionEmploye();
         $scope.findEntiteEmploye();
@@ -90,9 +101,22 @@ angular.module('ServiceModule').controller('DetailAbsenceController', function (
                 $scope.completerAbsence();
             }
         }
+        else{
+            console.log("non Abse")
+            $scope.completerAbsence();
+        }
         
 
     };
+    
+    $scope.confimerValidationAbsence = async function () {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement accepter cet demande ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        $scope.validerAbsence();
+                    }
+                });
+    }
 
     $scope.refuserAbsence = async function () {
         Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement annuler cet demande ?"))
@@ -116,11 +140,19 @@ angular.module('ServiceModule').controller('DetailAbsenceController', function (
     $scope.completerAbsence = function () {
         var dateDebut = new Date($scope.absence.dateDebut);
         var dateRetour = new Date($scope.absence.dateDebut);
-        dateRetour.setDate(dateRetour.getDate() + $scope.absence.duree);
-        dateRetour.setDate(dateRetour.getDate() + countWeekEnd(dateDebut, dateRetour));
+        dateRetour.setDate(dateRetour.getDate() + $scope.absence.duree);    //Ajouter la duree(en nombre de jours) a la date debut
+        dateRetour.setDate(dateRetour.getDate() + countWeekEnd(dateDebut, dateRetour)); //Compte le nombre samedi et dimanche entre les deux date et l'ajouter a date fin(pour ne tenir compte que des jours ouvrables)
         $scope.absence.etatTraitement = 1;
         $scope.absence.dateFin = dateRetour;
-        
+        if ($scope.isConge == true && ($scope.dureeIni != $scope.absence.duree)) {
+           //Si c'est une demande de conge est que le nombre de jours initialement demande a ete modifie :
+           if($scope.dureeIni > $scope.absence.duree){//Si ca a diminué
+               $scope.absence.jourRestant += $scope.dureeIni - $scope.absence.duree; //ajouter l'ecart
+           }
+           else{//Si ca a augmenté
+               $scope.absence.jourRestant -=  $scope.absence.duree - $scope.dureeIni; //soustraire l'ecart
+           }
+        }
         $scope.editAbsence();
     };
 

@@ -4,21 +4,39 @@
  * and open the template in the editor.
  */
 angular.module('EmployeModule').controller('AbsenceController', function ($scope, Typepermission, Absence,
-        AbsenceTypeEmploye, Employe, $rootScope, SweetAlert)
+        AbsenceTypeEmploye, Employe, Enfant, $rootScope, SweetAlert)
 {
     $scope.absence = {id: "", etatTraitement: 0};
     var aujourdhui = new Date();
     $scope.absence.dateEnregistrement = aujourdhui;
     $scope.autreMotif = false;
+    $scope.jourSuppParEnfant = 0;
 
     Employe.find($rootScope.idEmploye).success(function (data) {
         $scope.employe = data;
         $scope.absence.employe = $scope.employe;
         $scope.findTypeAbsence($scope.employe.typeEmploye.id);
         $scope.calculNombreJourDeConge();
+        if ($scope.employe.genre.libelle == "Femme") {
+            $scope.getJourSuppParEnfant();
+        }
     }).error(function () {
         SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupération de l'employé");
     });
+
+    //Nombre de jours supplementaires si femme avec enfant(s) de moins de 14ans
+    $scope.getJourSuppParEnfant = function () {
+        //1 jour de plus par enfant de moins de 14ans
+        Enfant.findByEmploye($scope.employe.id).success(function (data) {
+            if (data) {
+                $scope.jourSuppParEnfant = data.filter(getMoinsQuatorzeAns).length;
+            }
+            $scope.nombreDeJourDeConge += $scope.jourSuppParEnfant;
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement enfant(s)");
+        });
+    };
+
 
     /*Recuperer les types de demandes d'absence qu'il peut faire*/
     $scope.findTypeAbsence = function (idType) {
@@ -44,6 +62,7 @@ angular.module('EmployeModule').controller('AbsenceController', function ($scope
     };
 
     $scope.checkAutreMotif = function () {
+        $scope.autreMotif = !$scope.autreMotif;
         if ($scope.autreMotif == true) {  //Si le motif n'apparait pas dans les types de permission pre-definis
             $scope.absence.typePermission = undefined;
             $scope.absence.duree = 1;
@@ -78,7 +97,28 @@ angular.module('EmployeModule').controller('AbsenceController', function ($scope
             }
         }
         if (validite === true) {
-            $scope.addAbsence();
+            if ($scope.typeConge == true) {
+                if ($scope.dureeMinimaleServiceAtteinte == true) {
+                    if ($scope.congeAutorise == false) {
+                        SweetAlert.simpleNotification("warning", "Attention", "Vous devez avoir au minimum 2ans d'ancienneté pour pouvoir demandé un congé");
+                    } else if ($scope.absence.duree > $scope.nombreDeJourDeConge) {
+                        SweetAlert.simpleNotification("warning", "Attention", "Vous ne pouvez pas prendre plus que le nombre de jours indiqué en haut");
+                    } else {
+                        if ($scope.absence.duree < $scope.nombreDeJourDeConge) {  //S'il n'a pas pris tous les jours dont il a droit:on garde le nombre de jours qui lui restent pour le prochain conge
+                            $scope.absence.jourRestant = $scope.nombreDeJourDeConge - $scope.absence.duree;
+                        }
+                        console.log("Il vous reste " + $scope.absence.jourRestant);
+                        $scope.addAbsence();
+
+                    }
+                } else {
+                    SweetAlert.simpleNotification("warning", "Attention", "Vous n'avez pas atteint le nombre de mois de service requis pour pouvoir demandé un congé");
+                }
+
+            } else {
+                $scope.addAbsence();
+            }
+
         }
 
     };
@@ -92,83 +132,120 @@ angular.module('EmployeModule').controller('AbsenceController', function ($scope
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'envoi de la demande");
         });
     };
-
+    $scope.typeConge = false;
+    $scope.congeAutorise = false;
+    $scope.dureeMinimaleServiceAtteinte = true; //Est ce qu'il a fait 12mois(ou 24 mois pour un nouveau) de service avnt de demander un conge
+    $scope.nombreDeJourDeConge = 0;
+    var today = new Date();
+    $scope.checkTypeAbsence = function () {
+        if ($scope.absence.typeAbsence.code == 'cong') {
+            $scope.typeConge = true;
+        } else {
+            $scope.typeConge = false;
+        }
+    };
+    function getMoinsQuatorzeAns(data) {
+        var dateNaiss = new Date(data.dateNaissance);
+        var nombreDeMois = (today.getMonth() - dateNaiss.getMonth())
+                + ((today.getFullYear() - dateNaiss.getFullYear()) * 12);
+        if (today.getDate() < dateNaiss.getDate()) {
+            nombreDeMois--;
+        }
+        var age = Math.ceil(nombreDeMois / 12);
+        return age < 14;
+    }
     $scope.calculNombreJourDeConge = function () {
         var dateReference;
-        var today = new Date();
-        var nombreDeJourDeConge = 0;
+
         /*Recuperer la date de retour du dernier cong�*/
         Absence.getDernierConge($scope.employe.id).success(function (data) {
-            if(data){    
+            if (data) {
                 /*Si c'est pas vide : l'employe a une fois pris un conge 
                  * dans ce cas la date reference est la date de retour du dernier conge*/
                 dateReference = new Date(data.dateRetour);
-            }
-            else{   
+                $scope.congeAutorise = true;
+                //Calculer le nombre de mois entre DateActuelle-DateReference
+                var nombreDeMois = (today.getMonth() - dateReference.getMonth())
+                        + ((today.getFullYear() - dateReference.getFullYear()) * 12);
+                if (today.getDate() < dateReference.getDate()) {
+                    nombreDeMois--;
+                }
+                console.log("jour restant du dernier conge " + data.jourRestant)
+                $scope.nombreDeJourDeConge += data.jourRestant; //Recuperer le nombre de jour qui lui reste au dernier conge
+            } else {
                 /*Sinon : l'employe n'a pas encore eu un conge , dans ce cas 
                  * la date reference est la date de recrutement*/
                 dateReference = new Date($scope.employe.dateRecrutement);
+
+                //Calculer le nombre de mois entre DateActuelle-DateReference
+                var nombreDeMois = (today.getMonth() - dateReference.getMonth())
+                        + ((today.getFullYear() - dateReference.getFullYear()) * 12);
+                if (today.getDate() < dateReference.getDate()) {
+                    nombreDeMois--;
+                }
+
+                if (nombreDeMois >= 24) { //S'il a  2ans d'ancienneté
+                    $scope.congeAutorise = true;
+                }
             }
-            //Calculer le nombre de mois entre DateActuelle-DateReference
-            var nombreDeMois = (today.getMonth() - dateReference.getMonth())
-                    + ((today.getFullYear() - dateReference.getFullYear())*12);
-            if(today.getDate() < dateReference.getDate()){
-                nombreDeMois--;
-            }
-            console.log("Nombre de mois ecoulé entre la date de retour du dernier conge(de recrutement) >>>> "+nombreDeMois);
-            //Verifier que c'est au moins superieur ou egal a 1 an
-            if(nombreDeMois>=12){               
-                //Calculer le nombre de jours de conge auquel l'employe a droit
-                nombreDeJourDeConge = 2*nombreDeMois; //Deux jours ouvrables de conge par mois
-                console.log("Vous avez droit a un conge de duree min "+nombreDeJourDeConge);
-                /*Verifier l'anciennete et la situation matrimoniale(si femme) pour savoir s'il a droit a des jours supplementaires*/
-                //Anciennete
-                var dateRecru = new Date($scope.employe.dateRecrutement)
-                var nombreDeMoisAnciennete = (today.getMonth() - dateRecru.getMonth())
-                        + ((today.getFullYear() - dateRecru.getFullYear())*12);
-                if(today.getDate() < dateRecru.getDate()){
-                    nombreDeMoisAnciennete--;
+
+            if ($scope.congeAutorise == true) {
+                console.log("Nombre de mois ecoulé entre la date de retour du dernier conge(de recrutement) >>>> " + nombreDeMois);
+                //Verifier que c'est au moins superieur ou egal a 1 an
+                if (nombreDeMois >= 12) {
+                    //Calculer le nombre de jours de conge auquel l'employe a droit
+                    $scope.nombreDeJourDeConge += 2 * nombreDeMois; //Deux jours ouvrables de conge par mois
+                    console.log("Vous avez droit a un conge de duree min " + $scope.nombreDeJourDeConge);
+                    /*Verifier l'anciennete et la situation matrimoniale(si femme) pour savoir s'il a droit a des jours supplementaires*/
+                    //Anciennete
+                    var dateRecru = new Date($scope.employe.dateRecrutement)
+                    var nombreDeMoisAnciennete = (today.getMonth() - dateRecru.getMonth())
+                            + ((today.getFullYear() - dateRecru.getFullYear()) * 12);
+                    if (today.getDate() < dateRecru.getDate()) {
+                        nombreDeMoisAnciennete--;
+                    }
+                    var ancienneteEnAnneee = Math.ceil(nombreDeMoisAnciennete / 12);
+                    console.log("Vous avez passe " + ancienneteEnAnneee + " an(s) au sein de l'universite")
+                    if (ancienneteEnAnneee > 25) {
+//                        console.log("Vous avez " + 1 + " jour(s) de plus");
+                        $scope.nombreDeJourDeConge += 6;
+
+                    } else if (ancienneteEnAnneee > 20) {
+//                        console.log("Vous avez " + 1 + " jour(s) de plus");
+                        $scope.nombreDeJourDeConge += 3;
+                    } else if (ancienneteEnAnneee > 15) {
+//                        console.log("Vous avez " + 1 + " jour(s) de plus");
+                        $scope.nombreDeJourDeConge += 2;
+                    } else if (ancienneteEnAnneee > 10) {
+                        console.log("Vous avez " + 1 + " jour(s) de plus");
+                        $scope.nombreDeJourDeConge += 1;
+                    }
+                    console.log("Vous avez droit a un conge de duree" + $scope.nombreDeJourDeConge);
+
+                    /*Recuperer la liste des absences deductibles apres le dernier conges et faire la somme des durees*/
+                    Absence.getAbsenceDeductible($scope.employe.id, dateReference).success(function (absenceDeduc) {
+                        var totalDureeAbsenceDeductible = 0;
+                        if (absenceDeduc) {
+                            for (var i = 0; i < absenceDeduc.length; i++) {
+                                totalDureeAbsenceDeductible += absenceDeduc[i].duree;
+                            }
+                        }
+                        $scope.nombreDeJourDeConge -= totalDureeAbsenceDeductible;
+                        console.log("Vous avez au total " + totalDureeAbsenceDeductible + " jours  d'absences deductibles");
+                    }).error(function () {
+                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des absences déductibles");
+                    });
+                } else {
+                    $scope.dureeMinimaleServiceAtteinte = false;
+                    console.log("Vous ne pouvez pas prendre de conge");
                 }
-                var ancienneteEnAnneee = Math.ceil(nombreDeMoisAnciennete/12);
-                console.log("Vous avez passe "+ancienneteEnAnneee+" an(s) au sein de l'universite")
-                if(ancienneteEnAnneee > 25){
-                    nombreDeJourDeConge +=6;
-                    
-                }
-                else if(ancienneteEnAnneee > 20){
-                    nombreDeJourDeConge +=3;
-                }
-                else if(ancienneteEnAnneee > 15){
-                    nombreDeJourDeConge +=2;
-                }
-                else if(ancienneteEnAnneee > 10){
-                    console.log("Vous avez "+1+" jour(s) de plus");
-                    nombreDeJourDeConge +=1;
-                }
-                console.log("Vous avez droit a un conge de duree"+nombreDeJourDeConge);
-                //Nombre de jours supplementaires si femme avec enfant(s) de moins de 14ans
-                if($scope.employe.genre.libelle = "Femme"){
-                    var nombreEnfants =$scope.employe.nombreEnfant | 0;
-                    console.log("Vous avez "+nombreEnfants+" enfant(s)")
-                    //1 jour de plus par enfant de moins de 14ans
-                }
-                
-                /*Recuperer la liste des absences deductibles apres le dernier conges et faire la somme des durees*/
-//                Absence.getAbsenceDeductible($scope.employe.id,data.dateRetour).success(function (absenceDeduc) {
-//                    console.log("Absence deductibles "+absenceDeduc);
-//                }).error(function () {
-//                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération des absences déductibles");
-//                });
-            }
-            else{
-                console.log("Vous ne pouvez pas prendre de conge");
             }
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du dernier congé");
         });
 
-        
 
-        /*Soustraire le nombre de jour d'absences deductibles au nombre de jour auquel il a droit*/    
+
+        /*Soustraire le nombre de jour d'absences deductibles au nombre de jour auquel il a droit*/
     };
 });

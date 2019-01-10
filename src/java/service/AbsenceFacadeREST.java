@@ -102,11 +102,11 @@ public class AbsenceFacadeREST extends AbstractFacade<Absence> {
     }
     
     @GET
-    @Path("absencedeductible/employe/{id}/datereference{date}")
+    @Path("absencedeductible/employe/{id}/datereference/{date}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Absence> findAbsenceDeductibleByEmploye(@PathParam("id") Integer id,String date) {
+    public List<Absence> findAbsenceDeductibleByEmploye(@PathParam("id") Integer id,@PathParam("date") String dateRef) {
         List<Absence> li = em.createQuery("SELECT ab FROM Absence ab WHERE ab.typeAutorisation.libelle = 'Deductible'"
-                + " AND ab.dateDebut > "+date+" AND  ab.etatTraitement = 1 AND ab.employe.id = "+id+" "
+                + " AND ab.dateDebut > "+dateRef+" AND  ab.etatTraitement = 1 AND ab.employe.id = "+id+" "
                         + "ORDER BY ab.id DESC", Absence.class)
                 .getResultList();
         if (li.size() > 0) {

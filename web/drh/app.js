@@ -39,21 +39,5 @@ angular.module("DrhModule", ['ngRoute', 'ngMessages']).config(function ($routePr
         templateUrl: 'drh/employe/detailAgent.html',
         controller: 'DetailEmployeController'
         
-    }).when('/drh/demandes/absence', {
-        templateUrl: 'drh/demandes/listeAbsence.html',
-        controller: 'ListeAbsenceController'
-        
-    }).when('/drh/demandes/conge', {
-        templateUrl: 'drh/demandes/listeConge.html',
-        controller: 'ListeCongeController'
-        
-    }).when('/drh/demandes/detailConge', {
-        templateUrl: 'drh/demandes/detailConge.html',
-        controller: 'DetailCongeController'
-        
-    }).when('/drh/demandes/detailAbsence', {
-        templateUrl: 'drh/demandes/detailAbsence.html',
-        controller: 'DetailAbsenceController'
-        
     }).otherwise('/');
 });

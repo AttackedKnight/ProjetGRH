@@ -42,7 +42,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         } else {
             $scope.cddContrat = false;
         }
-        $scope.servir.dureeDuContrat=null;
+        $scope.servir.dureeDuContrat = null;
         $scope.servir.fin = null;
     };
 
@@ -55,7 +55,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         $scope.servir = {id: "", employe: $scope.employe, debut: new Date()};
     };
     $scope.initServir();
-    
+
     $scope.finContratApproche = false;
     $scope.finContratDepasse = false;
     $scope.finContratNombreJoursCritique = 15;
@@ -74,7 +74,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
     $scope.occupeFonctionAnnexe = false;
     $scope.occupeFonctionPrincipale = false;
     $scope.findServir = function () {
-        
+
         /*Recuperer le parcour professionnel de l'employe*/
         Servir.findByEmploye($scope.employe).success(function (data) {
             $scope.parcours = data;
@@ -86,12 +86,11 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
                 $scope.occupeFonctionPrincipale = (fp.length > 0) ? true : false;
                 $scope.occupeFonctionAnnexe = (fa.length > 0) ? true : false;
                 if ($scope.occupeFonctionPrincipale == true) {
-                    $scope.$parent.estPermanent = fp[0].typeContrat.code = 'cdi' ? true : false;    //si fonction principale et cdi , permanent sinon contactuelle
+                    $scope.$parent.estPermanent = fp[0].typeContrat.code == 'cdi' ? true : false;    //si fonction principale et cdi , permanent sinon contactuelle
                     if ($scope.$parent.estPermanent == true)    //Si permanent, predefinir le type de contrat pour un eventuel ajout de fonction a venir(affectation ou changement de fonction)
                         $scope.servir.typeContrat = $scope.typecontrats.filter(getCdiContrat)[0];
-                }
-                else{
-                    $scope.$parent.estPermanent=false;
+                } else {
+                    $scope.$parent.estPermanent = false;
                 }
                 if ($scope.$parent.estPermanent && $scope.occupeFonctionPrincipale == true
                         && !$scope.occupeFonctionAnnexe) {    //Si permanent avec fonction principale sans foncion annexe en cours
@@ -110,8 +109,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
                         }
                     }
                 }
-            }
-            else{
+            } else {
                 $scope.autoriseFonctionAnnexe = false;
                 $scope.occupeFonctionAnnexe = false;
                 $scope.occupeFonctionPrincipale = false;
@@ -123,6 +121,14 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
 
     $scope.findServir();
 
+    $scope.confirmfinirService = function (serviceActuel) {
+        Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
+                .then(function (value) {
+                    if (value == true) {
+                        $scope.finirService(serviceActuel)
+                    }
+                });
+    };
     $scope.finirService = function (serviceActuel) {
         serviceActuel.fin = new Date();
         serviceActuel.finService = 1;
@@ -135,6 +141,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         });
 
     };
+<<<<<<< HEAD
     
      $scope.voirDoc = function (index) {
        $("#documentsAssociésParcours"+index).toggle();
@@ -142,6 +149,10 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
     };
 //     $(".documentsAssociésParcours").hide();
     
+=======
+
+
+>>>>>>> 4b4c1760fbced970b7ab4e104c492f64037af156
     $scope.editJobOperation = false;
 //    $scope.setJob = function (servir) {
 //        $scope.editJobOperation = true;
@@ -188,8 +199,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
                                 $scope.completerServir();
                             }
 
-                        } 
-                        else {
+                        } else {
                             if ($scope.occupeFonctionPrincipale == true) {
                                 SweetAlert.notificationAvecSuggestion("info", "Information", "Cet employé est en service actuellement",
                                         "<h5>Clicker sur le boutton <b>fin</b> d'abord</h5>");
@@ -326,7 +336,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         $scope.fonction = {id: ""};
         $scope.servir = {id: "", employe: $scope.employe, debut: new Date()};
     };
-    
+
     $scope.confirmDeleteServir = function (idParcours) {
         Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))
                 .then(function (value) {

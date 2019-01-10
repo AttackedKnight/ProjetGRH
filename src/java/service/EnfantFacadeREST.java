@@ -75,6 +75,20 @@ public class EnfantFacadeREST extends AbstractFacade<Enfant> {
         return null;
     }
     
+//    /*Enfant de moins de quatorze ans : pour le calcul des jours supplementaire de conge*/
+//    @GET
+//    @Path("enfant/employe/{id}")
+//    @Produces({MediaType.TEXT_PLAIN})
+//    public List<Enfant> findEnfantByEmploye(@PathParam("id") Integer id) {
+//        List<Enfant> s = em.createQuery("SELECT e FROM Enfant e WHERE e.employe.id = :id", Enfant.class)
+//                .setParameter("id", id)
+//                .getResultList();
+//        if (s.size() > 0) {
+//            return s;
+//        }
+//        return null;
+//    }
+    
     @GET
     @Path("last/employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})

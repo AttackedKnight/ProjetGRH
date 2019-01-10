@@ -6,7 +6,7 @@
 
 
 angular.module('DrhModule').controller('EmployeController', function ($scope, SweetAlert, Mail, UploadFile,
-        Employe, Utilisateur, Groupe, Contact, Adresse, Servir, Fonction, TypeEmploye,
+        Employe, Utilisateur, Groupe, Contact, Adresse, Servir, Fonction, TypeEmploye,$window,
         Entite, Typecontrat, Fonction, Groupe, Genre, $routeParams, Document, $q, Typedocument)
 {
 
@@ -327,6 +327,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
     $scope.findByNin = function () {
         Employe.findByNin($scope.employe.numeroCni).success(function (data) {
             $scope.employe = data;
+            $scope.idEmployeCree = data.id;
             $scope.completerAdresse();
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la recupération de l'employé ajouté");
@@ -359,14 +360,38 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         $scope.reinitialiser();
 
         Mail.sendEmail(msg).success(function () {
-            ;
+            $scope.suggererRedirection();
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "L'envoi du mail a échoué");
+            $scope.suggererRedirection();
         });
         $scope.utilisateur = {id: "", avatar: "images/avatar.png"};
         Mail.resetHttp();
     };
-
+    
+    $scope.testEnvoyerMail = function () {
+//        var corps = "Login : fallougalass Mot de passe : mbengue2019";
+//        var msg = 'to=fallou06mbengue@gmail.com&objet=identifiants de connexion&body=' + corps;
+//
+//        Mail.sendEmail(msg).success(function () {
+            $scope.suggererRedirection();
+//        }).error(function () {
+//            SweetAlert.simpleNotification("error", "Erreur", "L'envoi du mail a échoué");
+//            $scope.suggererRedirection();
+//        });
+////        $scope.utilisateur = {id: "", avatar: "images/avatar.png"};
+//        Mail.resetHttp();
+    };
+    
+    $scope.suggererRedirection = function () {
+        Promise.resolve(SweetAlert.demandeAction("Information", "Compléter la création du dossier ? "))
+                .then(function (value) {
+                    if (value == true) {
+                        $window.location.href = '#/drh/employe/detailAgent/'+$scope.idEmployeCree;
+                    }
+                });
+    };
+    
     $scope.creerCompteUtilisateur = function () {
 
         if ($scope.estPermanent) {  //Un compte utilisateur est cree pour un employe permanent
@@ -563,7 +588,8 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
                     $scope.creerCompteUtilisateur();
                 }
             } else {
-                $scope.reinitialiser()
+                $scope.reinitialiser();
+                $scope.suggererRedirection();
             }
 
         });

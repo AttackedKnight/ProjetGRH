@@ -87,6 +87,29 @@ type: type,
             });
             
             
+        },
+        demandeAction: function (titre, texte) {
+
+            
+           return swal({
+
+                title: titre,
+                text: texte,
+                type: 'success',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: "Oui",
+                cancelButtonColor: '#d33',
+                cancelButtonText: "Plut tard",
+                focusCancel: false
+            }).then((result) => {
+                if (result.value) {
+                    return true;
+                }
+                return false;
+            });
+            
+            
         }
 };
         });
