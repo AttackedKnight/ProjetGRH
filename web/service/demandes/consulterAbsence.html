@@ -24,8 +24,7 @@
                                 <th style="font-weight: bold; font-size: 1.1em;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody> 
-                            
+                        <tbody>                 
                             <tr ng-repeat="absence in absences" ng-if="absence.etatTraitement == 0">
                                 <td>{{absence.typeAbsence.libelle}}</td>
                                 <td>{{absence.employe.prenom}}</td>
@@ -33,13 +32,11 @@
                                 <td>{{absence.dateDebut | date: 'dd MMM yyyy'}}</td>
                                 <td>{{absence.duree}}</td>
                                 <td>
-                                   <span class="col-md-6" ng-if="avoirPermission('consulter', 'absence') == true">
+                                   <span  ng-if="avoirPermission('consulter', 'absence') == true">
                                         <a ng-href="#/service/demandes/detailAbsence/{{absence.id}}" title="Détail">
                                             <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
-                                        </a>
-                                    
+                                        </a>                                   
                                     </span>
-                                    
                                 </td>
                             </tr>
                         </tbody>
@@ -72,7 +69,12 @@
                                 <td>{{absence.duree}}</td>
                                 <td>{{absence.dateFin | date: 'dd MMM yyyy'}}</td>
                                 <td>
-                                   <span class="col-md-6" ng-if="avoirPermission('supprimer', 'absence') == true">
+                                    <span  ng-if="avoirPermission('consulter', 'absence') == true">
+                                        <a ng-href="#/service/demandes/detailAbsence/{{absence.id}}" title="Détail">
+                                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                        </a>                                   
+                                    </span>
+                                   <span ng-if="avoirPermission('supprimer', 'absence') == true">
                                        <button  class="btn btn-danger" ng-click="deleteAbsence(absence)" title="Supprimer">
                                             <span class="fa fa-trash"></span>
                                         </button>                                   
@@ -107,12 +109,16 @@
                                 <td>{{absence.dateDebut | date: 'dd MMM yyyy'}}</td>
                                 <td>{{absence.duree}}</td>
                                 <td>
-                                   <span class="col-md-6" ng-if="avoirPermission('supprimer', 'absence') == true">
+                                    <span  ng-if="avoirPermission('consulter', 'absence') == true">
+                                        <a ng-href="#/service/demandes/detailAbsence/{{absence.id}}" title="Détail">
+                                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                        </a>                                   
+                                    </span>
+                                   <span ng-if="avoirPermission('supprimer', 'absence') == true">
                                         <button class="btn btn-danger" ng-click="deleteAbsence(absence)" title="Supprimer">
                                             <span class="fa fa-trash"></span>
                                         </button>                                  
-                                    </span>
-                                    
+                                    </span>                               
                                 </td>
                             </tr>
                         </tbody>

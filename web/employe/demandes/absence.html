@@ -1,85 +1,103 @@
-<div class="container col-md-offset-1">
-    <div class="col-md-8" style="background-color: white" >
-        <h2 style="text-align: center;">Autorisation d'absence</h2>
-        <div class="row">
-            <!-- {{absence}}-->           
-            <form role="form" name="absenceForm" id="absenceForm" novalidate="" >
+<div class="box box-solid box-primary">
+    <div class="box-header">
+        <h2 class="box-title" style="text-align: center;">
+            Demande d'autorisation d'absence<br>
+            <span ng-show="congeAutorise && typeConge && dureeMinimaleServiceAtteinte">Vous avez droit à 
+                <b style="color:blue;">{{nombreDeJourDeConge}}</b>
+                jours au maximum
+            </span>
+        </h2>
+    </div>
+    <div class="box-body">
+        <form role="form" name="absenceForm" id="absenceForm" novalidate="">
+            <div class="form-group">
+                <label for="typeAbsence" style="font-size: 1.1em;"> Type d'absence :</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-edit"></i>
+                    </div>
+                    <select ng-model="absence.typeAbsence" id="typeAbsence"
+                            class="form-control"   
+                            ng-options="typeAbsence.libelle for typeAbsence in typeAbsences"
+                            ng-change="checkTypeAbsence()"></select>
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="dateDebut" style="font-size: 1.1em;"> Date début :</label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="date" ng-model="absence.dateDebut" class="form-control" id="dateDebut">
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+            </div>
+            <div ng-if="absence.typeAbsence.code != 'cong'">
                 <div class="form-group">
-                    <label for="typeAbsence" style="font-size: 1.1em;"> Type d'absence :</label>
+                    <label for="motif" style="font-size: 1.1em;"> Motif :</label>
+                    <div class="input-group" ng-show="!autreMotif">
+                        <div class="input-group-addon">
+                            <i class="fa fa-edit"></i>
+                        </div>
+                        <select ng-model="absence.typePermission" id="motif" class="form-control" ng-change="setMotifAndDuree()" ng-options="permission.libelle for permission in typepermissions"></select>
+                    </div>
+                    <div class="alert alert-block alert-danger requis" style="display:none">
+                        <div>Veuillez renseigner ce champs.</div>
+                    </div>
+                </div>
+
+                <label for="autre" style="font-size: 1.1em;"> Autre motif :</label>
+                <input type="checkbox" ng-model="autreMotif" id="autre" ng-change="checkAutreMotif()"/>
+                <div class="form-group" ng-if="autreMotif">
                     <div class="input-group">
                         <div class="input-group-addon">
                             <i class="fa fa-edit"></i>
                         </div>
-                        <select ng-model="absence.typeAbsence" id="typeAbsence" class="form-control"   ng-options="typeAbsence.libelle for typeAbsence in typeAbsences"></select>
+                        <input type="text" name="autreMotif" class="form-control" id="autreMotif" placeholder="Autre motif" ng-model="absence.motif">
                     </div>
                     <div class="alert alert-block alert-danger requis" style="display:none">
                         <div>Veuillez renseigner ce champs.</div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label for="dateDebut" style="font-size: 1.1em;"> Date début :</label>
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
-                        </div>
-                        <input type="date" ng-model="absence.dateDebut" class="form-control" id="dateDebut">
-                    </div>
-                    <div class="alert alert-block alert-danger requis" style="display:none">
-                        <div>Veuillez renseigner ce champs.</div>
-                    </div>
-                </div>
-                <div ng-if="absence.typeAbsence.code!='cong'">
-                    <div class="form-group">
-                        <label for="motif" style="font-size: 1.1em;"> Motif :</label>
-                        <div class="input-group" ng-show="!autreMotif">
-                            <div class="input-group-addon">
-                                <i class="fa fa-edit"></i>
-                            </div>
-                            <select ng-model="absence.typePermission" id="motif" class="form-control" ng-change="setMotifAndDuree()" ng-options="permission.libelle for permission in typepermissions"></select>
-                        </div>
-                        <div class="alert alert-block alert-danger requis" style="display:none">
-                            <div>Veuillez renseigner ce champs.</div>
-                        </div>
-                    </div>
-
-                    <label for="autre" style="font-size: 1.1em;"> Autre motif :</label>
-                    <input type="checkbox" ng-model="autreMotif" id="autre" ng-change="checkAutreMotif()"/>
-                    <div class="form-group" ng-if="autreMotif">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-edit"></i>
-                            </div>
-                            <input type="text" name="autreMotif" class="form-control" id="autreMotif" placeholder="Autre motif" ng-model="absence.motif">
-                        </div>
-                        <div class="alert alert-block alert-danger requis" style="display:none">
-                            <div>Veuillez renseigner ce champs.</div>
-                        </div>
-                        <div ng-messages="absenceForm.autreMotif.$error" role="alert" ng-show="absenceForm.autreMotif.$touched && absenceForm.autreMotif.$invalid" class="alert alert-block alert-danger has-error">
-                            <div ng-message="pattern">Vérifier votre saisie.</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="duree" style="font-size: 1.1em;"> Durée : </label>
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-users"></i>
-                        </div>
-                        <input type="number" name="duree" ng-model="absence.duree" id="duree" ng-pattern="/^[1-9][0-9]*$/" class="form-control">
-                    </div>
-                    <div class="alert alert-block alert-danger requis" style="display:none">
-                        <div>Veuillez renseigner ce champs.</div>
-                    </div>
-                    <div ng-messages="absenceForm.duree.$error" role="alert" ng-show="absenceForm.duree.$touched && absenceForm.duree.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-messages="absenceForm.autreMotif.$error" role="alert" ng-show="absenceForm.autreMotif.$touched && absenceForm.autreMotif.$invalid" class="alert alert-block alert-danger has-error">
                         <div ng-message="pattern">Vérifier votre saisie.</div>
                     </div>
                 </div>
-                <div class=" col-md-offset-3">
-                    <div class="col-md-4 col-xs-6"> <input type="reset" ng-click="reinitialiser()" class="btn btn-block btn-danger" style="font-size: 1.1em;font-weight: bold;" value="ANNULER"> </div>
-                    <div class="col-md-4 col-xs-6"> <input type="submit" ng-disabled="absenceForm.$invalid" class="btn btn-block btn-success" ng-click="validerAbsence()" style="font-size: 1.1em;font-weight: bold;" value="VALIDER"> </div>
-                </div> 
-            </form>
-        </div>
-
+            </div>
+            <div class="form-group">
+                <label for="duree" style="font-size: 1.1em;"> Durée : </label>
+                <div class="input-group">
+                    <div class="input-group-addon">
+                        <i class="fa fa-users"></i>
+                    </div>
+                    <input type="number" name="duree" ng-model="absence.duree" id="duree" ng-pattern="/^[1-9][0-9]*$/" class="form-control">
+                </div>
+                <div class="alert alert-block alert-danger requis" style="display:none">
+                    <div>Veuillez renseigner ce champs.</div>
+                </div>
+                <div ng-messages="absenceForm.duree.$error" role="alert" ng-show="absenceForm.duree.$touched && absenceForm.duree.$invalid" class="alert alert-block alert-danger has-error">
+                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                </div>
+            </div>                 
+        </form>
     </div>
-</div>
+    <div class="box-footer" style="height: 50px; padding-top: 5px; padding-bottom: 5px;">
+        <input type="reset" ng-click="reinitialiser()"
+               class="btn btn-danger pull-right"
+               style="font-size: 1.1em;font-weight: bold;" 
+               value="ANNULER">                                
+        <input type="submit" ng-disabled="absenceForm.$invalid" 
+               class="btn btn-success pull-right" 
+               ng-click="validerAbsence()" style="margin-right:  10px; font-size: 1.1em;font-weight: bold;" 
+               value="VALIDER">                               
+    </div>
+
+    <!--
+            </div>
+        </div> /.box-body -->
+</div><!-- /.box -->
+

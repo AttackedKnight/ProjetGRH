@@ -245,7 +245,7 @@
                                 <button class="btn btn-danger" 
                                         ng-show="avoirPermission('modifier', 'servir') == true && unparcours.finService == 0"  
                                         title="Fin de service" 
-                                        ng-click="finirService(unparcours)">
+                                        ng-click="confirmfinirService(unparcours)">
                                     <i class="fa fa-times"></i>
                                 </button>
                                 <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="confirmDeleteServir(unparcours.id)">

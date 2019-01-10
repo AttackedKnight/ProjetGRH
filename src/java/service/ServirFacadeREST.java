@@ -65,7 +65,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("enservice/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public StringBoolean enservice(@PathParam("id") Integer id) {
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.employe.id=:id  AND s.finService = 0", Servir.class)
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.employe.id=:id  AND s.finService = 0 AND s.fonction IS NOT NULL", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         if (s.size() > 0) {
@@ -111,7 +111,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findEmploye(@PathParam("types") String types) {
         types = types.replace("-", ",");
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 "
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 AND s.fonction IS NOT NULL "
                 + "AND s.employe.typeEmploye.id IN (" + types + ")", Servir.class)
                 .getResultList();
 
@@ -127,7 +127,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Servir> findEmployeByGenre(@PathParam("types") String types, @PathParam("genre") Integer genre) {
         types = types.replace("-", ",");
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 "
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.finService = 0 AND s.fonction IS NOT NULL "
                 + "AND s.employe.genre.id = " + genre + " AND s.employe.typeEmploye.id IN (" + types + ")", Servir.class)
                 .getResultList();
         if (s.size() > 0) {
@@ -143,7 +143,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public List<Servir> findEmployeEntite(@PathParam("id") Integer id, @PathParam("types") String types) {
         types = types.replace("-", ",");
         List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id=:id AND"
-                + " s.finService = 0 AND s.employe.typeEmploye.id IN (" + types + ")", Servir.class)
+                + " s.finService = 0 AND s.fonction IS NOT NULL AND s.employe.typeEmploye.id IN (" + types + ")", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
 
@@ -160,7 +160,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     public List<Servir> findEmployeEntiteByGenre(@PathParam("id") Integer id, @PathParam("types") String types, @PathParam("genre") Integer genre) {
         types = types.replace("-", ",");
         List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE  s.entite.id=:id AND"
-                + " s.finService = 0 AND s.employe.genre.id= " + genre + " AND s.employe.typeEmploye.id IN (" + types + ")", Servir.class)
+                + " s.finService = 0 AND s.fonction IS NOT NULL AND s.employe.genre.id= " + genre + " AND s.employe.typeEmploye.id IN (" + types + ")", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
 
@@ -190,7 +190,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("fonction/employe/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public String findFonctionEmploye(@PathParam("id") Integer id) {
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.employe.id = :id AND s.fonction IS NOT NULL AND s.finService = 0 ORDER BY s.id DESC", Servir.class)
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.employe.id = :id AND s.fonction IS NOT NULL AND s.finService = 0  ORDER BY s.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         if (s.size() > 0) {
@@ -219,7 +219,8 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("last/employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Servir findLastByEmploye(@PathParam("id") Integer id) {
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.employe.id = :id AND  s.finService = 0 ORDER BY s.id DESC", Servir.class)
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.employe.id = :id AND"
+                + "  s.finService = 0 ORDER BY s.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         if (s.size() > 0) {
@@ -232,7 +233,8 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("responsable/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Servir findResponsableEntite(@PathParam("id") Integer id) {
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.responsable=true AND s.finService = 0 ORDER BY s.id DESC", Servir.class)
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND "
+                + "s.responsable=true AND s.finService = 0 ORDER BY s.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
 
@@ -248,7 +250,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("effectif")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer countEmploye() {
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE  s.finService = 0", Servir.class)
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE  s.finService = 0 AND s.fonction IS NOT NULL", Servir.class)
                 .getResultList();
         if (s.size() > 0) {
             return s.size();
@@ -263,7 +265,7 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("effectif/{id}")
     @Produces({MediaType.TEXT_PLAIN})
     public Integer countEmployeEntite(@PathParam("id") Integer id) {
-        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.finService = 0", Servir.class)
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.entite.id = :id AND s.finService = 0 AND s.fonction IS NOT NULL", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
         if (s.size() > 0) {
@@ -286,7 +288,8 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Path("entite/employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public Entite findEntite(@PathParam("id") Integer id) {
-        List<Servir> s = em.createQuery("SELECT e FROM Servir e WHERE e.employe.id = :id AND e.fonction IS NOT NULL AND e.finService = 0 ORDER BY e.id DESC", Servir.class)
+        List<Servir> s = em.createQuery("SELECT e FROM Servir e WHERE e.employe.id = :id "
+                + "AND e.fonction IS NOT NULL AND e.finService = 0 ORDER BY e.id DESC", Servir.class)
                 .setParameter("id", id)
                 .getResultList();
 
@@ -303,8 +306,8 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     @Produces({MediaType.APPLICATION_JSON})
     public List<Employe> findOnlyEmployeFromServir(@PathParam("types") String types) {      //Recupere juste la colonne employe
         types = types.replace("-", ",");
-        List<Employe> s = em.createQuery("SELECT s.employe FROM Servir s WHERE s.finService = 0 "
-                + "AND s.employe.typeEmploye.id IN (" + types + ")", Employe.class)
+        List<Employe> s = em.createQuery("SELECT s.employe FROM Servir s WHERE s.finService = 0 AND s.fonction IS NOT NULL"
+                + " AND s.employe.typeEmploye.id IN (" + types + ")", Employe.class)
                 .getResultList();
 
         if (s.size() > 0) {

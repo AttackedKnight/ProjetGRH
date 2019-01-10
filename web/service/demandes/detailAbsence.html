@@ -51,7 +51,7 @@
                             <h4 style="font-weight: bold;color:black;" class="row">
                                 <span class="col-md-2 col-xs-4">DUREE :</span>
                                 <input class="col-md-5 col-xs-8" id="inputDuree" min="1" style="border: none; background-color: white" type="number" ng-disabled="!modifier" ng-model="absence.duree">       
-                                <span ng-show="absence.etatTraitement == 0" class="col-md-4" style="text-align: center;">
+                                <span  ng-show="absence.etatTraitement == 0 && avoirPermission('modifier', 'absence') == true" class="col-md-4" style="text-align: center;">
                                     <span ng-show="!modifier" style="font-weight: bold;font-size: 0.5em; margin: auto;" ng-click="modifierDuree()" title="Modifier">
                                         <i class="btn btn-warning" >Modifier <span class="glyphicon glyphicon-edit"></span></i>
                                     </span>
@@ -69,9 +69,9 @@
                                 <span style="font-weight: bold;color:black;">{{absence.typeAutorisation.libelle}}</span>
                             </h4>
                         </div> 
-                        <div ng-show="absence.etatTraitement == 0"  class="row" style="border-bottom:1px solid #DCDCDC;">
+                        <div ng-show="absence.etatTraitement == 0 && avoirPermission('modifier', 'absence') == true"  class="row" style="border-bottom:1px solid #DCDCDC;">
                             <div class="col-md-3 ">
-                                <a style="font-weight: bold;" ng-click="validerAbsence()" title="Valider">
+                                <a style="font-weight: bold;" ng-click="confimerValidationAbsence()" title="Valider">
                                     <i class="btn btn-success btn-lg" >Valider <span class="glyphicon glyphicon-ok-circle"></span></i>
                                 </a>
                             </div>
