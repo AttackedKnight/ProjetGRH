@@ -37,8 +37,13 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         return data.id == $scope.selectedSectionId;
     }
 
+<<<<<<< HEAD
     /*Gestion sous menu : section*/
     
+=======
+$scope.template = $scope.templates[0];
+
+>>>>>>> 920c05e4a816cd3bc4916740ecf205a7a58e1ea0
     var idEmploye = $routeParams.id;
     $scope.estPermanent = true;
     $scope.homme = false;

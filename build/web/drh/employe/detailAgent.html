@@ -52,13 +52,26 @@
             <div style="width: 75%; text-align: justify;">
                 ENTITE : {{entiteEmploye.nom}}<hr>
             </div>
+<<<<<<< HEAD
+=======
+            
+            <select ng-model="template" ng-options="t.name for t in templates" class="form-control">
+                <option value="">Selectionner</option>
+            </select>
+            
+>>>>>>> 920c05e4a816cd3bc4916740ecf205a7a58e1ea0
         </div>
+        
+        
         <div class="col-md-2" style="margin-top: 10px;">
             <span ng-if="avoirPermission('supprimer', 'employe') == true" ng-click="deleteAgent(employe)" class="btn btn-danger" title="Supprimer">
                 <span class="fa fa-trash"></span>
             </span>           
         </div>
+        
+       
     </div>
+<<<<<<< HEAD
     <div class="box-header" ng-cloak="">
         <nav class="navbar navbar-default" style="border: 1px solid #3C8DBC;">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -87,8 +100,11 @@
             </div>
         </nav>
     </div>
+=======
+     
+>>>>>>> 920c05e4a816cd3bc4916740ecf205a7a58e1ea0
     <div class="box-body">
-        <div class="box-group" id="accordion" ng-include="template.url">
+        <div class="box-group accordion" id="accordion" ng-include="template.url">
 
         </div>
     </div>

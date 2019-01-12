@@ -15,7 +15,15 @@ import sn.grh.Membremutuelle;
 import sn.grh.Servir;
 import sn.grh.Typedocument;
 
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-11T17:50:52")
+=======
+<<<<<<< HEAD
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-07T10:54:18")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-07T12:32:09")
+>>>>>>> 4b4c1760fbced970b7ab4e104c492f64037af156
+>>>>>>> 920c05e4a816cd3bc4916740ecf205a7a58e1ea0
 @StaticMetamodel(Document.class)
 public class Document_ { 
 

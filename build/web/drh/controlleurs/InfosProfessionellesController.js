@@ -142,8 +142,18 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         });
 
     };
+<<<<<<< HEAD
+    
+     $scope.voirDoc = function (index) {
+       $("#documentsAssociésParcours"+index).toggle();
+
+    };
+//     $(".documentsAssociésParcours").hide();
+    
+=======
 
 
+>>>>>>> 4b4c1760fbced970b7ab4e104c492f64037af156
     $scope.editJobOperation = false;
 //    $scope.setJob = function (servir) {
 //        $scope.editJobOperation = true;

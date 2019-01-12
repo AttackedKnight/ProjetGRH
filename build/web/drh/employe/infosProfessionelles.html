@@ -217,7 +217,7 @@
                         </tr>
                     </thead>
                     <tbody ng-repeat="unparcours in parcours"> 
-                        <tr ng-class="{'finApproche' : finContratApproche == true && unparcours.finService == 0 ,
+                        <tr class="bg-blue-gradient" ng-class="{'finApproche' : finContratApproche == true && unparcours.finService == 0 ,
                                                 'finContrat' : finContratDepasse == true && unparcours.finService == 0}">
                             <td>
                                 <span ng-show="angular.isDefined(unparcours.fonction)">Principale</span>
@@ -232,7 +232,7 @@
                             <td>{{unparcours.typeContrat.libelle}}</td>
                             <td>{{unparcours.fin| date: 'dd MMM yyyy'}}</td>
                             <td>
-                                <button class="btn btn-primary" 
+                                <button class="btn btn-success" 
                                         ng-show="avoirPermission('modifier', 'servir') == true
                                                                     && angular.isUndefined(unparcours.fonctionAnnexe)
                                                                     && unparcours.finService == 0 && unparcours.fin != null"  
@@ -240,10 +240,7 @@
                                         ng-click="prolongerContrat(unparcours)">
                                     <i class="fa fa-arrow-right"></i>
                                 </button>
-                                <button title="Voir document(s)" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#documentsAssociésParcours{{$index}}"
-                                        aria-expanded="false" aria-controls="documentsAssociésParcours{{$index}}" ng-if="avoirPermission('lister', 'document') == true">
-                                    <i class="fa fa-book"></i>
-                                </button>
+                                
                                 <button class="btn btn-danger" 
                                         ng-show="avoirPermission('modifier', 'servir') == true && unparcours.finService == 0"  
                                         title="Fin de service" 
@@ -253,11 +250,15 @@
                                 <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="confirmDeleteServir(unparcours.id)">
                                     <i class="fa fa-trash"></i>
                                 </button>
+                              <!-- <button title="Voir document(s)" class="btn btn-primary" type="button"  data-toggle="collapse" data-target="#documentsAssociésParcours{{$index}}" aria-expanded="false"
+                                        ng-if="avoirPermission('lister', 'document') == true">
+                                    <i class="fa fa-book"></i>
+                                </button>--> 
                             </td>
                         </tr>
                         <tr>
-                            <td colspan="7" class="collapse" id="documentsAssociésParcours{{$index}}">
-                                <table class="table table-striped table-bordered tableau-document">
+                            <td colspan="7" >
+                              <table class="table table-striped table-bordered tableau-document">
                                     <thead>
                                         <tr>
                                             <th>Type </th>
@@ -290,13 +291,34 @@
 
                                         </tr>
                                     </tbody>
-                                </table>
-                            </td>
+                                </table> 
+                            </td> 
                         </tr>
                     </tbody>
                 </table>
             </div>
-
+            <!-- modal 
+            
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        bbbbbbbbb
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+           <!-- fin modal -->
         </div>
     </div>
 </div>
