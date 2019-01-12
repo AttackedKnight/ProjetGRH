@@ -20,6 +20,9 @@ angular.module('ServiceModule').factory('Absence', function ($http) {
         findByEmploye: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.absence/employe/' + id);
         },
+        findAbsenceAccepteByEmploye: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.absence/acceptee/employe/' + id);
+        },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.absence', item);
         },
@@ -36,6 +39,9 @@ angular.module('ServiceModule').factory('Absence', function ($http) {
             dateRef = new Date(dateRef);
             var dateString = dateRef.getFullYear()+'-'+(dateRef.getMonth()+1)+'-'+dateRef.getDate(); //Passe la date sous format string pour le passe en parametre a la methode get
             return $http.get(chemin + '/webresources/sn.grh.absence/absencedeductible/employe/' + id +'/datereference/'+dateString);
+        },
+        findAbsenceAccepteByEntite: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.absence/acceptee/entite/' + id);
         }
     };
 });

@@ -20,7 +20,12 @@ return{
         delete:function(id){
             return $http.delete(chemin+'/webresources/sn.grh.utilisateur/'+id);
         },
-        
+        checkUtilisateur:function(email){
+            return $http.get(chemin+'/webresources/sn.grh.utilisateur/check/'+email);
+        },   
+        getUtilisateurByEmail:function(email){
+            return $http.get(chemin+'/webresources/sn.grh.utilisateur/email/'+email);
+        },   
         edit:function(item){
             return $http.put(chemin+'/webresources/sn.grh.utilisateur/'+item.id,item);
         },
@@ -56,13 +61,25 @@ return{
 //            cookieExp.setDate(cookieExp.getDate() + 7);
 //            $cookies.putObject('globals', $rootScope.globals, { expires: cookieExp });
         },
-
+        
         clearCredentials:function(){
             $rootScope.globals = {};
             $rootScope.credentials = {};
             $cookies.remove('globals');
             $cookies.remove('credentials');
             $rootScope.myPermission=[];
+            $http.defaults.headers.common.Authorization = 'Basic ';
+        },
+        setAdminCredentials:function(utilisateur){ 
+            // Admin user est un compte cree pour pouvoir authentifier 
+            // les requetes provenant des page de reinitialisation du mot de passe, dans le sens
+            
+            var authdata = Base64.encode(utilisateur.login + ':' + utilisateur.motDePasse);
+                     
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + authdata;
+        },
+        
+        clearAdminCredentials:function(){
             $http.defaults.headers.common.Authorization = 'Basic ';
         }
         

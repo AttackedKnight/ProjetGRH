@@ -182,15 +182,13 @@
                         </table>
                     </div>
                 </div> 
-                <div class="row" style="margin-top: 5px; font-size: 1.2em;" 
+                <div style="margin-top: 5px; font-size: 1.2em;" 
                      ng-if="avoirPermission('modifier', 'employe') == true">
-                    <div class="col-md-offset-9 col-md-3 ">
-                        <button
-                            ng-click="toggleCaisseSocialeEditForm()" 
-                            class="btn btn-warning">
-                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                        </button>
-                    </div>
+                    <button
+                        ng-click="toggleCaisseSocialeEditForm()" 
+                        class="btn btn-warning pull-right">
+                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -351,16 +349,16 @@
                         </table>
                     </div>
                 </div>
-                <div class="row " style="margin-top: 5px; font-size: 1.2em;" 
+                <div style="margin-top: 5px; font-size: 1.2em;" 
                      ng-if="avoirPermission('modifier', 'employe') == true">
-                    <div class="col-md-offset- col-md-3 ">
-                        <button ng-if="!membreMutuelle.mutuelleSante" ng-click="toggleMutuelleSanteEditForm()"  class="btn btn-success">
-                            <i class="fa fa-plus" style="font-weight: bold"> Ajouter</i>
-                        </button>
-                        <button ng-if="membreMutuelle.mutuelleSante" ng-click="setMutuelleSante(membreMutuelle)"class="btn btn-warning">
-                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                        </button>
-                    </div>
+                    <button ng-if="!membreMutuelle.mutuelleSante" 
+                            ng-click="toggleMutuelleSanteEditForm()"  class="btn btn-success pull-right">
+                        <i class="fa fa-plus" style="font-weight: bold"> Ajouter</i>
+                    </button>
+                    <button ng-if="membreMutuelle.mutuelleSante" 
+                            ng-click="setMutuelleSante(membreMutuelle)"class="btn btn-warning pull-right">
+                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -520,12 +518,10 @@
                     </div>                  
                 </div>
                 <div class="row " style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'employe') == true">
-                    <div class="col-md-offset-9 col-md-3 ">
-                        <button
-                            ng-click="toggleSyndicatEditForm()" class="btn btn-warning">
-                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                        </button>
-                    </div>
+                    <button
+                        ng-click="toggleSyndicatEditForm()" class="btn btn-warning pull-right">
+                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                    </button>
                 </div>
             </div>
         </div>

@@ -196,8 +196,10 @@
                         </table>
                     </div>
                     <div>
-                        <input type="submit" ng-disabled="newEmploiForm.$invalid" class="btn btn-success" ng-click="controlJobForm('newEmploiForm')" value="AJOUTER">
-                        <input type="reset" ng-click="reinitialiserFormulaireParcours()"  class="btn btn-times btn-danger"  value="ANNULER">
+                        <input type="reset" ng-click="reinitialiserFormulaireParcours()" 
+                               class="btn btn-times btn-danger pull-right"  value="ANNULER">
+                        <input type="submit" ng-disabled="newEmploiForm.$invalid" 
+                               class="btn btn-success pull-right" ng-click="controlJobForm('newEmploiForm')" value="AJOUTER">                      
                     </div>
                 </form>
             </div>

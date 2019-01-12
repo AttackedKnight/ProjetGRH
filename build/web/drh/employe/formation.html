@@ -162,13 +162,15 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td colspan="5">                                                           
-                                    <button ng-click="controlFormationForm('newFormationForm')" ng-disabled="newFormationForm.$invalid" class="btn btn-success">
-                                        <i class="fa fa-plus"> Enrégistrer</i>
-                                    </button> 
-                                    <button ng-click="reinitialiserFormulaireFormation()"  class="btn btn-danger">
+                                <td colspan="5"> 
+                                    <button ng-click="reinitialiserFormulaireFormation()"  
+                                            class="btn btn-danger pull-right">
                                         <i class="fa fa-times"> Annuler</i>
                                     </button>
+                                    <button ng-click="controlFormationForm('newFormationForm')" 
+                                            ng-disabled="newFormationForm.$invalid" class="btn btn-success pull-right">
+                                        <i class="fa fa-plus"> Enrégistrer</i>
+                                    </button> 
                                 </td>
                             </tr>
                         </tbody>

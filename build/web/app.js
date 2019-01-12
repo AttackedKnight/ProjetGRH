@@ -23,8 +23,12 @@ angular.module('globalModule', ['ngRoute', 'ngMessages', 'EmployeModule',
                 // redirect to login page if not logged in
                 if ($location.path() !== '/') {
                     if (!$rootScope.globals.currentUser && !$rootScope.credentials.authdata) {
-                        $location.path('/');
-                    } else {
+                        if($location.path() !== '/authentification/recoverpassword' &&
+                                $location.path() !== '/authentification/newpassword'){
+                            $location.path('/');
+                        }
+                    } 
+                    else {
                         //Afficher interface de travail
                         $('.no-print').css('display', 'none');
                         $('header').removeAttr('hidden');

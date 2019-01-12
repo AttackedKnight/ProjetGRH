@@ -354,7 +354,9 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
     };
 
     $scope.envoyerMail = function () {
-        var corps = "Login : " + $scope.utilisateur.login + " Mot de passe : " + $scope.utilisateur.motDePasse;
+        var corps = "\tUNIVERSITE DE THIES \nDIRECTON DES RESSOURCES HUMAINES ET DE LA FORMATION\n\n";
+        corps+= "Bonjour , veuillez utiliser les identifiants suivants pour vous connectez à votre compte\n\n\
+            Login : " + $scope.utilisateur.login + "\nMot de passe : " + $scope.utilisateur.motDePasse;
         var msg = 'to=' + $scope.contact.email + '&objet=identifiants de connexion&body=' + corps;
 
         $scope.reinitialiser();

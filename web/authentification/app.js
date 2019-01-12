@@ -18,6 +18,14 @@ angular.module('AuthentificationModule', ['ngRoute', 'ngMessages'])
                 templateUrl: 'authentification/connexion/profil.html',
                 controller: 'ProfilController'
                 
+            }).when('/authentification/recoverpassword', {
+                templateUrl: 'authentification/connexion/recoverpassword.html',
+                controller: 'RecoverPasswordController'
+                
+            }).when('/authentification/newpassword', {
+                templateUrl: 'authentification/connexion/newpassword.html',
+                controller: 'NewPasswordController'
+                
             }).when('/logout', {
                 templateUrl: 'authentification/connexion/login.html',
                 controller: 'ConnexionController'

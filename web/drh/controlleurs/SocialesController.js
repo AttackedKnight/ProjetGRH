@@ -508,7 +508,7 @@ angular.module('DrhModule').controller('SocialesController', function ($scope, S
     };
 
 
-    $scope.deleteArchiveSociale = function (doc) {
+    $scope.deleteArchiveSociales = function (doc) {
         var dateEcheanceDoc = new Date(doc.echeance);
         var dateEcheanceAtteinte = ($scope.today > dateEcheanceDoc);    //Si la date d'�cheance du document est atteinte ?
         if (dateEcheanceAtteinte) {

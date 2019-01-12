@@ -15,17 +15,30 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
      * chacune un controlleurs qui est un enfant de ce controlleur global
      * */
 
+     /*Gestion sous menu : section*/
     $scope.templates = [
-        {name: "Informations Générales", url: "drh/employe/infosGenerales.html"},
-        {name: "Situation Matrimoniale", url: "drh/employe/sMatrimoniale.html"},
-        {name: "Sociales", url: "drh/employe/sociales.html"},
-        {name: "Parcours Professionelle", url: "drh/employe/infosProfessionelles.html"},
-        {name: "Avancement", url: "drh/employe/avancement.html"},
-        {name: "Formation", url: "drh/employe/formation.html"},
-        {name: "Archives", url: "drh/employe/archives.html"}
+        {id:1, name: "Infos Générales", url: "drh/employe/infosGenerales.html"},
+        {id:2, name: "Situation Matrimoniale", url: "drh/employe/sMatrimoniale.html"},
+        {id:3, name: "Sociales", url: "drh/employe/sociales.html"},
+        {id:4, name: "Parcours", url: "drh/employe/infosProfessionelles.html"},
+        {id:5, name: "Avancement", url: "drh/employe/avancement.html"},
+        {id:6, name: "Formation", url: "drh/employe/formation.html"},
+        {id:7, name: "Absences", url: "drh/employe/absences.html"},
+        {id:8, name: "Archives", url: "drh/employe/archives.html"}
     ];
+    $scope.setSection = function(id){
+        $scope.selectedSectionId = id;
+        $scope.template = $scope.templates.filter(getSelectedSection)[0];
+        $(".section").removeClass("active");
+        $("#section"+id).addClass("active");
+    };
+    $scope.setSection(1);
+    function getSelectedSection(data){
+        return data.id == $scope.selectedSectionId;
+    }
 
-
+    /*Gestion sous menu : section*/
+    
     var idEmploye = $routeParams.id;
     $scope.estPermanent = true;
     $scope.homme = false;

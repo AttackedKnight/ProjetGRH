@@ -17,6 +17,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
     });
     Typecontrat.findAll().success(function (data) {
         $scope.typecontrats = data;
+        $scope.findServir();
     }).error(function () {
         SweetAlert.finirChargementEchec("Erreur de chargement des types de contrats");
     });
@@ -119,7 +120,7 @@ angular.module('DrhModule').controller('InfosProfessionellesController', functio
         });
     };
 
-    $scope.findServir();
+    
 
     $scope.confirmfinirService = function (serviceActuel) {
         Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))

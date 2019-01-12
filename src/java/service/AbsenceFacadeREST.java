@@ -77,10 +77,36 @@ public class AbsenceFacadeREST extends AbstractFacade<Absence> {
     }
     
     @GET
+    @Path("acceptee/entite/{ids}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Absence> findAccepteeByEntite(@PathParam("ids") String ids) {
+        ids=ids.replace("-", ",");
+        List<Absence> li = em.createQuery("SELECT ab FROM Absence ab WHERE ab.etatTraitement = 1 AND ab.employe.id IN "
+                + "(SELECT s.employe.id FROM Servir s WHERE s.entite.id IN("+ids+")  AND s.finService = 0)", Absence.class)
+                .getResultList();
+        if (li.size() > 0) {
+            return li;
+        }
+        return null;
+    }
+    
+    @GET
     @Path("employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Absence> findByEmploye(@PathParam("id") Integer id) {
         List<Absence> li = em.createQuery("SELECT ab FROM Absence ab WHERE ab.employe.id = "+id+"", Absence.class)
+                .getResultList();
+        if (li.size() > 0) {
+            return li;
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("acceptee/employe/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Absence> findAbsenceAccepteeByEmploye(@PathParam("id") Integer id) {
+        List<Absence> li = em.createQuery("SELECT ab FROM Absence ab WHERE ab.employe.id = "+id+" AND ab.etatTraitement = 1", Absence.class)
                 .getResultList();
         if (li.size() > 0) {
             return li;

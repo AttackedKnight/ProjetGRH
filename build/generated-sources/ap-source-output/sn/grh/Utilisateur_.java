@@ -7,7 +7,7 @@ import sn.grh.Employe;
 import sn.grh.Entite;
 import sn.grh.Groupe;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-07T12:32:09")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-11T17:50:52")
 @StaticMetamodel(Utilisateur.class)
 public class Utilisateur_ { 
 

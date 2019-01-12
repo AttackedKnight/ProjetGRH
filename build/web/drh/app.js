@@ -39,5 +39,9 @@ angular.module("DrhModule", ['ngRoute', 'ngMessages']).config(function ($routePr
         templateUrl: 'drh/employe/detailAgent.html',
         controller: 'DetailEmployeController'
         
+    }).when('/drh/demandes/consulterAbsence', {
+        templateUrl: 'drh/demandes/consulterAbsence.html',
+        controller: 'ConsulterAbsenceByEntiteController'
+        
     }).otherwise('/');
 });

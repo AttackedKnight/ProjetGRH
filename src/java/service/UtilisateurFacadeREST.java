@@ -24,6 +24,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Utilisateur;
+import sn.grh.Contact;
+import sn.otherclasse.StringBoolean;
 /**
  *
  * @author fallougalass
@@ -128,6 +130,34 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
         return false;
     }
 
+    @GET
+    @Path("check/{email}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public  StringBoolean checkUtilisateur(@PathParam("email") String email) {
+        List<Utilisateur> u=em.createQuery("SELECT u FROM Utilisateur u WHERE u.employe.id  IN "
+                + "(SELECT c.employe.id FROM Contact c WHERE c.email = :email)", Utilisateur.class)
+                .setParameter("email", email)
+                .getResultList();       
+        if(u.size()>0){
+            return new StringBoolean(true);
+        }
+        return new StringBoolean(false);
+    }
+    
+    @GET
+    @Path("email/{email}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public  Utilisateur getUtilisateurByContact(@PathParam("email") String email) {
+        List<Utilisateur> u=em.createQuery("SELECT u FROM Utilisateur u WHERE u.employe.id  IN "
+                + "(SELECT c.employe.id FROM Contact c WHERE c.email = :email)", Utilisateur.class)
+                .setParameter("email", email)
+                .getResultList();       
+        if(u.size()>0){
+            return u.get(0);
+        }
+        return null;
+    }
+    
     @GET
     @Override
     @Produces({MediaType.APPLICATION_JSON})

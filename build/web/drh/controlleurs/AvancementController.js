@@ -40,7 +40,7 @@ angular.module('DrhModule').controller('AvancementController', function ($scope,
         if ($scope.editHistoriqueGradeOperation == false) {
             if ($scope.showGradeList == true) { //Afficher les grade du corps ou de la classe auquel appqrtient le grade actuel de l'employe
                 if ($scope.gradeActu.grade) {
-                    $scope.selection = ($scope.gradeActu.grade.corps.libelle) ? $scope.gradeActu.grade.corps.libelle : $scope.gradeActu.grade.classe.libelle;
+                    $scope.selection = ($scope.gradeActu.grade.corps) ? $scope.gradeActu.grade.corps.libelle : $scope.gradeActu.grade.classe.libelle;
                 } else {
                     $scope.selection = "";
                 }
