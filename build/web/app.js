@@ -23,8 +23,9 @@ angular.module('globalModule', ['ngRoute', 'ngMessages', 'EmployeModule',
                 // redirect to login page if not logged in
                 if ($location.path() !== '/') {
                     if (!$rootScope.globals.currentUser && !$rootScope.credentials.authdata) {
+                        var newPasswordLink = /\/authentification\/\d+\/newpassword/; //Forme du lien de reinitialisation de mot de passe
                         if($location.path() !== '/authentification/recoverpassword' &&
-                                $location.path() !== '/authentification/newpassword'){
+                                !newPasswordLink.test($location.path())){
                             $location.path('/');
                         }
                     } 

@@ -21,19 +21,17 @@ angular.module('AuthentificationModule').controller('RecoverPasswordController',
 
     $scope.checkUtilisateur = function () {
         Connexion.setAdminCredentials({login:"superadmin" , motDePasse:"superadmin"});    //Utile pour authentifier la requete
-        
         Connexion.checkUtilisateur($scope.email).success(function (data) {
-            if (data.value == true) {
-                //Creer une cookies pour garder l'email du compte dont le mdp est à reinitialiser.
-                //Elle servira dans la phase de 
-                //reinitialisation(NewPasswordController.js) du mot de passe a identifier le compte a mettre a jour
-                var cookieExp = new Date();
-                cookieExp.setDate(cookieExp.getDate()+1);   //Expire au bout d'un jour
-                $cookies.putObject('newPasswordAccountEmail', $scope.email, {expires: cookieExp});
+            if (parseInt(data) != 0) {
+//                //Creer une cookies pour garder l'email du compte dont le mdp est à reinitialiser.
+//                //Elle servira dans la phase de 
+//                //reinitialisation(NewPasswordController.js) du mot de passe a identifier le compte a mettre a jour
+//                var cookieExp = new Date();
+//                cookieExp.setDate(cookieExp.getDate()+1);   //Expire au bout d'un jour
+//                $cookies.putObject('newPasswordAccountEmail', $scope.email, {expires: cookieExp});
+                           
                 
-                $scope.email = "";
-                
-                $scope.envoyerMail();
+                $scope.envoyerMail(parseInt(data));
             } else {
                 SweetAlert.simpleNotification("error", "Erreur", "Cet adresse n'existe pas");
             }
@@ -42,13 +40,13 @@ angular.module('AuthentificationModule').controller('RecoverPasswordController',
         });
     };
 
-    $scope.envoyerMail = function () {
+    $scope.envoyerMail = function (data) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         
-        var lien_reinitialisation = "http://localhost:33967" + chemin + "/#/authentification/newpassword";
+        var lien_reinitialisation = "http://localhost:33967" + chemin + "/#/authentification/"+data+"/newpassword";
 
         var corps = "\tUNIVERSITE DE THIES \nDIRECTON DES RESSOURCES HUMAINES ET DE LA FORMATION\n\n";
-        corps+="Bonjour , veuillez clicker sur le lien suivant pour\n\
+        corps+="Bonjour , veuillez cliquer sur le lien suivant pour\n\
  réinitialiser votre mot de passe :\n\n" + lien_reinitialisation;
 
         var msg = 'to=' + $scope.email + '&objet=Réinitialisation mot de passe&body=' + corps;
@@ -63,6 +61,8 @@ angular.module('AuthentificationModule').controller('RecoverPasswordController',
             Mail.resetHttp();
             SweetAlert.simpleNotification("error", "Erreur", "L'envoi du mail a échoué");
         });
+        
+        $scope.email = "";
         
     };
 });

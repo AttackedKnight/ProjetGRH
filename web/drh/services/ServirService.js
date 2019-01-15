@@ -70,6 +70,11 @@ angular.module('DrhModule').factory('Servir', function ($http) {
             /*Verifier si l'employe est Permenant ou contractuel*/
             return $http.get(chemin + '/webresources/sn.grh.servir/last/employe/' + id);
         },
+        getEmployeSansCompte: function (id) {   
+            /*Optenir la liste des employes(permanents) n'ayant pas encore de compte utilisateur: utile si l'utilisateur passe de cdd(sans compte)
+             * a cdi (un compte doit etre cree pour lui)*/
+            return $http.get(chemin + '/webresources/sn.grh.servir/employe/sanscompte');
+        }
         
         
     };

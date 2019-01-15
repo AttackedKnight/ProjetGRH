@@ -32,18 +32,13 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
         $(".section").removeClass("active");
         $("#section"+id).addClass("active");
     };
-    $scope.setSection(1);
+    
     function getSelectedSection(data){
         return data.id == $scope.selectedSectionId;
     }
 
-<<<<<<< HEAD
     /*Gestion sous menu : section*/
     
-=======
-$scope.template = $scope.templates[0];
-
->>>>>>> 920c05e4a816cd3bc4916740ecf205a7a58e1ea0
     var idEmploye = $routeParams.id;
     $scope.estPermanent = true;
     $scope.homme = false;
@@ -51,7 +46,7 @@ $scope.template = $scope.templates[0];
     
     Employe.find(idEmploye).success(function (data) {
         $scope.employe = data;
-        
+        $scope.setSection(1);
         //Formatter les date pour l'affichage
         $scope.employe.dateDeNaissance = new Date($scope.employe.dateDeNaissance);
         $scope.employe.dateRecrutement = new Date($scope.employe.dateRecrutement);

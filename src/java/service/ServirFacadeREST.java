@@ -172,6 +172,22 @@ public class ServirFacadeREST extends AbstractFacade<Servir> {
     }
 
     /*ok*/
+    
+    /*Employes(permanents) n'ayant pas encore de compte utilisateur*/
+    @GET
+    @Path("employe/sanscompte")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Servir> findEmployeWithoutAcount() {
+        List<Servir> s = em.createQuery("SELECT s FROM Servir s WHERE s.typeContrat.code='cdi' AND "
+                + "s.finService = 0 AND s.employe.matriculeInterne <> '' AND "
+                + "s.employe.id NOT IN(SELECT u.employe.id FROM Utilisateur u) "
+                + "ORDER BY s.id DESC", Servir.class)
+                .getResultList();
+        if (s.size() > 0) {
+            return s;
+        }
+        return null;
+    }
  /*Recuperer le parcours d'un employe : les entittes ou il a travaille*/
     @GET
     @Path("employe/{id}")

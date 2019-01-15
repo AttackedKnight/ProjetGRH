@@ -1,4 +1,4 @@
-<div class="panel box box-primary box-solid" ng-controller="InfosProfessionellesController">
+<div ng-controller="InfosProfessionellesController">
     <!-- Informations professionnelles -->
     <div class="panel box box-primary box-solid" ng-if="avoirPermission('consulter', 'servir') == true">
         <a data-toggle="collapse" data-parent="#accordion" href="" data-target="#informationProfessionnelle" class="box-header with-border">
@@ -213,15 +213,15 @@
                             <th>Fonction</th>
                             <th>Type de contrat</th>
                             <th>Date fin de service</th>
-                            <th ng-show="avoirPermission('supprimer', 'servir') == true">Actions</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody ng-repeat="unparcours in parcours"> 
                         <tr class="bg-blue-gradient" ng-class="{'finApproche' : finContratApproche == true && unparcours.finService == 0 ,
                                                 'finContrat' : finContratDepasse == true && unparcours.finService == 0}">
                             <td>
-                                <span ng-show="angular.isDefined(unparcours.fonction)">Principale</span>
-                                <span ng-show="angular.isDefined(unparcours.fonctionAnnexe)">Annexe</span>    
+                                <span ng-show="angular.isDefined(unparcours.fonction)">PRN</span>
+                                <span ng-show="angular.isDefined(unparcours.fonctionAnnexe)">ANX</span>    
                             </td>
                             <td>{{unparcours.debut| date: 'dd MMM yyyy'}}</td>
                             <td>{{unparcours.entite.nom}}</td>
@@ -229,7 +229,7 @@
                                 <span ng-show="angular.isDefined(unparcours.fonction)">{{unparcours.fonction.libelle}}</span>
                                 <span ng-show="angular.isDefined(unparcours.fonctionAnnexe)">{{unparcours.fonctionAnnexe.libelle}}</span>                                  
                             </td>
-                            <td>{{unparcours.typeContrat.libelle}}</td>
+                            <td>{{unparcours.typeContrat.code}}</td>
                             <td>{{unparcours.fin| date: 'dd MMM yyyy'}}</td>
                             <td>
                                 <button class="btn btn-success" 
@@ -247,16 +247,19 @@
                                         ng-click="confirmfinirService(unparcours)">
                                     <i class="fa fa-times"></i>
                                 </button>
-                                <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="confirmDeleteServir(unparcours.id)">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                              <!-- <button title="Voir document(s)" class="btn btn-primary" type="button"  data-toggle="collapse" data-target="#documentsAssociésParcours{{$index}}" aria-expanded="false"
+                                <button title="Voir document(s)" 
+                                       class="btn btn-primary" type="button"  
+                                       data-target="#documentsAssociésParcours{{$index}}"
+                                       data-toggle="collapse"
                                         ng-if="avoirPermission('lister', 'document') == true">
                                     <i class="fa fa-book"></i>
-                                </button>--> 
+                                </button>
+                                <button class="btn btn-danger" title="Supprimer"  ng-show="unparcours.finService == 1 && avoirPermission('supprimer', 'servir') == true" ng-click="confirmDeleteServir(unparcours.id)">
+                                    <i class="fa fa-trash"></i>
+                                </button>                               
                             </td>
                         </tr>
-                        <tr>
+                        <tr class="collapse" id="documentsAssociésParcours{{$index}}">
                             <td colspan="7" >
                               <table class="table table-striped table-bordered tableau-document">
                                     <thead>

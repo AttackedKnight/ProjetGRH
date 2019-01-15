@@ -30,6 +30,10 @@ angular.module('ParametrageModule', ['ngRoute', 'ngMessages'])
                 templateUrl: 'parametrage/utilisateur/new.html',
                 controller: 'UtilisateurController'
 
+            }).when('/parametrage/utilisateur/create', {
+                templateUrl: 'parametrage/utilisateur/createAgent.html',
+                controller: 'AgentSansCompteController'
+
             }).when('/parametrage/utilisateur/show', {
                 templateUrl: 'parametrage/utilisateur/show.html',
                 controller: 'UtilisateurController'

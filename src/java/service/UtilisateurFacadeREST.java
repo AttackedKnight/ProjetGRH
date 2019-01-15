@@ -132,16 +132,16 @@ public class UtilisateurFacadeREST extends AbstractFacade<Utilisateur> {
 
     @GET
     @Path("check/{email}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public  StringBoolean checkUtilisateur(@PathParam("email") String email) {
+    @Produces({MediaType.TEXT_PLAIN})
+    public  Integer checkUtilisateur(@PathParam("email") String email) {
         List<Utilisateur> u=em.createQuery("SELECT u FROM Utilisateur u WHERE u.employe.id  IN "
                 + "(SELECT c.employe.id FROM Contact c WHERE c.email = :email)", Utilisateur.class)
                 .setParameter("email", email)
                 .getResultList();       
         if(u.size()>0){
-            return new StringBoolean(true);
+            return u.get(0).getId();
         }
-        return new StringBoolean(false);
+        return 0;
     }
     
     @GET

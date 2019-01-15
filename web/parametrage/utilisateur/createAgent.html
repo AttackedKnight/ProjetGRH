@@ -1,0 +1,43 @@
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">CREER COMPTES POUR AGENT</h3>
+    </div><!-- /.box-header -->
+    <div class="box-body table-responsive">
+        <table class="table table-bordered table-striped" datatable="ng">
+            <thead>
+                <tr>
+                    <th>Prenom</th>
+                    <th>Nom</th>
+                    <th>Matricule</th>
+                    <th>Entité</th>
+                    <!--<th>Email</th>-->
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>                  
+                <tr ng-repeat="em in employes">
+                    <td>
+                        {{em.employe.prenom}}
+                    </td>
+                    <td>
+                        {{em.employe.nom}}
+                    </td>
+                    <td>{{em.employe.matriculeInterne}}</td>
+                    <td>{{em.entite.nom}}</td>
+                    <!--<td>{{employe.contacts.email}}</td>-->                    
+                    <td>                                              
+                        <i class="btn btn-primary" 
+                           ng-click="creerCompteUtilisateur(em.employe)">
+                            <i class="fa fa-plus"></i>
+                                
+                        </i>                        
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div><!-- /.box-body -->
+</div><!-- /.box -->
+
+
+

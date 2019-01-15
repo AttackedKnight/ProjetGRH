@@ -22,7 +22,7 @@ angular.module('AuthentificationModule', ['ngRoute', 'ngMessages'])
                 templateUrl: 'authentification/connexion/recoverpassword.html',
                 controller: 'RecoverPasswordController'
                 
-            }).when('/authentification/newpassword', {
+            }).when('/authentification/:user/newpassword', {
                 templateUrl: 'authentification/connexion/newpassword.html',
                 controller: 'NewPasswordController'
                 

@@ -127,15 +127,26 @@
                                     <a href="#">
                                         <i class="fa fa-key"></i> <span> Utilisateur</span>
                                     </a>
-                                    <ul class="treeview-menu" >
+                                    <ul class="treeview-menu" >                                       
                                         <li>
-                                            <a ng-href="#/parametrage/utilisateur/show" 
+                                            <a ng-href="#/parametrage/groupe/show"                           
                                                ng-class="{'firstView' : avoirPermission('consulter', 'menuadmin') == true}">
+                                                <i class="fa fa-circle-o"></i>
+                                                Groupes d'utilisateur
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a ng-href="#/parametrage/utilisateur/show">
                                                 <i class="fa fa-circle-o"></i>
                                                 Comptes Utilisateur
                                             </a>
                                         </li>
-                                        <li><a ng-href="#/parametrage/groupe/show"><i class="fa fa-circle-o"></i> Groupes d'utilisateur</a></li>
+                                        <li>
+                                            <a ng-href="#/parametrage/utilisateur/create">
+                                                <i class="fa fa-circle-o"></i>
+                                                Créer compte agent
+                                            </a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <li class="treeview menu-subroot">
@@ -521,6 +532,7 @@
         
         
         <script src="parametrage/controlleurs/UtilisateurController.js" type="text/javascript"></script>
+        <script src="parametrage/controlleurs/AgentSansCompteController.js" type="text/javascript"></script>
         <script src="parametrage/controlleurs/DetailUtilisateurController.js" type="text/javascript"></script>
         <script src="parametrage/controlleurs/AccesController.js" type="text/javascript"></script>
         <script src="parametrage/controlleurs/DetailAccesController.js" type="text/javascript"></script>

@@ -162,7 +162,7 @@
                             </tr>
                         </thead>
                         <tbody ng-repeat="ungrade in mesgrades" > 
-                            <tr>
+                            <tr class="bg-blue-gradient">
                                 <td>{{ungrade.grade.typeAvancement.libelle}}</td>
                                 <td>{{ungrade.grade.corps.libelle}}</td>
                                 <td>{{ungrade.grade.classe.libelle}}</td>
@@ -176,8 +176,9 @@
                                         <i class="fa fa-edit"></i>
                                     </button>
                                     <button title="Voir document(s)" class="btn btn-primary"
-                                            type="button" data-toggle="collapse"
-                                            data-target="#documentsAssociésAvancement{{$index}}" aria-expanded="false" aria-controls="documentsAssociésAvancement{{$index}}"
+                                            type="button" 
+                                            data-toggle="collapse"
+                                            data-target="#documentsAssociésAvancement{{$index}}"
                                             ng-if="avoirPermission('lister', 'document') == true">
                                         <i class="fa fa-book"></i>
                                     </button>
@@ -187,9 +188,9 @@
                                     </button>
                                 </td>                                   
                             </tr>
-                            <tr>
+                            <tr class="collapse" id="documentsAssociésAvancement{{$index}}">
                                 <td colspan="8">
-                                    <table id="documentsAssociésAvancement{{$index}}" class="table table-striped table-bordered tableau-document collapse">
+                                    <table  class="table table-striped table-bordered tableau-document">
                                         <thead >
                                             <tr>
                                                 <th>Type </th>
