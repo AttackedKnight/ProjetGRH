@@ -313,7 +313,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         Employe.add($scope.employe).success(function () {
             $scope.findByNin();
             if ($scope.estPermanent) {
-                SweetAlert.simpleNotification("success", "Succes", "Employé ajouté avec succes<br>\n\
+                SweetAlert.simpleNotification("success", "Succes", "Employé ajouté avec succes\n\n\
             Rendez-vous sur son boite email pour recuperer ses identifiants de connexion");
             } else {
                 SweetAlert.simpleNotification("success", "Succes", "Employé ajouté avec succes");

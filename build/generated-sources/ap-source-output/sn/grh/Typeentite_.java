@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Entite;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-14T17:09:37")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-15T14:47:04")
 @StaticMetamodel(Typeentite.class)
 public class Typeentite_ { 
 

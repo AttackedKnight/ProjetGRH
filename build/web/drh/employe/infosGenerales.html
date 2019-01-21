@@ -332,13 +332,15 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top: 5px; font-size: 1.2em;">                          
-                        <button ng-click="cancelContactsEdit()" class="btn btn-warning pull-right">
-                            <i class="fa fa-times" style="font-weight: bold"> Annuler</i>
-                        </button>
-                        <span class="btn btn-success pull-right" type="submit" 
-                              ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()">
-                            <i class="fa fa-check"> Enregistrer</i>
+                    <div style="margin-top: 5px; font-size: 1.2em;">                        
+                        <span class="pull-right">
+                            <button ng-click="cancelContactsEdit()" class="btn btn-warning">
+                                <i class="fa fa-times" style="font-weight: bold"> Annuler</i>
+                            </button>
+                            <span class="btn btn-success" type="submit" 
+                                  ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()">
+                                <i class="fa fa-check"> Enregistrer</i>
+                            </span>
                         </span>
                     </div>
                 </form>
@@ -370,13 +372,15 @@
                     </div>
                 </div>  
                 <div  style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'contact') == true">
-                    <button class="btn btn-danger pull-right" ng-disabled="angular.isUndefined(contacts.numero1)" 
-                            ng-click="deleteContact(contacts.id)">
-                        <i class="fa fa-trash"> Supprimer</i>
-                    </button>    
-                    <button ng-click="toggleContactEditForm()" class="btn btn-warning pull-right">
-                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                    </button>                      
+                    <span class="pull-right">                          
+                        <button ng-click="toggleContactEditForm()" class="btn btn-warning">
+                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                        </button>   
+                        <button class="btn btn-danger" ng-disabled="angular.isUndefined(contacts.numero1)" 
+                                ng-click="deleteContact(contacts.id)">
+                            <i class="fa fa-trash"> Supprimer</i>
+                        </button> 
+                    </span>                   
                 </div> 
             </div>
         </div>
@@ -428,11 +432,15 @@
                             </div>
                         </div>
                     </div>  
-                    <div class="row " style="margin-top: 5px; font-size: 1.2em;">
-                        <div class="col-md-offset-9 col-md-3 ">
-                            <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editAdresseForm.$invalid"  ng-click="controlAdresseFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
-                            <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
-                        </div>
+                    <div style="margin-top: 5px; font-size: 1.2em;">
+                        <span class="pull-right">
+                            <span style="margin-right: 10px;" class="btn btn-success"
+                                  type="submit" ng-disabled="editAdresseForm.$invalid"  
+                                  ng-click="controlAdresseFormEdit()"><i class="fa fa-check"> Enregistrer</i>
+                            </span>
+                            <button ng-click="toggleAdresseEditForm()" class="btn btn-warning">
+                                <i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
+                        </span>
                     </div> 
                 </form>
             </div>
@@ -454,13 +462,15 @@
                     </div>
                 </div>  
                 <div style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'adresse') == true">                                   
-                    <button class="btn btn-danger pull-right" ng-disabled="angular.isUndefined(adresse.ville)" 
-                            ng-click="deleteAdresse(adresse.id)">
-                        <i class="fa fa-trash"> Supprimer</i>
-                    </button>
-                    <button ng-click="toggleAdresseEditForm()" class="btn btn-warning pull-right">
-                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                    </button>
+                    <span class="pull-right">                       
+                        <button ng-click="toggleAdresseEditForm()" class="btn btn-warning">
+                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                        </button>
+                        <button class="btn btn-danger" ng-disabled="angular.isUndefined(adresse.ville)" 
+                                ng-click="deleteAdresse(adresse.id)">
+                            <i class="fa fa-trash"> Supprimer</i>
+                        </button>
+                    </span>
                 </div> 
             </div>
         </div>

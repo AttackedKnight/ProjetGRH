@@ -43,7 +43,7 @@ angular.module('AuthentificationModule').controller('RecoverPasswordController',
     $scope.envoyerMail = function (data) {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         
-        var lien_reinitialisation = "http://localhost:33967" + chemin + "/#/authentification/"+data+"/newpassword";
+        var lien_reinitialisation = "http://localhost:39535" + chemin + "/#/authentification/"+data+"/newpassword";
 
         var corps = "\tUNIVERSITE DE THIES \nDIRECTON DES RESSOURCES HUMAINES ET DE LA FORMATION\n\n";
         corps+="Bonjour , veuillez cliquer sur le lien suivant pour\n\

@@ -175,12 +175,13 @@
                                             ng-click="setHistoriqueGrade(ungrade)">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button title="Voir document(s)" class="btn btn-primary"
+                                    <button title="Voir document(s)" class="btn"
+                                            style="background-color: white; border: 1px solid ghostwhite;"
                                             type="button" 
                                             data-toggle="collapse"
                                             data-target="#documentsAssociésAvancement{{$index}}"
                                             ng-if="avoirPermission('lister', 'document') == true">
-                                        <i class="fa fa-book"></i>
+                                        <i class="fa fa-book" style="color: #0085D5;"></i>
                                     </button>
                                     <button title="Supprimer" class="btn btn-danger"  ng-if="avoirPermission('supprimer', 'grade') == true"
                                             ng-click="confirmDeleteHistoriqueGrade(ungrade.id)">
