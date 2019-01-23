@@ -57,7 +57,6 @@ public class ApplicationConfig extends Application {
         resources.add(service.GroupeFacadeREST.class);
         resources.add(service.GroupetypeemployeFacadeREST.class);
         resources.add(service.HistoriquegradeFacadeREST.class);
-        resources.add(service.InstitutionFacadeREST.class);
         resources.add(service.MembremutuelleFacadeREST.class);
         resources.add(service.MutuellesanteFacadeREST.class);
         resources.add(service.MutuellesantetypeemployeFacadeREST.class);
