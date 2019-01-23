@@ -42,7 +42,6 @@ public class ApplicationConfig extends Application {
         resources.add(service.ConjointFacadeREST.class);
         resources.add(service.ContactFacadeREST.class);
         resources.add(service.CorpsFacadeREST.class);
-        resources.add(service.DiplomeFacadeREST.class);
         resources.add(service.DocumentFacadeREST.class);
         resources.add(service.DomaineFacadeREST.class);
         resources.add(service.EchelonFacadeREST.class);
@@ -58,6 +57,7 @@ public class ApplicationConfig extends Application {
         resources.add(service.GroupeFacadeREST.class);
         resources.add(service.GroupetypeemployeFacadeREST.class);
         resources.add(service.HistoriquegradeFacadeREST.class);
+        resources.add(service.InstitutionFacadeREST.class);
         resources.add(service.MembremutuelleFacadeREST.class);
         resources.add(service.MutuellesanteFacadeREST.class);
         resources.add(service.MutuellesantetypeemployeFacadeREST.class);

@@ -13,6 +13,9 @@ angular.module('DrhModule').factory('Formation', function ($http) {
         findAllEmployeFormation: function (item) {
             return $http.get(chemin + '/webresources/sn.grh.formation/employe/' + item.id);
         },
+        findByEmployeInstitution: function (item) {
+            return $http.get(chemin + '/webresources/sn.grh.formation/institution/' + item.id);
+        },
         find: function (id) {
             return $http.get(chemin + '/webresources/sn.grh.formation/' + id);
         },

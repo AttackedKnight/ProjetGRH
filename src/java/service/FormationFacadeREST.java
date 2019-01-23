@@ -19,6 +19,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Formation;
+import sn.grh.Institution;
 
 /**
  *
@@ -66,6 +67,18 @@ public class FormationFacadeREST extends AbstractFacade<Formation> {
     @Path("employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Formation> findByEmploye(@PathParam("id") Integer id) {
+        List<Formation> f=em.createQuery("SELECT f FROM  Formation f WHERE f.employe.id = :id ORDER BY f.id DESC", Formation.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(f.size()>0){
+            return f;
+        }
+        return null;
+    }
+     @GET
+    @Path("institution/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Formation> findByEmployeInstitution(@PathParam("id") Integer id) {
         List<Formation> f=em.createQuery("SELECT f FROM  Formation f WHERE f.employe.id = :id ORDER BY f.id DESC", Formation.class)
                 .setParameter("id", id)
                 .getResultList();

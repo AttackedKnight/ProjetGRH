@@ -40,7 +40,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Employe.findById", query = "SELECT e FROM Employe e WHERE e.id = :id")
     , @NamedQuery(name = "Employe.findByNumeroCni", query = "SELECT e FROM Employe e WHERE e.numeroCni = :numeroCni")
     , @NamedQuery(name = "Employe.findByMatriculeInterne", query = "SELECT e FROM Employe e WHERE e.matriculeInterne = :matriculeInterne")
-    , @NamedQuery(name = "Employe.findByMatriculeCaisseSociale", query = "SELECT e FROM Employe e WHERE e.matriculeCaisseSociale = :matriculeCaisseSociale")
+    , @NamedQuery(name = "Employe.findByMatriculeMainDoeuvre", query = "SELECT e FROM Employe e WHERE e.matriculeMainDoeuvre = :matriculeMainDoeuvre")
     , @NamedQuery(name = "Employe.findByPrenom", query = "SELECT e FROM Employe e WHERE e.prenom = :prenom")
     , @NamedQuery(name = "Employe.findByNom", query = "SELECT e FROM Employe e WHERE e.nom = :nom")
     , @NamedQuery(name = "Employe.findByDateDeNaissance", query = "SELECT e FROM Employe e WHERE e.dateDeNaissance = :dateDeNaissance")
@@ -64,8 +64,8 @@ public class Employe implements Serializable {
     @Column(name = "matriculeInterne")
     private String matriculeInterne;
     @Size(max = 45)
-    @Column(name = "matriculeCaisseSociale")
-    private String matriculeCaisseSociale;
+    @Column(name = "matriculeMainDoeuvre")
+    private String matriculeMainDoeuvre;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -104,27 +104,25 @@ public class Employe implements Serializable {
     private List<Historiquegrade> historiquegradeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Formation> formationList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
+    private List<Membrecaissesociale> membrecaissesocialeList;
     @OneToMany(mappedBy = "employe")
     private List<Utilisateur> utilisateurList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Contact> contactList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Membremutuelle> membremutuelleList;
-    @JoinColumn(name = "CaisseSociale", referencedColumnName = "id")
-    @ManyToOne
-    private Caissesociale caisseSociale;
     @JoinColumn(name = "Genre", referencedColumnName = "id")
     @ManyToOne
     private Genre genre;
     @JoinColumn(name = "SituationMatrimoniale", referencedColumnName = "id")
     @ManyToOne
     private Situationmatrimoniale situationMatrimoniale;
-    @JoinColumn(name = "Syndicat", referencedColumnName = "id")
-    @ManyToOne
-    private Syndicat syndicat;
     @JoinColumn(name = "TypeEmploye", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Typeemploye typeEmploye;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
+    private List<Membresyndicat> membresyndicatList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
     private List<Conjoint> conjointList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")
@@ -175,12 +173,12 @@ public class Employe implements Serializable {
         this.matriculeInterne = matriculeInterne;
     }
 
-    public String getMatriculeCaisseSociale() {
-        return matriculeCaisseSociale;
+    public String getMatriculeMainDoeuvre() {
+        return matriculeMainDoeuvre;
     }
 
-    public void setMatriculeCaisseSociale(String matriculeCaisseSociale) {
-        this.matriculeCaisseSociale = matriculeCaisseSociale;
+    public void setMatriculeMainDoeuvre(String matriculeMainDoeuvre) {
+        this.matriculeMainDoeuvre = matriculeMainDoeuvre;
     }
 
     public String getPrenom() {
@@ -284,6 +282,15 @@ public class Employe implements Serializable {
     }
 
     @XmlTransient
+    public List<Membrecaissesociale> getMembrecaissesocialeList() {
+        return membrecaissesocialeList;
+    }
+
+    public void setMembrecaissesocialeList(List<Membrecaissesociale> membrecaissesocialeList) {
+        this.membrecaissesocialeList = membrecaissesocialeList;
+    }
+
+    @XmlTransient
     public List<Utilisateur> getUtilisateurList() {
         return utilisateurList;
     }
@@ -310,14 +317,6 @@ public class Employe implements Serializable {
         this.membremutuelleList = membremutuelleList;
     }
 
-    public Caissesociale getCaisseSociale() {
-        return caisseSociale;
-    }
-
-    public void setCaisseSociale(Caissesociale caisseSociale) {
-        this.caisseSociale = caisseSociale;
-    }
-
     public Genre getGenre() {
         return genre;
     }
@@ -334,20 +333,21 @@ public class Employe implements Serializable {
         this.situationMatrimoniale = situationMatrimoniale;
     }
 
-    public Syndicat getSyndicat() {
-        return syndicat;
-    }
-
-    public void setSyndicat(Syndicat syndicat) {
-        this.syndicat = syndicat;
-    }
-
     public Typeemploye getTypeEmploye() {
         return typeEmploye;
     }
 
     public void setTypeEmploye(Typeemploye typeEmploye) {
         this.typeEmploye = typeEmploye;
+    }
+
+    @XmlTransient
+    public List<Membresyndicat> getMembresyndicatList() {
+        return membresyndicatList;
+    }
+
+    public void setMembresyndicatList(List<Membresyndicat> membresyndicatList) {
+        this.membresyndicatList = membresyndicatList;
     }
 
     @XmlTransient

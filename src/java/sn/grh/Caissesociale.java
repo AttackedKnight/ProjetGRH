@@ -53,8 +53,8 @@ public class Caissesociale implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "code")
     private String code;
-    @OneToMany(mappedBy = "caisseSociale")
-    private List<Employe> employeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "caisseSociale")
+    private List<Membrecaissesociale> membrecaissesocialeList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "caisseSociale")
     private List<Caissesocialetypeemploye> caissesocialetypeemployeList;
 
@@ -96,12 +96,12 @@ public class Caissesociale implements Serializable {
     }
 
     @XmlTransient
-    public List<Employe> getEmployeList() {
-        return employeList;
+    public List<Membrecaissesociale> getMembrecaissesocialeList() {
+        return membrecaissesocialeList;
     }
 
-    public void setEmployeList(List<Employe> employeList) {
-        this.employeList = employeList;
+    public void setMembrecaissesocialeList(List<Membrecaissesociale> membrecaissesocialeList) {
+        this.membrecaissesocialeList = membrecaissesocialeList;
     }
 
     @XmlTransient

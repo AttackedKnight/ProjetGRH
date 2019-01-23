@@ -7,22 +7,30 @@
 
 
 angular.module('DrhModule').controller('FormationController', function ($scope, SweetAlert, UploadFile,
-        Diplome, Formation, Document, $q)
+                Institution, Formation, Document, $q)
 {
 
 
     /*        formation              */
     $scope.formations = [];
-    $scope.diplomante = false;
-    $scope.diplome = {id: ""};
+    $scope.boursier = false;
     $scope.formation = {id: "", employe: $scope.$parent.employe};
+    //$scope.institution = {id: ""};
     $scope.editFormationOperation = false;
 
 
-    $scope.toggleDiplomante = function (el) {
-        $scope.typeFormation = $(el).val();
-        $scope.diplomante = (parseInt($scope.typeFormation) == 0) ? true : false;
+    $scope.toggleBoursier = function (el) {
+        $scope.typeBoursier = $(el).val();
+        $scope.boursier = (parseInt($scope.typeBoursier) == 0) ? true : false;
     };
+    
+    
+    Institution.findAll().success(function (data) {
+        $scope.institutions = data;
+    }).error(function () {
+        SweetAlert.finirChargementEchec("Erreur de chargement des entités");
+    });
+    
     $scope.controlFormationForm = function (formulaire) {
         var validite = true;
         $('.formationForm input:not([type="file"])').each(function (e) {
@@ -31,6 +39,8 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
                 validite = false;
             }
         });
+        
+        
         if (validite === true) {
             if ($scope.editFormationOperation == false) {
                 if ($scope.controlDocumentForm(formulaire)) {
@@ -38,11 +48,10 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
                      * Donc avant l'ajout d'une info ayant une pi�ce jointe , le numero doit etre d�fini */
                     if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
                         $scope.completerDocument();
-                        if ($scope.diplomante == true) {
-                            $scope.completeFormation();
-                        } else {
-                            $scope.addFormation();
-                        }
+//                        $scope.completeFormation();
+                        $scope.addIntitution();
+                       
+                        
                     } else {
                         SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                     }
@@ -63,9 +72,6 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
                     }
                 }
                 else {
-                    if ($scope.wasDiplomante == true && $scope.diplomante == false) { //Si la formation passe de diplomante a non diplomante
-                        $scope.formation.diplome = null;
-                    }
                     if ($scope.lesFichiers != null) {   /*S'il ya des fichier,les controlle avant de continuer*/
                         if ($scope.controlDocumentForm(formulaire)) {
                             $scope.completerDocument();
@@ -87,18 +93,21 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
         $scope.formation = angular.copy(formation);
         $scope.formation.dateDebut = new Date($scope.formation.dateDebut);
         $scope.formation.dateFin = new Date($scope.formation.dateFin);
-        $scope.wasDiplomante = false;
-        if (angular.isDefined($scope.formation.diplome)) {
-            $scope.wasDiplomante = true;
-            $scope.typeFormation = 0;
-            $scope.diplomante = true;
-            $scope.diplome = $scope.formation.diplome;
-        }
+        $scope.formation.institution.nom = $scope.formation.institution.nom;
+        $scope.formation.institution.adresse = $scope.formation.institution.adresse;
+        $scope.formation.institution.telephone = $scope.formation.institution.telephone;
+//        $scope.wasDiplomante = false;
+//        if (angular.isDefined($scope.formation.diplome)) {
+//            $scope.wasDiplomante = true;
+//            $scope.typeFormation = 0;
+//            $scope.diplomante = true;
+//            $scope.diplome = $scope.formation.diplome;
+//        }
         $scope.editFormationOperation = true;
     };
 
-    $scope.updateDiplome = function () {
-        Diplome.edit($scope.formation.diplome).success(function () {
+    $scope.updateInstitution = function () {
+        Institution.edit($scope.formation.diplome).success(function () {
             if ($scope.lesFichiers == null) {
                 $scope.editFormationOperation = false;
                 $scope.reinitialiserFormulaireFormation();
@@ -114,7 +123,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
         Formation.edit($scope.formation).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Modification effectuéé  avec succes");
             if (angular.isDefined($scope.formation.diplome) && $scope.formation.diplome !=null) {
-                $scope.updateDiplome();
+                $scope.updateInstitution();
             } else {
                 if ($scope.lesFichiers == null) {
                     $scope.editFormationOperation = false;
@@ -128,11 +137,11 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
     };
 
     $scope.completeFormation = function () {
-        Diplome.findByLibelle($scope.diplome.nom).success(function (data) {
+        Institution.findByNom($scope.formation.institution.nom).success(function (data) {
             if (!data) {
-                Diplome.add($scope.diplome).success(function () {
-                    Diplome.findByLibelle($scope.diplome.nom).success(function (data) {
-                        $scope.formation.diplome = data;
+                Institution.add($scope.formation.institution).success(function () {
+                    Institution.findByNom($scope.formation.institution.nom).success(function (data) {
+                        $scope.formation.institution = data;
                         if ($scope.editFormationOperation == false) {
                             $scope.addFormation();
                         } else {
@@ -140,14 +149,14 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
                         }
 
                     }).error(function () {
-                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération du diplome");
+                        SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la récupération de l'institution");
                     });
                 }).error(function () {
-                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'ajout du diplome");
+                    SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'ajout de l'institution");
                 });
 
             } else {
-                $scope.formation.diplome = data;
+                $scope.formation.institution = data;
                 if ($scope.editFormationOperation == false) {
                     $scope.addFormation();
                 } else {
@@ -159,8 +168,36 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
         });
     };
 
-    $scope.addFormation = function () {
+    
+
+    $scope.addIntitution = function () {
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        Institution.add($scope.formation.institution).success(function () {
+            
+            $scope.lastInstitutionAdd();
+            SweetAlert.simpleNotification("success", "Succes", "Institution ajoutée avec succes");
+//            $scope.findAllInstitutions();
+//            $scope.reinitialiserFormulaireFormation();
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de l'ajout de la formation");
+        });
+    };
+
+    $scope.lastInstitutionAdd = function () {
+        Institution.findLast().success(function (data) {
+           
+            $scope.formation.institution = data;
+            $scope.addFormation();
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement de la derniere institution !");
+        });
+    };
+
+
+    $scope.addFormation = function () {
+        
+        SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
+        
         Formation.add($scope.formation).success(function () {
             $scope.lastFormationAdd();
             SweetAlert.simpleNotification("success", "Succes", "Formation ajoutée avec succes");
@@ -191,12 +228,24 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
 
     };
     $scope.findAllFormations();
+    
+    $scope.findAllInstitutions = function () {
+        Formation.findByEmployeInstitution($scope.$parent.employe).success(function (data) {
+            $scope.institutions = data;
+            $scope.lastInstitution = $scope.institutions[0];
+            SweetAlert.finirChargementSucces("Chargement complet !");
+        }).error(function () {
+            SweetAlert.finirChargementEchec("Erreur de chargement des institutions !");
+        });
+
+    };
+    $scope.findAllInstitutions();
 
     $scope.reinitialiserFormulaireFormation = function () {
         $scope.formation = {id: "", employe: $scope.$parent.employe};
-        $scope.diplomante = false;
-        $('#diplomante').prop('checked', false);
-        $scope.diplome = {id: ""};
+//        $scope.document = {id: ""};
+         $scope.boursier = false;
+        $('#boursier').prop('checked', false);
     };
 
     $scope.confirmDeleteFormation = function (idFormation) {

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
   <persistence-unit name="ProjetGRHPU" transaction-type="JTA">
     <jta-data-source>grhConnexion</jta-data-source>
     <class>sn.grh.Absence</class>
@@ -15,7 +15,6 @@
     <class>sn.grh.Conjoint</class>
     <class>sn.grh.Contact</class>
     <class>sn.grh.Corps</class>
-    <class>sn.grh.Diplome</class>
     <class>sn.grh.Document</class>
     <class>sn.grh.Domaine</class>
     <class>sn.grh.Echelon</class>
@@ -31,7 +30,10 @@
     <class>sn.grh.Groupe</class>
     <class>sn.grh.Groupetypeemploye</class>
     <class>sn.grh.Historiquegrade</class>
+    <class>sn.grh.Institution</class>
+    <class>sn.grh.Membrecaissesociale</class>
     <class>sn.grh.Membremutuelle</class>
+    <class>sn.grh.Membresyndicat</class>
     <class>sn.grh.Mutuellesante</class>
     <class>sn.grh.Mutuellesantetypeemploye</class>
     <class>sn.grh.Niveau</class>
