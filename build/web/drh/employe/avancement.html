@@ -43,7 +43,7 @@
                         <table class="table table-bordered table-striped" ng-show="selection != ''">
                             <thead class="thead-dark">
                                 <tr ng-show="grades[0].corps != null">
-                                    <th style="text-align:center;">Classe</th>
+                                    <!--<th style="text-align:center;">Classe</th>-->
                                     <th ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
                                         <span style="font-weight: bold;">{{ classe}}</span>                                
                                     </th>
@@ -57,12 +57,12 @@
                             </thead>
                             <tbody>
                                 <tr ng-show="grades[0].corps != null">
-                                    <td style="text-align:center; font-weight: bold;"></td>
+                                    <!--<td style="text-align:center; font-weight: bold;"></td>-->
                                     <td ng-repeat="(classe, value) in grades | filterBy: ['corps.libelle']: selection | groupBy: 'classe.libelle'">
                                         <span ng-repeat="grade in value| orderBy : 'echelon.libelle'">
                                             <label for="{{grade.id}}" title="{{grade.indice}}">
                                                 <input type="radio" id="{{grade.id}}" name="grade" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
-                                                Echelon {{ grade.echelon.libelle}}
+                                                Ech {{ grade.echelon.libelle}} ({{grade.indice}})
                                             </label><br>
                                         </span>
                                     </td>
@@ -73,7 +73,7 @@
                                         <span ng-repeat="grade in value|  filterBy : ['niveau.libelle'] : niveau | orderBy : 'echelon.libelle'">
                                             <label for="{{grade.id}}" title="{{grade.indice}}">
                                                 <input type="radio" id="{{grade.id}}" name="grade" ng-value="{{grade}}"  ng-model="historiqueGrade.grade"/>
-                                                Echelon {{ grade.echelon.libelle}}
+                                                Echelon {{ grade.echelon.libelle}} ({{grade.indice}})
                                             </label><br>
                                         </span>
                                     </td>
@@ -175,12 +175,13 @@
                                             ng-click="setHistoriqueGrade(ungrade)">
                                         <i class="fa fa-edit"></i>
                                     </button>
-                                    <button title="Voir document(s)" class="btn btn-primary"
+                                    <button title="Voir document(s)" class="btn"
+                                            style="background-color: white; border: 1px solid ghostwhite;"
                                             type="button" 
                                             data-toggle="collapse"
                                             data-target="#documentsAssociésAvancement{{$index}}"
                                             ng-if="avoirPermission('lister', 'document') == true">
-                                        <i class="fa fa-book"></i>
+                                        <i class="fa fa-book" style="color: #0085D5;"></i>
                                     </button>
                                     <button title="Supprimer" class="btn btn-danger"  ng-if="avoirPermission('supprimer', 'grade') == true"
                                             ng-click="confirmDeleteHistoriqueGrade(ungrade.id)">

@@ -5,14 +5,14 @@ import javax.persistence.metamodel.ListAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Caissesocialetypeemploye;
-import sn.grh.Employe;
+import sn.grh.Membrecaissesociale;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-14T17:09:38")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-22T22:26:06")
 @StaticMetamodel(Caissesociale.class)
 public class Caissesociale_ { 
 
+    public static volatile ListAttribute<Caissesociale, Membrecaissesociale> membrecaissesocialeList;
     public static volatile SingularAttribute<Caissesociale, String> code;
-    public static volatile ListAttribute<Caissesociale, Employe> employeList;
     public static volatile ListAttribute<Caissesociale, Caissesocialetypeemploye> caissesocialetypeemployeList;
     public static volatile SingularAttribute<Caissesociale, String> libelle;
     public static volatile SingularAttribute<Caissesociale, Integer> id;

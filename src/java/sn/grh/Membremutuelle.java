@@ -6,6 +6,7 @@
 package sn.grh;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,19 +20,25 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hp
+ * @author fallougalass
  */
 @Entity
 @Table(name = "membremutuelle")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Membremutuelle.findAll", query = "SELECT m FROM Membremutuelle m")
-    , @NamedQuery(name = "Membremutuelle.findById", query = "SELECT m FROM Membremutuelle m WHERE m.id = :id")})
+    , @NamedQuery(name = "Membremutuelle.findById", query = "SELECT m FROM Membremutuelle m WHERE m.id = :id")
+    , @NamedQuery(name = "Membremutuelle.findByDateDebut", query = "SELECT m FROM Membremutuelle m WHERE m.dateDebut = :dateDebut")
+    , @NamedQuery(name = "Membremutuelle.findByDateFin", query = "SELECT m FROM Membremutuelle m WHERE m.dateFin = :dateFin")
+    , @NamedQuery(name = "Membremutuelle.findByEncours", query = "SELECT m FROM Membremutuelle m WHERE m.encours = :encours")})
 public class Membremutuelle implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -40,6 +47,16 @@ public class Membremutuelle implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    @Column(name = "dateDebut")
+    @Temporal(TemporalType.DATE)
+    private Date dateDebut;
+    @Column(name = "dateFin")
+    @Temporal(TemporalType.DATE)
+    private Date dateFin;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "encours")
+    private boolean encours;
     @OneToMany(mappedBy = "membreMutuelle")
     private List<Document> documentList;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
@@ -56,12 +73,41 @@ public class Membremutuelle implements Serializable {
         this.id = id;
     }
 
+    public Membremutuelle(Integer id, boolean encours) {
+        this.id = id;
+        this.encours = encours;
+    }
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Date getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(Date dateDebut) {
+        this.dateDebut = dateDebut;
+    }
+
+    public Date getDateFin() {
+        return dateFin;
+    }
+
+    public void setDateFin(Date dateFin) {
+        this.dateFin = dateFin;
+    }
+
+    public boolean getEncours() {
+        return encours;
+    }
+
+    public void setEncours(boolean encours) {
+        this.encours = encours;
     }
 
     @XmlTransient

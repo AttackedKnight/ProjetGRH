@@ -35,13 +35,28 @@
                             </div>
 
                         </div>
-                        <div class="row"  style="margin-top: 6px; font-size: 1.2em;" ng-if="$parent.estPermanent">
+                        <!--                        <div class="row"  style="margin-top: 6px; font-size: 1.2em;" ng-if="$parent.estPermanent">
+                                                    <div class="  col-md-7">
+                        
+                                                    </div>
+                                                </div>-->
+                        <div class="row"  style="margin-top: 6px; font-size: 1.2em;">
                             <div class="  col-md-7">
-                                <label style="font-weight: bold;" for="matriculeInterne"> Matricule de solde :</label>
+                                <span ng-if="angular.isUndefined($parent.copieEmploye.matriculeInterne)">
+                                    <label for="avoirMatricule" > Matricule interne ?</label>
+                                    <input type="checkbox"  ng-model="avoirMatricule"   id="avoirMatricule"
+                                           ng-click="toggleAvoirMatriculeInt()"> 
+                                </span>
+                                <label style="font-weight: bold;" for="matriculeInterne" ng-if="angular.isDefined($parent.copieEmploye.matriculeInterne)">
+                                    Matricule de solde :
+                                </label>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" ng-if="angular.isDefined($parent.copieEmploye.matriculeInterne) || avoirMatricule == true">
                                 <div>
-                                    <input type="text" placeholder="Matricule"  class="form-control" ng-pattern="/^[0-9]{6}\/[a-z]{1}$/i" ng-maxlength="8" ng-minlength="8" id="matriculeInterne" name="matriculeInterne" ng-model="$parent.employe.matriculeInterne">
+                                    <input type="text" placeholder="Matricule"  class="form-control" 
+                                           ng-pattern="/^[0-9]{6}\/[a-z]{1}$/i" ng-maxlength="8" 
+                                           ng-minlength="8" id="matriculeInterne" 
+                                           name="matriculeInterne" ng-model="$parent.employe.matriculeInterne">
                                 </div>
                                 <div class="alert alert-block alert-danger requis" style="display:none">
                                     <div>Veuillez renseigner ce champs.</div>
@@ -52,6 +67,40 @@
                                 <div ng-messages="editInfoGeneralesForm.matriculeInterne.$error" role="alert" ng-show="editInfoGeneralesForm.matriculeInterne.$touched && editInfoGeneralesForm.matriculeInterne.$invalid" class="alert alert-block alert-danger has-error">
                                     <div ng-message="maxlength">Ce champs doit contenir 8 caractères.</div>
                                     <div ng-message="minlength">Ce champs doit contenir 8 caractères.</div>
+                                    <div ng-message="pattern">Vérifier votre saisie.</div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row"  style="margin-top: 6px; font-size: 1.2em;">
+                            <div class="  col-md-7">
+                                <span ng-if="angular.isUndefined($parent.copieEmploye.matriculeMainDoeuvre)">
+                                    <label for="avoirMatriculeMD" >Numéro d'immatriulation à la main d'oeuvre ?</label>
+                                    <input type="checkbox"  ng-model="avoirMatriculeMD"   id="avoirMatriculeMD"
+                                           ng-click="toggleAvoirMatriculeMD()"> 
+                                </span>
+                                <label style="font-weight: bold;" for="matriculeMD" 
+                                       ng-if="angular.isDefined($parent.copieEmploye.matriculeMainDoeuvre)">
+                                    Matricule à la main d'oeuvre :
+                                </label>
+                            </div>
+                            <div class="col-md-4" 
+                                 ng-if="angular.isDefined($parent.copieEmploye.matriculeMainDoeuvre) || avoirMatriculeMD == true">
+                                <div>
+                                    <input type="text"   id="matriculeMD" class="form-control"
+                                           ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11"
+                                           name="matriculeMD" placeholder="Matricule main d'oeuvre"
+                                           ng-model="$parent.employe.matriculeMainDoeuvre">
+                                </div>
+                                <div class="alert alert-block alert-danger requis" style="display:none">
+                                    <div>Veuillez renseigner ce champs.</div>
+                                </div>
+                                <div class="alert alert-block alert-danger requis" id="mat_md_dup" style="display:none">
+                                    <div>Ce numéro de matricule existe dèja.</div>
+                                </div>
+                                <div ng-messages="editInfoGeneralesForm.matriculeMD.$error" role="alert" ng-show="editInfoGeneralesForm.matriculeMD.$touched && editInfoGeneralesForm.matriculeMD.$invalid" class="alert alert-block alert-danger has-error">
+                                    <div ng-message="maxlength">Ce champs doit contenir 11 caractères.</div>
+                                    <div ng-message="minlength">Ce champs doit contenir 11 caractères.</div>
                                     <div ng-message="pattern">Vérifier votre saisie.</div>
                                 </div>
                             </div>
@@ -206,6 +255,15 @@
                             <span> {{$parent.employe.numeroCni}}</span>
                         </div>
                     </div>
+                    <div class="row" style="margin-top: 6px; font-size: 1.2em;" 
+                         ng-show="angular.isDefined($parent.employe.matriculeMainDoeuvre)">
+                        <div class="  col-md-7">
+                            <span style="font-weight: bold;"> Numero d'immatriculation à la main d'oeuvre :</span>
+                        </div>
+                        <div class="col-md-4">
+                            <span> {{$parent.employe.matriculeMainDoeuvre}}</span>
+                        </div>
+                    </div>
                     <div class="row" style="margin-top: 6px; font-size: 1.2em;">
                         <div class="  col-md-7">
                             <span style="font-weight: bold;"> Date de naissance :</span>
@@ -291,7 +349,8 @@
                     </div>  
                     <div class="form-group">
                         <label for="autreNumero" > Ajouter un autre numéro :</label>
-                        <input type="checkbox"  ng-model="autreNumero"  ng-click="toggleNumeroTel2()" id="autreNumero">                                              
+                        <input type="checkbox"  ng-model="autreNumero"
+                               ng-click="toggleNumeroTel2()" id="autreNumero">                                              
                     </div>
                     <div class="row" ng-if="contacts.numero2 || autreNumero == true" style="margin-top: 6px; font-size: 1.2em;">
                         <div class="col-md-7">
@@ -332,13 +391,15 @@
                             </div>
                         </div>
                     </div>
-                    <div style="margin-top: 5px; font-size: 1.2em;">                          
-                        <button ng-click="cancelContactsEdit()" class="btn btn-warning pull-right">
-                            <i class="fa fa-times" style="font-weight: bold"> Annuler</i>
-                        </button>
-                        <span class="btn btn-success pull-right" type="submit" 
-                              ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()">
-                            <i class="fa fa-check"> Enregistrer</i>
+                    <div style="margin-top: 5px; font-size: 1.2em;">                        
+                        <span class="pull-right">
+                            <button ng-click="cancelContactsEdit()" class="btn btn-warning">
+                                <i class="fa fa-times" style="font-weight: bold"> Annuler</i>
+                            </button>
+                            <span class="btn btn-success" type="submit" 
+                                  ng-disabled="editContactForm.$invalid"  ng-click="controlContactFormEdit()">
+                                <i class="fa fa-check"> Enregistrer</i>
+                            </span>
                         </span>
                     </div>
                 </form>
@@ -370,13 +431,15 @@
                     </div>
                 </div>  
                 <div  style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'contact') == true">
-                    <button class="btn btn-danger pull-right" ng-disabled="angular.isUndefined(contacts.numero1)" 
-                            ng-click="deleteContact(contacts.id)">
-                        <i class="fa fa-trash"> Supprimer</i>
-                    </button>    
-                    <button ng-click="toggleContactEditForm()" class="btn btn-warning pull-right">
-                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                    </button>                      
+                    <span class="pull-right">                          
+                        <button ng-click="toggleContactEditForm()" class="btn btn-warning">
+                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                        </button>   
+                        <button class="btn btn-danger" ng-disabled="angular.isUndefined(contacts.numero1)" 
+                                ng-click="deleteContact(contacts.id)">
+                            <i class="fa fa-trash"> Supprimer</i>
+                        </button> 
+                    </span>                   
                 </div> 
             </div>
         </div>
@@ -428,11 +491,15 @@
                             </div>
                         </div>
                     </div>  
-                    <div class="row " style="margin-top: 5px; font-size: 1.2em;">
-                        <div class="col-md-offset-9 col-md-3 ">
-                            <span style="margin-right: 10px;" class="btn btn-success pull-right" type="submit" ng-disabled="editAdresseForm.$invalid"  ng-click="controlAdresseFormEdit()"><i class="fa fa-check"> Enregistrer</i></span>
-                            <button ng-click="toggleAdresseEditForm()" class="btn btn-warning"><i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
-                        </div>
+                    <div style="margin-top: 5px; font-size: 1.2em;">
+                        <span class="pull-right">
+                            <span style="margin-right: 10px;" class="btn btn-success"
+                                  type="submit" ng-disabled="editAdresseForm.$invalid"  
+                                  ng-click="controlAdresseFormEdit()"><i class="fa fa-check"> Enregistrer</i>
+                            </span>
+                            <button ng-click="toggleAdresseEditForm()" class="btn btn-warning">
+                                <i class="fa fa-times" style="font-weight: bold"> Annuler</i></button>
+                        </span>
                     </div> 
                 </form>
             </div>
@@ -454,13 +521,15 @@
                     </div>
                 </div>  
                 <div style="margin-top: 5px; font-size: 1.2em;" ng-if="avoirPermission('modifier', 'adresse') == true">                                   
-                    <button class="btn btn-danger pull-right" ng-disabled="angular.isUndefined(adresse.ville)" 
-                            ng-click="deleteAdresse(adresse.id)">
-                        <i class="fa fa-trash"> Supprimer</i>
-                    </button>
-                    <button ng-click="toggleAdresseEditForm()" class="btn btn-warning pull-right">
-                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                    </button>
+                    <span class="pull-right">                       
+                        <button ng-click="toggleAdresseEditForm()" class="btn btn-warning">
+                            <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
+                        </button>
+                        <button class="btn btn-danger" ng-disabled="angular.isUndefined(adresse.ville)" 
+                                ng-click="deleteAdresse(adresse.id)">
+                            <i class="fa fa-trash"> Supprimer</i>
+                        </button>
+                    </span>
                 </div> 
             </div>
         </div>

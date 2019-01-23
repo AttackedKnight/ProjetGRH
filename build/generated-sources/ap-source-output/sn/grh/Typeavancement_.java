@@ -6,7 +6,7 @@ import javax.persistence.metamodel.SingularAttribute;
 import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Grade;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-14T17:09:37")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-22T22:26:09")
 @StaticMetamodel(Typeavancement.class)
 public class Typeavancement_ { 
 

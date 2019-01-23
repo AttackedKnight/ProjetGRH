@@ -108,11 +108,11 @@ public class EmployeFacadeREST extends AbstractFacade<Employe> {
     
     
     @GET
-    @Path("checkmatriculecs/{matriculeCaisseSociale}")
+    @Path("checkmatriculemd/{matriculeMD}")
     @Produces({MediaType.APPLICATION_JSON})
-    public StringBoolean ExistingMatriculecs(@PathParam("matriculeCaisseSociale") String matriculecs) {
-        List<Employe> e=em.createQuery("SELECT e FROM Employe e WHERE e.matriculeCaisseSociale = :matriculeCaisseSociale", Employe.class)
-                .setParameter("matriculeCaisseSociale", matriculecs)
+    public StringBoolean ExistingMatriculecs(@PathParam("matriculeMD") String matriculeMD) {
+        List<Employe> e=em.createQuery("SELECT e FROM Employe e WHERE e.matriculeMainDoeuvre = :matriculeMD", Employe.class)
+                .setParameter("matriculeMD", matriculeMD)
                 .getResultList();
         if(e.size()>0){
             return new StringBoolean(true);

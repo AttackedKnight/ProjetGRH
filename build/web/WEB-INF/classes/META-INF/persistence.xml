@@ -15,7 +15,6 @@
     <class>sn.grh.Conjoint</class>
     <class>sn.grh.Contact</class>
     <class>sn.grh.Corps</class>
-    <class>sn.grh.Diplome</class>
     <class>sn.grh.Document</class>
     <class>sn.grh.Domaine</class>
     <class>sn.grh.Echelon</class>
@@ -31,7 +30,10 @@
     <class>sn.grh.Groupe</class>
     <class>sn.grh.Groupetypeemploye</class>
     <class>sn.grh.Historiquegrade</class>
+    <class>sn.grh.Institution</class>
+    <class>sn.grh.Membrecaissesociale</class>
     <class>sn.grh.Membremutuelle</class>
+    <class>sn.grh.Membresyndicat</class>
     <class>sn.grh.Mutuellesante</class>
     <class>sn.grh.Mutuellesantetypeemploye</class>
     <class>sn.grh.Niveau</class>

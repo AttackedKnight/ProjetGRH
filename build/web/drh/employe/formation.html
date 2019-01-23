@@ -68,29 +68,29 @@
                                 </td>
                                 <td>
                                     <div>
-                                            <label title="Diplomante" for="diplomante" 
-                                                   class="col-md-4" >
-                                                <input type="radio"  
-                                                       name="typeFormation"
-                                                       ng-model="typeFormation"
-                                                       ng-value="0"
-                                                       id="diplomante" 
-                                                       onclick="angular.element(this).scope().toggleDiplomante(this)"/>
-                                                Oui 
-                                            </label>
-                                        </div>
-                                        <div>
-                                            <label title="Non Diplomante" for="nondiplomante" 
-                                                   class="col-md-4" >
-                                                <input type="radio"  
-                                                       name="typeFormation"
-                                                       ng-model="typeFormation"
-                                                       ng-value="1"
-                                                       id="nondiplomante" 
-                                                       onclick="angular.element(this).scope().toggleDiplomante(this)"/>
-                                                Non 
-                                            </label>
-                                        </div>
+                                        <label title="Diplomante" for="diplomante" 
+                                               class="col-md-4" >
+                                            <input type="radio"  
+                                                   name="typeFormation"
+                                                   ng-model="typeFormation"
+                                                   ng-value="0"
+                                                   id="diplomante" 
+                                                   onclick="angular.element(this).scope().toggleDiplomante(this)"/>
+                                            Oui 
+                                        </label>
+                                    </div>
+                                    <div>
+                                        <label title="Non Diplomante" for="nondiplomante" 
+                                               class="col-md-4" >
+                                            <input type="radio"  
+                                                   name="typeFormation"
+                                                   ng-model="typeFormation"
+                                                   ng-value="1"
+                                                   id="nondiplomante" 
+                                                   onclick="angular.element(this).scope().toggleDiplomante(this)"/>
+                                            Non 
+                                        </label>
+                                    </div>
                                 </td>
                                 <td>
                                     <div class="form-group" ng-if="diplomante">
@@ -163,14 +163,17 @@
                             </tr>
                             <tr>
                                 <td colspan="5"> 
-                                    <button ng-click="reinitialiserFormulaireFormation()"  
-                                            class="btn btn-danger pull-right">
-                                        <i class="fa fa-times"> Annuler</i>
-                                    </button>
-                                    <button ng-click="controlFormationForm('newFormationForm')" 
-                                            ng-disabled="newFormationForm.$invalid" class="btn btn-success pull-right">
-                                        <i class="fa fa-plus"> Enrégistrer</i>
-                                    </button> 
+                                    <span class="pull-right">
+                                        <button ng-click="controlFormationForm('newFormationForm')" 
+                                                ng-disabled="newFormationForm.$invalid" 
+                                                class="btn btn-success">
+                                            <i class="fa fa-plus"> Enrégistrer</i>
+                                        </button>
+                                        <button ng-click="reinitialiserFormulaireFormation()"  
+                                                class="btn btn-danger">
+                                            <i class="fa fa-times"> Annuler</i>
+                                        </button>                             
+                                    </span>
                                 </td>
                             </tr>
                         </tbody>
@@ -205,11 +208,12 @@
                                         ng-click="confirmDeleteFormation(formation.id)">
                                     <i class="fa fa-trash"></i>
                                 </button>
-                                <button title="Voir document(s)" class="btn btn-primary" type="button" 
+                                <button title="Voir document(s)" class="btn"
+                                        style="background-color: white; border: 1px solid ghostwhite;" type="button" 
                                         data-toggle="collapse"
                                         data-target="#documentsAssociésFormation{{$index}}"
                                         ng-if="avoirPermission('lister', 'document') == true">
-                                    <i class="fa fa-book"></i>
+                                    <i class="fa fa-book" style="color: #0085D5;"></i>
                                 </button>
                             </td>                                   
                         </tr>

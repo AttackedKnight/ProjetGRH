@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author hp
+ * @author fallougalass
  */
 @Entity
 @Table(name = "syndicat")
@@ -53,8 +53,8 @@ public class Syndicat implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "code")
     private String code;
-    @OneToMany(mappedBy = "syndicat")
-    private List<Employe> employeList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "syndicat")
+    private List<Membresyndicat> membresyndicatList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "syndicat")
     private List<Syndicattypeemploye> syndicattypeemployeList;
 
@@ -96,12 +96,12 @@ public class Syndicat implements Serializable {
     }
 
     @XmlTransient
-    public List<Employe> getEmployeList() {
-        return employeList;
+    public List<Membresyndicat> getMembresyndicatList() {
+        return membresyndicatList;
     }
 
-    public void setEmployeList(List<Employe> employeList) {
-        this.employeList = employeList;
+    public void setMembresyndicatList(List<Membresyndicat> membresyndicatList) {
+        this.membresyndicatList = membresyndicatList;
     }
 
     @XmlTransient

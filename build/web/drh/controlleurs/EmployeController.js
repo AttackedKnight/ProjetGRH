@@ -6,7 +6,7 @@
 
 
 angular.module('DrhModule').controller('EmployeController', function ($scope, SweetAlert, Mail, UploadFile,
-        Employe, Utilisateur, Groupe, Contact, Adresse, Servir, Fonction, TypeEmploye,$window,
+        Employe, Utilisateur, Groupe, Contact, Adresse, Servir, Fonction, TypeEmploye, $window,
         Entite, Typecontrat, Fonction, Groupe, Genre, $routeParams, Document, $q, Typedocument)
 {
 
@@ -18,15 +18,10 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
     $scope.contact = {id: ""};
     $scope.adresse = {id: ""};
     $scope.servir = {id: ""};
-//    $scope.membreMutuelle = {id: ""};
     $scope.fonction = {id: ""};
-//    $scope.situations = [];
-//    $scope.corps = [];
     $scope.today = new Date();
     $scope.employe.nationalite = "Sénégalaise";
     $scope.senegalaise = true;
-//    $scope.selection = "";
-
     $scope.setNationalite = function () {
         if ($scope.senegalaise == true) {
             $scope.employe.nationalite = "Sénégalaise";
@@ -44,14 +39,11 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         $scope.employe = {id: ""};
         $scope.contact = {id: ""};
         $scope.adresse = {id: ""};
-//        $scope.historiqueGrade = {id: "", encours: 1};
         $scope.servir = {id: ""};
         $scope.fonction = {id: ""};
-//        $scope.membreMutuelle = {id: ""};
         $scope.showDefaultAvatar();
         $scope.senegalaise = true;
         $scope.employe.nationalite = "Sénégalaise";
-//        $scope.selection = "";
         $scope.setTypeEmploye();
         $scope.cancelFileUpload();
         $scope.initDocument();
@@ -147,6 +139,18 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 
     /*          RECCUPERATION DES ELEMENTS PARAMETRES POUR LES AFFICHER DANS LES LISTES DE SELECTION        */
 
+    $scope.toggleAvoirMatriculeInt = function () {
+        if ($scope.avoirMatricule === true) {
+            $scope.employe.matriculeInterne = undefined;
+        }
+    };
+
+    $scope.toggleAvoirMatriculeMD = function () {
+        if ($scope.avoirMatriculeMD === true) {
+            $scope.employe.matriculeMainDoeuvre = undefined;
+        }
+    };
+
     $scope.getTypeContrat = function () {
         $scope.reinitialiser();
         $scope.servir.typeContrat = $scope.typecontrats.filter(retrieveTypeContrat)[0];
@@ -184,13 +188,24 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
             if (data.value == true) {
                 $('#mat_int_dup').show("slow").delay(3000).hide("slow");
             } else {
-                $scope.verifierContact1($scope.contact.numero1);
+                $scope.verifierMatriculeMD();
             }
         }).error(function () {
             SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification matricule");
         });
     };
 
+    $scope.verifierMatriculeMD = function () {
+        Employe.checkmatriculemd($scope.employe.matriculeMainDoeuvre).success(function (data) {
+            if (data.value == true) {
+                $('#mat_md_dup').show("slow").delay(3000).hide("slow");
+            } else {
+                $scope.verifierContact1();
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de vérification matricule");
+        });
+    };
 
     $scope.verifierContact1 = function () {
         Contact.checkcontact($scope.contact.numero1).success(function (data) {
@@ -355,7 +370,7 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
 
     $scope.envoyerMail = function () {
         var corps = "\tUNIVERSITE DE THIES \nDIRECTON DES RESSOURCES HUMAINES ET DE LA FORMATION\n\n";
-        corps+= "Bonjour , veuillez utiliser les identifiants suivants pour vous connectez à votre compte\n\n\
+        corps += "Bonjour , veuillez utiliser les identifiants suivants pour vous connectez à votre compte\n\n\
             Login : " + $scope.utilisateur.login + "\nMot de passe : " + $scope.utilisateur.motDePasse;
         var msg = 'to=' + $scope.contact.email + '&objet=identifiants de connexion&body=' + corps;
 
@@ -370,48 +385,42 @@ angular.module('DrhModule').controller('EmployeController', function ($scope, Sw
         $scope.utilisateur = {id: "", avatar: "images/avatar.png"};
         Mail.resetHttp();
     };
-    
-    $scope.testEnvoyerMail = function () {
-//        var corps = "Login : fallougalass Mot de passe : mbengue2019";
-//        var msg = 'to=fallou06mbengue@gmail.com&objet=identifiants de connexion&body=' + corps;
-//
-//        Mail.sendEmail(msg).success(function () {
-            $scope.suggererRedirection();
-//        }).error(function () {
-//            SweetAlert.simpleNotification("error", "Erreur", "L'envoi du mail a échoué");
-//            $scope.suggererRedirection();
-//        });
-////        $scope.utilisateur = {id: "", avatar: "images/avatar.png"};
-//        Mail.resetHttp();
-    };
-    
+
     $scope.suggererRedirection = function () {
         Promise.resolve(SweetAlert.demandeAction("Information", "Compléter la création du dossier ? "))
                 .then(function (value) {
                     if (value == true) {
-                        $window.location.href = '#/drh/employe/detailAgent/'+$scope.idEmployeCree;
+                        $window.location.href = '#/drh/employe/detailAgent/' + $scope.idEmployeCree;
                     }
                 });
     };
-    
+
     $scope.creerCompteUtilisateur = function () {
 
-        if ($scope.estPermanent) {  //Un compte utilisateur est cree pour un employe permanent
-            $scope.utilisateur.employe = $scope.employe;
-            $scope.utilisateur.email = $scope.contact.email;
-            $scope.utilisateur.groupe = $scope.groupe;
+        //Un compte utilisateur est cree pour un employe permanent
+        $scope.utilisateur.employe = $scope.employe;
+        $scope.utilisateur.email = $scope.contact.email;
+        $scope.utilisateur.groupe = $scope.groupe;
 
-            $scope.utilisateur.login = "ut" + $scope.employe.matriculeInterne.replace("/", "");
-            $scope.utilisateur.motDePasse = "passut2018";
+        $scope.utilisateur.login = "ut" + $scope.employe.matriculeInterne.replace("/", "");
+        $scope.utilisateur.motDePasse = "passut2018";
 
-            Utilisateur.createCompte($scope.utilisateur).success(function () {
-                $scope.envoyerMail();
-            }).error(function () {
-                SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la création du compte utilisateur");
-            });
-        } else {
-            $scope.reinitialiser();
-        }
+        Utilisateur.createCompte($scope.utilisateur).success(function () {
+            Promise.resolve(SweetAlert.demandeAction("Information", "Un compte utilisateur a été crée pour cet employé. \n\
+                                Voulez vous envoyé les identifiants de connexion par mail ? "))
+                    .then(function (value) {
+                        if (value == true) {
+                            $scope.envoyerMail();
+                        } else {
+                            $scope.reinitialiser();
+                            $scope.suggererRedirection();
+                        }
+                    });
+
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Erreur lors de la création du compte utilisateur");
+        });
+
 
     };
 
