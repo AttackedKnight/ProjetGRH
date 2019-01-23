@@ -19,7 +19,7 @@ angular.module('DrhModule').controller('DetailEmployeController', function ($sco
     $scope.templates = [
         {id:1, name: "Infos Générales", url: "drh/employe/infosGenerales.html"},
         {id:2, name: "Situation Matrimoniale", url: "drh/employe/sMatrimoniale.html"},
-        {id:3, name: "Sociales", url: "drh/employe/sociales.html"},
+        {id:3, name: "Organismes sociaux", url: "drh/employe/sociales.html"},
         {id:4, name: "Parcours", url: "drh/employe/infosProfessionelles.html"},
         {id:5, name: "Avancement", url: "drh/employe/avancement.html"},
         {id:6, name: "Formation", url: "drh/employe/formation.html"},

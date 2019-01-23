@@ -43,7 +43,7 @@
                                             </label>
                                         </div>
                                         <div>
-                                            <label title="Fonction annexe" for="fannexe" 
+                                            <label title="Fonction administrative" for="fannexe" 
                                                    class="col-md-4" >
                                                 <input type="radio"  
                                                        name="typeFonction"
@@ -223,8 +223,8 @@
                         <tr class="bg-blue-gradient" ng-class="{'finApproche' : finContratApproche == true && unparcours.finService == 0 ,
                                                 'finContrat' : finContratDepasse == true && unparcours.finService == 0}">
                             <td>
-                                <span ng-show="angular.isDefined(unparcours.fonction)">PRN</span>
-                                <span ng-show="angular.isDefined(unparcours.fonctionAnnexe)">ANX</span>    
+                                <span ng-show="angular.isDefined(unparcours.fonction)" title="Fonction principale">PRN</span>
+                                <span ng-show="angular.isDefined(unparcours.fonctionAnnexe)" title="Fonction administrative">ADM</span>    
                             </td>
                             <td>{{unparcours.debut| date: 'dd MMM yyyy'}}</td>
                             <td>{{unparcours.entite.nom}}</td>

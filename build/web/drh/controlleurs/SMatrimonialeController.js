@@ -92,7 +92,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         $scope.initConjoint();
         $scope.initDocument();
         if ($scope.lesFichiers != null) {
-            $scope.lesFichiers = null
+            $scope.lesFichiers = null;
         }
     };
 
@@ -124,7 +124,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
             /*Si c'est une operation de modification*/
             if ($scope.editConjointOperation == true) {
                 /*Si estSalarie est passe de false -> true ,des pieces justificatifs doivent etre jointes*/
-                if ($scope.estSalarieFormerValue == false && false$scope.conjoint.estSalarie == true) {
+                if ($scope.estSalarieFormerValue == true && $scope.conjoint.estSalarie == false) {
                     if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
                         if ($scope.controlDocumentForm(formulaire)) {
                             $scope.completerDocument();
@@ -136,7 +136,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
                         SweetAlert.simpleNotification("error", "Erreur", "Indiquer d'abord le numéro de CNI de cet employé");
                     }
                 } else {   //sinon
-                    /* true les pieces justificatifs sont facultatives
+                    /*les pieces justificatifs sont facultatives
                      *  */
                     if ($scope.lesFichiers != null) { //S'il y a des fichiers(nouveaux fichiers) , on l'ajoute
                         if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
@@ -157,7 +157,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
             }
             /*Si c'est une operation d'ajout*/
             if ($scope.editConjointOperation == false) {
-                if ($scope.conjoint.estSalarie == true) {   //Des pieces justificatifs doivent etre jointes
+                if ($scope.conjoint.estSalarie == false && $scope.$parent.homme == true) {   //Des pieces justificatifs doivent etre jointes
                     if ($scope.$parent.employe.numeroCni && $scope.$parent.employe.numeroCni != '') {
                         if ($scope.controlDocumentForm(formulaire)) {
                             $scope.completerDocument();
@@ -198,7 +198,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
         $scope.toggleConjointForm();
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Conjoint.add($scope.conjoint).success(function () {
-            if ($scope.conjoint.estSalarie == true) {   //Continue avec l'upload de fichier
+            if ($scope.conjoint.estSalarie == false && $scope.$parent.homme == true) {   //Continue avec l'upload de fichier
                 $scope.getLastConjointAdded();  //Recuperer l'entree qui vient d'etre ajoute pour complete les documents a uploader
             }
             SweetAlert.simpleNotification("success", "Succes", "Ajout effectuée avec succes");

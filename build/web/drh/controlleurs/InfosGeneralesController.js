@@ -15,7 +15,7 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
     }).error(function () {
         SweetAlert.finirChargementEchec("Erreur de chargement des genres");
     });
-    
+
     Contact.findByEmploye($scope.$parent.employe).success(function (data) {
         if (data) {
             $scope.contacts = data;
@@ -46,6 +46,38 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
         $('a').tooltip();
     });
 
+    $scope.toggleAvoirMatriculeInt = function () {
+        $scope.avoirMatricule = !$scope.avoirMatricule;
+        if ($scope.avoirMatricule === true) {
+            $scope.$parent.employe.matriculeInterne = undefined;
+        }
+    };
+
+    $scope.toggleAvoirMatriculeMD = function () {
+        $scope.avoirMatriculeMD = !$scope.avoirMatriculeMD;
+        if ($scope.avoirMatriculeMD === true) {
+            $scope.$parent.employe.matriculeMainDoeuvre = undefined;
+        }
+    };
+
+
+    $scope.verifModificationMatriculeInterne = function () { //Si matricule interne vient d'etre ajouté ou s'il existait et est modifié
+        if ((angular.isUndefined($scope.$parent.copieEmploye.matriculeInterne) && angular.isDefined($scope.$parent.employe.matriculeInterne))
+                || (angular.isDefined($scope.$parent.copieEmploye.matriculeInterne)
+                        && ($scope.$parent.copieEmploye.matriculeInterne !== $scope.$parent.employe.matriculeInterne))) {
+            return true;
+        }
+        return false;
+    };
+
+    $scope.verifModificationMatriculeMD = function () { //Si matricule interne vient d'etre ajouté ou s'il existait et est modifié
+        if ((angular.isUndefined($scope.$parent.copieEmploye.matriculeMainDoeuvre) && angular.isDefined($scope.$parent.employe.matriculeMainDoeuvre))
+                || (angular.isDefined($scope.$parent.copieEmploye.matriculeMainDoeuvre)
+                        && ($scope.$parent.copieEmploye.matriculeMainDoeuvre !== $scope.$parent.employe.matriculeMainDoeuvre))) {
+            return true;
+        }
+        return false;
+    };
     /* edit info generale employe*/
 
     $scope.editInfoGenerales = false;
@@ -72,8 +104,10 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
 
             if ($scope.$parent.employe.numeroCni !== $scope.$parent.copieEmploye.numeroCni) {
                 $scope.CheckCni();
-            } else if ($scope.$parent.estPermanent == true && $scope.$parent.employe.matriculeInterne !== $scope.$parent.copieEmploye.matriculeInterne) {
+            } else if ($scope.verifModificationMatriculeInterne()) {
                 $scope.checkMatriculeInterne();
+            } else if ($scope.verifModificationMatriculeMD()) {
+                $scope.checkMatriculeMD();
             } else {
                 $scope.effectuerMajEmploye();
             }
@@ -102,10 +136,11 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
             if (data.value == true) {
                 $('#cni_dup').show("slow").delay(3000).hide("slow");
             } else {
-                if ($scope.$parent.estPermanent == true && $scope.$parent.employe.matriculeInterne !== $scope.$parent.copieEmploye.matriculeInterne) {
+                if ($scope.verifModificationMatriculeInterne()) {
                     $scope.checkMatriculeInterne();
-                }
-                {
+                } else if ($scope.verifModificationMatriculeMD()) {
+                    $scope.checkMatriculeMD();
+                } else {
                     $scope.effectuerMajEmploye();
                 }
             }
@@ -119,6 +154,22 @@ angular.module('DrhModule').controller('InfosGeneralesController', function ($sc
             if (data.value == true) {
                 $('#mat_int_dup').show("slow").delay(3000).hide("slow");
 
+            } else {
+                if ($scope.verifModificationMatriculeMD()) {
+                    $scope.checkMatriculeMD();
+                } else {
+                    $scope.effectuerMajEmploye();
+                }
+            }
+        }).error(function () {
+            SweetAlert.simpleNotification("error", "Erreur", "Echec de vérification du matricule de solde");
+        });
+    };
+
+    $scope.checkMatriculeMD = function () {
+        Employe.checkmatriculemd($scope.$parent.employe.matriculeMainDoeuvre).success(function (data) {
+            if (data.value == true) {
+                $('#mat_md_dup').show("slow").delay(3000).hide("slow");
             } else {
                 $scope.effectuerMajEmploye();
             }

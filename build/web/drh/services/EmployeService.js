@@ -24,8 +24,8 @@ angular.module('DrhModule').factory('Employe', function ($http) {
             var matriculeInt= matriculeInterne.replace("/","-");
             return $http.get(chemin + '/webresources/sn.grh.employe/checkmatricule/'+matriculeInt);
         },
-        checkmatriculecs: function (matriculeCaisseSociale) {
-            return $http.get(chemin + '/webresources/sn.grh.employe/checkmatriculecs/' + matriculeCaisseSociale);
+        checkmatriculemd: function (matriculeMainDoeuvre) {
+            return $http.get(chemin + '/webresources/sn.grh.employe/checkmatriculemd/' + matriculeMainDoeuvre);
         },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.employe', item);

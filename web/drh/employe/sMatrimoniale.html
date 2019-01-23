@@ -189,7 +189,7 @@
                             <input type="checkbox"  name="estSalarie" id="estSalarie"   ng-model="conjoint.estSalarie">                         
                         </div>
                     </div>  
-                    <table class="table" ng-show="$parent.homme && conjoint.estSalarie">                    
+                    <table class="table" ng-show="$parent.homme && !conjoint.estSalarie">                    
                         <thead>
                             <tr>
                                 <th>Type de document</th>
@@ -276,7 +276,10 @@
                                 <tr class="bg-blue-gradient">
                                     <td>{{conj.prenom}}</td>
                                     <td>{{conj.nom}}</td>
-                                    <td ng-if="$parent.homme">{{conj.estSalarie}}</td>
+                                    <td ng-if="$parent.homme">
+                                        <span ng-show="conj.estSalarie">Oui</span>
+                                        <span ng-show="!conj.estSalarie">Non</span>
+                                    </td>
                                     <td>  
                                         <button title="Modifier" class="btn btn-warning"  
                                                 ng-if="avoirPermission('modifier', 'situationmatrimoniale') == true"
@@ -287,7 +290,7 @@
                                                 style="background-color: white; border: 1px solid ghostwhite;"
                                                 type="button" data-toggle="collapse"
                                                 data-target="#documentsAssociésConjoint{{$index}}"
-                                                ng-if="($parent.homme && conj.estSalarie) && avoirPermission('lister', 'document') == true">
+                                                ng-if="($parent.homme && !conj.estSalarie) && avoirPermission('lister', 'document') == true">
                                             <i class="fa fa-book" style="color: #0085D5;"></i>
                                         </button>
                                         <button title="Supprimer" class="btn btn-danger"  
