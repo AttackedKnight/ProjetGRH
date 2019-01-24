@@ -7,19 +7,13 @@
             </div>
         </a>
         <div id="caisseSociale" class="panel-collapse collapse">
-            <div class="panel-body row" ng-if="editCaisseSociale == true" id="editCaisseSociale">
+            <div class="panel-body row"  id="editCaisseSociale"> 
                 <form novalidate="" name="editCaisseSocialeForm" enctype="multipart/form-data" class="editCaisseSocialeForm" id="editCaisseSocialeForm">
                     <div class="  col-md-7">
                         <label style="font-weight: bold;"> Caisse sociale :</label>
                     </div>
                     <div class="col-md-5">
-                        <div class="row" >
-                            <label for="nonCaisse" class="col-md-4">
-                                <input type="radio" id="nonCaisse" name="caissesociale" 
-                                       ng-model="currentCaisseSociale" value="0"
-                                       ng-click="removeSelectedCaisseSociale()" />
-                                {{ "Aucun"}}
-                            </label>
+                        <div class="row" ng-show="editCaisseSociale == false">
                             <label ng-repeat="caissesociale in caissesociales" for="{{caissesociale.code}}" 
                                    class="col-md-4" >
                                 <input type="radio"  
@@ -30,15 +24,18 @@
                                        onclick="angular.element(this).scope().getCaisseSociale(this)"/>
                                 {{caissesociale.code}} 
                             </label>
-                        </div>                                   
+                        </div>   
+                        <div class="alert alert-block alert-danger" id="select_caisse_sociale" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
                     </div>
-                    <div class="row " ng-if="$parent.employe.caisseSociale.id"  style="margin-top: 6px; font-size: 1.2em;">
+                    <div class="row " ng-if="membreCaisseSociale.caisseSociale.id"  style="margin-top: 6px; font-size: 1.2em;">
                         <div class="  col-md-7">
-                            <label> Numéro d'affiliation {{$parent.employe.caisseSociale.code}} :</label>
+                            <label> Numéro d'affiliation {{membreCaisseSociale.caisseSociale.code}} :</label>
                         </div>
                         <div class="col-md-5">
                             <div class="input-group">
-                                <input  type="text" ng-model="$parent.employe.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
+                                <input  type="text" ng-model="membreCaisseSociale.matriculeCaisseSociale"    ng-pattern="/^[0-9]{11}$/" ng-maxlength="11" ng-minlength="11" name="caisseSociale" placeholder="Matricule caisse sociale" class="form-control" >
                             </div>
                             <div class="alert alert-block alert-danger requis" style="display:none">
                                 <div>Veuillez renseigner ce champs.</div>
@@ -53,7 +50,7 @@
                             </div>
                         </div>                                    
                     </div>
-                    <table class="table" ng-if="$parent.employe.caisseSociale.id">                    
+                    <table class="table">                    
                         <thead>
                             <tr>
                                 <th>Type de document</th>
@@ -115,81 +112,111 @@
                                   ng-click="cancelCaisseSocialeEdit()">
                                 <i class="fa fa-times"> Annuler</i>
                             </span>
-                            <span style="margin-right: 10px;" class="btn btn-success pull-right" 
-                                  type="submit" ng-disabled="editCaisseSocialeForm.$invalid"  ng-click="controlCaisseSocialeFormEdit('editCaisseSocialeForm')">
+                            <span style="margin-right: 10px;" class="btn btn-warning pull-right" 
+                                  ng-show="editCaisseSociale == true && avoirPermission('modifier', 'membrecaissesociale') == true"
+                                  ng-disabled="editCaisseSocialeForm.$invalid"  
+                                  ng-click="controlCaisseSocialeFormEdit('editCaisseSocialeForm')">
                                 <i class="fa fa-check"> Enregistrer</i>
+                            </span>
+                            <span style="margin-right: 10px;" class="btn btn-success pull-right" 
+                                  ng-show="editCaisseSociale == false && avoirPermission('ajouter', 'membrecaissesociale') == true"
+                                  ng-disabled="editCaisseSocialeForm.$invalid" 
+                                  ng-click="controlCaisseSocialeFormEdit('editCaisseSocialeForm')">
+                                <i class="fa fa-check"> Ajouter</i>
                             </span>
                         </div>
                     </div>
                 </form>
             </div>
-            <!--                        fin edit form-->
-            <div class="panel-body" ng-if="editCaisseSociale == false">               
-                <div class="row" style="font-size: 1.2em;">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Caisse Sociale :</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span ng-if="$parent.employe.caisseSociale"> {{$parent.employe.caisseSociale.code}}</span>
-                        <span ng-if="!$parent.employe.caisseSociale" style="margin:auto;">L'employé n'est pas membre d'une caisse sociale</span>
-                    </div>
-                </div> 
-                <div class="row" style="font-size: 1.2em;" ng-if="$parent.employe.caisseSociale">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Numéro d'affiliation {{$parent.employe.caisseSociale.code}} :</span>
-                    </div>
-                    <div class="col-md-4">
-                        <span> {{$parent.employe.matriculeCaisseSociale}}</span>
-                    </div>
-                </div>  
-                <div class="row" ng-if="$parent.employe.caisseSociale" style="font-size: 1.2em;">
-                    <div class="  col-md-3">
-                        <span style="font-weight: bold;"> Documents associés:</span>
-                    </div>
-                    <div class="col-md-9">
-                        <table class="table table-striped table-bordered tableau-document">
-                            <thead>
-                                <tr>
-                                    <th>Type </th>
-                                    <th>Description </th>
-                                    <th>Date d'enregistrement</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody> 
-                                <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.caisseSociale)">
-                                    <td>
-                                        {{doc.typeDocument.code}}
-                                    </td >
-                                    <td>
-                                        {{doc.description}}
-                                    </td >
-                                    <td>
-                                        <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
-                                    </td >
-                                    <td>
-                                        <div>
-                                            <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <button class="btn btn-danger" ng-if="avoirPermission('supprimer', 'document') == true"
-                                                    ng-click="deleteArchiveSociales(doc)"><i class="fa fa-trash"></i></button>
-                                        </div>
-                                    </td>
+            <div class="panel-body">         
+                <table class="table table-striped" ng-show="caisses.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Caisse</th>
+                            <th>Numéro d'affiliation </th>
+                            <th>Date debut cotisation</th>
+                            <th>Date fin</th>
+                            <!--<th>Montant</th>-->
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="cs in caisses"> 
+                        <tr class="bg-blue-gradient">
+                            <td>{{ cs.caisseSociale.code}}</td>  
+                            <td>{{ cs.matriculeCaisseSociale}}</td> 
+                            <td>{{ cs.dateDebut | date: 'dd MMM yyyy'}}</td> 
+                            <td>{{ cs.dateFin | date: 'dd MMM yyyy'}}</td> 
+                            <!--<td>{{(cs.pourcentage}}</td>-->
+                            <td>
+                                <button title="Modifier" class="btn btn-warning"
+                                        ng-if="avoirPermission('modifier', 'membrecaissesociale') == true && cs.encours == 1"
+                                        ng-click="setCaisseSociale(cs)">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger" 
+                                        ng-show="avoirPermission('modifier', 'membrecaissesociale') == true
+                                                                    && cs.encours == 1"  
+                                        title="Quitter" 
+                                        ng-click="confirmQuitterCaisseSociale(cs)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                                <button title="Supprimer" class="btn btn-danger" 
+                                        ng-if="avoirPermission('supprimer', 'membrecaissesociale') == true && cs.encours == 0" 
+                                        ng-click="confirmDeleteMembreCaisseSociale(cs.id)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                <button title="Voir document(s)" class="btn"
+                                        style="background-color: white; border: 1px solid ghostwhite;"
+                                        type="button" 
+                                        data-toggle="collapse"
+                                        data-target="#documentsAssociésMembreCaisseSociale{{$index}}"
+                                        ng-if="avoirPermission('lister', 'document') == true">
+                                    <i class="fa fa-book" style="color: #0085D5;"></i>
+                                </button>
+                            </td>                                   
+                        </tr>
+                        <tr id="documentsAssociésMembreCaisseSociale{{$index}}" class="collapse">
+                            <td colspan="5" >
+                                <table  class="table table-striped table-bordered tableau-document">
+                                    <thead >
+                                        <tr>
+                                            <th>Type </th>
+                                            <th>Description </th>
+                                            <th>Date d'enregistrement</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  > 
+                                        <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.membreCaisseSociale) && cs.id == doc.membreCaisseSociale.id" >
+                                            <td>
+                                                {{doc.typeDocument.code}}
+                                            </td >
+                                            <td>
+                                                {{doc.description}}
+                                            </td >
+                                            <td>
+                                                <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
+                                            </td >
+                                            <td>
+                                                <div>
+                                                    <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-danger" 
+                                                            ng-if="avoirPermission('supprimer', 'document') == true"
+                                                            ng-click="deleteArchiveFormation(doc)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
 
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div> 
-                <div style="margin-top: 5px; font-size: 1.2em;" 
-                     ng-if="avoirPermission('modifier', 'employe') == true">
-                    <button
-                        ng-click="toggleCaisseSocialeEditForm()" 
-                        class="btn btn-warning pull-right">
-                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                    </button>
-                </div>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -203,31 +230,29 @@
         </a>
 
         <div id="mutuelleSante" class="panel-collapse collapse">
-            <div class="panel-body row" ng-if="editMutuelleSante == true" id="editMutuelle">
+            <div class="panel-body row"  id="editMutuelleSante"> 
                 <form novalidate="" name="editMutuelleSanteForm" enctype="multipart/form-data" class="editMutuelleSanteForm" id="editMutuelleSanteForm">
                     <div class="  col-md-7">
-                        <span style="font-weight: bold;">Inscription au mutuelle de santé :</span>
+                        <label style="font-weight: bold;"> Mutuelle Santé :</label>
                     </div>
-
-                    <div class="col-md-4 row">
-                        <!--<input type="checkbox" name="incrit" ng-model="estMembreMutuelle"  ng-change="toggleMembreMutuelle()">-->
-                        <label for="nonMutuelle" class="col-md-5">
-                            <input type="radio" id="nonMutuelle"
-                                   ng-model="currentMutuelle" value="0" 
-                                   name="mutuelle" ng-click="removeSelectedMutuelle()" />
-                            {{ "Aucun"}}
-                        </label>
-                        <label ng-repeat="mutuelle in mutuelles" for="{{mutuelle.code}}" class="col-md-5" >
-                            <input type="radio"  
-                                   name="mutuelle"
-                                   ng-value="{{mutuelle.id}}"  
-                                   ng-model="currentMutuelle"
-                                   onclick="angular.element(this).scope().getMutulleSante(this)"
-                                   id="{{mutuelle.code}}" />
-                            {{mutuelle.code}}
-                        </label>
+                    <div class="col-md-5">
+                        <div class="row" ng-show="editMutuelleSante == false">
+                            <label ng-repeat="mutuellesante in mutuellesantes" for="{{mutuellesante.code}}" 
+                                   class="col-md-4" >
+                                <input type="radio"  
+                                       name="mutuellesante"
+                                       ng-model="currentMutuelleSante"
+                                       ng-value="{{mutuellesante.id}}"
+                                       id="{{mutuellesante.code}}" 
+                                       onclick="angular.element(this).scope().getMutuelleSante(this)"/>
+                                {{mutuellesante.code}} 
+                            </label>
+                        </div>   
+                        <div class="alert alert-block alert-danger" id="select_mutuelle_sante" style="display:none">
+                            <div>Veuillez renseigner ce champs.</div>
+                        </div>
                     </div>
-                    <table class="table" ng-if="membreMutuelle.mutuelleSante">                    
+                    <table class="table">                    
                         <thead>
                             <tr>
                                 <th>Type de document</th>
@@ -283,83 +308,113 @@
                             </tr>
                         </tbody>
                     </table>
-                    <div class="row "  style="margin-top: 10px;" >
+                    <div class="row "  style="margin-top: 10px;">
                         <div class="col-md-12">
                             <span style="margin-right: 10px;" class="btn btn-danger pull-right"
-                                  ng-click="toggleMutuelleSanteEditForm()">
+                                  ng-click="cancelMutuelleSanteEdit()">
                                 <i class="fa fa-times"> Annuler</i>
                             </span>
-                            <span style="margin-right: 10px;" class="btn btn-success pull-right" 
-                                  type="submit"   ng-click="controlMutuelleSanteFormEdit('editMutuelleSanteForm')">
+                            <span style="margin-right: 10px;" class="btn btn-warning pull-right" 
+                                  ng-show="editMutuelleSante == true && avoirPermission('modifier', 'membremutuelle') == true"
+                                  ng-disabled="editMutuelleSanteForm.$invalid"  
+                                  ng-click="controlMutuelleSanteFormEdit('editMutuelleSanteForm')">
                                 <i class="fa fa-check"> Enregistrer</i>
+                            </span>
+                            <span style="margin-right: 10px;" class="btn btn-success pull-right" 
+                                  ng-show="editMutuelleSante == false && avoirPermission('ajouter', 'membremutuelle') == true"
+                                  ng-disabled="editMutuelleSanteForm.$invalid" 
+                                  ng-click="controlMutuelleSanteFormEdit('editMutuelleSanteForm')">
+                                <i class="fa fa-check"> Ajouter</i>
                             </span>
                         </div>
                     </div>
                 </form>
             </div>
-            <!--                        fin edit form-->
-            <div class="panel-body" ng-if="editMutuelleSante == false">
-                <div class="row" style="margin-top: 6px; font-size: 1.2em;">
-                    <div class="  col-md-7">
-                        <span style="font-weight: bold;"> Mutuelle: </span>
-                    </div>
-                    <div class="col-md-4">
-                        <span ng-if="membreMutuelle.mutuelleSante"> {{membreMutuelle.mutuelleSante.code}}</span>
-                        <span ng-if="!membreMutuelle.mutuelleSante">
-                            L'employé n'est pas membre d'une mutuelle de santé
-                        </span>
-                    </div>
-                </div>  
-                <div class="row" ng-if="membreMutuelle.mutuelleSante" style="font-size: 1.2em;">
-                    <div class="  col-md-3">
-                        <span style="font-weight: bold;"> Documents associés:</span>
-                    </div>
-                    <div class="col-md-9">
-                        <table class="table table-striped table-bordered tableau-document">
-                            <thead>
-                                <tr>
-                                    <th>Type </th>
-                                    <th>Description </th>
-                                    <th>Date d'enregistrement</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody> 
-                                <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.membreMutuelle)">
-                                    <td>
-                                        {{doc.typeDocument.code}}
-                                    </td >
-                                    <td>
-                                        {{doc.description}}
-                                    </td >
-                                    <td>
-                                        <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
-                                    </td >
-                                    <td>
-                                        <div>
-                                            <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
-                                                <i class="fa fa-eye"></i>
-                                            </a>
-                                            <button class="btn btn-danger" ng-if="avoirPermission('supprimer', 'document') == true"
-                                                    ng-click="deleteArchiveSociales(doc)"><i class="fa fa-trash"></i></button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div style="margin-top: 5px; font-size: 1.2em;" 
-                     ng-if="avoirPermission('modifier', 'employe') == true">
-                    <button ng-if="!membreMutuelle.mutuelleSante" 
-                            ng-click="toggleMutuelleSanteEditForm()"  class="btn btn-success pull-right">
-                        <i class="fa fa-plus" style="font-weight: bold"> Ajouter</i>
-                    </button>
-                    <button ng-if="membreMutuelle.mutuelleSante" 
-                            ng-click="setMutuelleSante(membreMutuelle)"class="btn btn-warning pull-right">
-                        <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
-                    </button>
-                </div>
+            <div class="panel-body">         
+                <table class="table table-striped" ng-show="mutuelles.length > 0">
+                    <thead>
+                        <tr>
+                            <th>Caisse</th>
+                            <th>Date début</th>
+                            <th>Date fin</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody ng-repeat="mt in mutuelles"> 
+                        <tr class="bg-blue-gradient">
+                            <td>{{ mt.mutuelleSante.code}}</td>
+                            <td>{{ mt.dateDebut | date: 'dd MMM yyyy'}}</td> 
+                            <td>{{ mt.dateFin | date: 'dd MMM yyyy'}}</td> 
+                            <td>
+                                <button title="Modifier" class="btn btn-warning"
+                                        ng-if="avoirPermission('modifier', 'membremutuelle') == true && mt.encours == 1"
+                                        ng-click="setMutuelleSante(mt)">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger" 
+                                        ng-show="avoirPermission('modifier', 'membremutuelle') == true
+                                                        && mt.encours == 1"  
+                                        title="Quitter" 
+                                        ng-click="confirmQuitterMutuelleSante(mt)">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                                <button title="Supprimer" class="btn btn-danger" 
+                                        ng-if="avoirPermission('supprimer', 'membremutuelle') == true && mt.encours == 0" 
+                                        ng-click="confirmDeleteMembreMutuelleSante(mt.id)">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                                <button title="Voir document(s)" class="btn"
+                                        style="background-color: white; border: 1px solid ghostwhite;"
+                                        type="button" 
+                                        data-toggle="collapse"
+                                        data-target="#documentsAssociésMembreMutuelleSante{{$index}}"
+                                        ng-if="avoirPermission('lister', 'document') == true">
+                                    <i class="fa fa-book" style="color: #0085D5;"></i>
+                                </button>
+                            </td>                                   
+                        </tr>
+                        <tr id="documentsAssociésMembreMutuelleSante{{$index}}" class="collapse">
+                            <td colspan="4" >
+                                <table  class="table table-striped table-bordered tableau-document">
+                                    <thead >
+                                        <tr>
+                                            <th>Type </th>
+                                            <th>Description </th>
+                                            <th>Date d'enregistrement</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody  > 
+                                        <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.membreMutuelle) && mt.id == doc.membreMutuelle.id" >
+                                            <td>
+                                                {{doc.typeDocument.code}}
+                                            </td >
+                                            <td>
+                                                {{doc.description}}
+                                            </td >
+                                            <td>
+                                                <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
+                                            </td >
+                                            <td>
+                                                <div>
+                                                    <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                    <button class="btn btn-danger" 
+                                                            ng-if="avoirPermission('supprimer', 'document') == true"
+                                                            ng-click="deleteArchiveFormation(doc)">
+                                                        <i class="fa fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -373,7 +428,194 @@
         </a>
 
         <div id="syndicat" class="panel-collapse collapse">
-            <div class="panel-body" ng-if="editSyndicat == true">
+            <div class="panel-body row"  id="editSyndicat"> 
+    <form novalidate="" name="editSyndicatForm" enctype="multipart/form-data" class="editSyndicatForm" id="editSyndicatForm">
+        <div class="  col-md-7">
+            <label style="font-weight: bold;"> Syndicat :</label>
+        </div>
+        <div class="col-md-5">
+            <div class="row" ng-show="editSyndicat == false">
+                <label ng-repeat="syndicat in lesSyndicats" for="{{syndicat.code}}" 
+                       class="col-md-4" >
+                    <input type="radio"  
+                           name="syndicat"
+                           ng-model="currentSyndicat"
+                           ng-value="{{syndicat.id}}"
+                           id="{{syndicat.code}}" 
+                           onclick="angular.element(this).scope().getSyndicat(this)"/>
+                    {{syndicat.code}} 
+                </label>
+            </div>   
+            <div class="alert alert-block alert-danger" id="select_syndicat" style="display:none">
+                <div>Veuillez renseigner ce champs.</div>
+            </div>
+        </div>
+        <table class="table">                    
+            <thead>
+                <tr>
+                    <th>Type de document</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>                                            
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select ng-model="document.typeDocument" class="form-control" id="entite" ng-options="typedocument.code  for typedocument in $parent.typedocuments"></select>  
+                            </div>
+                            <div class="alert alert-block alert-danger requis type-doc-missing" style="display:none">
+                                <div>Veuillez renseigner ce champs.</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <textarea  cols="50" style="height: 140px; resize: none;"  ng-model="document.description" name="document" placeholder="Description du document" ></textarea>
+                            </div>
+                            <div class="alert alert-block alert-danger requis" style="display:none">
+                                <div>Veuillez renseigner ce champs.</div>
+                            </div>                                      
+                        </div>
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="detailUpload">
+                                </div>
+                                <div>                                     
+                                    <div class="alert alert-block alert-danger requis missing-file" style="display:none">
+                                        <div>Veuillez sélectionner un fichier.</div>
+                                    </div>
+                                    <div class="alert alert-block alert-danger requis error-format" style="display:none">
+                                        <div>Vérifier que le(s) fichier(s) envoyé(s) sont au bon format.</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="form-control hidden" multiple  type="file"  onchange="angular.element(this).scope().previewUpload(this, 'editSyndicatForm')" name="fichiers" accept="application/pdf" id="fichiersSyndicat">
+                                <label for="fichiersSyndicat">
+                                    <span class="btn btn-primary" title="Pièce jointe" ><i class="fa fa-paperclip"></i></span>
+                                </label>
+                                <i class="fa fa-times btn btn-danger" title="Annuler l'upload" ng-click="cancelFileUpload()"></i>
+                            </div>                                       
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row "  style="margin-top: 10px;">
+            <div class="col-md-12">
+                <span style="margin-right: 10px;" class="btn btn-danger pull-right"
+                      ng-click="cancelSyndicatEdit()">
+                    <i class="fa fa-times"> Annuler</i>
+                </span>
+                <span style="margin-right: 10px;" class="btn btn-warning pull-right" 
+                      ng-show="editSyndicat == true && avoirPermission('modifier', 'membresyndicat') == true"
+                      ng-disabled="editSyndicatForm.$invalid"  
+                      ng-click="controlSyndicatFormEdit('editSyndicatForm')">
+                    <i class="fa fa-check"> Enregistrer</i>
+                </span>
+                <span style="margin-right: 10px;" class="btn btn-success pull-right" 
+                      ng-show="editSyndicat == false && avoirPermission('ajouter', 'membresyndicat') == true"
+                      ng-disabled="editSyndicatForm.$invalid" 
+                      ng-click="controlSyndicatFormEdit('editSyndicatForm')">
+                    <i class="fa fa-check"> Ajouter</i>
+                </span>
+            </div>
+        </div>
+    </form>
+</div>
+<!--                        fin edit form-->
+<div class="panel-body">         
+    <table class="table table-striped" ng-show="syndicats.length > 0">
+        <thead>
+            <tr>
+                <th>Caisse</th>
+                <th>Date début</th>
+                <th>Date fin</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody ng-repeat="syn in syndicats"> 
+            <tr class="bg-blue-gradient">
+                <td>{{ syn.syndicat.code}}</td>
+                <td>{{ syn.dateDebut | date: 'dd MMM yyyy'}}</td> 
+                <td>{{ syn.dateFin | date: 'dd MMM yyyy'}}</td> 
+                <td>
+                    <button title="Modifier" class="btn btn-warning"
+                            ng-if="avoirPermission('modifier', 'membresyndicat') == true && syn.encours == 1"
+                            ng-click="setSyndicat(syn)">
+                        <i class="fa fa-edit"></i>
+                    </button>
+                    <button class="btn btn-danger" 
+                            ng-show="avoirPermission('modifier', 'membresyndicat') == true
+                                            && syn.encours == 1"  
+                            title="Quitter" 
+                            ng-click="confirmQuitterSyndicat(syn)">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <button title="Supprimer" class="btn btn-danger" 
+                            ng-if="avoirPermission('supprimer', 'membresyndicat') == true && syn.encours == 0" 
+                            ng-click="confirmDeleteMembreSyndicat(syn.id)">
+                        <i class="fa fa-trash"></i>
+                    </button>
+                    <button title="Voir document(s)" class="btn"
+                            style="background-color: white; border: 1px solid ghostwhite;"
+                            type="button" 
+                            data-toggle="collapse"
+                            data-target="#documentsAssociésMembreSyndicat{{$index}}"
+                            ng-if="avoirPermission('lister', 'document') == true">
+                        <i class="fa fa-book" style="color: #0085D5;"></i>
+                    </button>
+                </td>                                   
+            </tr>
+            <tr id="documentsAssociésMembreSyndicat{{$index}}" class="collapse">
+                <td colspan="4" >
+                    <table  class="table table-striped table-bordered tableau-document">
+                        <thead >
+                            <tr>
+                                <th>Type </th>
+                                <th>Description </th>
+                                <th>Date d'enregistrement</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody  > 
+                            <tr ng-repeat="doc in $parent.documents" ng-if="angular.isDefined(doc.membreSyndicat) && syn.id == doc.membreSyndicat.id" >
+                                <td>
+                                    {{doc.typeDocument.code}}
+                                </td >
+                                <td>
+                                    {{doc.description}}
+                                </td >
+                                <td>
+                                    <span>{{doc.dateEnregistrement| date:'dd MMM yyyy'}}</span>
+                                </td >
+                                <td>
+                                    <div>
+                                        <a class="btn btn-primary" ng-click="visualiserDocument(doc.emplacement)">
+                                            <i class="fa fa-eye"></i>
+                                        </a>
+                                        <button class="btn btn-danger" 
+                                                ng-if="avoirPermission('supprimer', 'document') == true"
+                                                ng-click="deleteArchiveFormation(doc)">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<!--            <div class="panel-body" ng-if="editSyndicat == true">
                 <form role="form" name="editSyndicatForm" enctype="multipart/form-data" class="editSyndicatForm" id="editSyndicatForm" novalidate="">
                     <div class="col-md-7">
                         <span style="font-weight: bold;"> Syndicat : </span>
@@ -523,7 +765,7 @@
                         <i class="fa fa-edit" style="font-weight: bold"> Modifier</i>
                     </button>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
 </div>

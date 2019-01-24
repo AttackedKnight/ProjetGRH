@@ -19,7 +19,6 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import sn.grh.Formation;
-import sn.grh.Institution;
 
 /**
  *
@@ -75,7 +74,8 @@ public class FormationFacadeREST extends AbstractFacade<Formation> {
         }
         return null;
     }
-     @GET
+    
+    @GET
     @Path("institution/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Formation> findByEmployeInstitution(@PathParam("id") Integer id) {
@@ -87,6 +87,7 @@ public class FormationFacadeREST extends AbstractFacade<Formation> {
         }
         return null;
     }
+    
     @GET
     @Path("last/{id}")
     @Produces({MediaType.APPLICATION_JSON})

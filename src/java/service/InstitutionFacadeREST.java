@@ -61,27 +61,7 @@ public class InstitutionFacadeREST extends AbstractFacade<Institution> {
     public Institution find(@PathParam("id") Integer id) {
         return super.find(id);
     }
-
-    @GET
-    @Override
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Institution> findAll() {
-        return super.findAll();
-    }
-
-    @GET
-    @Path("{from}/{to}")
-    @Produces({MediaType.APPLICATION_JSON})
-    public List<Institution> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
-        return super.findRange(new int[]{from, to});
-    }
-
-    @GET
-    @Path("count")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String countREST() {
-        return String.valueOf(super.count());
-    }
+    
     @GET
     @Path("last")
     @Produces({MediaType.APPLICATION_JSON})
@@ -105,6 +85,27 @@ public class InstitutionFacadeREST extends AbstractFacade<Institution> {
             return h.get(0);
         }
         return null;
+    }
+
+    @GET
+    @Override
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Institution> findAll() {
+        return super.findAll();
+    }
+
+    @GET
+    @Path("{from}/{to}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public List<Institution> findRange(@PathParam("from") Integer from, @PathParam("to") Integer to) {
+        return super.findRange(new int[]{from, to});
+    }
+
+    @GET
+    @Path("count")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String countREST() {
+        return String.valueOf(super.count());
     }
 
     @Override

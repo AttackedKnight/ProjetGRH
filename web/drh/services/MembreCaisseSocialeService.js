@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('DrhModule').factory('MembreMutuelle', function ($http) {
+angular.module('DrhModule').factory('MembreCaisseSociale', function ($http) {
     return{
 
         findAll: function () {
@@ -15,6 +15,12 @@ angular.module('DrhModule').factory('MembreMutuelle', function ($http) {
         },
         findByEmploye: function (e) {
             return $http.get(chemin + '/webresources/sn.grh.membrecaissesociale/employe/' + e.id);
+        },
+        findLast: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.membrecaissesociale/employe/last/'+id);
+        },
+        checkmatriculecs: function (matriculeCaisseSociale) {
+            return $http.get(chemin + '/webresources/sn.grh.membrecaissesociale/checkmatriculecs/' + matriculeCaisseSociale);
         },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.membrecaissesociale', item);

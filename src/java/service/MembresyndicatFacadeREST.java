@@ -58,14 +58,27 @@ public class MembresyndicatFacadeREST extends AbstractFacade<Membresyndicat> {
     @GET
     @Path("employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Membresyndicat findByEmploye(@PathParam("id") Integer id) {
+    public List<Membresyndicat> findByEmploye(@PathParam("id") Integer id) {
         List<Membresyndicat> m=em.createQuery("SELECT m FROM Membresyndicat m WHERE m.employe.id = :id", Membresyndicat.class)
                 .setParameter("id", id)
                 .getResultList();
         if(m.size()>0){
-             return m.get(0);
+             return m;
          }
          return null;
+    }
+    
+    @GET
+    @Path("employe/last/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Membresyndicat findLast(@PathParam("id") Integer id){
+        List<Membresyndicat> h=em.createQuery("SELECT h FROM Membresyndicat h WHERE h.employe.id = :id ORDER BY h.id DESC",Membresyndicat.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h.get(0);
+        }
+        return null;
     }
 
     @GET

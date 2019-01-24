@@ -18,7 +18,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import sn.grh.Employe;
 import sn.grh.Membrecaissesociale;
+import sn.otherclasse.StringBoolean;
 
 /**
  *
@@ -72,14 +74,41 @@ public class MembrecaissesocialeFacadeREST extends AbstractFacade<Membrecaisseso
     @GET
     @Path("employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
-    public Membrecaissesociale findByEmploye(@PathParam("id") Integer id) {
+    public List<Membrecaissesociale> findByEmploye(@PathParam("id") Integer id) {
         List<Membrecaissesociale> m=em.createQuery("SELECT m FROM Membrecaissesociale m WHERE m.employe.id = :id", Membrecaissesociale.class)
                 .setParameter("id", id)
                 .getResultList();
         if(m.size()>0){
-             return m.get(0);
+             return m;
          }
          return null;
+    }
+    
+    
+    @GET
+    @Path("employe/last/{id}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public Membrecaissesociale findLast(@PathParam("id") Integer id){
+        List<Membrecaissesociale> h=em.createQuery("SELECT h FROM Membrecaissesociale h WHERE h.employe.id = :id ORDER BY h.id DESC",Membrecaissesociale.class)
+                .setParameter("id", id)
+                .getResultList();
+        if(h.size()>0){
+            return h.get(0);
+        }
+        return null;
+    }
+    
+    @GET
+    @Path("checkmatriculecs/{matriculeCS}")
+    @Produces({MediaType.APPLICATION_JSON})
+    public StringBoolean ExistingMatriculecs(@PathParam("matriculeCS") String matriculeCS) {
+        List<Membrecaissesociale> e=em.createQuery("SELECT e FROM Membrecaissesociale e WHERE e.matriculeCaisseSociale = :matriculeCS", Membrecaissesociale.class)
+                .setParameter("matriculeCS", matriculeCS)
+                .getResultList();
+        if(e.size()>0){
+            return new StringBoolean(true);
+        } 
+        return new StringBoolean(false);
     }
     
     @GET

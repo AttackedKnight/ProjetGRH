@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('DrhModule').factory('MembreMutuelle', function ($http) {
+angular.module('DrhModule').factory('MembreMutuelleSante', function ($http) {
     return{
 
         findAll: function () {
@@ -15,6 +15,9 @@ angular.module('DrhModule').factory('MembreMutuelle', function ($http) {
         },
         findByEmploye: function (e) {
             return $http.get(chemin + '/webresources/sn.grh.membremutuelle/employe/' + e.id);
+        },
+        findLast: function (id) {
+            return $http.get(chemin + '/webresources/sn.grh.membremutuelle/employe/last/'+id);
         },
         add: function (item) {
             return $http.post(chemin + '/webresources/sn.grh.membremutuelle', item);
