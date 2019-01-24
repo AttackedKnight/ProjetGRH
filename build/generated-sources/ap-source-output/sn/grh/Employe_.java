@@ -23,7 +23,7 @@ import sn.grh.Situationmatrimoniale;
 import sn.grh.Typeemploye;
 import sn.grh.Utilisateur;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-23T15:40:54")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-24T12:06:23")
 @StaticMetamodel(Employe.class)
 public class Employe_ { 
 

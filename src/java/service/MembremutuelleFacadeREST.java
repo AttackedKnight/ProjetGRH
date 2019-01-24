@@ -67,7 +67,7 @@ public class MembremutuelleFacadeREST extends AbstractFacade<Membremutuelle> {
     @Path("employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Membremutuelle> findByEmploye(@PathParam("id") Integer id) {
-        List<Membremutuelle> m=em.createQuery("SELECT m FROM Membremutuelle m WHERE m.employe.id = :id", Membremutuelle.class)
+        List<Membremutuelle> m=em.createQuery("SELECT m FROM Membremutuelle m WHERE m.employe.id = :id ORDER BY m.id DESC", Membremutuelle.class)
                 .setParameter("id", id)
                 .getResultList();
         if(m.size()>0){

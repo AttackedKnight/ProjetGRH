@@ -75,7 +75,7 @@ public class MembrecaissesocialeFacadeREST extends AbstractFacade<Membrecaisseso
     @Path("employe/{id}")
     @Produces({MediaType.APPLICATION_JSON})
     public List<Membrecaissesociale> findByEmploye(@PathParam("id") Integer id) {
-        List<Membrecaissesociale> m=em.createQuery("SELECT m FROM Membrecaissesociale m WHERE m.employe.id = :id", Membrecaissesociale.class)
+        List<Membrecaissesociale> m=em.createQuery("SELECT m FROM Membrecaissesociale m WHERE m.employe.id = :id  ORDER BY m.id DESC", Membrecaissesociale.class)
                 .setParameter("id", id)
                 .getResultList();
         if(m.size()>0){

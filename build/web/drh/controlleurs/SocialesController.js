@@ -317,7 +317,8 @@ angular.module('DrhModule').controller('SocialesController', function ($scope, S
     };
     $scope.addMembreMutuelleSante = function () {
         if ($scope.mutuelles != null && $scope.mutuelles.length > 0 && $scope.mutuelles[0].encours == 1) {
-            SweetAlert.notificationAvecSuggestion("info", "Information", "Cet employé est encore membre de " + $scope.mutuelles[0].mutuelleSante.code + ".",
+            SweetAlert.notificationAvecSuggestion("info", "Information", "Cet employé est encore membre\n\
+ de " + $scope.mutuelles[0].mutuelleSante.code + ".",
                     "<h5>Clicker sur le boutton <b>Quitter</b> d'abord</h5>");
 
         } else {
