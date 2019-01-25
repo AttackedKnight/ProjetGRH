@@ -147,7 +147,7 @@
 
                         <thead>
                             <tr>
-                                <th style="font-weight: bold; font-size: 1.1em;" class="hidden-xs">NIN</th>
+                                <th style="font-weight: bold; font-size: 1.1em;" class="hidden-xs">Matricule</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
                                 <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length >1">
@@ -161,7 +161,7 @@
                         </thead>
                         <tbody> 
                             <tr ng-repeat="uncontractuel in contractuels | filterBy: ['typeContrat.code']:'cdd'">
-                                <td class="hidden-xs">{{untravailleur.employe.numeroCni}}</td>
+                                <td class="hidden-xs">{{uncontractuel.employe.matriculeInterne}}</td>
                                 <td>{{uncontractuel.employe.prenom}}</td>
                                 <td>{{uncontractuel.employe.nom}} </td>
                                 <td ng-if="typeEmployeAssocie.length  >1">

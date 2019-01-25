@@ -179,6 +179,7 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
     $scope.getConjoint = function () {
         Conjoint.findByEmploye($scope.$parent.employe.id).success(function (data) {
             $scope.conjoints = data;
+            $scope.initEnfant();
         }).error(function () {
             SweetAlert.finirChargementEchec("Erreur de chargement conjoint(s)");
         });
@@ -290,9 +291,17 @@ angular.module('DrhModule').controller('SMatrimonialeController', function ($sco
 
 
     $scope.initEnfant = function () {
-        $scope.enfant = {id: "", nom: $scope.$parent.employe.nom, employe: $scope.$parent.employe};
+        $scope.enfant = {id: "", employe: $scope.$parent.employe};
+        if($scope.$parent.homme){
+            $scope.enfant.nom = $scope.$parent.employe.nom;
+        }
+        else{
+            if($scope.conjoints != null && $scope.conjoints.length >0){
+                $scope.enfant.nom = $scope.conjoints[0].nom;
+            }
+        }
     };
-    $scope.initEnfant();
+    
 
     $scope.enfants = [];
 

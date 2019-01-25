@@ -5,11 +5,7 @@
  */
 
 angular.module('DrhModule').controller('AbsencesController', function ($scope, SweetAlert,Absence)
-{
-   $scope.allAbsencesAcceptees = [];
-    $scope.absencesRefusees = [];
-    $scope.absencesEnCours = [];
-    
+{   
     $scope.getAbsence = function () {
         Absence.findAbsenceAccepteByEmploye($scope.$parent.employe.id).success(function (data) {
             $scope.absences = data;
@@ -18,13 +14,6 @@ angular.module('DrhModule').controller('AbsencesController', function ($scope, S
         });
     };
     $scope.getAbsence();
-    
-   
-
-    function retrieveDemandesRefusees(data) {
-        return data.etatTraitement == -1;
-    }
-
     
     $scope.deleteAbsence = function(absence){
         Promise.resolve(SweetAlert.confirmerAction("Attention", "Voulez vous vraiement supprimer cet élément ?"))

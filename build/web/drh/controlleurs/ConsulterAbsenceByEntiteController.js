@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module('DrhModule').controller('ConsulterAbsenceByEntiteController', function ($scope, Entite,
+angular.module('DrhModule').controller('ConsulterAbsenceByEntiteController', function ($scope, Entite,$rootScope,
         SweetAlert, Absence)
 {
 
@@ -19,7 +19,6 @@ angular.module('DrhModule').controller('ConsulterAbsenceByEntiteController', fun
     };
     $scope.getEntites();
     $scope.getEntitesFille = function () {
-        console.log($scope.entiteSelectionnee)
         $scope.IdFilles = [];
         for (var i = 0; i < $scope.entites.length; i++) {
             if ($scope.estEnfant($scope.entites[i], $scope.entiteSelectionnee) == true) {
@@ -47,9 +46,8 @@ angular.module('DrhModule').controller('ConsulterAbsenceByEntiteController', fun
     };
 
     $scope.getAbsence = function () {
-        Absence.findAbsenceAccepteByEntite($scope.IdFilles.join("-")).success(function (data) {
+        Absence.findAbsenceAccepteByEntite($scope.IdFilles.join("-"),$rootScope.typeEmployeAssocie.join("-")).success(function (data) {
             $scope.absences = data;
-            console.log(data);
             if (data) {
                 $scope.allAbsencesAcceptees = $scope.absences.filter(retrieveDemandesAcceptees);
             }
