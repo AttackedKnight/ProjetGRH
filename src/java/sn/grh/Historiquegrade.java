@@ -22,13 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "historiquegrade")
@@ -48,17 +47,14 @@ public class Historiquegrade implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "datePassation")
     @Temporal(TemporalType.DATE)
     private Date datePassation;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "dateProchainAvancement")
     @Temporal(TemporalType.DATE)
     private Date dateProchainAvancement;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "encours")
     private boolean encours;
     @OneToMany(mappedBy = "historiqueGrade")

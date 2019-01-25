@@ -20,8 +20,8 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
 
 
     $scope.toggleBoursier = function (el) {
-        $scope.typeBoursier = $(el).val();
-        $scope.boursier = (parseInt($scope.typeBoursier) == 0) ? true : false;
+        $scope.bourse = $(el).val();
+        $scope.bourse = (parseInt($scope.formation.bourse) == 0) ? true : false;
     };
     
     
@@ -107,14 +107,14 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
     };
 
     $scope.updateInstitution = function () {
-        Institution.edit($scope.formation.diplome).success(function () {
+        Institution.edit($scope.formation.institution).success(function () {
             if ($scope.lesFichiers == null) {
                 $scope.editFormationOperation = false;
                 $scope.reinitialiserFormulaireFormation();
                 $scope.findAllFormations();
             }
         }).error(function () {
-            SweetAlert.simpleNotification("error", "Erreur", "Le diplome n'a pas pu etre modifié");
+            SweetAlert.simpleNotification("error", "Erreur", "L'institution n'a pas pu etre modifié");
         });
     };
 
@@ -122,7 +122,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
         SweetAlert.attendreTraitement("Traitement en cours", "Veuillez patienter svp !");
         Formation.edit($scope.formation).success(function () {
             SweetAlert.simpleNotification("success", "Succes", "Modification effectuéé  avec succes");
-            if (angular.isDefined($scope.formation.diplome) && $scope.formation.diplome !=null) {
+            if (angular.isDefined($scope.formation.institution) && $scope.formation.institution !=null) {
                 $scope.updateInstitution();
             } else {
                 if ($scope.lesFichiers == null) {
@@ -244,7 +244,7 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
     $scope.reinitialiserFormulaireFormation = function () {
         $scope.formation = {id: "", employe: $scope.$parent.employe};
 //        $scope.document = {id: ""};
-         $scope.boursier = false;
+//         $scope.boursier = false;
         $('#boursier').prop('checked', false);
     };
 
@@ -452,5 +452,5 @@ angular.module('DrhModule').controller('FormationController', function ($scope, 
             SweetAlert.simpleNotification("error", "Erreur", "Echec de la suppression du fichier");
         });
     };
-
+    
 });

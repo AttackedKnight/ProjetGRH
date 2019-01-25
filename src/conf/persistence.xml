@@ -15,7 +15,6 @@
     <class>sn.grh.Conjoint</class>
     <class>sn.grh.Contact</class>
     <class>sn.grh.Corps</class>
-    <class>sn.grh.Document</class>
     <class>sn.grh.Domaine</class>
     <class>sn.grh.Echelon</class>
     <class>sn.grh.Employe</class>

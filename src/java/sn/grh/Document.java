@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "document")
@@ -71,24 +71,21 @@ public class Document implements Serializable {
     private String emplacement;
     @Column(name = "situationMatrimoniale")
     private Boolean situationMatrimoniale;
-    @JoinColumn(name = "Enfant", referencedColumnName = "id")
+    @JoinColumn(name = "Conjoint", referencedColumnName = "id")
     @ManyToOne
-    private Enfant enfant;
+    private Conjoint conjoint;
     @JoinColumn(name = "Absence", referencedColumnName = "id")
     @ManyToOne
     private Absence absence;
     @JoinColumn(name = "AvoirCompetence", referencedColumnName = "id")
     @ManyToOne
     private Avoircompetence avoirCompetence;
-    @JoinColumn(name = "Conjoint", referencedColumnName = "id")
-    @ManyToOne
-    private Conjoint conjoint;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
-    @JoinColumn(name = "TypeDocument", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Typedocument typeDocument;
+    @JoinColumn(name = "Enfant", referencedColumnName = "id")
+    @ManyToOne
+    private Enfant enfant;
     @JoinColumn(name = "Formation", referencedColumnName = "id")
     @ManyToOne
     private Formation formation;
@@ -104,6 +101,9 @@ public class Document implements Serializable {
     @JoinColumn(name = "MembreSyndicat", referencedColumnName = "id")
     @ManyToOne
     private Membresyndicat membreSyndicat;
+    @JoinColumn(name = "TypeDocument", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Typedocument typeDocument;
     @JoinColumn(name = "Servir", referencedColumnName = "id")
     @ManyToOne
     private Servir servir;
@@ -178,12 +178,12 @@ public class Document implements Serializable {
         this.situationMatrimoniale = situationMatrimoniale;
     }
 
-    public Enfant getEnfant() {
-        return enfant;
+    public Conjoint getConjoint() {
+        return conjoint;
     }
 
-    public void setEnfant(Enfant enfant) {
-        this.enfant = enfant;
+    public void setConjoint(Conjoint conjoint) {
+        this.conjoint = conjoint;
     }
 
     public Absence getAbsence() {
@@ -202,14 +202,6 @@ public class Document implements Serializable {
         this.avoirCompetence = avoirCompetence;
     }
 
-    public Conjoint getConjoint() {
-        return conjoint;
-    }
-
-    public void setConjoint(Conjoint conjoint) {
-        this.conjoint = conjoint;
-    }
-
     public Employe getEmploye() {
         return employe;
     }
@@ -218,12 +210,12 @@ public class Document implements Serializable {
         this.employe = employe;
     }
 
-    public Typedocument getTypeDocument() {
-        return typeDocument;
+    public Enfant getEnfant() {
+        return enfant;
     }
 
-    public void setTypeDocument(Typedocument typeDocument) {
-        this.typeDocument = typeDocument;
+    public void setEnfant(Enfant enfant) {
+        this.enfant = enfant;
     }
 
     public Formation getFormation() {
@@ -264,6 +256,14 @@ public class Document implements Serializable {
 
     public void setMembreSyndicat(Membresyndicat membreSyndicat) {
         this.membreSyndicat = membreSyndicat;
+    }
+
+    public Typedocument getTypeDocument() {
+        return typeDocument;
+    }
+
+    public void setTypeDocument(Typedocument typeDocument) {
+        this.typeDocument = typeDocument;
     }
 
     public Servir getServir() {

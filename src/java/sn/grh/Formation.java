@@ -22,14 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "formation")
@@ -52,8 +50,6 @@ public class Formation implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "libelle")
     private String libelle;
     @Column(name = "dateDebut")
@@ -62,11 +58,9 @@ public class Formation implements Serializable {
     @Column(name = "dateFin")
     @Temporal(TemporalType.DATE)
     private Date dateFin;
-    @Size(max = 255)
     @Column(name = "diplome")
     private String diplome;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "bourse")
     private boolean bourse;
     @Column(name = "montantBourse")

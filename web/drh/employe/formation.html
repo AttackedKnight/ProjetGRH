@@ -6,6 +6,7 @@
                 <h1 class="box-title ">Formation</h1>
             </div>
         </a>
+        
 
         <div id="formation" class="panel-collapse collapse">
     
@@ -74,33 +75,33 @@
                                  <label for="boursier" style="font-size: 1.1em;"> Boursier(e) :</label>
                                 <div class="input-group">
                                    
-                                    <label title="Boursier" for="boursier" 
+                                    <label title="Non boursier" for="nonboursier" 
                                         class="col-md-4" >
                                         <input type="radio"  
-                                            name="typeBoursier"
-                                            ng-model="typeBoursier"
+                                            name="bourse"
+                                            ng-model="formation.bourse"
                                             ng-value="0"
+                                            id="nonboursier" 
+                                            onclick="angular.element(this).scope().toggleBoursier(this)"/>
+                                          Non 
+                                     </label>
+                                    <label title="Boursier" for="boursier" 
+                                        class="col-md-4" >
+                                         <input type="radio"  
+                                            name="bourse"
+                                            ng-model="formation.bourse"
+                                            ng-value="1"
                                             id="boursier" 
                                             onclick="angular.element(this).scope().toggleBoursier(this)"/>
                                          Oui 
                                      </label>
-                                    <label title="Non Boursier" for="nonboursier" 
-                                        class="col-md-4" >
-                                         <input type="radio"  
-                                            name="typeBoursier"
-                                            ng-model="typeBoursier"
-                                            ng-value="1"
-                                            id="nonboursier" 
-                                            onclick="angular.element(this).scope().toggleBoursier(this)"/>
-                                         Non 
-                                     </label>
                                     
                                 </div>
                              </div>
-                            <div class="form-group" ng-if="boursier">
+                            <div class="form-group" ng-if="bourse">
                                 <div class="input-group">
                                     <label for="montantBourse" style="font-size: 1.1em;"> Montant bourse :</label>
-                                    <input type="number" name="montantBourse" ng-model="montantBourse" ng-minlength="4" class="form-control" id="montantBourse">
+                                    <input type="number" name="montantBourse" ng-model="formation.montantBourse" ng-minlength="4" class="form-control" id="montantBourse">
                                 </div>
                                 <div class="alert alert-block alert-danger requis" style="display:none">
                                     <div>Veuillez renseigner ce champs.</div>
@@ -248,6 +249,7 @@
                 </div>
             </form>
             <div >
+               
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -265,8 +267,8 @@
                             <td>{{ formation.libelle}}</td>  
                             <td>{{ formation.dateDebut | date: 'dd MMM yyyy' }}</td> 
                             <td>{{ formation.dateFin | date: 'dd MMM yyyy'}}</td> 
-                            <td>{{formation.institution.nom}}</td>
-                            <td>{{(formation.bourse == false)? "Non boursier":"Boursier"}}</td>
+                            <td data-toggle="tooltip" data-placement="right" data-html="true" title=adresse:&nbsp;{{formation.institution.adresse}}&nbsp;|&nbsp;Telephone:&nbsp;{{formation.institution.telephone}} style="cursor: pointer;">{{formation.institution.nom}}</td>
+                            <td>{{(formation.bourse == false)? "Non boursier":"Boursier "}}<span ng-if="formation.bourse"> ({{formation.montantBourse}})</span> </td>
                             <td>{{formation.diplome}}</td>
                             <td>
                                 <button title="Modifier" class="btn btn-warning"

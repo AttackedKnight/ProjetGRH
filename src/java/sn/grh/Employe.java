@@ -23,14 +23,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "employe")
@@ -57,43 +55,32 @@ public class Employe implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
     @Column(name = "numeroCni")
     private String numeroCni;
-    @Size(max = 255)
     @Column(name = "matriculeInterne")
     private String matriculeInterne;
-    @Size(max = 45)
     @Column(name = "matriculeMainDoeuvre")
     private String matriculeMainDoeuvre;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "prenom")
     private String prenom;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 255)
     @Column(name = "nom")
     private String nom;
     @Column(name = "dateDeNaissance")
     @Temporal(TemporalType.DATE)
     private Date dateDeNaissance;
-    @Size(max = 255)
     @Column(name = "lieuDeNaissance")
     private String lieuDeNaissance;
     @Column(name = "dateRecrutement")
     @Temporal(TemporalType.DATE)
     private Date dateRecrutement;
-    @Size(max = 255)
     @Column(name = "nationalite")
     private String nationalite;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "retraite")
     private boolean retraite;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "geler")
     private boolean geler;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employe")

@@ -17,13 +17,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "accesgroupe")
@@ -46,28 +44,21 @@ public class Accesgroupe implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "nomTable")
     private String nomTable;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "ajouter")
     private boolean ajouter;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "modifier")
     private boolean modifier;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "supprimer")
     private boolean supprimer;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "consulter")
     private boolean consulter;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "lister")
     private boolean lister;
     @JoinColumn(name = "Groupe", referencedColumnName = "id")

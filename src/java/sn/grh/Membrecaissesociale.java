@@ -22,14 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "membrecaissesociale")
@@ -44,6 +42,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Membrecaissesociale.findByEncours", query = "SELECT m FROM Membrecaissesociale m WHERE m.encours = :encours")})
 public class Membrecaissesociale implements Serializable {
 
+    @OneToMany(mappedBy = "membreCaisseSociale")
+    private List<Document> documentList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,15 +52,12 @@ public class Membrecaissesociale implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
     @Column(name = "matriculeCaisseSociale")
     private String matriculeCaisseSociale;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "poucentage")
     private Float poucentage;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "dateDebut")
     @Temporal(TemporalType.DATE)
     private Date dateDebut;
@@ -67,11 +65,8 @@ public class Membrecaissesociale implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateFin;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "encours")
     private boolean encours;
-    @OneToMany(mappedBy = "membreCaisseSociale")
-    private List<Document> documentList;
     @JoinColumn(name = "CaisseSociale", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Caissesociale caisseSociale;
@@ -141,15 +136,6 @@ public class Membrecaissesociale implements Serializable {
         this.encours = encours;
     }
 
-    @XmlTransient
-    public List<Document> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<Document> documentList) {
-        this.documentList = documentList;
-    }
-
     public Caissesociale getCaisseSociale() {
         return caisseSociale;
     }
@@ -189,6 +175,15 @@ public class Membrecaissesociale implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Membrecaissesociale[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
     }
     
 }

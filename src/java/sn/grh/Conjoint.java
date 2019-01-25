@@ -19,14 +19,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "conjoint")
@@ -45,14 +43,11 @@ public class Conjoint implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
     @Column(name = "prenom")
     private String prenom;
-    @Size(max = 255)
     @Column(name = "nom")
     private String nom;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "estSalarie")
     private boolean estSalarie;
     @OneToMany(mappedBy = "conjoint")
