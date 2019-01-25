@@ -12,6 +12,7 @@
         <div class="tab-content">
             <!-- /tous -->
             <div class="tab-pane active" id="tous">
+                
                 <div class="box-body table-responsive no-padding">
                     <table class="table table-striped table-bordered" datatable="ng">
 
@@ -20,7 +21,7 @@
                                 <th style="font-weight: bold; font-size: 1.1em;" class="hidden-xs">Matricule</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
-                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length >1">
+                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length > 1">
                                     Type
                                 </th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
@@ -33,17 +34,17 @@
                                 <td class="hidden-xs">{{untravailleur.employe.matriculeInterne}}</td>
                                 <td>{{untravailleur.employe.prenom}}</td>
                                 <td>{{untravailleur.employe.nom}} </td>
-                                <td ng-if="typeEmployeAssocie.length  >1">
+                                <td ng-if="typeEmployeAssocie.length > 1">
                                     {{untravailleur.employe.typeEmploye.code}}
                                 </td>
                                 <td>{{untravailleur.entite.nom}}</td>
                                 <td>{{untravailleur.fonction.libelle}}</td>
                                 <td>
-                                   <span class="col-md-6" ng-if="avoirPermission('consulter', 'employe') == true">
+                                    <span class="col-md-6" ng-if="avoirPermission('consulter', 'employe') == true">
                                         <a ng-href="#/drh/employe/detailAgent/{{untravailleur.employe.id}}" title="Détail">
                                             <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
                                         </a>
-                                    
+
                                     </span>
                                     <span class="col-md-6" ng-if="avoirPermission('supprimer', 'employe') == true">
                                         <a ng-click="deleteAgent(untravailleur.employe)" class="btn btn-danger" title="supprimer">
@@ -60,14 +61,14 @@
             <!-- /permanent -->
             <div class="tab-pane" id="permanent">
                 <div class="box-body table-responsive no-padding">
-                    <table class="table table-striped table-bordered" datatable="ng">
+                    <table class="table table-striped table-bordered" datatable="ng" >
 
                         <thead>
                             <tr>
                                 <th style="font-weight: bold; font-size: 1.1em;" class="hidden-xs">Matricule</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
-                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length >1">
+                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length > 1">
                                     Type
                                 </th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
@@ -76,21 +77,21 @@
                             </tr>
                         </thead>
                         <tbody> 
-                            <tr ng-repeat="unpermanent in permanents | filterBy: ['typeContrat.code']: 'cdi'">
+                            <tr ng-repeat="unpermanent in permanents| filterBy: ['typeContrat.code']: 'cdi'">
                                 <td class="hidden-xs">{{unpermanent.employe.matriculeInterne}}</td>
                                 <td>{{unpermanent.employe.prenom}}</td>
                                 <td>{{unpermanent.employe.nom}} </td>
-                                <td ng-if="typeEmployeAssocie.length  >1">
+                                <td ng-if="typeEmployeAssocie.length > 1">
                                     {{unpermanent.employe.typeEmploye.code}}
                                 </td>
                                 <td>{{unpermanent.entite.nom}}</td>
                                 <td>{{unpermanent.fonction.libelle}}</td>
                                 <td>
-                                   <span class="col-md-6" ng-if="avoirPermission('consulter', 'employe') == true">
+                                    <span class="col-md-6" ng-if="avoirPermission('consulter', 'employe') == true">
                                         <a ng-href="#/drh/employe/detailAgent/{{unpermanent.employe.id}}" title="D�tail">
-                                           <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
+                                            <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
                                         </a>
-                                    
+
                                     </span>
                                     <span class="col-md-6" ng-if="avoirPermission('supprimer', 'employe') == true">
                                         <a ng-click="deleteAgent(unpermanent.employe)" class="btn btn-danger" title="supprimer">
@@ -143,14 +144,14 @@
 
                         </div>
                     </form>
-                    <table class="table table-striped table-bordered" datatable="ng">
+                    <table class="table table-striped table-bordered" datatable="ng" >
 
                         <thead>
                             <tr>
                                 <th style="font-weight: bold; font-size: 1.1em;" class="hidden-xs">Matricule</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
-                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length >1">
+                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length > 1">
                                     Type
                                 </th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
@@ -160,22 +161,22 @@
                             </tr>
                         </thead>
                         <tbody> 
-                            <tr ng-repeat="uncontractuel in contractuels | filterBy: ['typeContrat.code']:'cdd'">
+                            <tr ng-repeat="uncontractuel in contractuels| filterBy: ['typeContrat.code']:'cdd'">
                                 <td class="hidden-xs">{{uncontractuel.employe.matriculeInterne}}</td>
                                 <td>{{uncontractuel.employe.prenom}}</td>
                                 <td>{{uncontractuel.employe.nom}} </td>
-                                <td ng-if="typeEmployeAssocie.length  >1">
+                                <td ng-if="typeEmployeAssocie.length > 1">
                                     {{uncontractuel.employe.typeEmploye.code}}
                                 </td>
                                 <td>{{uncontractuel.entite.nom}}</td>
                                 <td>{{uncontractuel.fonction.libelle}}</td>
-                                <td>{{uncontractuel.fin | date: 'dd MMM yyyy'}}</td>
+                                <td>{{uncontractuel.fin| date: 'dd MMM yyyy'}}</td>
                                 <td>
-                                   <span class="col-md-6" ng-if="avoirPermission('consulter', 'employe') == true">
+                                    <span class="col-md-6" ng-if="avoirPermission('consulter', 'employe') == true">
                                         <a ng-href="#/drh/employe/detailAgent/{{uncontractuel.employe.id}}" title="Détail">
                                             <i class="btn btn-primary"><span class="glyphicon glyphicon-eye-open"></span></i>
                                         </a>
-                                    
+
                                     </span>
                                     <span class="col-md-6" ng-if="avoirPermission('supprimer', 'employe') == true">
                                         <a ng-click="deleteAgent(uncontractuel.employe)" class="btn btn-danger" title="supprimer">
@@ -190,7 +191,7 @@
             </div><!-- /.tab-pane -->
             <!-- /Fin contractuel -->
             <!-- /Avancement -->
-             <div class="tab-pane" id="avancement">
+            <div class="tab-pane" id="avancement">
                 <div class="box-body table-responsive no-padding">
                     <form name="CritereForm">
                         <div class="form-row">
@@ -235,7 +236,7 @@
                                 <th style="font-weight: bold; font-size: 1.1em;" class="hidden-xs">Matricule</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Prenom(s)</th>
                                 <th style="font-weight: bold; font-size: 1.1em;">Nom</th>
-                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length >1">
+                                <th style="font-weight: bold; font-size: 1.1em;" ng-if="typeEmployeAssocie.length > 1">
                                     Type
                                 </th>
                                 <!--                              <th style="font-weight: bold; font-size: 1.1em;">Entite</th>
@@ -249,7 +250,7 @@
                                 <td class="hidden-xs">{{unavancement.employe.matriculeInterne}}</td>
                                 <td>{{unavancement.employe.prenom}}</td>
                                 <td>{{unavancement.employe.nom}} </td>
-                                <td ng-if="typeEmployeAssocie.length >1">
+                                <td ng-if="typeEmployeAssocie.length > 1">
                                     {{unavancement.employe.typeEmploye.code}}
                                 </td>
                                 <!--                                <td>{{unavancement.entite.nom}}</td>
@@ -267,9 +268,9 @@
                 </div><!-- /.box-body -->
             </div><!-- /.tab-pane -->
             <!-- /Fin Avancement -->
-           
-            
-           
+
+
+
         </div><!-- /.tab-content -->
     </div><!-- nav-tabs-custom -->
 

@@ -7,7 +7,7 @@ import javax.persistence.metamodel.StaticMetamodel;
 import sn.grh.Membresyndicat;
 import sn.grh.Syndicattypeemploye;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T10:00:41")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T11:51:15")
 @StaticMetamodel(Syndicat.class)
 public class Syndicat_ { 
 

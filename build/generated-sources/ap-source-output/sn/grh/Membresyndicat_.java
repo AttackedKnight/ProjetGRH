@@ -9,7 +9,7 @@ import sn.grh.Document;
 import sn.grh.Employe;
 import sn.grh.Syndicat;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T10:00:41")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T11:51:15")
 @StaticMetamodel(Membresyndicat.class)
 public class Membresyndicat_ { 
 

@@ -9,7 +9,7 @@ import sn.grh.Document;
 import sn.grh.Employe;
 import sn.grh.Grade;
 
-@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T10:00:42")
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T11:51:15")
 @StaticMetamodel(Historiquegrade.class)
 public class Historiquegrade_ { 
 
