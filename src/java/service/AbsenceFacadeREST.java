@@ -77,12 +77,13 @@ public class AbsenceFacadeREST extends AbstractFacade<Absence> {
     }
     
     @GET
-    @Path("acceptee/entite/{ids}")
+    @Path("acceptee/entite/{ids}/typeemploye/{types}")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Absence> findAccepteeByEntite(@PathParam("ids") String ids) {
+    public List<Absence> findAccepteeByEntite(@PathParam("ids") String ids,@PathParam("types") String types) {
         ids=ids.replace("-", ",");
+        types = types.replace("-", ",");
         List<Absence> li = em.createQuery("SELECT ab FROM Absence ab WHERE ab.etatTraitement = 1 AND ab.employe.id IN "
-                + "(SELECT s.employe.id FROM Servir s WHERE s.entite.id IN("+ids+")  AND s.finService = 0)", Absence.class)
+                + "(SELECT s.employe.id FROM Servir s WHERE s.entite.id IN("+ids+")  AND s.finService = 0)  AND ab.employe.typeEmploye.id IN (" + types + ")", Absence.class)
                 .getResultList();
         if (li.size() > 0) {
             return li;
