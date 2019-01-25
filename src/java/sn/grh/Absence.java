@@ -22,14 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "absence")
@@ -53,25 +51,21 @@ public class Absence implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "dateDebut")
     @Temporal(TemporalType.DATE)
     private Date dateDebut;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "duree")
     private int duree;
     @Column(name = "dateFin")
     @Temporal(TemporalType.DATE)
     private Date dateFin;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "etatTraitement")
     private int etatTraitement;
     @Column(name = "dateEnregistrement")
     @Temporal(TemporalType.DATE)
     private Date dateEnregistrement;
-    @Size(max = 255)
     @Column(name = "motif")
     private String motif;
     @Column(name = "jourRestant")

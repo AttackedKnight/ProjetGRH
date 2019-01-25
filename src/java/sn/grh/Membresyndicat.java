@@ -22,13 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "membresyndicat")
@@ -41,6 +40,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Membresyndicat.findByEncours", query = "SELECT m FROM Membresyndicat m WHERE m.encours = :encours")})
 public class Membresyndicat implements Serializable {
 
+    @OneToMany(mappedBy = "membreSyndicat")
+    private List<Document> documentList;
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,7 +50,6 @@ public class Membresyndicat implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "dateDebut")
     @Temporal(TemporalType.DATE)
     private Date dateDebut;
@@ -56,11 +57,8 @@ public class Membresyndicat implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateFin;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "encours")
     private boolean encours;
-    @OneToMany(mappedBy = "membreSyndicat")
-    private List<Document> documentList;
     @JoinColumn(name = "Employe", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Employe employe;
@@ -113,15 +111,6 @@ public class Membresyndicat implements Serializable {
         this.encours = encours;
     }
 
-    @XmlTransient
-    public List<Document> getDocumentList() {
-        return documentList;
-    }
-
-    public void setDocumentList(List<Document> documentList) {
-        this.documentList = documentList;
-    }
-
     public Employe getEmploye() {
         return employe;
     }
@@ -161,6 +150,15 @@ public class Membresyndicat implements Serializable {
     @Override
     public String toString() {
         return "sn.grh.Membresyndicat[ id=" + id + " ]";
+    }
+
+    @XmlTransient
+    public List<Document> getDocumentList() {
+        return documentList;
+    }
+
+    public void setDocumentList(List<Document> documentList) {
+        this.documentList = documentList;
     }
     
 }

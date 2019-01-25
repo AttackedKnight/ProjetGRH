@@ -20,13 +20,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "grade")
@@ -46,15 +45,12 @@ public class Grade implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "duree")
     private int duree;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "indice")
     private int indice;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "salaireBase")
     private int salaireBase;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "grade")

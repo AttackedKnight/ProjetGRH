@@ -22,13 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "servir")
@@ -52,7 +51,6 @@ public class Servir implements Serializable {
     @Column(name = "responsable")
     private Boolean responsable;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "debut")
     @Temporal(TemporalType.DATE)
     private Date debut;
@@ -62,7 +60,6 @@ public class Servir implements Serializable {
     @Column(name = "dureeDuContrat")
     private Integer dureeDuContrat;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "finService")
     private boolean finService;
     @OneToMany(mappedBy = "servir")

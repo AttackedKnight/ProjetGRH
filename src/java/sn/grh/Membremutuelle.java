@@ -22,13 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "membremutuelle")
@@ -54,7 +53,6 @@ public class Membremutuelle implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateFin;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "encours")
     private boolean encours;
     @OneToMany(mappedBy = "membreMutuelle")

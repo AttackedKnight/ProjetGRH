@@ -22,14 +22,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author fallougalass
+ * @author hp
  */
 @Entity
 @Table(name = "enfant")
@@ -48,14 +46,11 @@ public class Enfant implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 255)
     @Column(name = "prenom")
     private String prenom;
-    @Size(max = 255)
     @Column(name = "nom")
     private String nom;
     @Basic(optional = false)
-    @NotNull
     @Column(name = "dateNaissance")
     @Temporal(TemporalType.DATE)
     private Date dateNaissance;

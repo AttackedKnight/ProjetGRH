@@ -11,13 +11,19 @@ import sn.grh.Employe;
 import sn.grh.Enfant;
 import sn.grh.Formation;
 import sn.grh.Historiquegrade;
-import sn.grh.Membrecaissesociale;
 import sn.grh.Membremutuelle;
-import sn.grh.Membresyndicat;
 import sn.grh.Servir;
 import sn.grh.Typedocument;
 
+<<<<<<< HEAD
 @Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T11:51:14")
+=======
+<<<<<<< HEAD
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T09:40:39")
+=======
+@Generated(value="EclipseLink-2.5.2.v20140319-rNA", date="2019-01-25T10:00:41")
+>>>>>>> ff529762cddd21f09cc44ec13340571022b471f6
+>>>>>>> ddba5288e695677d076de01e62bb52b19b3f4e84
 @StaticMetamodel(Document.class)
 public class Document_ { 
 
@@ -30,11 +36,11 @@ public class Document_ {
     public static volatile SingularAttribute<Document, Employe> employe;
     public static volatile SingularAttribute<Document, Absence> absence;
     public static volatile SingularAttribute<Document, String> description;
+    public static volatile SingularAttribute<Document, Boolean> syndicat;
     public static volatile SingularAttribute<Document, Formation> formation;
     public static volatile SingularAttribute<Document, Date> dateEnregistrement;
     public static volatile SingularAttribute<Document, Conjoint> conjoint;
-    public static volatile SingularAttribute<Document, Membresyndicat> membreSyndicat;
-    public static volatile SingularAttribute<Document, Membrecaissesociale> membreCaisseSociale;
+    public static volatile SingularAttribute<Document, Boolean> caisseSociale;
     public static volatile SingularAttribute<Document, Typedocument> typeDocument;
     public static volatile SingularAttribute<Document, Integer> id;
     public static volatile SingularAttribute<Document, Enfant> enfant;
